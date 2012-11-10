@@ -1,0 +1,17 @@
+##### Dirs and files for ignoring #####
+
+
+##### dirs #####
+Distr
+Temp
+Ui
+
+
+##### files #####
+TODO.txt
+*.pro.user
+*.autosave
+Makefile*
+*.pdb
+
+

@@ -1,0 +1,3 @@
+[submodule "QtLib"]
+	path = QtLib
+	url = git@bitbucket.org:skynowa/qtlib.git
