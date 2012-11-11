@@ -88,16 +88,16 @@ CMain::_initModel() {
     //--------------------------------------------------
     // settings DB
     {
-        bool bRes = false;
+        bool bRv = false;
 
-        bRes = QSqlDatabase::isDriverAvailable("QSQLITE");
-        qCHECK_DO(false == bRes, qMSG(QSqlDatabase().lastError().text()); return;);
+        bRv = QSqlDatabase::isDriverAvailable("QSQLITE");
+        qCHECK_DO(false == bRv, qMSG(QSqlDatabase().lastError().text()); return;);
 
         _m_dbDatabase = QSqlDatabase::addDatabase("QSQLITE");
         _m_dbDatabase.setDatabaseName(QCoreApplication::applicationFilePath() + CONFIG_DB_FILE_EXT);
 
-        bRes = _m_dbDatabase.open();
-        qCHECK_REF(bRes, _m_dbDatabase);
+        bRv = _m_dbDatabase.open();
+        qCHECK_REF(bRv, _m_dbDatabase);
 
         {
             QSqlQuery qryInfo(_m_dbDatabase);
@@ -113,8 +113,8 @@ CMain::_initModel() {
                     "    " CONFIG_DB_F_MAIN_IS_MARKED  " integer NOT NULL DEFAULT 0 "
                     ")";
 
-            bRes = qryInfo.exec(csSql);
-            qCHECK_REF(bRes, qryInfo);
+            bRv = qryInfo.exec(csSql);
+            qCHECK_REF(bRv, qryInfo);
         }
     }
 
@@ -125,22 +125,25 @@ CMain::_initModel() {
         Q_ASSERT(NULL != _m_tmModel);
 
         _m_tmModel->setTable(CONFIG_DB_T_MAIN);
-        _m_tmModel->setHeaderData(0, Qt::Horizontal, tr("Id"));
-        _m_tmModel->setHeaderData(1, Qt::Horizontal, tr("Term"));
-        _m_tmModel->setHeaderData(2, Qt::Horizontal, tr("Value"));
-        _m_tmModel->setHeaderData(3, Qt::Horizontal, tr("Learned"));
-        _m_tmModel->setHeaderData(4, Qt::Horizontal, tr("Marked"));
+        _m_tmModel->setHeaderData(0, Qt::Horizontal, tr("Id"),      Qt::EditRole);
+        _m_tmModel->setHeaderData(1, Qt::Horizontal, tr("Term"),    Qt::EditRole);
+        _m_tmModel->setHeaderData(2, Qt::Horizontal, tr("Value"),   Qt::EditRole);
+        _m_tmModel->setHeaderData(3, Qt::Horizontal, tr("Learned"), Qt::EditRole);
+        _m_tmModel->setHeaderData(4, Qt::Horizontal, tr("Marked"),  Qt::EditRole);
         _m_tmModel->setEditStrategy(QSqlTableModel::OnFieldChange);
         _m_tmModel->select();
 
         m_Ui.tabvInfo->setModel(_m_tmModel);
         m_Ui.tabvInfo->hideColumn(0); // don't show the CONFIG_DB_F_MAIN_ID
         m_Ui.tabvInfo->verticalHeader()->setDefaultSectionSize(CONFIG_TABLEVIEW_ROW_HEIGHT);
-        //m_Ui.tabvInfo->setEditTriggers(QAbstractItemView::SelectedClicked);
-        //m_Ui.tabvInfo->setSelectionBehavior(QAbstractItemView::SelectRows);
+        m_Ui.tabvInfo->setEditTriggers(QAbstractItemView::SelectedClicked);
+        m_Ui.tabvInfo->setSelectionBehavior(QAbstractItemView::SelectRows);
         m_Ui.tabvInfo->setSelectionMode(QAbstractItemView::SingleSelection);
         m_Ui.tabvInfo->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
         m_Ui.tabvInfo->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
+        m_Ui.tabvInfo->setAlternatingRowColors(true);
+        m_Ui.tabvInfo->scrollToBottom();
+
         m_Ui.tabvInfo->show();
     }
 
@@ -157,7 +160,7 @@ CMain::_initModel() {
     //--------------------------------------------------
     // m_navNavigator
     {
-        m_navNavigator.setup(_m_tmModel, m_Ui.tabvInfo);
+        m_navNavigator.construct(_m_tmModel, m_Ui.tabvInfo);
 
         // go to the last record
         m_navNavigator.last();
@@ -184,47 +187,47 @@ CMain::_initActions() {
 
         actEdit_MovetoPrior.setText(tr("Prior"));
         connect(&actEdit_MovetoPrior, SIGNAL( triggered() ),
-                this,                 SLOT( slot_OnPrior() ));
+                this,                 SLOT  ( slot_OnPrior() ));
         m_Ui.toolBar->addAction(&actEdit_MovetoPrior);
 
         actEdit_MovetoNext.setText(tr("Next"));
         connect(&actEdit_MovetoNext, SIGNAL( triggered() ),
-                this,                SLOT( slot_OnNext() ));
+                this,                SLOT  ( slot_OnNext() ));
         m_Ui.toolBar->addAction(&actEdit_MovetoNext);
 
         actEdit_MovetoLast.setText(tr("Last"));
         connect(&actEdit_MovetoLast, SIGNAL( triggered() ),
-                this,                SLOT( slot_OnLast() ));
+                this,                SLOT  ( slot_OnLast() ));
         m_Ui.toolBar->addAction(&actEdit_MovetoLast);
 
         actEdit_Insert.setText(tr("Insert"));
         connect(&actEdit_Insert, SIGNAL( triggered() ),
-                this,            SLOT( slot_OnInsert() ));
+                this,            SLOT  ( slot_OnInsert() ));
         m_Ui.toolBar->addAction(&actEdit_Insert);
 
         actEdit_Delete.setText(tr("Delete"));
         connect(&actEdit_Delete, SIGNAL( triggered() ),
-                this,            SLOT( slot_OnRemove() ));
+                this,            SLOT  ( slot_OnRemove() ));
         m_Ui.toolBar->addAction(&actEdit_Delete);
 
         actEdit_Edit.setText(tr("Edit"));
         connect(&actEdit_Edit, SIGNAL( triggered() ),
-                this,          SLOT( slot_OnEdit() ));
+                this,          SLOT  ( slot_OnEdit() ));
         m_Ui.toolBar->addAction(&actEdit_Edit);
 
         actEdit_Post.setText(tr("Post"));
         connect(&actEdit_Post, SIGNAL( triggered() ),
-                this,          SLOT( slot_OnPost() ));
+                this,          SLOT  ( slot_OnPost() ));
         m_Ui.toolBar->addAction(&actEdit_Post);
 
         actEdit_Cancel.setText(tr("Cancel"));
         connect(&actEdit_Cancel, SIGNAL( triggered() ),
-                this,            SLOT( slot_OnCancel() ));
+                this,            SLOT  ( slot_OnCancel() ));
         m_Ui.toolBar->addAction(&actEdit_Cancel);
 
         actEdit_Refresh.setText(tr("Refresh"));
         connect(&actEdit_Refresh, SIGNAL( triggered() ),
-                this,             SLOT( slot_OnRefresh() ));
+                this,             SLOT  ( slot_OnRefresh() ));
         m_Ui.toolBar->addAction(&actEdit_Refresh);
     }
 
@@ -232,7 +235,7 @@ CMain::_initActions() {
     {
         actFind_Search.setText(tr("Search"));
         connect(&actFind_Search, SIGNAL( triggered() ),
-                this,            SLOT( slot_OnSearch() ));
+                this,            SLOT  ( slot_OnSearch() ));
         m_Ui.toolBar->addAction(&actFind_Search);
     }
 
@@ -245,7 +248,7 @@ CMain::_initActions() {
     {
         actOptions_Settings.setText(tr("Settings"));
         connect(&actOptions_Settings, SIGNAL( triggered() ),
-                this,                 SLOT( slot_OnSettings() ));
+                this,                 SLOT  ( slot_OnSettings() ));
         m_Ui.toolBar->addAction(&actOptions_Settings);
     }
 
@@ -253,7 +256,7 @@ CMain::_initActions() {
     {
         actHelp_Faq.setText(tr("FAQ"));
         connect(&actHelp_Faq, SIGNAL( triggered() ),
-                this,         SLOT( slot_OnFaq() ));
+                this,         SLOT  ( slot_OnFaq() ));
         m_Ui.toolBar->addAction(&actHelp_Faq);
 
         actHelp_About.setText(tr("About"));
