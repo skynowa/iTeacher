@@ -74,6 +74,8 @@ void
 CSqlNavigator::insert() {
     bool bRv = _m_tmModel->insertRow(_m_tmModel->rowCount(), QModelIndex());
     qCHECK_PTR(bRv, _m_tmModel);
+
+    last();
 }
 //---------------------------------------------------------------------------
 void

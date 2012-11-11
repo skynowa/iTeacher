@@ -7,6 +7,7 @@
 #include "CMain.h"
 
 #include "../Classes/CUtils.h"
+#include "../Classes/CCheckBoxItemDelegate.h"
 
 #include <xLib/Common/CxString.h>
 
@@ -119,7 +120,7 @@ CMain::_initModel() {
     }
 
     //--------------------------------------------------
-    // _m_tmModel
+    // _m_tmModel, m_Ui.tabvInfo
     {
         _m_tmModel = new QSqlTableModel(this, _m_dbDatabase);
         Q_ASSERT(NULL != _m_tmModel);
@@ -142,7 +143,8 @@ CMain::_initModel() {
         m_Ui.tabvInfo->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
         m_Ui.tabvInfo->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
         m_Ui.tabvInfo->setAlternatingRowColors(true);
-        m_Ui.tabvInfo->scrollToBottom();
+        m_Ui.tabvInfo->setItemDelegateForColumn(3, new CCheckBoxItemDelegate(m_Ui.tabvInfo));
+        m_Ui.tabvInfo->setItemDelegateForColumn(4, new CCheckBoxItemDelegate(m_Ui.tabvInfo));
 
         m_Ui.tabvInfo->show();
     }
