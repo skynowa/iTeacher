@@ -1,5 +1,5 @@
-#ifndef CCheckBoxItemDelegate_H
-#define CCheckBoxItemDelegate_H
+#ifndef iTeacher_CCheckBoxItemDelegate_H
+#define iTeacher_CCheckBoxItemDelegate_H
 //---------------------------------------------------------------------------
 #include <QAbstractItemDelegate>
 #include <QTableView>
@@ -35,4 +35,4 @@ class CCheckBoxItemDelegate :
         QRect         checkRect   (const QStyleOptionViewItem & option) const;
 };
 //---------------------------------------------------------------------------
-#endif // CCheckBoxItemDelegate_H
+#endif // iTeacher_CCheckBoxItemDelegate_H

@@ -4,8 +4,8 @@
  */
 
 
-#ifndef PickupDb_CMainH
-#define PickupDb_CMainH
+#ifndef iTeacher_CMainH
+#define iTeacher_CMainH
 //---------------------------------------------------------------------------
 #undef UNICODE
 #undef _UNICODE
@@ -115,7 +115,7 @@ class CMain :
 
 };
 //---------------------------------------------------------------------------
-#endif // PickupDb_CMainH
+#endif // iTeacher_CMainH
 
 
 #if 0

@@ -4,8 +4,8 @@
  */
 
 
-#ifndef PickupDb_CUtilsH
-#define PickupDb_CUtilsH
+#ifndef iTeacher_CUtilsH
+#define iTeacher_CUtilsH
 //---------------------------------------------------------------------------
 #include "../QtLib/Common.h"
 //---------------------------------------------------------------------------
@@ -25,4 +25,4 @@ class CUtils {
                    ~CUtils              ();
 };
 //---------------------------------------------------------------------------
-#endif // PickupDb_CUtilsH
+#endif // iTeacher_CUtilsH

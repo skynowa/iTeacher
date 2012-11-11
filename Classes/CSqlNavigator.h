@@ -4,8 +4,8 @@
  */
 
 
-#ifndef PickupDb_CSqlNavigatorH
-#define PickupDb_CSqlNavigatorH
+#ifndef iTeacher_CSqlNavigatorH
+#define iTeacher_CSqlNavigatorH
 //---------------------------------------------------------------------------
 #include "../QtLib/Common.h"
 //---------------------------------------------------------------------------
@@ -38,4 +38,4 @@ class CSqlNavigator :
 
 };
 //---------------------------------------------------------------------------
-#endif // PickupDb_CSqlNavigatorH
+#endif // iTeacher_CSqlNavigatorH

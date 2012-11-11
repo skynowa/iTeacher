@@ -1,5 +1,5 @@
-#ifndef CStateData_H
-#define CStateData_H
+#ifndef iTeacher_CStateData_H
+#define iTeacher_CStateData_H
 //---------------------------------------------------------------------------
 #include <QtCore/QMetaType>
 #include <QtGui/QStyle>
@@ -44,4 +44,4 @@ Q_DECLARE_METATYPE(CStateData)
 
 QDebug operator << (QDebug debug, const CStateData & checkerState);
 //---------------------------------------------------------------------------
-#endif // CStateData_H
+#endif // iTeacher_CStateData_H

@@ -4,8 +4,8 @@
  */
 
 
-#ifndef Start_ConfigH
-#define Start_ConfigH
+#ifndef iTeacher_ConfigH
+#define iTeacher_ConfigH
 //---------------------------------------------------------------------------
 // main window
 #define CONFIG_APP_NAME                     "iTeacher"
@@ -33,4 +33,4 @@
 #define CONFIG_GUID                         CONFIG_APP_NAME"_simple_guid"
 #define CONFIG_TABLEVIEW_ROW_HEIGHT         20
 //---------------------------------------------------------------------------
-#endif // Start_ConfigH
+#endif // iTeacher_ConfigH

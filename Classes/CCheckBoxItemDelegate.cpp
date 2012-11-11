@@ -85,18 +85,13 @@ CCheckBoxItemDelegate::editorEvent(
 
     Qt::ItemFlags flags = model->flags(index);
     if (!(option.state & QStyle::State_Enabled) || !(flags & Qt::ItemIsEnabled)) {
-        qDebug() << 1;
-
         return false;
     }
 
     state = index.data(Qt::UserRole).value<CStateData>();
     if (state.testFlag(QStyle::State_NoChange) || state == QStyle::State_None) {
-        qDebug() << 2;
         return false;
     }
-
-    qDebug() << 3;
 
     switch(event->type()) {
         case QEvent::MouseButtonRelease:
