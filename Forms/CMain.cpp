@@ -136,6 +136,7 @@ CMain::_initModel() {
 
         m_Ui.tabvInfo->setModel(_m_tmModel);
         m_Ui.tabvInfo->hideColumn(0); // don't show the CONFIG_DB_F_MAIN_ID
+        m_Ui.tabvInfo->verticalHeader()->setVisible(true);
         m_Ui.tabvInfo->verticalHeader()->setDefaultSectionSize(CONFIG_TABLEVIEW_ROW_HEIGHT);
         m_Ui.tabvInfo->setEditTriggers(QAbstractItemView::SelectedClicked);
         m_Ui.tabvInfo->setSelectionBehavior(QAbstractItemView::SelectRows);
@@ -145,6 +146,7 @@ CMain::_initModel() {
         m_Ui.tabvInfo->setAlternatingRowColors(true);
         m_Ui.tabvInfo->setItemDelegateForColumn(3, new CCheckBoxItemDelegate(m_Ui.tabvInfo));
         m_Ui.tabvInfo->setItemDelegateForColumn(4, new CCheckBoxItemDelegate(m_Ui.tabvInfo));
+        m_Ui.tabvInfo->setSortingEnabled(true);
 
         m_Ui.tabvInfo->show();
     }
