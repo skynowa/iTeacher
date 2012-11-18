@@ -39,16 +39,15 @@ HEADERS         = QtLib/Common.h \
                   Classes/CUtils.h \
                   Classes/CSqlNavigator.h \
                   Classes/CCheckBoxItemDelegate.h \
-                  Classes/CStateData.h \
-                  Forms/CMain.h
-
+                  Classes/CCenteredCheckBox.h \
+                  Forms/CMain.h \
 
 SOURCES         = main.cpp \
                   Classes/CUtils.cpp \
                   Classes/CSqlNavigator.cpp \
                   Classes/CCheckBoxItemDelegate.cpp \
-                  Classes/CStateData.cpp \
-                  Forms/CMain.cpp
+                  Classes/CCenteredCheckBox.cpp \
+                  Forms/CMain.cpp \
 
 FORMS           = Forms/CMain.ui
 

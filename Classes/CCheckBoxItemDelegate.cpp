@@ -1,49 +1,95 @@
+/**
+ * \file   CCheckBoxItemDelegate.cpp
+ * \brief
+ */
+
+
 #include "CCheckBoxItemDelegate.h"
 
 #include <QtGui/QApplication>
 #include <QtGui/QMouseEvent>
+#include <QtGui/QCheckBox>
 
+#include "CCenteredCheckBox.h"
+
+
+static const bool defaultValue = false;
 
 //---------------------------------------------------------------------------
 CCheckBoxItemDelegate::CCheckBoxItemDelegate(
-    QObject *parent
+    QObject *parent /* = NULL */
 ) :
-    QAbstractItemDelegate(parent),
-    _m_objParent         (static_cast<QTableView *>( parent ))
-{
-    Q_ASSERT(NULL != _m_objParent);
-}
-//---------------------------------------------------------------------------
-CCheckBoxItemDelegate::~CCheckBoxItemDelegate()
+    QStyledItemDelegate(parent)
 {
 
 }
 //---------------------------------------------------------------------------
-QSize
-CCheckBoxItemDelegate::sizeHint(
+CCheckBoxItemDelegate::~CCheckBoxItemDelegate() {
+
+}
+//---------------------------------------------------------------------------
+QWidget *
+CCheckBoxItemDelegate::createEditor(
+    QWidget                    *parent,
     const QStyleOptionViewItem &option,
     const QModelIndex          &index
 ) const
 {
-    Q_UNUSED(index);
+    CCenteredCheckBox *editor = new CCenteredCheckBox(parent);
 
-    return option.rect.size();
+    editor->checkBox()->setChecked(defaultValue);
+
+    return editor;
 }
 //---------------------------------------------------------------------------
-/*!
-  Возвращает область занимаемую индикатором.
- */
-QRect
-CCheckBoxItemDelegate::checkRect(
-    const QStyleOptionViewItem &option
+void
+CCheckBoxItemDelegate::setEditorData(
+    QWidget           *editor,
+    const QModelIndex &index
 ) const
 {
-    QStyleOptionButton styleOptionButton;
+    QVariant data = index.model()->data(index, Qt::EditRole);
 
-    QRect rect = QApplication::style()->subElementRect(QStyle::SE_ViewItemCheckIndicator, &styleOptionButton);
-    rect.moveCenter(option.rect.center());
+    bool value;
 
-    return rect;
+    if (!data.isNull()){
+        value = data.toBool();
+    } else {
+        value = defaultValue;
+    }
+
+    CCenteredCheckBox *checkBoxWidget = static_cast<CCenteredCheckBox*>(editor);
+
+    checkBoxWidget->checkBox()->setChecked(value);
+}
+//---------------------------------------------------------------------------
+void
+CCheckBoxItemDelegate::setModelData(
+    QWidget            *editor,
+    QAbstractItemModel *model,
+    const QModelIndex  &index
+) const
+{
+    CCenteredCheckBox *checkBoxWidget = static_cast<CCenteredCheckBox*>(editor);
+    bool value = checkBoxWidget->checkBox()->isChecked();
+
+    model->setData(index, value, Qt::EditRole);
+}
+//---------------------------------------------------------------------------
+void
+CCheckBoxItemDelegate::updateEditorGeometry(
+    QWidget                    *editor,
+    const QStyleOptionViewItem &option,
+    const QModelIndex          &index
+) const
+{
+    CCenteredCheckBox *checkBoxWidget = static_cast<CCenteredCheckBox*>(editor);
+
+    QSize size = checkBoxWidget->sizeHint();
+
+    editor->setMinimumHeight(size.height());
+    editor->setMinimumWidth(size.width());
+    editor->setGeometry(option.rect);
 }
 //---------------------------------------------------------------------------
 void
@@ -53,75 +99,31 @@ CCheckBoxItemDelegate::paint(
     const QModelIndex          &index
 ) const
 {
-    QStyle::State state = index.data(Qt::UserRole).value<CStateData>();
-    if (QStyle::State_None == state) {
-        return;
-    }
+    QVariant value = index.data();
 
-    index.data(Qt::UserRole + 1).value<CStateData>() & QStyle::State_MouseOver ?
-               state |=  QStyle::State_MouseOver :
-               state &=~ QStyle::State_MouseOver;
+    if (!value.isValid() || qVariantCanConvert<bool>(value)) {
+        bool boolVal = value.isValid() ? value.toBool() : defaultValue;
 
-    QStyleOptionButton styleOptionButton;
-    styleOptionButton.rect  = checkRect(option);
-    styleOptionButton.state = state;
+        QStyle *style        = qApp->style();
+        QRect   checkBoxRect = style->subElementRect(QStyle::SE_CheckBoxIndicator, &option);
 
-    QApplication::style()->drawPrimitive(QStyle::PE_IndicatorCheckBox, &styleOptionButton, painter);
-}
-//---------------------------------------------------------------------------
-/*!
-    Всякий раз, когда происходит событие, эта функция вызывается с вариантом модели, событий и индекс,
-    который соответствует пункту время редактируется.
- */
-bool
-CCheckBoxItemDelegate::editorEvent(
-    QEvent                     *event,
-    QAbstractItemModel         *model,
-    const QStyleOptionViewItem &option,
-    const QModelIndex          &index)
-{
-    Q_ASSERT(event);
-    Q_ASSERT(model);
+        int chkWidth  = checkBoxRect.width();
+        int chkHeight = checkBoxRect.height();
 
-    Qt::ItemFlags flags = model->flags(index);
-    if (!(option.state & QStyle::State_Enabled) || !(flags & Qt::ItemIsEnabled)) {
-        return false;
-    }
+        int centerX   = option.rect.left() + qMax(option.rect.width()/2-chkWidth/2, 0);
+        int centerY   = option.rect.top() + qMax(option.rect.height()/2-chkHeight/2, 0);
 
-    state = index.data(Qt::UserRole).value<CStateData>();
-    if (state.testFlag(QStyle::State_NoChange) || state == QStyle::State_None) {
-        return false;
-    }
+        QStyleOptionViewItem modifiedOption(option);
+        modifiedOption.rect.moveTo(centerX, centerY);
+        modifiedOption.rect.setSize(QSize(chkWidth, chkHeight));
 
-    switch(event->type()) {
-        case QEvent::MouseButtonRelease:
-        case QEvent::MouseButtonDblClick: {
-            QRect cr(checkRect(option));
-
-            QMouseEvent *me = static_cast<QMouseEvent*>(event);
-            if (event->type() == QEvent::MouseButtonDblClick  || !cr.contains(me->pos())) {
-                return false;
-            }
-
-            if (me->button() != Qt::LeftButton) {
-                return false;
-            }
-
-            QVariant variant;
-            state ^= (QStyle::State_On | QStyle::State_Off);
-            variant.setValue(state);
-            model->setData(index, variant, Qt::UserRole);
-
-            emit checkChanged(state.testFlag(QStyle::State_On), index);
-
-            return true;
+        if (boolVal) {
+            modifiedOption.state |= QStyle::State_On;
         }
 
-        default: {
-            ;
-        }
+        style->drawPrimitive(QStyle::PE_IndicatorItemViewItemCheck, &modifiedOption, painter);
+    } else {
+        QStyledItemDelegate::paint(painter, option, index);
     }
-
-    return false;
 }
 //---------------------------------------------------------------------------

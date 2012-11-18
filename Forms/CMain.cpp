@@ -159,6 +159,9 @@ CMain::_initModel() {
 
         connect(m_Ui.tabvInfo,                   SIGNAL( doubleClicked(const QModelIndex &) ),
                 this,                            SLOT  ( slot_tabvInfo_OnDoubleClicked(const QModelIndex &) ));
+
+        connect(m_Ui.tabvInfo, SIGNAL(activated(const QModelIndex &)),
+                m_Ui.tabvInfo, SLOT  (edit(const QModelIndex &)));
     }
 
     //--------------------------------------------------

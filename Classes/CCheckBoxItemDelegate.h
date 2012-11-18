@@ -1,38 +1,32 @@
+/**
+ * \file   CCheckBoxItemDelegate.h
+ * \brief
+ */
+
+
 #ifndef iTeacher_CCheckBoxItemDelegate_H
 #define iTeacher_CCheckBoxItemDelegate_H
 //---------------------------------------------------------------------------
-#include <QAbstractItemDelegate>
-#include <QTableView>
-#include "CStateData.h"
+#include <QStyledItemDelegate>
 //---------------------------------------------------------------------------
-/*!
-    \class CCheckBoxItemDelegate qivbcheckindicatordelegate.h "qivbcheckindicatordelegate.h"
-    \brief Класс-делегат имитирующий поведение виджета QCheckBox.
- */
 class CCheckBoxItemDelegate :
-    public QAbstractItemDelegate
+    public QStyledItemDelegate
 {
         Q_OBJECT
         Q_DISABLE_COPY(CCheckBoxItemDelegate)
 
     public:
-        explicit      CCheckBoxItemDelegate(QObject * parent = 0);
-        virtual      ~CCheckBoxItemDelegate();
+        explicit CCheckBoxItemDelegate(QObject * parent = NULL);
+        virtual ~CCheckBoxItemDelegate();
 
-        virtual void  paint       (QPainter * painter, const QStyleOptionViewItem & option,
-                                   const QModelIndex & index) const;
-        virtual QSize sizeHint    (const QStyleOptionViewItem & option,
-                                   const QModelIndex & index) const;
-        virtual bool  editorEvent (QEvent * event, QAbstractItemModel * model,
-                                   const QStyleOptionViewItem & option, const QModelIndex & index);
-    signals:
-        void          checkChanged(bool state, const QModelIndex &);
+        void     paint                (QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const;
+        QWidget *createEditor         (QWidget *parent, const QStyleOptionViewItem &option, const QModelIndex &index) const;
+        void     setEditorData        (QWidget *editor, const QModelIndex &index) const;
+        void     setModelData         (QWidget *editor, QAbstractItemModel *model, const QModelIndex &index) const;
+        void     updateEditorGeometry (QWidget *editor, const QStyleOptionViewItem &option, const QModelIndex &index) const;
 
     private:
-        QTableView   *_m_objParent;
-        CStateData    state;
 
-        QRect         checkRect   (const QStyleOptionViewItem & option) const;
 };
 //---------------------------------------------------------------------------
 #endif // iTeacher_CCheckBoxItemDelegate_H
