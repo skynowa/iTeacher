@@ -126,27 +126,37 @@ CMain::_initModel() {
         Q_ASSERT(NULL != _m_tmModel);
 
         _m_tmModel->setTable(CONFIG_DB_T_MAIN);
-        _m_tmModel->setHeaderData(0, Qt::Horizontal, tr("Id"),      Qt::EditRole);
-        _m_tmModel->setHeaderData(1, Qt::Horizontal, tr("Term"),    Qt::EditRole);
-        _m_tmModel->setHeaderData(2, Qt::Horizontal, tr("Value"),   Qt::EditRole);
-        _m_tmModel->setHeaderData(3, Qt::Horizontal, tr("Learned"), Qt::EditRole);
-        _m_tmModel->setHeaderData(4, Qt::Horizontal, tr("Marked"),  Qt::EditRole);
+        _m_tmModel->setHeaderData(0, Qt::Horizontal, tr("Id"),      Qt::DisplayRole);
+        _m_tmModel->setHeaderData(1, Qt::Horizontal, tr("Term"),    Qt::DisplayRole);
+        _m_tmModel->setHeaderData(2, Qt::Horizontal, tr("Value"),   Qt::DisplayRole);
+        _m_tmModel->setHeaderData(3, Qt::Horizontal, tr("Learned"), Qt::DisplayRole);
+        _m_tmModel->setHeaderData(4, Qt::Horizontal, tr("Marked"),  Qt::DisplayRole);
         _m_tmModel->setEditStrategy(QSqlTableModel::OnFieldChange);
         _m_tmModel->select();
 
         m_Ui.tabvInfo->setModel(_m_tmModel);
+
         m_Ui.tabvInfo->hideColumn(0); // don't show the CONFIG_DB_F_MAIN_ID
+        m_Ui.tabvInfo->setColumnWidth(0, 40);
+        m_Ui.tabvInfo->setColumnWidth(1, 100);
+        m_Ui.tabvInfo->setColumnWidth(2, 400);
+        m_Ui.tabvInfo->setColumnWidth(3, 50);
+        m_Ui.tabvInfo->setColumnWidth(4, 50);
+
         m_Ui.tabvInfo->verticalHeader()->setVisible(true);
         m_Ui.tabvInfo->verticalHeader()->setDefaultSectionSize(CONFIG_TABLEVIEW_ROW_HEIGHT);
-        m_Ui.tabvInfo->setEditTriggers(QAbstractItemView::SelectedClicked);
+
+        m_Ui.tabvInfo->setEditTriggers(QAbstractItemView::NoEditTriggers);
         m_Ui.tabvInfo->setSelectionBehavior(QAbstractItemView::SelectRows);
         m_Ui.tabvInfo->setSelectionMode(QAbstractItemView::SingleSelection);
         m_Ui.tabvInfo->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
         m_Ui.tabvInfo->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
         m_Ui.tabvInfo->setAlternatingRowColors(true);
+        m_Ui.tabvInfo->setStyleSheet("alternate-background-color: white; background-color: gray;");
         m_Ui.tabvInfo->setItemDelegateForColumn(3, new CCheckBoxItemDelegate(m_Ui.tabvInfo));
         m_Ui.tabvInfo->setItemDelegateForColumn(4, new CCheckBoxItemDelegate(m_Ui.tabvInfo));
         m_Ui.tabvInfo->setSortingEnabled(true);
+        m_Ui.tabvInfo->sortByColumn(0, Qt::AscendingOrder);
 
         m_Ui.tabvInfo->show();
     }
@@ -159,9 +169,6 @@ CMain::_initModel() {
 
         connect(m_Ui.tabvInfo,                   SIGNAL( doubleClicked(const QModelIndex &) ),
                 this,                            SLOT  ( slot_tabvInfo_OnDoubleClicked(const QModelIndex &) ));
-
-        connect(m_Ui.tabvInfo, SIGNAL(activated(const QModelIndex &)),
-                m_Ui.tabvInfo, SLOT  (edit(const QModelIndex &)));
     }
 
     //--------------------------------------------------

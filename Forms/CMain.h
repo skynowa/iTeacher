@@ -111,7 +111,7 @@ class CMain :
         void            slot_tabvInfo_OnSelectionChanged(const QItemSelection &selected, const QItemSelection &deselected);
         void            slot_tabvInfo_OnDoubleClicked   (const QModelIndex &index);
 
-private:
+    private:
 
 };
 //---------------------------------------------------------------------------

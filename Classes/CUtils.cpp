@@ -50,6 +50,7 @@ CUtils::widgetAlignCenter(
 {
     Q_ASSERT(NULL != a_widget);
 
+#if 0
     QDesktopWidget *desktop = QApplication::desktop();
     Q_ASSERT(NULL != desktop);
 
@@ -57,6 +58,13 @@ CUtils::widgetAlignCenter(
     const int y = (desktop->height() - a_widget->height()) / 2;
 
     a_widget->setGeometry(x, y, a_widget->width(), a_widget->height());
+#endif
+
+    QRect rcRect = QStyle::alignedRect(
+                        Qt::LeftToRight, Qt::AlignCenter, a_widget->size(),
+                        qApp->desktop()->availableGeometry());
+
+    a_widget->setGeometry(rcRect);
 }
 //---------------------------------------------------------------------------
 /* static */

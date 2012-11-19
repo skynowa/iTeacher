@@ -9,6 +9,7 @@
 #include <QtGui/QApplication>
 #include <QtGui/QMouseEvent>
 #include <QtGui/QCheckBox>
+#include <QDebug>
 
 #include "CCenteredCheckBox.h"
 
@@ -38,6 +39,11 @@ CCheckBoxItemDelegate::createEditor(
     CCenteredCheckBox *editor = new CCenteredCheckBox(parent);
 
     editor->checkBox()->setChecked(defaultValue);
+
+    QCheckBox *chk = editor->checkBox();
+
+    connect(chk,                 SIGNAL(pressed()),
+            this,                SLOT  (slot_OnToggled()));
 
     return editor;
 }
@@ -99,7 +105,7 @@ CCheckBoxItemDelegate::paint(
     const QModelIndex          &index
 ) const
 {
-    QVariant value = index.data();
+    const QVariant value = index.data();
 
     if (!value.isValid() || qVariantCanConvert<bool>(value)) {
         bool boolVal = value.isValid() ? value.toBool() : defaultValue;
@@ -110,8 +116,8 @@ CCheckBoxItemDelegate::paint(
         int chkWidth  = checkBoxRect.width();
         int chkHeight = checkBoxRect.height();
 
-        int centerX   = option.rect.left() + qMax(option.rect.width()/2-chkWidth/2, 0);
-        int centerY   = option.rect.top() + qMax(option.rect.height()/2-chkHeight/2, 0);
+        int centerX   = option.rect.left() + qMax(option.rect.width()  / 2 - chkWidth  / 2, 0);
+        int centerY   = option.rect.top()  + qMax(option.rect.height() / 2 - chkHeight / 2, 0);
 
         QStyleOptionViewItem modifiedOption(option);
         modifiedOption.rect.moveTo(centerX, centerY);
@@ -125,5 +131,10 @@ CCheckBoxItemDelegate::paint(
     } else {
         QStyledItemDelegate::paint(painter, option, index);
     }
+}
+//---------------------------------------------------------------------------
+void CCheckBoxItemDelegate::slot_OnToggled()
+{
+    qDebug() << "slot_OnToggled";
 }
 //---------------------------------------------------------------------------

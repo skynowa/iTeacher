@@ -27,6 +27,10 @@ class CCheckBoxItemDelegate :
 
     private:
 
+    private slots:
+        void     slot_OnToggled       ();
+
+
 };
 //---------------------------------------------------------------------------
 #endif // iTeacher_CCheckBoxItemDelegate_H

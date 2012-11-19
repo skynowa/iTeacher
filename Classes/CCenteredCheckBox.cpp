@@ -13,25 +13,26 @@
 CCenteredCheckBox::CCenteredCheckBox(
     QWidget *parent
 ) :
-    QWidget(parent)
+    QWidget    (parent),
+    _m_checkBox(NULL)
 {
     setContentsMargins(0, 0, 0, 0);
     setAutoFillBackground(true);
 
-    QHBoxLayout *layout = new QHBoxLayout();
-    checkbox = new QCheckBox();
+    _m_checkBox = new QCheckBox();
 
-    layout->addWidget(checkbox);
-    layout->setAlignment(checkbox, Qt::AlignHCenter | Qt::AlignVCenter);
+    QHBoxLayout *layout = new QHBoxLayout();
+    layout->addWidget(_m_checkBox);
+    layout->setAlignment(_m_checkBox, Qt::AlignHCenter | Qt::AlignVCenter);
     layout->setContentsMargins(0, 0, 0, 0);
     layout->setSpacing(0);
 
     setLayout(layout);
-    setFocusProxy(checkbox);
+    setFocusProxy(_m_checkBox);
 }
 //---------------------------------------------------------------------------
 QCheckBox *
 CCenteredCheckBox::checkBox() const {
-    return checkbox;
+    return _m_checkBox;
 }
 //---------------------------------------------------------------------------
