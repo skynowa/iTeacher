@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>CWordEditor</class>
+ <widget class="QDialog" name="CWordEditor">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>402</width>
+    <height>188</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>CWordEditor</string>
+  </property>
+  <widget class="QDialogButtonBox" name="bbxButtons">
+   <property name="geometry">
+    <rect>
+     <x>8</x>
+     <y>160</y>
+     <width>389</width>
+     <height>23</height>
+    </rect>
+   </property>
+   <property name="standardButtons">
+    <set>QDialogButtonBox::Apply|QDialogButtonBox::Cancel|QDialogButtonBox::Ok|QDialogButtonBox::Reset</set>
+   </property>
+  </widget>
+  <widget class="QTextEdit" name="tedtWordTerm">
+   <property name="geometry">
+    <rect>
+     <x>8</x>
+     <y>8</y>
+     <width>305</width>
+     <height>70</height>
+    </rect>
+   </property>
+   <property name="frameShape">
+    <enum>QFrame::Box</enum>
+   </property>
+   <property name="frameShadow">
+    <enum>QFrame::Plain</enum>
+   </property>
+  </widget>
+  <widget class="QTextEdit" name="tedtWordValue">
+   <property name="geometry">
+    <rect>
+     <x>8</x>
+     <y>84</y>
+     <width>305</width>
+     <height>70</height>
+    </rect>
+   </property>
+   <property name="frameShape">
+    <enum>QFrame::Box</enum>
+   </property>
+   <property name="frameShadow">
+    <enum>QFrame::Plain</enum>
+   </property>
+  </widget>
+  <widget class="QCheckBox" name="chkWordIsLearned">
+   <property name="geometry">
+    <rect>
+     <x>324</x>
+     <y>36</y>
+     <width>70</width>
+     <height>17</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Learned</string>
+   </property>
+  </widget>
+  <widget class="QCheckBox" name="chkWordIsMarked">
+   <property name="geometry">
+    <rect>
+     <x>324</x>
+     <y>56</y>
+     <width>70</width>
+     <height>17</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Marked</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pbtnTranslate">
+   <property name="geometry">
+    <rect>
+     <x>320</x>
+     <y>8</y>
+     <width>75</width>
+     <height>23</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Translate</string>
+   </property>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

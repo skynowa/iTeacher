@@ -8,6 +8,7 @@
 
 #include "../Classes/CUtils.h"
 #include "../Classes/CCheckBoxItemDelegate.h"
+#include "../Forms/CWordEditor.h"
 
 #include <xLib/Common/CxString.h>
 
@@ -131,7 +132,7 @@ CMain::_initModel() {
         _m_tmModel->setHeaderData(2, Qt::Horizontal, tr("Value"),   Qt::DisplayRole);
         _m_tmModel->setHeaderData(3, Qt::Horizontal, tr("Learned"), Qt::DisplayRole);
         _m_tmModel->setHeaderData(4, Qt::Horizontal, tr("Marked"),  Qt::DisplayRole);
-        _m_tmModel->setEditStrategy(QSqlTableModel::OnFieldChange);
+        _m_tmModel->setEditStrategy(QSqlTableModel::OnManualSubmit);
         _m_tmModel->select();
 
         m_Ui.tabvInfo->setModel(_m_tmModel);
@@ -390,10 +391,10 @@ void
 CMain::slot_OnInsert() {
     m_navNavigator.insert();
 
-//    const int   ciCurrentRow = _m_tmModel->rowCount() - 1;
-//    CPersonEdit dlgPersonEdit(this, _m_tmModel, ciCurrentRow);
+    const int   ciCurrentRow = _m_tmModel->rowCount() - 1;
+    CWordEditor dlgWordEditor(this, _m_tmModel, ciCurrentRow);
 
-//    dlgPersonEdit.exec();
+    dlgWordEditor.exec();
 }
 //---------------------------------------------------------------------------
 void
@@ -404,6 +405,12 @@ CMain::slot_OnRemove() {
 void
 CMain::slot_OnEdit() {
     m_navNavigator.edit();
+
+// TODO: dlgWordEditor
+//    const int   ciCurrentRow = index.row();
+//    CWordEditor dlgWordEditor(this, _m_tmModel, ciCurrentRow);
+
+//    dlgWordEditor.exec();
 }
 //---------------------------------------------------------------------------
 void
@@ -421,7 +428,10 @@ CMain::slot_tabvInfo_OnDoubleClicked(
     const QModelIndex &index
 )
 {
+    const int   ciCurrentRow = index.row();
+    CWordEditor dlgWordEditor(this, _m_tmModel, ciCurrentRow);
 
+    dlgWordEditor.exec();
 }
 //---------------------------------------------------------------------------
 void

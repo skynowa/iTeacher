@@ -41,6 +41,7 @@ HEADERS         = QtLib/Common.h \
                   Classes/CCheckBoxItemDelegate.h \
                   Classes/CCenteredCheckBox.h \
                   Forms/CMain.h \
+                  Forms/CWordEditor.h
 
 SOURCES         = main.cpp \
                   Classes/CUtils.cpp \
@@ -48,8 +49,10 @@ SOURCES         = main.cpp \
                   Classes/CCheckBoxItemDelegate.cpp \
                   Classes/CCenteredCheckBox.cpp \
                   Forms/CMain.cpp \
+                  Forms/CWordEditor.cpp
 
-FORMS           = Forms/CMain.ui
+FORMS           = Forms/CMain.ui \
+                  Forms/CWordEditor.ui
 
 RESOURCES       = Resources/App.qrc
 
