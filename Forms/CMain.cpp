@@ -27,6 +27,7 @@ CMain::CMain(
     m_navNavigator     (this),
     _m_dbDatabase      (),
     _m_tmModel         (NULL),
+    actFile_Import     (this),
     actFile_Exit       (this),
     actEdit_MovetoFirst(this),
     actEdit_MovetoPrior(this),
@@ -141,15 +142,15 @@ CMain::_initModel() {
         m_Ui.tabvInfo->setColumnWidth(0, 40);
         m_Ui.tabvInfo->setColumnWidth(1, 100);
         m_Ui.tabvInfo->setColumnWidth(2, 400);
-        m_Ui.tabvInfo->setColumnWidth(3, 50);
-        m_Ui.tabvInfo->setColumnWidth(4, 50);
+        m_Ui.tabvInfo->setColumnWidth(3, 60);
+        m_Ui.tabvInfo->setColumnWidth(4, 60);
 
         m_Ui.tabvInfo->verticalHeader()->setVisible(true);
         m_Ui.tabvInfo->verticalHeader()->setDefaultSectionSize(CONFIG_TABLEVIEW_ROW_HEIGHT);
 
         m_Ui.tabvInfo->setEditTriggers(QAbstractItemView::NoEditTriggers);
         m_Ui.tabvInfo->setSelectionBehavior(QAbstractItemView::SelectRows);
-        m_Ui.tabvInfo->setSelectionMode(QAbstractItemView::SingleSelection);
+        m_Ui.tabvInfo->setSelectionMode(QAbstractItemView::ExtendedSelection);
         m_Ui.tabvInfo->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
         m_Ui.tabvInfo->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
         m_Ui.tabvInfo->setAlternatingRowColors(true);
@@ -158,6 +159,7 @@ CMain::_initModel() {
         m_Ui.tabvInfo->setItemDelegateForColumn(4, new CCheckBoxItemDelegate(m_Ui.tabvInfo));
         m_Ui.tabvInfo->setSortingEnabled(true);
         m_Ui.tabvInfo->sortByColumn(0, Qt::AscendingOrder);
+
 
         m_Ui.tabvInfo->show();
     }
@@ -187,6 +189,11 @@ void
 CMain::_initActions() {
     // group "File"
     {
+        actFile_Import.setText(tr("Import"));
+        connect(&actFile_Import, SIGNAL( triggered() ),
+                this,            SLOT  ( slot_OnImport() ));
+        m_Ui.toolBar->addAction(&actFile_Import);
+
         actFile_Exit.setText(tr("Exit"));
         connect(&actFile_Exit, SIGNAL( triggered() ),
                 this,          SLOT  ( slot_OnExit() ));
@@ -287,6 +294,7 @@ CMain::_initMenus() {
     {
         mnuFile.setTitle(tr("File"));
 
+        mnuFile.addAction(&actFile_Import);
         mnuFile.addAction(&actFile_Exit);
 
         menuBar()->addMenu(&mnuFile);
@@ -355,6 +363,28 @@ CMain::_initMenus() {
 
 //---------------------------------------------------------------------------
 void
+CMain::slot_OnImport() {
+    // choose file path
+    QString filePath = QFileDialog::getOpenFileName(
+                            this,
+                            "Open File",
+                            "",
+                            "csv files (*.csv)");
+    qCHECK_DO(true == filePath.isEmpty(), return);
+
+    // DB field names
+    QVector<QString> fieldNames;
+
+    fieldNames.push_back(CONFIG_DB_F_MAIN_TERM);
+    fieldNames.push_back(CONFIG_DB_F_MAIN_VALUE);
+    fieldNames.push_back(CONFIG_DB_F_MAIN_IS_LEARNED);
+    fieldNames.push_back(CONFIG_DB_F_MAIN_IS_MARKED);
+
+    // import
+    importCsv(filePath, _m_tmModel, fieldNames, "\t");
+}
+//---------------------------------------------------------------------------
+void
 CMain::slot_OnExit() {
     close();
 }
@@ -404,13 +434,10 @@ CMain::slot_OnRemove() {
 //---------------------------------------------------------------------------
 void
 CMain::slot_OnEdit() {
-    m_navNavigator.edit();
+    const int   ciCurrentRow = m_Ui.tabvInfo->currentIndex().row();
+    CWordEditor dlgWordEditor(this, _m_tmModel, ciCurrentRow);
 
-// TODO: dlgWordEditor
-//    const int   ciCurrentRow = index.row();
-//    CWordEditor dlgWordEditor(this, _m_tmModel, ciCurrentRow);
-
-//    dlgWordEditor.exec();
+    dlgWordEditor.exec();
 }
 //---------------------------------------------------------------------------
 void
@@ -469,15 +496,6 @@ CMain::slot_OnSearch() {
 *
 *****************************************************************************/
 
-//---------------------------------------------------------------------------
-/*
-void
-CMain::xxxxxxx() {
-
-}
-*/
-//---------------------------------------------------------------------------
-
 
 /****************************************************************************
 *   group "Options"
@@ -513,5 +531,60 @@ CMain::slot_OnAbout() {
         );
 
     QMessageBox::about(this, tr("About ") + CONFIG_APP_NAME, sMsg);
+}
+//---------------------------------------------------------------------------
+
+
+/****************************************************************************
+*   private
+*
+*****************************************************************************/
+
+//---------------------------------------------------------------------------
+/* static */
+void
+CMain::importCsv(
+    const QString          &a_filePath,
+    QSqlTableModel         *a_sqlTableModel,
+    const QVector<QString> &a_fieldNames,
+    const QString          &a_columnSeparator
+)
+{
+    // read file
+    QStringList slFile;
+
+    {
+        QFile fileCSV(a_filePath);
+
+        bool bRv = fileCSV.open(QFile::ReadOnly);
+        Q_ASSERT(true == bRv);
+
+        QString data = fileCSV.readAll();
+        slFile = data.split("\n");
+
+        fileCSV.close();
+
+        qCHECK_DO(true == slFile.isEmpty(), return);
+    }
+
+    // file -> DB
+    for (int i = 0; i < slFile.size(); ++ i) {
+        const QStringList cslRow = slFile.at(i).split(a_columnSeparator);
+
+        // iTargetRow
+        int iTargetRow = a_sqlTableModel->rowCount() - 1;
+
+        // srRecord
+        QSqlRecord srRecord;
+
+        for (int i = 0; i < a_fieldNames.size(); ++ i) {
+            srRecord.append(QSqlField(a_fieldNames.at(i)));
+            srRecord.setValue(a_fieldNames.at(i), cslRow.at(i));
+        }
+
+        a_sqlTableModel->insertRecord(iTargetRow, srRecord);
+    }
+
+    a_sqlTableModel->submitAll();
 }
 //---------------------------------------------------------------------------

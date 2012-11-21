@@ -12,7 +12,7 @@
 #define CONFIG_ORG_NAME                     ""
 #define CONFIG_APP_COMMENT                  "learning english (or other) words"
 #define CONFIG_APP_WINDOW_CLASS             "QTool"
-#define CONFIG_APP_WIDTH                    1000
+#define CONFIG_APP_WIDTH                    700
 #define CONFIG_APP_HEIGHT                   600
 
 // DB tables, fields

@@ -44,6 +44,7 @@ class CMain :
 
 
         // group "File"
+        QAction         actFile_Import;
         QAction         actFile_Exit;
 
         // group "Edit"
@@ -80,7 +81,8 @@ class CMain :
         QMenu           mnuHelp;
 
     private slots:
-        // group "Exit"
+        // group "File"
+        void            slot_OnImport     ();
         void            slot_OnExit       ();
 
         // group "Edit"
@@ -112,6 +114,9 @@ class CMain :
         void            slot_tabvInfo_OnDoubleClicked   (const QModelIndex &index);
 
     private:
+        static void     importCsv         (const QString &filePath, QSqlTableModel *sqlTableModel,
+                                           const QVector<QString> &a_fieldNames, const QString &columnSeparator);
+            //< import CSV file to DB
 
 };
 //---------------------------------------------------------------------------
