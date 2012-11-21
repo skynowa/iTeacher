@@ -9,6 +9,7 @@
 #include "../Classes/CUtils.h"
 #include "../Classes/CCheckBoxItemDelegate.h"
 #include "../Forms/CWordEditor.h"
+#include "../Forms/CWordFinder.h"
 
 #include <xLib/Common/CxString.h>
 
@@ -486,7 +487,9 @@ CMain::slot_OnRefresh() {
 //---------------------------------------------------------------------------
 void
 CMain::slot_OnSearch() {
+    CWordFinder dlgWordFinder(this, _m_tmModel);
 
+    dlgWordFinder.exec();
 }
 //---------------------------------------------------------------------------
 

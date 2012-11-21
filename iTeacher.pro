@@ -8,7 +8,7 @@
 
 TARGET          = iTeacher
 TEMPLATE        = app
-QT              = core gui sql network
+QT              = core gui sql network webkit
 CONFIG         += warn_on
 
 win32 {
@@ -41,7 +41,8 @@ HEADERS         = QtLib/Common.h \
                   Classes/CCheckBoxItemDelegate.h \
                   Classes/CCenteredCheckBox.h \
                   Forms/CMain.h \
-                  Forms/CWordEditor.h
+                  Forms/CWordEditor.h \
+                  Forms/CWordFinder.h
 
 SOURCES         = main.cpp \
                   Classes/CUtils.cpp \
@@ -49,10 +50,12 @@ SOURCES         = main.cpp \
                   Classes/CCheckBoxItemDelegate.cpp \
                   Classes/CCenteredCheckBox.cpp \
                   Forms/CMain.cpp \
-                  Forms/CWordEditor.cpp
+                  Forms/CWordEditor.cpp \
+                  Forms/CWordFinder.cpp
 
 FORMS           = Forms/CMain.ui \
-                  Forms/CWordEditor.ui
+                  Forms/CWordEditor.ui \
+    Forms/CWordFinder.ui
 
 RESOURCES       = Resources/App.qrc
 
