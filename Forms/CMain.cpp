@@ -32,8 +32,6 @@ CMain::CMain(
     m_sDbDir           (),
     m_sDbBackupDir     (),
     m_navNavigator     (this),
-    _m_dbDatabase      (NULL),
-    _m_tmModel         (NULL),
     actFile_CreateDb   (this),
     actFile_Import     (this),
     actFile_Export     (this),
@@ -51,7 +49,9 @@ CMain::CMain(
     actFind_Search     (this),
     actOptions_Settings(this),
     actHelp_Faq        (this),
-    actHelp_About      (this)
+    actHelp_About      (this),
+    _m_dbDatabase      (NULL),
+    _m_tmModel         (NULL)
 {
     _construct();
 }
@@ -94,6 +94,8 @@ CMain::_initMain() {
         m_sAppDir      = qS2QS( CxPath::sExeDir() );
         m_sDbDir       = m_sAppDir + QDir::separator() + xT("Db");
         m_sDbBackupDir = m_sDbDir  + QDir::separator() + xT("Backup");
+
+        CxDir::vCreateForce( qQS2S(m_sDbDir) );
     }
 
     //--------------------------------------------------
@@ -109,12 +111,16 @@ CMain::_initMain() {
 //---------------------------------------------------------------------------
 void
 CMain::_initModel() {
+
+
     //--------------------------------------------------
     // open DB
     {
-        QString sDictPath = m_sDbDir + QDir::separator() + m_Ui.cboDictionaryPath->currentText();
+        if (false == m_Ui.cboDictionaryPath->currentText().isEmpty()) {
+            QString sDictPath = m_sDbDir + QDir::separator() + m_Ui.cboDictionaryPath->currentText();
 
-        dbOpen(sDictPath);
+            dbOpen(sDictPath);
+        }
     }
 
     //--------------------------------------------------
@@ -729,10 +735,13 @@ CMain::slot_cboDictionaryPath_OnCurrentIndexChanged(
 //---------------------------------------------------------------------------
 void
 CMain::cboDictionaryPath_reload() {
+    qCHECK_DO(false == CxDir::bIsExists(qQS2S(m_sDbDir)), return);
+
     std::vec_tstring_t vsDicts;
 
     vsDicts.clear();
     CxDir::vFindFiles( qQS2S(m_sDbDir), xT("*.db"), true, &vsDicts);
+    qCHECK_DO(true == vsDicts.empty(), return);
 
     m_Ui.cboDictionaryPath->clear();
 
@@ -759,6 +768,7 @@ CMain::dbOpen(
     // _m_dbDatabase
     {
         Q_ASSERT(NULL == _m_dbDatabase);
+        Q_ASSERT(true == CxDir::bIsExists( qQS2S(m_sDbDir) ));
 
         bool bRv = QSqlDatabase::isDriverAvailable("QSQLITE");
         qCHECK_DO(false == bRv, qMSG(QSqlDatabase().lastError().text()); return);
@@ -805,15 +815,17 @@ CMain::dbOpen(
 
         _m_tmModel->select();
 
-//        QSqlQueryModel *qmModel = dynamic_cast<QSqlQueryModel *>( _m_tmModel );
-//        Q_ASSERT(NULL != qmModel);
+        #if 0
+            QSqlQueryModel *qmModel = dynamic_cast<QSqlQueryModel *>( _m_tmModel );
+            Q_ASSERT(NULL != qmModel);
 
-//        const QString csSql = \
-//                "SELECT * "
-//                "   FROM " CONFIG_DB_T_MAIN " "
-//                "   ORDER BY " CONFIG_DB_F_MAIN_TERM " DESC";
+            const QString csSql = \
+                    "SELECT * "
+                    "   FROM " CONFIG_DB_T_MAIN " "
+                    "   ORDER BY " CONFIG_DB_F_MAIN_TERM " DESC";
 
-//        qmModel->setQuery(csSql);
+            qmModel->setQuery(csSql);
+        #endif
     }
 
     //--------------------------------------------------
@@ -844,23 +856,26 @@ void
 CMain::dbClose() {
     // _m_tmModel
     {
-        Q_ASSERT(NULL != _m_tmModel);
-        xPTR_DELETE(_m_tmModel);
+        if (NULL != _m_tmModel) {
+            xPTR_DELETE(_m_tmModel);
+        }
     }
 
     // _m_dbDatabase
     {
-        Q_ASSERT(NULL != _m_dbDatabase);
-        Q_ASSERT(true == _m_dbDatabase->isOpen());
+        if (NULL != _m_dbDatabase) {
+            Q_ASSERT(true == _m_dbDatabase->isOpen());
 
-        const QString csConnectionName = _m_dbDatabase->connectionName();
+            const QString csConnectionName = _m_dbDatabase->connectionName();
 
-        _m_dbDatabase->close();
-        Q_ASSERT(false == _m_dbDatabase->isOpen());
+            _m_dbDatabase->close();
+            Q_ASSERT(false == _m_dbDatabase->isOpen());
 
-        xPTR_DELETE(_m_dbDatabase);
+            xPTR_DELETE(_m_dbDatabase);
 
-        QSqlDatabase::removeDatabase(csConnectionName);
+            QSqlDatabase::removeDatabase(csConnectionName);
+        }
     }
+
 }
 //---------------------------------------------------------------------------
