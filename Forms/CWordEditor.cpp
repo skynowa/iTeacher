@@ -22,7 +22,8 @@ CWordEditor::CWordEditor(
 ) :
     QDialog        (parent),
     _m_tmModel     (tableModel),
-    _m_ciCurrentRow(currentRow)
+    _m_ciCurrentRow(currentRow),
+    _m_pcbClipboard(QApplication::clipboard())
 {
     Q_ASSERT(NULL != _m_tmModel);
     Q_ASSERT(- 1  <  _m_ciCurrentRow);
@@ -60,11 +61,11 @@ CWordEditor::_construct() {
 
     // signals
     {
-        connect(m_Ui.pbtnTranslate,    SIGNAL( clicked() ),
-                 this,                 SLOT  ( slot_OnTranslate() ));
+        connect(m_Ui.pbtnTranslate, SIGNAL( clicked() ),
+                 this,              SLOT  ( slot_textTranslate() ));
 
-        connect(m_Ui.bbxButtons,       SIGNAL( clicked(QAbstractButton *) ),
-                this,                  SLOT  ( slot_bbxButtons_OnClicked(QAbstractButton *) ));
+        connect(m_Ui.bbxButtons,    SIGNAL( clicked(QAbstractButton *) ),
+                this,               SLOT  ( slot_bbxButtons_OnClicked(QAbstractButton *) ));
     }
 }
 //---------------------------------------------------------------------------
@@ -82,8 +83,18 @@ CWordEditor::_destruct() {
 
 //---------------------------------------------------------------------------
 void
-CWordEditor::slot_OnTranslate() {
-    qDebug() << "slot_OnTranslate";
+CWordEditor::slot_textTranslate() {
+    m_Ui.tedtWordValue->clear();
+
+    if (true == m_Ui.tedtWordTerm->toPlainText().isEmpty()) { return; }
+
+    const QString sTextFrom = m_Ui.tedtWordTerm->toPlainText().toUtf8();
+    QString       sTextTo;
+    const QString sLangTo   = QString("ru").toUtf8();
+
+    sTextTo = CUtils::googleTranslate(sTextFrom, sLangTo);
+
+    m_Ui.tedtWordValue->setText( sTextTo );
 }
 //---------------------------------------------------------------------------
 void
@@ -134,7 +145,7 @@ CWordEditor::_resetAll() {
     m_Ui.tedtWordTerm->clear();
     m_Ui.tedtWordValue->clear();
     m_Ui.chkWordIsLearned->setChecked(false);
-    m_Ui.chkWordIsMarked->setChecked (false);
+    m_Ui.chkWordIsMarked->setChecked(false);
 }
 //---------------------------------------------------------------------------
 void

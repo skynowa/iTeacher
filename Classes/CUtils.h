@@ -11,18 +11,20 @@
 //---------------------------------------------------------------------------
 class CUtils {
     public:
-        static bool setApplicationSingle(const QString &applicationGuid);
+        static bool    setApplicationSingle(const QString &applicationGuid);
             ///< set application single inststance
-        static void widgetAlignCenter   (QWidget *widget);
+        static void    widgetAlignCenter   (QWidget *widget);
             ///<
-        static void widgetAlignTopCenter(QWidget *widget);
+        static void    widgetAlignTopCenter(QWidget *widget);
             ///<
-        static void applicationActivate (const QString &className, const QString &windowName);
+        static void    applicationActivate (const QString &className, const QString &windowName);
             ///<
+        static QString googleTranslate     (const QString &textFrom, const QString &langTo);
+            ///< translate text by Google API
 
     private:
-                    CUtils              ();
-                   ~CUtils              ();
+                       CUtils              ();
+                      ~CUtils              ();
 };
 //---------------------------------------------------------------------------
 #endif // iTeacher_CUtilsH

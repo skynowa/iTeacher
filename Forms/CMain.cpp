@@ -161,7 +161,6 @@ CMain::_initModel() {
         m_Ui.tabvInfo->setSortingEnabled(true);
         m_Ui.tabvInfo->sortByColumn(0, Qt::AscendingOrder);
 
-
         m_Ui.tabvInfo->show();
     }
 

@@ -25,99 +25,99 @@ class CMain :
         Q_OBJECT
 
     public:
-                        CMain             (QWidget *parent = 0, Qt::WFlags flags = 0);
-        virtual        ~CMain             ();
+                               CMain             (QWidget *parent = 0, Qt::WFlags flags = 0);
+        virtual               ~CMain             ();
 
-        Ui::CMainClass  m_Ui;
-        CSqlNavigator   m_navNavigator;
+        Ui::CMainClass         m_Ui;
+        CSqlNavigator          m_navNavigator;
 
     private:
-        QSqlDatabase    _m_dbDatabase;
-        QSqlTableModel *_m_tmModel;
+        QSqlDatabase           _m_dbDatabase;
+        QSqlTableModel        *_m_tmModel;
 
-        void            _construct        ();
-        void            _destruct         ();
-        void            _initMain         ();
-        void            _initModel        ();
-        void            _initActions      ();
-        void            _initMenus        ();
+        void                   _construct        ();
+        void                   _destruct         ();
+        void                   _initMain         ();
+        void                   _initModel        ();
+        void                   _initActions      ();
+        void                   _initMenus        ();
 
 
         // group "File"
-        QAction         actFile_Import;
-        QAction         actFile_Exit;
+        QAction                actFile_Import;
+        QAction                actFile_Exit;
 
         // group "Edit"
-        QAction         actEdit_MovetoFirst;
-        QAction         actEdit_MovetoPrior;
-        QAction         actEdit_MovetoNext;
-        QAction         actEdit_MovetoLast;
-        QAction         actEdit_Insert;
-        QAction         actEdit_Delete;
-        QAction         actEdit_Edit;
-        QAction         actEdit_Post;
-        QAction         actEdit_Cancel;
-        QAction         actEdit_Refresh;
+        QAction                actEdit_MovetoFirst;
+        QAction                actEdit_MovetoPrior;
+        QAction                actEdit_MovetoNext;
+        QAction                actEdit_MovetoLast;
+        QAction                actEdit_Insert;
+        QAction                actEdit_Delete;
+        QAction                actEdit_Edit;
+        QAction                actEdit_Post;
+        QAction                actEdit_Cancel;
+        QAction                actEdit_Refresh;
 
         // group "Find"
-        QAction         actFind_Search;
+        QAction                actFind_Search;
 
         // group "View"
 
         // group "Options"
-        QAction         actOptions_Settings;
+        QAction                actOptions_Settings;
 
         // group "Help"
-        QAction         actHelp_Faq;
-        QAction         actHelp_About;
+        QAction                actHelp_Faq;
+        QAction                actHelp_About;
 
 
         // menu
-        QMenu           mnuFile;
-        QMenu           mnuEdit;
-        QMenu           mnuFind;
-        QMenu           mnuView;
-        QMenu           mnuOptions;
-        QMenu           mnuHelp;
+        QMenu                  mnuFile;
+        QMenu                  mnuEdit;
+        QMenu                  mnuFind;
+        QMenu                  mnuView;
+        QMenu                  mnuOptions;
+        QMenu                  mnuHelp;
 
     private slots:
         // group "File"
-        void            slot_OnImport     ();
-        void            slot_OnExit       ();
+        void                   slot_OnImport     ();
+        void                   slot_OnExit       ();
 
         // group "Edit"
-        void            slot_OnFirst      ();
-        void            slot_OnPrior      ();
-        void            slot_OnNext       ();
-        void            slot_OnLast       ();
-        void            slot_OnInsert     ();
-        void            slot_OnRemove     ();
-        void            slot_OnEdit       ();
-        void            slot_OnPost       ();
-        void            slot_OnCancel     ();
-        void            slot_OnRefresh    ();
+        void                   slot_OnFirst      ();
+        void                   slot_OnPrior      ();
+        void                   slot_OnNext       ();
+        void                   slot_OnLast       ();
+        void                   slot_OnInsert     ();
+        void                   slot_OnRemove     ();
+        void                   slot_OnEdit       ();
+        void                   slot_OnPost       ();
+        void                   slot_OnCancel     ();
+        void                   slot_OnRefresh    ();
 
         // group "Find"
-        void            slot_OnSearch     ();
+        void                   slot_OnSearch     ();
 
         // group "View"
 
 
         // group "Options"
-        void            slot_OnSettings   ();
+        void                   slot_OnSettings   ();
 
         // group "Help"
-        void            slot_OnFaq        ();
-        void            slot_OnAbout      ();
+        void                   slot_OnFaq        ();
+        void                   slot_OnAbout      ();
 
-        void            slot_tabvInfo_OnSelectionChanged(const QItemSelection &selected, const QItemSelection &deselected);
-        void            slot_tabvInfo_OnDoubleClicked   (const QModelIndex &index);
+        void                   slot_tabvInfo_OnSelectionChanged(const QItemSelection &selected, const QItemSelection &deselected);
+        void                   slot_tabvInfo_OnDoubleClicked   (const QModelIndex &index);
 
     private:
-        static void     importCsv         (const QString &filePath, QSqlTableModel *sqlTableModel,
-                                           const QVector<QString> &a_fieldNames, const QString &columnSeparator);
-            //< import CSV file to DB
 
+        static void            importCsv         (const QString &filePath, QSqlTableModel *sqlTableModel,
+                                                  const QVector<QString> &a_fieldNames, const QString &columnSeparator);
+            //< import CSV file to DB
 };
 //---------------------------------------------------------------------------
 #endif // iTeacher_CMainH
