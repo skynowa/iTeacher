@@ -32,7 +32,7 @@ CMain::CMain(
     m_sDbDir           (),
     m_sDbBackupDir     (),
     m_navNavigator     (this),
-    _m_dbDatabase      (),
+    _m_dbDatabase      (NULL),
     _m_tmModel         (NULL),
     actFile_CreateDb   (this),
     actFile_Import     (this),
@@ -79,14 +79,7 @@ CMain::_construct() {
 void
 CMain::_destruct() {
     // _m_dbDatabase disconnect
-    {
-        const QString csConnectionName = _m_dbDatabase->connectionName();
-
-        _m_dbDatabase->close();
-        xPTR_DELETE(_m_dbDatabase);
-
-        QSqlDatabase::removeDatabase(csConnectionName);
-    }
+    dbClose();
 
     xPTR_DELETE(_m_tmModel);
 }
@@ -118,39 +111,11 @@ CMain::_initMain() {
 void
 CMain::_initModel() {
     //--------------------------------------------------
-    // settings DB
+    // open DB
     {
-        bool bRv = false;
-
-        bRv = QSqlDatabase::isDriverAvailable("QSQLITE");
-        qCHECK_DO(false == bRv, qMSG(QSqlDatabase().lastError().text()); return;);
-
         QString sDictPath = m_sDbDir + QDir::separator() + m_Ui.cboDictionaryPath->currentText();
 
-        _m_dbDatabase = new QSqlDatabase(QSqlDatabase::addDatabase("QSQLITE"));
-        _m_dbDatabase->setDatabaseName(sDictPath);
-
-        bRv = _m_dbDatabase->open();
-        qCHECK_PTR(bRv, _m_dbDatabase);
-
-        // create DB
-        {
-            QSqlQuery qryInfo(*_m_dbDatabase);
-
-            const QString csSql = \
-                    "CREATE TABLE IF NOT EXISTS "
-                    "    " CONFIG_DB_T_MAIN
-                    "( "
-                    "    " CONFIG_DB_F_MAIN_ID         " integer PRIMARY KEY AUTOINCREMENT UNIQUE, "
-                    "    " CONFIG_DB_F_MAIN_TERM       " varchar(255) UNIQUE NOT NULL, "
-                    "    " CONFIG_DB_F_MAIN_VALUE      " varchar(255), "
-                    "    " CONFIG_DB_F_MAIN_IS_LEARNED " integer NOT NULL DEFAULT 0, "
-                    "    " CONFIG_DB_F_MAIN_IS_MARKED  " integer NOT NULL DEFAULT 0 "
-                    ")";
-
-            bRv = qryInfo.exec(csSql);
-            qCHECK_REF(bRv, qryInfo);
-        }
+        dbOpen(sDictPath);
     }
 
     //--------------------------------------------------
@@ -426,46 +391,13 @@ CMain::slot_OnCreateDb() {
                                  ".db");
     qCHECK_DO(true == csDbName.trimmed().isEmpty(), return);
 
-
-    // disconnect
-    {
-        const QString csConnectionName = _m_dbDatabase->connectionName();
-
-        _m_dbDatabase->close();
-        xPTR_DELETE(_m_dbDatabase);
-
-        QSqlDatabase::removeDatabase(csConnectionName);
-    }
-
-
     QString sDictPath = m_sDbDir + QDir::separator() + csDbName;
 
-    _m_dbDatabase = new QSqlDatabase(QSqlDatabase::addDatabase("QSQLITE"));
-    _m_dbDatabase->setDatabaseName(sDictPath);
-
-    bool bRv = _m_dbDatabase->open();
-    qCHECK_PTR(bRv, _m_dbDatabase);
-
-    // create DB
+    // reopen DB
     {
-        QSqlQuery qryInfo(*_m_dbDatabase);
-
-        const QString csSql = \
-                "CREATE TABLE IF NOT EXISTS "
-                "    " CONFIG_DB_T_MAIN
-                "( "
-                "    " CONFIG_DB_F_MAIN_ID         " integer PRIMARY KEY AUTOINCREMENT UNIQUE, "
-                "    " CONFIG_DB_F_MAIN_TERM       " varchar(255) UNIQUE NOT NULL, "
-                "    " CONFIG_DB_F_MAIN_VALUE      " varchar(255), "
-                "    " CONFIG_DB_F_MAIN_IS_LEARNED " integer NOT NULL DEFAULT 0, "
-                "    " CONFIG_DB_F_MAIN_IS_MARKED  " integer NOT NULL DEFAULT 0 "
-                ")";
-
-        bRv = qryInfo.exec(csSql);
-        qCHECK_REF(bRv, qryInfo);
+        dbReopen(sDictPath);
+        cboDictionaryPath_reload();
     }
-
-    cboDictionaryPath_reload();
 }
 //---------------------------------------------------------------------------
 void
@@ -650,27 +582,11 @@ CMain::slot_cboDictionaryPath_OnCurrentIndexChanged(
 
     qCHECK_DO(true == arg.isEmpty(), return);
 
-    // disconnect
-    {
-        const QString csConnectionName = _m_dbDatabase->connectionName();
-
-        _m_dbDatabase->close();
-        xPTR_DELETE(_m_dbDatabase);
-
-        QSqlDatabase::removeDatabase(csConnectionName);
-    }
-
-    // connect
+    // reopen DB
     {
         QString sDictPath = m_sDbDir + QDir::separator() + arg;
-        Q_ASSERT(true == QFile::exists(sDictPath));
 
-        _m_dbDatabase = new QSqlDatabase(QSqlDatabase::addDatabase("QSQLITE"));
-        _m_dbDatabase->setDatabaseName(sDictPath);
-
-        bool bRv = _m_dbDatabase->open();
-        qCHECK_PTR(bRv, _m_dbDatabase);
-
+        dbReopen(sDictPath);
         _m_tmModel->select();
     }
 
@@ -772,5 +688,72 @@ CMain::cboDictionaryPath_reload() {
 
         m_Ui.cboDictionaryPath->addItem(sDict);
     }
+}
+//---------------------------------------------------------------------------
+
+
+/****************************************************************************
+*   private: DB
+*
+*****************************************************************************/
+
+//---------------------------------------------------------------------------
+void
+CMain::dbOpen(
+    const QString &filePath
+)
+{
+    bool bRv = false;
+
+    bRv = QSqlDatabase::isDriverAvailable("QSQLITE");
+    qCHECK_DO(false == bRv, qMSG(QSqlDatabase().lastError().text()); return);
+
+    _m_dbDatabase = new QSqlDatabase(QSqlDatabase::addDatabase("QSQLITE"));
+    _m_dbDatabase->setDatabaseName(filePath);
+
+    bRv = _m_dbDatabase->open();
+    qCHECK_PTR(bRv, _m_dbDatabase);
+
+    // create DB
+    {
+        QSqlQuery qryInfo(*_m_dbDatabase);
+
+        const QString csSql = \
+                "CREATE TABLE IF NOT EXISTS "
+                "    " CONFIG_DB_T_MAIN
+                "( "
+                "    " CONFIG_DB_F_MAIN_ID         " integer PRIMARY KEY AUTOINCREMENT UNIQUE, "
+                "    " CONFIG_DB_F_MAIN_TERM       " varchar(255) UNIQUE NOT NULL, "
+                "    " CONFIG_DB_F_MAIN_VALUE      " varchar(255), "
+                "    " CONFIG_DB_F_MAIN_IS_LEARNED " integer NOT NULL DEFAULT 0, "
+                "    " CONFIG_DB_F_MAIN_IS_MARKED  " integer NOT NULL DEFAULT 0 "
+                ")";
+
+        bRv = qryInfo.exec(csSql);
+        qCHECK_REF(bRv, qryInfo);
+    }
+}
+//---------------------------------------------------------------------------
+void
+CMain::dbReopen(
+    const QString &filePath
+)
+{
+    dbClose();
+    dbOpen(filePath);
+}
+//---------------------------------------------------------------------------
+void
+CMain::dbClose() {
+    Q_ASSERT(true == _m_dbDatabase->isOpen());
+
+    const QString csConnectionName = _m_dbDatabase->connectionName();
+
+    _m_dbDatabase->close();
+    Q_ASSERT(false == _m_dbDatabase->isOpen());
+
+    xPTR_DELETE(_m_dbDatabase);
+
+    QSqlDatabase::removeDatabase(csConnectionName);
 }
 //---------------------------------------------------------------------------

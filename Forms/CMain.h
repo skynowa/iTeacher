@@ -124,34 +124,10 @@ class CMain :
         void                   cboDictionaryPath_reload();
             ///< fill cboDictionaryPath
 
+        void                   dbOpen            (const QString &filePath);
+        void                   dbReopen          (const QString &filePath);
+        void                   dbClose           ();
+
 };
 //---------------------------------------------------------------------------
 #endif // iTeacher_CMainH
-
-
-#if 0
-int main2(int argc, char *argv[])
-{
-    QApplication a(argc, argv);
-
-    QTableWidget table(5,5);
-    table.setItemDelegateForColumn(1, new CCheckBoxItemDelegate(&table));
-
-    QVariant data;
-
-    for (int i = 0; i != 5; ++ i) {
-        data.setValue(CStateData(QStyle::State_Enabled | QStyle::State_On));
-
-        for (int j = 0; j != 5; ++ j) {
-            QTableWidgetItem *item = new QTableWidgetItem();
-            item->setData(Qt::UserRole,data);
-
-            table.setItem(i, j, item);
-        }
-    }
-
-    table.show();
-
-    return a.exec();
-}
-#endif
