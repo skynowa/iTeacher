@@ -113,13 +113,15 @@ CUtils::importCsv(
     const QString          &a_columnSeparator
 )
 {
+    bool bRv = false;
+
     // read file
     QStringList slFile;
 
     {
         QFile fileCSV(a_filePath);
 
-        bool bRv = fileCSV.open(QFile::ReadOnly);
+        bRv = fileCSV.open(QFile::ReadOnly);
         Q_ASSERT(true == bRv);
 
         QString data = fileCSV.readAll();
@@ -145,10 +147,12 @@ CUtils::importCsv(
             srRecord.setValue(a_fieldNames.at(i), cslRow.at(i));
         }
 
-        a_sqlTableModel->insertRecord(iTargetRow, srRecord);
-    }
+        bRv = a_sqlTableModel->insertRecord(iTargetRow, srRecord);
+        Q_ASSERT(true == bRv);
 
-    a_sqlTableModel->submitAll();
+        bRv = a_sqlTableModel->submitAll();
+        Q_ASSERT(true == bRv);
+    }
 }
 //---------------------------------------------------------------------------
 QString

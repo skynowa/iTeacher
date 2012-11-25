@@ -34,6 +34,7 @@ CMain::CMain(
     m_navNavigator     (this),
     _m_dbDatabase      (),
     _m_tmModel         (NULL),
+    actFile_CreateDb   (this),
     actFile_Import     (this),
     actFile_Exit       (this),
     actEdit_MovetoFirst(this),
@@ -79,8 +80,6 @@ void
 CMain::_destruct() {
     // _m_dbDatabase disconnect
     {
-        _m_tmModel->submitAll();
-
         const QString csConnectionName = _m_dbDatabase->connectionName();
 
         _m_dbDatabase->close();
@@ -112,23 +111,7 @@ CMain::_initMain() {
         setWindowTitle(CONFIG_APP_NAME);
         setGeometry(0, 0, CONFIG_APP_WIDTH, CONFIG_APP_HEIGHT);
         CUtils::widgetAlignCenter(this);
-    }
-
-    //-------------------------------------
-    // fill cboDictionaryPath
-    {
-        std::vec_tstring_t vsDicts;
-
-        vsDicts.clear();
-        CxDir::vFindFiles( qQS2S(m_sDbDir), xT("*.db"), true, &vsDicts);
-
-        m_Ui.cboDictionaryPath->clear();
-
-        xFOREACH(std::vec_tstring_t, it, vsDicts) {
-            QString sDict = qS2QS( (*it).erase(0, (qQS2S(m_sDbDir) + CxConst::xSLASH).size()) );
-
-            m_Ui.cboDictionaryPath->addItem(sDict);
-        }
+        cboDictionaryPath_reload();
     }
 }
 //---------------------------------------------------------------------------
@@ -143,7 +126,6 @@ CMain::_initModel() {
         qCHECK_DO(false == bRv, qMSG(QSqlDatabase().lastError().text()); return;);
 
         QString sDictPath = m_sDbDir + QDir::separator() + m_Ui.cboDictionaryPath->currentText();
-        Q_ASSERT(true == QFile::exists(sDictPath));
 
         _m_dbDatabase = new QSqlDatabase(QSqlDatabase::addDatabase("QSQLITE"));
         _m_dbDatabase->setDatabaseName(sDictPath);
@@ -248,6 +230,11 @@ void
 CMain::_initActions() {
     // group "File"
     {
+        actFile_CreateDb.setText(tr("Create DB"));
+        connect(&actFile_CreateDb, SIGNAL( triggered() ),
+                this,              SLOT  ( slot_OnCreateDb() ));
+        m_Ui.toolBar->addAction(&actFile_CreateDb);
+
         actFile_Import.setText(tr("Import"));
         connect(&actFile_Import, SIGNAL( triggered() ),
                 this,            SLOT  ( slot_OnImport() ));
@@ -361,6 +348,7 @@ CMain::_initMenus() {
     {
         mnuFile.setTitle(tr("File"));
 
+        mnuFile.addAction(&actFile_CreateDb);
         mnuFile.addAction(&actFile_Import);
         mnuFile.addAction(&actFile_Exit);
 
@@ -428,6 +416,57 @@ CMain::_initMenus() {
 *
 *****************************************************************************/
 
+//---------------------------------------------------------------------------
+void
+CMain::slot_OnCreateDb() {
+    const QString csDbName = QInputDialog::getText(this,
+                                 m_sAppName,
+                                 "New DB file path:",
+                                 QLineEdit::Normal,
+                                 ".db");
+    qCHECK_DO(true == csDbName.trimmed().isEmpty(), return);
+
+
+    // disconnect
+    {
+        const QString csConnectionName = _m_dbDatabase->connectionName();
+
+        _m_dbDatabase->close();
+        xPTR_DELETE(_m_dbDatabase);
+
+        QSqlDatabase::removeDatabase(csConnectionName);
+    }
+
+
+    QString sDictPath = m_sDbDir + QDir::separator() + csDbName;
+
+    _m_dbDatabase = new QSqlDatabase(QSqlDatabase::addDatabase("QSQLITE"));
+    _m_dbDatabase->setDatabaseName(sDictPath);
+
+    bool bRv = _m_dbDatabase->open();
+    qCHECK_PTR(bRv, _m_dbDatabase);
+
+    // create DB
+    {
+        QSqlQuery qryInfo(*_m_dbDatabase);
+
+        const QString csSql = \
+                "CREATE TABLE IF NOT EXISTS "
+                "    " CONFIG_DB_T_MAIN
+                "( "
+                "    " CONFIG_DB_F_MAIN_ID         " integer PRIMARY KEY AUTOINCREMENT UNIQUE, "
+                "    " CONFIG_DB_F_MAIN_TERM       " varchar(255) UNIQUE NOT NULL, "
+                "    " CONFIG_DB_F_MAIN_VALUE      " varchar(255), "
+                "    " CONFIG_DB_F_MAIN_IS_LEARNED " integer NOT NULL DEFAULT 0, "
+                "    " CONFIG_DB_F_MAIN_IS_MARKED  " integer NOT NULL DEFAULT 0 "
+                ")";
+
+        bRv = qryInfo.exec(csSql);
+        qCHECK_REF(bRv, qryInfo);
+    }
+
+    cboDictionaryPath_reload();
+}
 //---------------------------------------------------------------------------
 void
 CMain::slot_OnImport() {
@@ -613,8 +652,6 @@ CMain::slot_cboDictionaryPath_OnCurrentIndexChanged(
 
     // disconnect
     {
-        _m_tmModel->submitAll();
-
         const QString csConnectionName = _m_dbDatabase->connectionName();
 
         _m_dbDatabase->close();
@@ -719,3 +756,21 @@ CMain::slot_cboDictionaryPath_OnCurrentIndexChanged(
 *   private
 *
 *****************************************************************************/
+
+//---------------------------------------------------------------------------
+void
+CMain::cboDictionaryPath_reload() {
+    std::vec_tstring_t vsDicts;
+
+    vsDicts.clear();
+    CxDir::vFindFiles( qQS2S(m_sDbDir), xT("*.db"), true, &vsDicts);
+
+    m_Ui.cboDictionaryPath->clear();
+
+    xFOREACH(std::vec_tstring_t, it, vsDicts) {
+        QString sDict = qS2QS( (*it).erase(0, (qQS2S(m_sDbDir) + CxConst::xSLASH).size()) );
+
+        m_Ui.cboDictionaryPath->addItem(sDict);
+    }
+}
+//---------------------------------------------------------------------------

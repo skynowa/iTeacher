@@ -48,6 +48,7 @@ class CMain :
 
 
         // group "File"
+        QAction                actFile_CreateDb;
         QAction                actFile_Import;
         QAction                actFile_Exit;
 
@@ -85,6 +86,7 @@ class CMain :
 
     private Q_SLOTS:
         // group "File"
+        void                   slot_OnCreateDb   ();
         void                   slot_OnImport     ();
         void                   slot_OnExit       ();
 
@@ -119,6 +121,8 @@ class CMain :
         void                   slot_cboDictionaryPath_OnCurrentIndexChanged(const QString &arg);
 
     private:
+        void                   cboDictionaryPath_reload();
+            ///< fill cboDictionaryPath
 
 };
 //---------------------------------------------------------------------------
