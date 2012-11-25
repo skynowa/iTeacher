@@ -37,6 +37,7 @@ class CWordEditor :
     private Q_SLOTS:
         void           slot_textTranslate();
         void           slot_bbxButtons_OnClicked(QAbstractButton *button);
+        void           slot_WordTermOrValue_OnTextChanged();
 };
 //---------------------------------------------------------------------------
 #endif // CWORDEDITOR_H
