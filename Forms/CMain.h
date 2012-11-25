@@ -29,10 +29,14 @@ class CMain :
         virtual               ~CMain             ();
 
         Ui::CMainClass         m_Ui;
+        QString                m_sAppName;
+        QString                m_sAppDir;
+        QString                m_sDbDir;
+        QString                m_sDbBackupDir;
         CSqlNavigator          m_navNavigator;
 
     private:
-        QSqlDatabase           _m_dbDatabase;
+        QSqlDatabase          *_m_dbDatabase;
         QSqlTableModel        *_m_tmModel;
 
         void                   _construct        ();
@@ -71,7 +75,6 @@ class CMain :
         QAction                actHelp_Faq;
         QAction                actHelp_About;
 
-
         // menu
         QMenu                  mnuFile;
         QMenu                  mnuEdit;
@@ -80,7 +83,7 @@ class CMain :
         QMenu                  mnuOptions;
         QMenu                  mnuHelp;
 
-    private slots:
+    private Q_SLOTS:
         // group "File"
         void                   slot_OnImport     ();
         void                   slot_OnExit       ();
@@ -110,14 +113,13 @@ class CMain :
         void                   slot_OnFaq        ();
         void                   slot_OnAbout      ();
 
-        void                   slot_tabvInfo_OnSelectionChanged(const QItemSelection &selected, const QItemSelection &deselected);
-        void                   slot_tabvInfo_OnDoubleClicked   (const QModelIndex &index);
+        void                   slot_tabvInfo_OnSelectionChanged            (const QItemSelection &selected, const QItemSelection &deselected);
+        void                   slot_tabvInfo_OnDoubleClicked               (const QModelIndex &index);
+
+        void                   slot_cboDictionaryPath_OnCurrentIndexChanged(const QString &arg);
 
     private:
 
-        static void            importCsv         (const QString &filePath, QSqlTableModel *sqlTableModel,
-                                                  const QVector<QString> &a_fieldNames, const QString &columnSeparator);
-            //< import CSV file to DB
 };
 //---------------------------------------------------------------------------
 #endif // iTeacher_CMainH

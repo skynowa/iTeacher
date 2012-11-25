@@ -104,6 +104,53 @@ CUtils::applicationActivate(
 #endif
 }
 //---------------------------------------------------------------------------
+/* static */
+void
+CUtils::importCsv(
+    const QString          &a_filePath,
+    QSqlTableModel         *a_sqlTableModel,
+    const QVector<QString> &a_fieldNames,
+    const QString          &a_columnSeparator
+)
+{
+    // read file
+    QStringList slFile;
+
+    {
+        QFile fileCSV(a_filePath);
+
+        bool bRv = fileCSV.open(QFile::ReadOnly);
+        Q_ASSERT(true == bRv);
+
+        QString data = fileCSV.readAll();
+        slFile = data.split("\n");
+
+        fileCSV.close();
+
+        qCHECK_DO(true == slFile.isEmpty(), return);
+    }
+
+    // file -> DB
+    for (int i = 0; i < slFile.size(); ++ i) {
+        const QStringList cslRow = slFile.at(i).split(a_columnSeparator);
+
+        // iTargetRow
+        int iTargetRow = a_sqlTableModel->rowCount() - 1;
+
+        // srRecord
+        QSqlRecord srRecord;
+
+        for (int i = 0; i < a_fieldNames.size(); ++ i) {
+            srRecord.append(QSqlField(a_fieldNames.at(i)));
+            srRecord.setValue(a_fieldNames.at(i), cslRow.at(i));
+        }
+
+        a_sqlTableModel->insertRecord(iTargetRow, srRecord);
+    }
+
+    a_sqlTableModel->submitAll();
+}
+//---------------------------------------------------------------------------
 QString
 CUtils::googleTranslate(
     const QString &textFrom,

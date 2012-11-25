@@ -12,6 +12,8 @@
 #include "../Forms/CWordFinder.h"
 
 #include <xLib/Common/CxString.h>
+#include <xLib/Filesystem/CxPath.h>
+#include <xLib/Filesystem/CxDir.h>
 
 
 /****************************************************************************
@@ -25,6 +27,10 @@ CMain::CMain(
     Qt::WFlags  flags
 ) :
     QMainWindow        (parent, flags),
+    m_sAppName         (),
+    m_sAppDir          (),
+    m_sDbDir           (),
+    m_sDbBackupDir     (),
     m_navNavigator     (this),
     _m_dbDatabase      (),
     _m_tmModel         (NULL),
@@ -71,6 +77,18 @@ CMain::_construct() {
 //---------------------------------------------------------------------------
 void
 CMain::_destruct() {
+    // _m_dbDatabase disconnect
+    {
+        _m_tmModel->submitAll();
+
+        const QString csConnectionName = _m_dbDatabase->connectionName();
+
+        _m_dbDatabase->close();
+        xPTR_DELETE(_m_dbDatabase);
+
+        QSqlDatabase::removeDatabase(csConnectionName);
+    }
+
     xPTR_DELETE(_m_tmModel);
 }
 //---------------------------------------------------------------------------
@@ -78,12 +96,39 @@ void
 CMain::_initMain() {
     m_Ui.setupUi(this);
 
+    //--------------------------------------------------
+    // data
+    {
+        m_sAppName     = "iTeacher";
+        m_sAppDir      = qS2QS( CxPath::sExeDir() );
+        m_sDbDir       = m_sAppDir + QDir::separator() + xT("Db");
+        m_sDbBackupDir = m_sDbDir  + QDir::separator() + xT("Backup");
+    }
+
+    //--------------------------------------------------
     // CMain
     {
         setWindowIcon(QIcon(CONFIG_RES_MAIN_ICON));
         setWindowTitle(CONFIG_APP_NAME);
         setGeometry(0, 0, CONFIG_APP_WIDTH, CONFIG_APP_HEIGHT);
         CUtils::widgetAlignCenter(this);
+    }
+
+    //-------------------------------------
+    // fill cboDictionaryPath
+    {
+        std::vec_tstring_t vsDicts;
+
+        vsDicts.clear();
+        CxDir::vFindFiles( qQS2S(m_sDbDir), xT("*.db"), true, &vsDicts);
+
+        m_Ui.cboDictionaryPath->clear();
+
+        xFOREACH(std::vec_tstring_t, it, vsDicts) {
+            QString sDict = qS2QS( (*it).erase(0, (qQS2S(m_sDbDir) + CxConst::xSLASH).size()) );
+
+            m_Ui.cboDictionaryPath->addItem(sDict);
+        }
     }
 }
 //---------------------------------------------------------------------------
@@ -97,14 +142,18 @@ CMain::_initModel() {
         bRv = QSqlDatabase::isDriverAvailable("QSQLITE");
         qCHECK_DO(false == bRv, qMSG(QSqlDatabase().lastError().text()); return;);
 
-        _m_dbDatabase = QSqlDatabase::addDatabase("QSQLITE");
-        _m_dbDatabase.setDatabaseName(QCoreApplication::applicationFilePath() + CONFIG_DB_FILE_EXT);
+        QString sDictPath = m_sDbDir + QDir::separator() + m_Ui.cboDictionaryPath->currentText();
+        Q_ASSERT(true == QFile::exists(sDictPath));
 
-        bRv = _m_dbDatabase.open();
-        qCHECK_REF(bRv, _m_dbDatabase);
+        _m_dbDatabase = new QSqlDatabase(QSqlDatabase::addDatabase("QSQLITE"));
+        _m_dbDatabase->setDatabaseName(sDictPath);
 
+        bRv = _m_dbDatabase->open();
+        qCHECK_PTR(bRv, _m_dbDatabase);
+
+        // create DB
         {
-            QSqlQuery qryInfo(_m_dbDatabase);
+            QSqlQuery qryInfo(*_m_dbDatabase);
 
             const QString csSql = \
                     "CREATE TABLE IF NOT EXISTS "
@@ -125,7 +174,7 @@ CMain::_initModel() {
     //--------------------------------------------------
     // _m_tmModel, m_Ui.tabvInfo
     {
-        _m_tmModel = new QSqlTableModel(this, _m_dbDatabase);
+        _m_tmModel = new QSqlTableModel(this, *_m_dbDatabase);
         Q_ASSERT(NULL != _m_tmModel);
 
         _m_tmModel->setTable(CONFIG_DB_T_MAIN);
@@ -172,6 +221,9 @@ CMain::_initModel() {
 
         connect(m_Ui.tabvInfo,                   SIGNAL( doubleClicked(const QModelIndex &) ),
                 this,                            SLOT  ( slot_tabvInfo_OnDoubleClicked(const QModelIndex &) ));
+
+        connect(m_Ui.cboDictionaryPath,          SIGNAL( currentIndexChanged(const QString &) ),
+                this,                            SLOT  ( slot_cboDictionaryPath_OnCurrentIndexChanged(const QString &) ));
     }
 
     //--------------------------------------------------
@@ -180,8 +232,15 @@ CMain::_initModel() {
         m_navNavigator.construct(_m_tmModel, m_Ui.tabvInfo);
 
         // go to the last record
-        m_navNavigator.last();
-        slot_tabvInfo_OnSelectionChanged(QItemSelection(), QItemSelection());
+        //// m_navNavigator.last();
+        //// slot_tabvInfo_OnSelectionChanged(QItemSelection(), QItemSelection());
+    }
+
+    //--------------------------------------------------
+    // cboDictionaryPath
+    {
+        m_Ui.cboDictionaryPath->setCurrentIndex(- 1);
+        m_Ui.cboDictionaryPath->setCurrentIndex(0);
     }
 }
 //---------------------------------------------------------------------------
@@ -381,7 +440,7 @@ CMain::slot_OnImport() {
     fieldNames.push_back(CONFIG_DB_F_MAIN_IS_MARKED);
 
     // import
-    importCsv(filePath, _m_tmModel, fieldNames, "\t");
+    CUtils::importCsv(filePath, _m_tmModel, fieldNames, "\t");
 }
 //---------------------------------------------------------------------------
 void
@@ -535,58 +594,120 @@ CMain::slot_OnAbout() {
     QMessageBox::about(this, tr("About ") + CONFIG_APP_NAME, sMsg);
 }
 //---------------------------------------------------------------------------
+void
+CMain::slot_cboDictionaryPath_OnCurrentIndexChanged(
+    const QString &arg
+)
+{
+    qDebug() << arg;
+
+    qCHECK_DO(true == arg.isEmpty(), return);
+
+    // disconnect
+    {
+        _m_tmModel->submitAll();
+
+        const QString csConnectionName = _m_dbDatabase->connectionName();
+
+        _m_dbDatabase->close();
+        xPTR_DELETE(_m_dbDatabase);
+
+        QSqlDatabase::removeDatabase(csConnectionName);
+    }
+
+    // connect
+    {
+        QString sDictPath = m_sDbDir + QDir::separator() + arg;
+        Q_ASSERT(true == QFile::exists(sDictPath));
+
+        _m_dbDatabase = new QSqlDatabase(QSqlDatabase::addDatabase("QSQLITE"));
+        _m_dbDatabase->setDatabaseName(sDictPath);
+
+        bool bRv = _m_dbDatabase->open();
+        qCHECK_PTR(bRv, _m_dbDatabase);
+
+        _m_tmModel->select();
+    }
+
+    // words info
+    {
+        // iWordsAll
+        int iWordsAll = 0;
+
+        {
+            QSqlQuery qryWordsAll(*_m_dbDatabase);
+
+            const QString csSql = \
+                        "SELECT COUNT(*) AS f_records_count "
+                        "   FROM  " CONFIG_DB_T_MAIN ";";
+
+            bool bRv = qryWordsAll.exec(csSql);
+            qCHECK_REF(bRv, qryWordsAll);
+
+            bRv = qryWordsAll.next();
+            qCHECK_REF(bRv, qryWordsAll);
+
+            iWordsAll = qryWordsAll.value(0).toInt();
+        }
+
+        // iWordsLearned
+        int iWordsLearned = 0;
+
+        {
+            QSqlQuery qryWordsLearned(*_m_dbDatabase);
+
+            const QString csSql = \
+                        "SELECT COUNT(*) AS f_records_count "
+                        "   FROM  " CONFIG_DB_T_MAIN " "
+                        "   WHERE " CONFIG_DB_F_MAIN_IS_LEARNED " = 1;";
+
+            bool bRv = qryWordsLearned.exec(csSql);
+            qCHECK_REF(bRv, qryWordsLearned);
+
+            bRv = qryWordsLearned.next();
+            qCHECK_REF(bRv, qryWordsLearned);
+
+            iWordsLearned = qryWordsLearned.value(0).toInt();
+        }
+
+        // iWordsNotLearned
+        int iWordsNotLearned = 0;
+
+        {
+            QSqlQuery qryWordsNotLearned(*_m_dbDatabase);
+
+            const QString csSql = \
+                        "SELECT COUNT(*) AS f_records_count "
+                        "   FROM  " CONFIG_DB_T_MAIN " "
+                        "   WHERE " CONFIG_DB_F_MAIN_IS_LEARNED " = 0;";
+
+            bool bRv = qryWordsNotLearned.exec(csSql);
+            qCHECK_REF(bRv, qryWordsNotLearned);
+
+            bRv = qryWordsNotLearned.next();
+            qCHECK_REF(bRv, qryWordsNotLearned);
+
+            iWordsNotLearned = qryWordsNotLearned.value(0).toInt();
+        }
+
+        const QString csDictInfo = \
+            QString(tr("&nbsp;&nbsp;&nbsp;<b>All</b>: %1 (%2)"
+                       "&nbsp;&nbsp;&nbsp;<b>Learned</b>: %3 (%4)"
+                       "&nbsp;&nbsp;&nbsp;<b>Not learned:</b> %5 (%6)"))
+                        .arg( iWordsAll )
+                        .arg( qS2QS(CxString::sFormatPercentage(iWordsAll, iWordsAll)) )
+                        .arg( iWordsLearned )
+                        .arg( qS2QS(CxString::sFormatPercentage(iWordsAll, iWordsLearned)) )
+                        .arg( iWordsNotLearned )
+                        .arg( qS2QS(CxString::sFormatPercentage(iWordsAll, iWordsNotLearned)) );
+
+        m_Ui.lblDictInfo->setText(csDictInfo);
+    }
+}
+//---------------------------------------------------------------------------
 
 
 /****************************************************************************
 *   private
 *
 *****************************************************************************/
-
-//---------------------------------------------------------------------------
-/* static */
-void
-CMain::importCsv(
-    const QString          &a_filePath,
-    QSqlTableModel         *a_sqlTableModel,
-    const QVector<QString> &a_fieldNames,
-    const QString          &a_columnSeparator
-)
-{
-    // read file
-    QStringList slFile;
-
-    {
-        QFile fileCSV(a_filePath);
-
-        bool bRv = fileCSV.open(QFile::ReadOnly);
-        Q_ASSERT(true == bRv);
-
-        QString data = fileCSV.readAll();
-        slFile = data.split("\n");
-
-        fileCSV.close();
-
-        qCHECK_DO(true == slFile.isEmpty(), return);
-    }
-
-    // file -> DB
-    for (int i = 0; i < slFile.size(); ++ i) {
-        const QStringList cslRow = slFile.at(i).split(a_columnSeparator);
-
-        // iTargetRow
-        int iTargetRow = a_sqlTableModel->rowCount() - 1;
-
-        // srRecord
-        QSqlRecord srRecord;
-
-        for (int i = 0; i < a_fieldNames.size(); ++ i) {
-            srRecord.append(QSqlField(a_fieldNames.at(i)));
-            srRecord.setValue(a_fieldNames.at(i), cslRow.at(i));
-        }
-
-        a_sqlTableModel->insertRecord(iTargetRow, srRecord);
-    }
-
-    a_sqlTableModel->submitAll();
-}
-//---------------------------------------------------------------------------
