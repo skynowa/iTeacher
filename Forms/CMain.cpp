@@ -257,6 +257,8 @@ CMain::_initActions() {
         connect(&actFile_Exit, SIGNAL( triggered() ),
                 this,          SLOT  ( slot_OnExit() ));
         m_Ui.toolBar->addAction(&actFile_Exit);
+
+        m_Ui.toolBar->addSeparator();
     }
 
     // group "Edit"
@@ -310,6 +312,8 @@ CMain::_initActions() {
         connect(&actEdit_Refresh, SIGNAL( triggered() ),
                 this,             SLOT  ( slot_OnRefresh() ));
         m_Ui.toolBar->addAction(&actEdit_Refresh);
+
+        m_Ui.toolBar->addSeparator();
     }
 
     // group "Find"
@@ -318,11 +322,13 @@ CMain::_initActions() {
         connect(&actFind_Search, SIGNAL( triggered() ),
                 this,            SLOT  ( slot_OnSearch() ));
         m_Ui.toolBar->addAction(&actFind_Search);
+
+        m_Ui.toolBar->addSeparator();
     }
 
     // group "View"
     {
-
+        m_Ui.toolBar->addSeparator();
     }
 
     // group "Options"
@@ -331,6 +337,8 @@ CMain::_initActions() {
         connect(&actOptions_Settings, SIGNAL( triggered() ),
                 this,                 SLOT  ( slot_OnSettings() ));
         m_Ui.toolBar->addAction(&actOptions_Settings);
+
+        m_Ui.toolBar->addSeparator();
     }
 
     // group "Help"

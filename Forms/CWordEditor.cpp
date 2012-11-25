@@ -127,10 +127,8 @@ CWordEditor::slot_textTranslate() {
     qCHECK_DO(true == m_Ui.tedtWordTerm->toPlainText().isEmpty(), return);
 
     const QString sTextFrom = m_Ui.tedtWordTerm->toPlainText().toUtf8();
-    QString       sTextTo;
     const QString sLangTo   = QString("ru").toUtf8();
-
-    sTextTo = CUtils::googleTranslate(sTextFrom, sLangTo);
+    QString       sTextTo   = CUtils::googleTranslate(sTextFrom, sLangTo);
 
     m_Ui.tedtWordValue->setText( sTextTo );
 }
@@ -172,18 +170,13 @@ CWordEditor::slot_bbxButtons_OnClicked(
 //---------------------------------------------------------------------------
 void
 CWordEditor::slot_WordTermOrValue_OnTextChanged() {
-    const QString csDirtyChar = "*";
+    m_Ui.tedtWordTerm->document()->setModified(true);
+    m_Ui.tedtWordValue->document()->setModified(true);
 
-    // check "dirty char"
-    {
-        QString sDirtyChar = windowTitle().right( csDirtyChar.size() );
-        qCHECK_DO(csDirtyChar == sDirtyChar, return);
-    }
+    const bool cbFlag  =
+        m_Ui.tedtWordTerm->document()->isModified() ||
+        m_Ui.tedtWordValue->document()->isModified();
 
-    QString sDirtyTitle = QString(tr("%1 %2")
-                                .arg(windowTitle())
-                                .arg(csDirtyChar));
-
-    setWindowTitle(sDirtyTitle);
+    setWindowModified(cbFlag);
 }
 //---------------------------------------------------------------------------

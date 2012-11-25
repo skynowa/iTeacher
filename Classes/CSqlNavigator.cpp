@@ -80,11 +80,13 @@ CSqlNavigator::insert() {
 //---------------------------------------------------------------------------
 void
 CSqlNavigator::remove() {
-    int iTargetRow = _m_tvView->currentIndex().row();
-    qCHECK_DO(- 1 == iTargetRow, return);
+    QModelIndexList ilList = _m_tvView->selectionModel()->selectedIndexes();
+    foreach (QModelIndex index, ilList) {
+        int iTargetRow = index.row();
 
-    bool bRv = _m_tvView->model()->removeRow(iTargetRow, QModelIndex());
-    qCHECK_PTR(bRv, _m_tmModel);
+        bool bRv = _m_tvView->model()->removeRow(iTargetRow, QModelIndex());
+        qCHECK_PTR(bRv, _m_tmModel);
+    }
 }
 //---------------------------------------------------------------------------
 void

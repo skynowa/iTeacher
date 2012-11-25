@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Word editor</string>
+   <string>Word editor[*]</string>
   </property>
   <widget class="QDialogButtonBox" name="bbxButtons">
    <property name="geometry">
