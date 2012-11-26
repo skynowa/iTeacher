@@ -80,8 +80,6 @@ void
 CMain::_destruct() {
     // _m_dbDatabase disconnect
     dbClose();
-
-    xPTR_DELETE(_m_tmModel);
 }
 //---------------------------------------------------------------------------
 void
@@ -121,21 +119,6 @@ CMain::_initModel() {
     //--------------------------------------------------
     // _m_tmModel, tabvInfo
     {
-        // _m_tmModel
-        {
-            _m_tmModel = new QSqlTableModel(this, *_m_dbDatabase);
-
-            _m_tmModel->setTable(CONFIG_DB_T_MAIN);
-            _m_tmModel->setHeaderData(0, Qt::Horizontal, tr("Id"),      Qt::DisplayRole);
-            _m_tmModel->setHeaderData(1, Qt::Horizontal, tr("Term"),    Qt::DisplayRole);
-            _m_tmModel->setHeaderData(2, Qt::Horizontal, tr("Value"),   Qt::DisplayRole);
-            _m_tmModel->setHeaderData(3, Qt::Horizontal, tr("Learned"), Qt::DisplayRole);
-            _m_tmModel->setHeaderData(4, Qt::Horizontal, tr("Marked"),  Qt::DisplayRole);
-            _m_tmModel->setEditStrategy(QSqlTableModel::OnManualSubmit);
-
-            _m_tmModel->select();
-        }
-
         // tabvInfo
         {
             m_Ui.tabvInfo->setModel(_m_tmModel);
@@ -180,20 +163,10 @@ CMain::_initModel() {
     }
 
     //--------------------------------------------------
-    // m_navNavigator
+    // fire cboDictionaryPath
     {
-        m_navNavigator.construct(_m_tmModel, m_Ui.tabvInfo);
-
-        // go to the last record
-        //// m_navNavigator.last();
-        //// slot_tabvInfo_OnSelectionChanged(QItemSelection(), QItemSelection());
-    }
-
-    //--------------------------------------------------
-    // cboDictionaryPath
-    {
-//        m_Ui.cboDictionaryPath->setCurrentIndex(- 1);
-//        m_Ui.cboDictionaryPath->setCurrentIndex(0);
+        m_Ui.cboDictionaryPath->setCurrentIndex(- 1);
+        m_Ui.cboDictionaryPath->setCurrentIndex(0);
     }
 }
 //---------------------------------------------------------------------------
@@ -405,6 +378,13 @@ CMain::slot_OnCreateDb() {
         dbReopen(sDictPath);
         cboDictionaryPath_reload();
     }
+
+    // activate this DB file name in QComboBox
+    {
+        int iSectionPos = m_Ui.cboDictionaryPath->findText(csDbName);
+
+        m_Ui.cboDictionaryPath->setCurrentIndex(iSectionPos);
+    }
 }
 //---------------------------------------------------------------------------
 void
@@ -427,6 +407,13 @@ CMain::slot_OnImport() {
 
     // import
     CUtils::importCsv(filePath, _m_tmModel, fieldNames, "\t");
+
+    // "fire" cboDictionaryPath
+    {
+        int iCurrent = m_Ui.cboDictionaryPath->currentIndex();
+        m_Ui.cboDictionaryPath->setCurrentIndex(- 1);
+        m_Ui.cboDictionaryPath->setCurrentIndex(iCurrent);
+    }
 }
 //---------------------------------------------------------------------------
 void
@@ -707,37 +694,55 @@ CMain::dbOpen(
     const QString &filePath
 )
 {
-    Q_ASSERT(NULL  == _m_dbDatabase);
-
-    bool bRv = QSqlDatabase::isDriverAvailable("QSQLITE");
-    qCHECK_DO(false == bRv, qMSG(QSqlDatabase().lastError().text()); return);
-
-    _m_dbDatabase = new QSqlDatabase(QSqlDatabase::addDatabase("QSQLITE"));
-    _m_dbDatabase->setDatabaseName(filePath);
-
-    bRv = _m_dbDatabase->open();
-    qCHECK_PTR(bRv, _m_dbDatabase);
-
-    // create DB
+    // _m_dbDatabase
     {
-        QSqlQuery qryInfo(*_m_dbDatabase);
+        Q_ASSERT(NULL == _m_dbDatabase);
 
-        const QString csSql = \
-                "CREATE TABLE IF NOT EXISTS "
-                "    " CONFIG_DB_T_MAIN
-                "( "
-                "    " CONFIG_DB_F_MAIN_ID         " integer PRIMARY KEY AUTOINCREMENT UNIQUE, "
-                "    " CONFIG_DB_F_MAIN_TERM       " varchar(255) UNIQUE NOT NULL, "
-                "    " CONFIG_DB_F_MAIN_VALUE      " varchar(255), "
-                "    " CONFIG_DB_F_MAIN_IS_LEARNED " integer NOT NULL DEFAULT 0, "
-                "    " CONFIG_DB_F_MAIN_IS_MARKED  " integer NOT NULL DEFAULT 0 "
-                ")";
+        bool bRv = QSqlDatabase::isDriverAvailable("QSQLITE");
+        qCHECK_DO(false == bRv, qMSG(QSqlDatabase().lastError().text()); return);
 
-        bRv = qryInfo.exec(csSql);
-        qCHECK_REF(bRv, qryInfo);
+        _m_dbDatabase = new QSqlDatabase(QSqlDatabase::addDatabase("QSQLITE"));
+        _m_dbDatabase->setDatabaseName(filePath);
+
+        bRv = _m_dbDatabase->open();
+        qCHECK_PTR(bRv, _m_dbDatabase);
+
+        // create DB
+        {
+            QSqlQuery qryInfo(*_m_dbDatabase);
+
+            const QString csSql = \
+                    "CREATE TABLE IF NOT EXISTS "
+                    "    " CONFIG_DB_T_MAIN
+                    "( "
+                    "    " CONFIG_DB_F_MAIN_ID         " integer PRIMARY KEY AUTOINCREMENT UNIQUE, "
+                    "    " CONFIG_DB_F_MAIN_TERM       " varchar(255) UNIQUE NOT NULL, "
+                    "    " CONFIG_DB_F_MAIN_VALUE      " varchar(255), "
+                    "    " CONFIG_DB_F_MAIN_IS_LEARNED " integer NOT NULL DEFAULT 0, "
+                    "    " CONFIG_DB_F_MAIN_IS_MARKED  " integer NOT NULL DEFAULT 0 "
+                    ")";
+
+            bRv = qryInfo.exec(csSql);
+            qCHECK_REF(bRv, qryInfo);
+        }
     }
 
-//    if (NULL != _m_tmModel) {
+    // _m_tmModel
+    {
+        Q_ASSERT(NULL == _m_tmModel);
+
+        _m_tmModel = new QSqlTableModel(this, *_m_dbDatabase);
+
+        _m_tmModel->setTable(CONFIG_DB_T_MAIN);
+        _m_tmModel->setHeaderData(0, Qt::Horizontal, tr("Id"),      Qt::DisplayRole);
+        _m_tmModel->setHeaderData(1, Qt::Horizontal, tr("Term"),    Qt::DisplayRole);
+        _m_tmModel->setHeaderData(2, Qt::Horizontal, tr("Value"),   Qt::DisplayRole);
+        _m_tmModel->setHeaderData(3, Qt::Horizontal, tr("Learned"), Qt::DisplayRole);
+        _m_tmModel->setHeaderData(4, Qt::Horizontal, tr("Marked"),  Qt::DisplayRole);
+        _m_tmModel->setEditStrategy(QSqlTableModel::OnManualSubmit);
+
+        _m_tmModel->select();
+
 //        QSqlQueryModel *qmModel = dynamic_cast<QSqlQueryModel *>( _m_tmModel );
 //        Q_ASSERT(NULL != qmModel);
 
@@ -747,7 +752,17 @@ CMain::dbOpen(
 //                "   ORDER BY " CONFIG_DB_F_MAIN_TERM " DESC";
 
 //        qmModel->setQuery(csSql);
-//    }
+    }
+
+    //--------------------------------------------------
+    // m_navNavigator
+    {
+        m_navNavigator.construct(_m_tmModel, m_Ui.tabvInfo);
+
+        // go to the last record
+        //// m_navNavigator.last();
+        //// slot_tabvInfo_OnSelectionChanged(QItemSelection(), QItemSelection());
+    }
 }
 //---------------------------------------------------------------------------
 void
@@ -758,22 +773,32 @@ CMain::dbReopen(
     dbClose();
     dbOpen(filePath);
 
+    // _m_tmModel
     _m_tmModel->select();
     m_Ui.tabvInfo->setModel(_m_tmModel);
 }
 //---------------------------------------------------------------------------
 void
 CMain::dbClose() {
-    Q_ASSERT(NULL != _m_dbDatabase);
-    Q_ASSERT(true == _m_dbDatabase->isOpen());
+    // _m_tmModel
+    {
+        Q_ASSERT(NULL != _m_tmModel);
+        xPTR_DELETE(_m_tmModel);
+    }
 
-    const QString csConnectionName = _m_dbDatabase->connectionName();
+    // _m_dbDatabase
+    {
+        Q_ASSERT(NULL != _m_dbDatabase);
+        Q_ASSERT(true == _m_dbDatabase->isOpen());
 
-    _m_dbDatabase->close();
-    Q_ASSERT(false == _m_dbDatabase->isOpen());
+        const QString csConnectionName = _m_dbDatabase->connectionName();
 
-    xPTR_DELETE(_m_dbDatabase);
+        _m_dbDatabase->close();
+        Q_ASSERT(false == _m_dbDatabase->isOpen());
 
-    QSqlDatabase::removeDatabase(csConnectionName);
+        xPTR_DELETE(_m_dbDatabase);
+
+        QSqlDatabase::removeDatabase(csConnectionName);
+    }
 }
 //---------------------------------------------------------------------------

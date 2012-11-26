@@ -119,7 +119,6 @@ class CMain :
 
     private:
         void                   cboDictionaryPath_reload();
-            ///< fill cboDictionaryPath
 
         // DB
         QSqlDatabase          *_m_dbDatabase;
