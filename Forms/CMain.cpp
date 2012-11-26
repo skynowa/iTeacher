@@ -119,45 +119,51 @@ CMain::_initModel() {
     }
 
     //--------------------------------------------------
-    // _m_tmModel, m_Ui.tabvInfo
+    // _m_tmModel, tabvInfo
     {
-        _m_tmModel = new QSqlTableModel(this, *_m_dbDatabase);
-        Q_ASSERT(NULL != _m_tmModel);
+        // _m_tmModel
+        {
+            _m_tmModel = new QSqlTableModel(this, *_m_dbDatabase);
 
-        _m_tmModel->setTable(CONFIG_DB_T_MAIN);
-        _m_tmModel->setHeaderData(0, Qt::Horizontal, tr("Id"),      Qt::DisplayRole);
-        _m_tmModel->setHeaderData(1, Qt::Horizontal, tr("Term"),    Qt::DisplayRole);
-        _m_tmModel->setHeaderData(2, Qt::Horizontal, tr("Value"),   Qt::DisplayRole);
-        _m_tmModel->setHeaderData(3, Qt::Horizontal, tr("Learned"), Qt::DisplayRole);
-        _m_tmModel->setHeaderData(4, Qt::Horizontal, tr("Marked"),  Qt::DisplayRole);
-        _m_tmModel->setEditStrategy(QSqlTableModel::OnManualSubmit);
-        _m_tmModel->select();
+            _m_tmModel->setTable(CONFIG_DB_T_MAIN);
+            _m_tmModel->setHeaderData(0, Qt::Horizontal, tr("Id"),      Qt::DisplayRole);
+            _m_tmModel->setHeaderData(1, Qt::Horizontal, tr("Term"),    Qt::DisplayRole);
+            _m_tmModel->setHeaderData(2, Qt::Horizontal, tr("Value"),   Qt::DisplayRole);
+            _m_tmModel->setHeaderData(3, Qt::Horizontal, tr("Learned"), Qt::DisplayRole);
+            _m_tmModel->setHeaderData(4, Qt::Horizontal, tr("Marked"),  Qt::DisplayRole);
+            _m_tmModel->setEditStrategy(QSqlTableModel::OnManualSubmit);
 
-        m_Ui.tabvInfo->setModel(_m_tmModel);
+            _m_tmModel->select();
+        }
 
-        m_Ui.tabvInfo->hideColumn(0); // don't show the CONFIG_DB_F_MAIN_ID
-        m_Ui.tabvInfo->setColumnWidth(0, 40);
-        m_Ui.tabvInfo->setColumnWidth(1, 100);
-        m_Ui.tabvInfo->setColumnWidth(2, 400);
-        m_Ui.tabvInfo->setColumnWidth(3, 60);
-        m_Ui.tabvInfo->setColumnWidth(4, 60);
+        // tabvInfo
+        {
+            m_Ui.tabvInfo->setModel(_m_tmModel);
 
-        m_Ui.tabvInfo->verticalHeader()->setVisible(true);
-        m_Ui.tabvInfo->verticalHeader()->setDefaultSectionSize(CONFIG_TABLEVIEW_ROW_HEIGHT);
+            m_Ui.tabvInfo->hideColumn(0); // don't show the CONFIG_DB_F_MAIN_ID
+            m_Ui.tabvInfo->setColumnWidth(0, 40);
+            m_Ui.tabvInfo->setColumnWidth(1, 100);
+            m_Ui.tabvInfo->setColumnWidth(2, 400);
+            m_Ui.tabvInfo->setColumnWidth(3, 60);
+            m_Ui.tabvInfo->setColumnWidth(4, 60);
 
-        m_Ui.tabvInfo->setEditTriggers(QAbstractItemView::NoEditTriggers);
-        m_Ui.tabvInfo->setSelectionBehavior(QAbstractItemView::SelectRows);
-        m_Ui.tabvInfo->setSelectionMode(QAbstractItemView::ExtendedSelection);
-        m_Ui.tabvInfo->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
-        m_Ui.tabvInfo->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
-        m_Ui.tabvInfo->setAlternatingRowColors(true);
-        m_Ui.tabvInfo->setStyleSheet("alternate-background-color: white; background-color: gray;");
-        m_Ui.tabvInfo->setItemDelegateForColumn(3, new CCheckBoxItemDelegate(m_Ui.tabvInfo));
-        m_Ui.tabvInfo->setItemDelegateForColumn(4, new CCheckBoxItemDelegate(m_Ui.tabvInfo));
-        m_Ui.tabvInfo->setSortingEnabled(true);
-        m_Ui.tabvInfo->sortByColumn(0, Qt::AscendingOrder);
+            m_Ui.tabvInfo->verticalHeader()->setVisible(true);
+            m_Ui.tabvInfo->verticalHeader()->setDefaultSectionSize(CONFIG_TABLEVIEW_ROW_HEIGHT);
 
-        m_Ui.tabvInfo->show();
+            m_Ui.tabvInfo->setEditTriggers(QAbstractItemView::NoEditTriggers);
+            m_Ui.tabvInfo->setSelectionBehavior(QAbstractItemView::SelectRows);
+            m_Ui.tabvInfo->setSelectionMode(QAbstractItemView::ExtendedSelection);
+            m_Ui.tabvInfo->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
+            m_Ui.tabvInfo->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
+            m_Ui.tabvInfo->setAlternatingRowColors(true);
+            m_Ui.tabvInfo->setStyleSheet("alternate-background-color: white; background-color: gray;");
+            m_Ui.tabvInfo->setSortingEnabled(true);
+            m_Ui.tabvInfo->sortByColumn(0, Qt::AscendingOrder);
+            m_Ui.tabvInfo->setItemDelegateForColumn(3, new CCheckBoxItemDelegate(m_Ui.tabvInfo));
+            m_Ui.tabvInfo->setItemDelegateForColumn(4, new CCheckBoxItemDelegate(m_Ui.tabvInfo));
+
+            m_Ui.tabvInfo->show();
+        }
     }
 
     //--------------------------------------------------
@@ -186,8 +192,8 @@ CMain::_initModel() {
     //--------------------------------------------------
     // cboDictionaryPath
     {
-        m_Ui.cboDictionaryPath->setCurrentIndex(- 1);
-        m_Ui.cboDictionaryPath->setCurrentIndex(0);
+//        m_Ui.cboDictionaryPath->setCurrentIndex(- 1);
+//        m_Ui.cboDictionaryPath->setCurrentIndex(0);
     }
 }
 //---------------------------------------------------------------------------
@@ -384,7 +390,8 @@ CMain::_initMenus() {
 //---------------------------------------------------------------------------
 void
 CMain::slot_OnCreateDb() {
-    const QString csDbName = QInputDialog::getText(this,
+    const QString csDbName = QInputDialog::getText(
+                                 this,
                                  m_sAppName,
                                  "New DB file path:",
                                  QLineEdit::Normal,
@@ -578,8 +585,6 @@ CMain::slot_cboDictionaryPath_OnCurrentIndexChanged(
     const QString &arg
 )
 {
-    qDebug() << arg;
-
     qCHECK_DO(true == arg.isEmpty(), return);
 
     // reopen DB
@@ -587,7 +592,6 @@ CMain::slot_cboDictionaryPath_OnCurrentIndexChanged(
         QString sDictPath = m_sDbDir + QDir::separator() + arg;
 
         dbReopen(sDictPath);
-        _m_tmModel->select();
     }
 
     // words info
@@ -703,9 +707,9 @@ CMain::dbOpen(
     const QString &filePath
 )
 {
-    bool bRv = false;
+    Q_ASSERT(NULL  == _m_dbDatabase);
 
-    bRv = QSqlDatabase::isDriverAvailable("QSQLITE");
+    bool bRv = QSqlDatabase::isDriverAvailable("QSQLITE");
     qCHECK_DO(false == bRv, qMSG(QSqlDatabase().lastError().text()); return);
 
     _m_dbDatabase = new QSqlDatabase(QSqlDatabase::addDatabase("QSQLITE"));
@@ -732,6 +736,18 @@ CMain::dbOpen(
         bRv = qryInfo.exec(csSql);
         qCHECK_REF(bRv, qryInfo);
     }
+
+//    if (NULL != _m_tmModel) {
+//        QSqlQueryModel *qmModel = dynamic_cast<QSqlQueryModel *>( _m_tmModel );
+//        Q_ASSERT(NULL != qmModel);
+
+//        const QString csSql = \
+//                "SELECT * "
+//                "   FROM " CONFIG_DB_T_MAIN " "
+//                "   ORDER BY " CONFIG_DB_F_MAIN_TERM " DESC";
+
+//        qmModel->setQuery(csSql);
+//    }
 }
 //---------------------------------------------------------------------------
 void
@@ -741,10 +757,14 @@ CMain::dbReopen(
 {
     dbClose();
     dbOpen(filePath);
+
+    _m_tmModel->select();
+    m_Ui.tabvInfo->setModel(_m_tmModel);
 }
 //---------------------------------------------------------------------------
 void
 CMain::dbClose() {
+    Q_ASSERT(NULL != _m_dbDatabase);
     Q_ASSERT(true == _m_dbDatabase->isOpen());
 
     const QString csConnectionName = _m_dbDatabase->connectionName();

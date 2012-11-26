@@ -36,9 +36,6 @@ class CMain :
         CSqlNavigator          m_navNavigator;
 
     private:
-        QSqlDatabase          *_m_dbDatabase;
-        QSqlTableModel        *_m_tmModel;
-
         void                   _construct        ();
         void                   _destruct         ();
         void                   _initMain         ();
@@ -123,6 +120,10 @@ class CMain :
     private:
         void                   cboDictionaryPath_reload();
             ///< fill cboDictionaryPath
+
+        // DB
+        QSqlDatabase          *_m_dbDatabase;
+        QSqlTableModel        *_m_tmModel;
 
         void                   dbOpen            (const QString &filePath);
         void                   dbReopen          (const QString &filePath);
