@@ -13,6 +13,44 @@
 
 #endif
 
+#include <QDomDocument>
+#include <QTextStream>
+
+
+
+QStringList
+parseText(QString text)
+{
+    text.replace("<br>", "~");
+    text.replace("~~", "*");
+    text.replace(QObject::tr("Словарь:"), QObject::tr("Словарь:\n"));
+
+    QDomDocument document;
+    document.setContent(text);
+    QDomNodeList docList = document.elementsByTagName("div");
+    QStringList list;
+
+    for (int i = 0; i < docList.count(); i++)
+    {
+        list.append(docList.at(i).toElement().text());
+    }
+
+    QString str = list.at(4);
+    if (!str.contains(QObject::tr("Google")))
+    {
+        str.replace("~", "\n    - ");
+        str.replace("*", "\n\n");
+        str.remove(str.count() - 2, 2);
+    } else
+    {
+        str.clear();
+    }
+
+    list.append(str);
+
+    return list;
+}
+
 
 /****************************************************************************
 *   public
@@ -194,11 +232,15 @@ CUtils::googleTranslate(
 
     delete nrReply; nrReply = NULL;
 
-    // remove [[[" from the beginning
-    sTranslation = sTranslation.replace("[[[\"", "");
+//    // remove [[[" from the beginning
+//    sTranslation = sTranslation.replace("[[[\"", "");
 
-    // extract final translated string
-    sTranslation = sTranslation.mid(0, sTranslation.indexOf(",\"") - 1);
+//    // extract final translated string
+//    sTranslation = sTranslation.mid(0, sTranslation.indexOf(",\"") - 1);
+
+    QStringList slRv = parseText(sTranslation);
+    qDebug() << slRv;
+
 
     // add the sTranslation to the map so we don't need to make another web request for a sTranslation
     g_mspTranslations[textFrom] = std::pair<QString, QString>(langTo, sTranslation);

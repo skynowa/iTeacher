@@ -8,7 +8,7 @@
 
 TARGET          = iTeacher
 TEMPLATE        = app
-QT              = core gui sql network
+QT              = core gui sql network xml
 CONFIG         += warn_on
 
 win32 {
