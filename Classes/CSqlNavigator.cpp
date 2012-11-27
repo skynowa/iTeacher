@@ -6,6 +6,8 @@
 
 #include "CSqlNavigator.h"
 
+#include "CUtils.h"
+
 
 /****************************************************************************
 *   public
@@ -64,7 +66,7 @@ CSqlNavigator::next() {
 //---------------------------------------------------------------------------
 void
 CSqlNavigator::last() {
-    int iTargetRow = _m_tmModel->rowCount() - 1;
+    int iTargetRow = CUtils::sqlTableModelRowCount(_m_tmModel) - 1;
     qCHECK_DO(- 1 >= iTargetRow, iTargetRow = 0);
 
     _m_tvView->selectRow(iTargetRow);
@@ -72,7 +74,7 @@ CSqlNavigator::last() {
 //---------------------------------------------------------------------------
 void
 CSqlNavigator::insert() {
-    bool bRv = _m_tmModel->insertRow(_m_tmModel->rowCount(), QModelIndex());
+    bool bRv = _m_tmModel->insertRow(CUtils::sqlTableModelRowCount(_m_tmModel), QModelIndex());
     qCHECK_PTR(bRv, _m_tmModel);
 
     last();

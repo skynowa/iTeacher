@@ -4,8 +4,8 @@
  */
 
 
-#ifndef CWORDFINDER_H
-#define CWORDFINDER_H
+#ifndef iTeacher_CWordFinderH
+#define iTeacher_CWordFinderH
 //---------------------------------------------------------------------------
 #include "ui_CWordFinder.h"
 
@@ -37,4 +37,4 @@ class CWordFinder :
 
 };
 //---------------------------------------------------------------------------
-#endif // CWORDFINDER_H
+#endif // iTeacher_CWordFinderH

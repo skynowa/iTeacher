@@ -36,6 +36,7 @@ CMain::CMain(
     _m_tmModel         (NULL),
     actFile_CreateDb   (this),
     actFile_Import     (this),
+    actFile_Export     (this),
     actFile_Exit       (this),
     actEdit_MovetoFirst(this),
     actEdit_MovetoPrior(this),
@@ -184,6 +185,11 @@ CMain::_initActions() {
                 this,            SLOT  ( slot_OnImport() ));
         m_Ui.toolBar->addAction(&actFile_Import);
 
+        actFile_Export.setText(tr("Export"));
+        connect(&actFile_Export, SIGNAL( triggered() ),
+                this,            SLOT  ( slot_OnExport() ));
+        m_Ui.toolBar->addAction(&actFile_Export);
+
         actFile_Exit.setText(tr("Exit"));
         connect(&actFile_Exit, SIGNAL( triggered() ),
                 this,          SLOT  ( slot_OnExit() ));
@@ -294,6 +300,7 @@ CMain::_initMenus() {
 
         mnuFile.addAction(&actFile_CreateDb);
         mnuFile.addAction(&actFile_Import);
+        mnuFile.addAction(&actFile_Export);
         mnuFile.addAction(&actFile_Exit);
 
         menuBar()->addMenu(&mnuFile);
@@ -392,7 +399,7 @@ CMain::slot_OnImport() {
     // choose file path
     QString filePath = QFileDialog::getOpenFileName(
                             this,
-                            "Open File",
+                            "Open file",
                             "",
                             "csv files (*.csv)");
     qCHECK_DO(true == filePath.isEmpty(), return);
@@ -413,6 +420,61 @@ CMain::slot_OnImport() {
         int iCurrent = m_Ui.cboDictionaryPath->currentIndex();
         m_Ui.cboDictionaryPath->setCurrentIndex(- 1);
         m_Ui.cboDictionaryPath->setCurrentIndex(iCurrent);
+    }
+
+    // report
+    {
+        QString sMsg = QString(tr("File: %1\nImport finished."))
+                            .arg(filePath);
+
+        QMessageBox::information(this, qApp->applicationName(), sMsg);
+    }
+}
+//---------------------------------------------------------------------------
+void
+CMain::slot_OnExport() {
+    // choose file path
+    QString filePath = QFileDialog::getSaveFileName(
+                            this,
+                            tr("Save file"),
+                            m_Ui.cboDictionaryPath->currentText() + ".pdf",
+                            tr("PDF Document (*.pdf)"));
+    qCHECK_DO(true == filePath.isEmpty(), return);
+
+    // DB -> text
+    QString sHtml;
+
+
+    // file -> DB
+    int iRealRowCount = CUtils::sqlTableModelRowCount(_m_tmModel);
+
+    for (int i = 0; i < iRealRowCount; ++ i) {
+        sHtml.push_back( _m_tmModel->record(i).value(CONFIG_DB_F_MAIN_TERM).toString() );
+        sHtml.push_back( "\n" );
+        sHtml.push_back( " - " );
+        sHtml.push_back( _m_tmModel->record(i).value(CONFIG_DB_F_MAIN_VALUE).toString() );
+        sHtml.push_back( "<br>" );
+    }
+
+    // export
+    {
+        QPrinter prPrinter;
+
+        prPrinter.setOutputFormat(QPrinter::PdfFormat);
+        prPrinter.setOutputFileName(filePath);
+
+        QTextDocument tdDoc;
+
+        tdDoc.setHtml(sHtml);
+        tdDoc.print(&prPrinter);
+    }
+
+    // report
+    {
+        QString sMsg = QString(tr("File: %1\nExport finished."))
+                            .arg(filePath);
+
+        QMessageBox::information(this, qApp->applicationName(), sMsg);
     }
 }
 //---------------------------------------------------------------------------
@@ -453,7 +515,7 @@ void
 CMain::slot_OnInsert() {
     m_navNavigator.insert();
 
-    const int   ciCurrentRow = _m_tmModel->rowCount() - 1;
+    const int   ciCurrentRow = CUtils::sqlTableModelRowCount(_m_tmModel) - 1;
     CWordEditor dlgWordEditor(this, _m_tmModel, ciCurrentRow);
 
     dlgWordEditor.exec();

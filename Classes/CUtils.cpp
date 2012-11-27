@@ -13,9 +13,6 @@
 
 #endif
 
-#include <QImageWriter>
-
-
 
 /****************************************************************************
 *   public
@@ -137,7 +134,7 @@ CUtils::importCsv(
         const QStringList cslRow = slFile.at(i).split(a_columnSeparator);
 
         // iTargetRow
-        int iTargetRow = a_sqlTableModel->rowCount() - 1;
+        int iTargetRow = CUtils::sqlTableModelRowCount(a_sqlTableModel) - 1;
 
         // srRecord
         QSqlRecord srRecord;
@@ -207,6 +204,20 @@ CUtils::googleTranslate(
     g_mspTranslations[textFrom] = std::pair<QString, QString>(langTo, sTranslation);
 
     return sTranslation;
+}
+//---------------------------------------------------------------------------
+int
+CUtils::sqlTableModelRowCount(
+    QSqlTableModel *model
+)
+{
+    Q_ASSERT(NULL != model);
+
+    for ( ; model->canFetchMore(); ) {
+        model->fetchMore();
+    }
+
+    return model->rowCount();
 }
 //---------------------------------------------------------------------------
 

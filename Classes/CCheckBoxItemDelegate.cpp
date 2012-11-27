@@ -36,14 +36,17 @@ CCheckBoxItemDelegate::createEditor(
     const QModelIndex          &index
 ) const
 {
+    Q_UNUSED(option);
+    Q_UNUSED(index);
+
     CCenteredCheckBox *editor = new CCenteredCheckBox(parent);
 
     editor->checkBox()->setChecked(defaultValue);
 
-    QCheckBox *chk = editor->checkBox();
+    QCheckBox *chkEditor = editor->checkBox();
 
-    connect(chk,                 SIGNAL(pressed()),
-            this,                SLOT  (slot_OnToggled()));
+    connect(chkEditor, SIGNAL(pressed()),
+            this,      SLOT  (slot_OnToggled()));
 
     return editor;
 }
@@ -89,6 +92,8 @@ CCheckBoxItemDelegate::updateEditorGeometry(
     const QModelIndex          &index
 ) const
 {
+    Q_UNUSED(index);
+
     CCenteredCheckBox *checkBoxWidget = static_cast<CCenteredCheckBox*>(editor);
 
     QSize size = checkBoxWidget->sizeHint();

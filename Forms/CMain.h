@@ -47,6 +47,7 @@ class CMain :
         // group "File"
         QAction                actFile_CreateDb;
         QAction                actFile_Import;
+        QAction                actFile_Export;
         QAction                actFile_Exit;
 
         // group "Edit"
@@ -85,6 +86,7 @@ class CMain :
         // group "File"
         void                   slot_OnCreateDb   ();
         void                   slot_OnImport     ();
+        void                   slot_OnExport     ();
         void                   slot_OnExit       ();
 
         // group "Edit"

@@ -4,8 +4,8 @@
  */
 
 
-#ifndef CWORDEDITOR_H
-#define CWORDEDITOR_H
+#ifndef iTeacher_CWordEditorH
+#define iTeacher_CWordEditorH
 //---------------------------------------------------------------------------
 #include "ui_CWordEditor.h"
 
@@ -40,4 +40,4 @@ class CWordEditor :
         void           slot_WordTermOrValue_OnTextChanged();
 };
 //---------------------------------------------------------------------------
-#endif // CWORDEDITOR_H
+#endif // iTeacher_CWordEditorH
