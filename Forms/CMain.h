@@ -7,17 +7,14 @@
 #ifndef iTeacher_CMainH
 #define iTeacher_CMainH
 //---------------------------------------------------------------------------
-#undef UNICODE
-#undef _UNICODE
-
-#include "ui_CMain.h"
+#include "../Config.h"
 
 #include <xLib/Common/xCommon.h>
 #include "../QtLib/Common.h"
-
-#include "../Config.h"
 #include "../Classes/CSqlNavigator.h"
 #include "../Classes/CUtils.h"
+
+#include "ui_CMain.h"
 //---------------------------------------------------------------------------
 class CMain :
     public QMainWindow

@@ -17,41 +17,6 @@
 #include <QTextStream>
 
 
-
-QStringList
-parseText(QString text)
-{
-    text.replace("<br>", "~");
-    text.replace("~~", "*");
-    text.replace(QObject::tr("Словарь:"), QObject::tr("Словарь:\n"));
-
-    QDomDocument document;
-    document.setContent(text);
-    QDomNodeList docList = document.elementsByTagName("div");
-    QStringList list;
-
-    for (int i = 0; i < docList.count(); i++)
-    {
-        list.append(docList.at(i).toElement().text());
-    }
-
-    QString str = list.at(4);
-    if (!str.contains(QObject::tr("Google")))
-    {
-        str.replace("~", "\n    - ");
-        str.replace("*", "\n\n");
-        str.remove(str.count() - 2, 2);
-    } else
-    {
-        str.clear();
-    }
-
-    list.append(str);
-
-    return list;
-}
-
-
 /****************************************************************************
 *   public
 *
@@ -193,59 +158,85 @@ CUtils::importCsv(
 QString
 CUtils::googleTranslate(
     const QString &textFrom,
+    const QString &langFrom,
     const QString &langTo
 )
 {
-    // cache, uses Google to translate text
-    typedef std::map< QString, std::pair<QString, QString> > container_t;
+    QString sRv;
 
-    static container_t g_mspTranslations;
+    // request to Google
+    QString sReply;
+    {
+//        const QString csUrl = \
+//            QString("http://translate.google.com/translate_a/t?"
+//                    "client=t&text=%0&hl=%1&sl=auto&tl=%1&multires=1&prev=enter&oc=2&ssel=0&tsel=0&uptl=%1&sc=1")
+//                    .arg(textFrom)
+//                    .arg(langTo);
 
-    // locate the translation in the map
-    container_t::iterator it = g_mspTranslations.find(textFrom);
-    if (it != g_mspTranslations.end()) {
-        if (langTo == it->second.first) {
-            return it->second.second;
+        QString csUrl =
+            "http://translate.google.com/m?translate_a/t?client=t&text="
+            + textFrom +
+            "&sl="
+            + langFrom +
+            "&tl="
+            + langTo;
+
+
+
+        QNetworkAccessManager nmManager;
+        QNetworkRequest       nrRequest(csUrl);
+
+        QNetworkReply *nrReply = nmManager.get(nrRequest);
+        do {
+            QCoreApplication::processEvents(QEventLoop::ExcludeUserInputEvents);
         }
+        while (! nrReply->isFinished());
+
+        sReply = QString::fromUtf8(nrReply->readAll());
+
+        nrReply->close();
+        delete nrReply; nrReply = NULL;
     }
 
-    // translate URL
-    const QString csUrl = QString("http://translate.google.com/translate_a/t?client=t&text=%0&hl=%1&sl=auto&tl=%1&multires=1&prev=enter&oc=2&ssel=0&tsel=0&uptl=%1&sc=1")
-                                .arg(textFrom)
-                                .arg(langTo);
+    // parse reply
+    QStringList lstReply;
 
-    QNetworkAccessManager nmManager;
-    QNetworkRequest       nrRequest(csUrl);
+    {
+        QString text = sReply;
+        text.replace("<br>", "~");
+        text.replace("~~", "*");
+        text.replace("Словарь:", "Словарь:\n\n");
+        Q_ASSERT(false == text.contains("Словарь:"));
 
-    // get reply from Google
-    QNetworkReply *nrReply = nmManager.get(nrRequest);
-    do {
-        QCoreApplication::processEvents(QEventLoop::ExcludeUserInputEvents);
+
+        //qDebug() << text;
+
+
+        QDomDocument document;
+        document.setContent(text);
+
+        QDomNodeList docList = document.elementsByTagName("div");
+        for (int i = 0; i < docList.count(); ++ i) {
+            lstReply.append(docList.at(i).toElement().text());
+        }
+
+        QString str = lstReply.at(4);
+        if (false == str.contains(QObject::tr("Google"))) {
+            str.replace("~", "\n    - ");
+            str.replace("*", "\n\n");
+            str.remove(str.count() - 2, 2);
+        } else {
+            str.clear();
+        }
+
+        lstReply.append(str);
+
+        //
+        sRv = lstReply.at(2);
+        sRv += "\n\n" + lstReply.last();
     }
-    while (! nrReply->isFinished());
 
-    // convert to string
-    QString sTranslation( QString::fromUtf8(nrReply->readAll()) );
-
-    // free memory
-    nrReply->close();
-
-    delete nrReply; nrReply = NULL;
-
-//    // remove [[[" from the beginning
-//    sTranslation = sTranslation.replace("[[[\"", "");
-
-//    // extract final translated string
-//    sTranslation = sTranslation.mid(0, sTranslation.indexOf(",\"") - 1);
-
-    QStringList slRv = parseText(sTranslation);
-    qDebug() << slRv;
-
-
-    // add the sTranslation to the map so we don't need to make another web request for a sTranslation
-    g_mspTranslations[textFrom] = std::pair<QString, QString>(langTo, sTranslation);
-
-    return sTranslation;
+    return sRv;
 }
 //---------------------------------------------------------------------------
 int

@@ -10,6 +10,7 @@ Ui
 ##### files #####
 TODO.txt
 *.pro.user
+*.pro.user.*
 *.autosave
 Makefile*
 *.pdb

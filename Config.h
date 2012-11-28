@@ -7,6 +7,9 @@
 #ifndef iTeacher_ConfigH
 #define iTeacher_ConfigH
 //---------------------------------------------------------------------------
+//#undef UNICODE
+//#undef _UNICODE
+
 // main window
 #define CONFIG_APP_NAME                     "iTeacher"
 #define CONFIG_ORG_NAME                     ""

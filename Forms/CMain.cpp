@@ -11,6 +11,7 @@
 #include "../Forms/CWordEditor.h"
 #include "../Forms/CWordFinder.h"
 
+#include <xLib/Common/CxConst.h>
 #include <xLib/Common/CxString.h>
 #include <xLib/Filesystem/CxPath.h>
 #include <xLib/Filesystem/CxDir.h>
@@ -92,8 +93,8 @@ CMain::_initMain() {
     {
         m_sAppName     = "iTeacher";
         m_sAppDir      = qS2QS( CxPath::sExeDir() );
-        m_sDbDir       = m_sAppDir + QDir::separator() + xT("Db");
-        m_sDbBackupDir = m_sDbDir  + QDir::separator() + xT("Backup");
+        m_sDbDir       = m_sAppDir + QDir::separator() + "Db";
+        m_sDbBackupDir = m_sDbDir  + QDir::separator() + "Backup";
 
         CxDir::vCreateForce( qQS2S(m_sDbDir) );
     }
@@ -111,8 +112,6 @@ CMain::_initMain() {
 //---------------------------------------------------------------------------
 void
 CMain::_initModel() {
-
-
     //--------------------------------------------------
     // open DB
     {

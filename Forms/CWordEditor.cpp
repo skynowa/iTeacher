@@ -127,8 +127,9 @@ CWordEditor::slot_textTranslate() {
     qCHECK_DO(true == m_Ui.tedtWordTerm->toPlainText().isEmpty(), return);
 
     const QString sTextFrom = m_Ui.tedtWordTerm->toPlainText().toUtf8();
+    const QString sLangFrom = QString("en").toUtf8();
     const QString sLangTo   = QString("ru").toUtf8();
-    QString       sTextTo   = CUtils::googleTranslate(sTextFrom, sLangTo);
+    QString       sTextTo   = CUtils::googleTranslate(sTextFrom, sLangFrom, sLangTo);
 
     m_Ui.tedtWordValue->setText( sTextTo );
 }
