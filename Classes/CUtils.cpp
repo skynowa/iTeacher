@@ -197,11 +197,12 @@ CUtils::googleTranslate(
     QStringList lstReply;
 
     {
+        Q_ASSERT(true == sReply.contains(QObject::tr("Словарь:")));
+
         QString text = sReply;
         text.replace("<br>", "~");
         text.replace("~~", "*");
-        text.replace(QObject::tr("Словарь:"), QObject::tr("Словарь:\n\n"));
-        Q_ASSERT(true == text.contains(QObject::tr("Словарь:")));
+        text.replace(QObject::tr("Словарь:"), QObject::tr(""));
 
         // qDebug() << text;
 
