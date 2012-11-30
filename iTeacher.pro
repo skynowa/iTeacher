@@ -10,6 +10,10 @@ TARGET          = iTeacher
 TEMPLATE        = app
 QT              = core gui sql network xml
 CONFIG         += warn_on
+QMAKE_CXXFLAGS -= -Zc:wchar_t-
+QMAKE_CXXFLAGS += -Zc:wchar_t
+QMAKE_CFLAGS   -= -Zc:wchar_t-
+QMAKE_CFLAGS   += -Zc:wchar_t
 
 win32 {
     INCLUDEPATH = "$$(xLib)/Project/Include"
@@ -34,8 +38,8 @@ unix {
     LIBS       +=
 }
 
-HEADERS         = QtLib/Common.h \
-                  Config.h \
+HEADERS         = Config.h \
+                  QtLib/Common.h \
                   Classes/CUtils.h \
                   Classes/CSqlNavigator.h \
                   Classes/CCheckBoxItemDelegate.h \
@@ -55,7 +59,7 @@ SOURCES         = main.cpp \
 
 FORMS           = Forms/CMain.ui \
                   Forms/CWordEditor.ui \
-    Forms/CWordFinder.ui
+                  Forms/CWordFinder.ui
 
 RESOURCES       = Resources/App.qrc
 

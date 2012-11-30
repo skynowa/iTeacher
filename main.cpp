@@ -17,7 +17,7 @@ int main(int argc, char *argv[])
     int iExitCode = EXIT_FAILURE;
 
 #if defined(Q_WS_WIN)
-    const QByteArray codecName = "Windows-1251";
+    const QByteArray codecName = "UTF-8";    // "Windows-1251";
 #else
     const QByteArray codecName = "UTF-8";
 #endif

@@ -92,7 +92,7 @@ CUtils::applicationActivate(
 )
 {
 #if defined(Q_WS_WIN)
-    HWND hWnd = ::FindWindowW(a_className.toStdWString().c_str(), a_windowName.toStdWString().c_str());
+    HWND hWnd = ::FindWindow(qQS2S(a_className).c_str(), qQS2S(a_windowName).c_str());
     if (NULL != hWnd) {
         BOOL blRv = ::SetForegroundWindow(hWnd);
         Q_ASSERT((BOOL)FALSE != blRv);
@@ -166,14 +166,9 @@ CUtils::googleTranslate(
 
     // request to Google
     QString sReply;
-    {
-//        const QString csUrl = \
-//            QString("http://translate.google.com/translate_a/t?"
-//                    "client=t&text=%0&hl=%1&sl=auto&tl=%1&multires=1&prev=enter&oc=2&ssel=0&tsel=0&uptl=%1&sc=1")
-//                    .arg(textFrom)
-//                    .arg(langTo);
 
-        QString csUrl =
+    {
+        const QString csUrl =
             "http://translate.google.com/m?translate_a/t?client=t&text="
             + textFrom +
             "&sl="
@@ -181,12 +176,12 @@ CUtils::googleTranslate(
             "&tl="
             + langTo;
 
-
-
         QNetworkAccessManager nmManager;
         QNetworkRequest       nrRequest(csUrl);
 
         QNetworkReply *nrReply = nmManager.get(nrRequest);
+        Q_ASSERT(NULL != nrReply);
+
         do {
             QCoreApplication::processEvents(QEventLoop::ExcludeUserInputEvents);
         }
@@ -205,12 +200,10 @@ CUtils::googleTranslate(
         QString text = sReply;
         text.replace("<br>", "~");
         text.replace("~~", "*");
-        text.replace("Словарь:", "Словарь:\n\n");
-        Q_ASSERT(false == text.contains("Словарь:"));
+        text.replace(QObject::tr("Словарь:"), QObject::tr("Словарь:\n\n"));
+        Q_ASSERT(true == text.contains(QObject::tr("Словарь:")));
 
-
-        //qDebug() << text;
-
+        // qDebug() << text;
 
         QDomDocument document;
         document.setContent(text);
@@ -251,6 +244,30 @@ CUtils::sqlTableModelRowCount(
     }
 
     return model->rowCount();
+}
+//---------------------------------------------------------------------------
+std::wstring
+CUtils::toStdWString(
+    const QString &str
+)
+{
+#ifdef _MSC_VER
+    return std::wstring(reinterpret_cast<const wchar_t *>( str.utf16() ));
+#else
+    return str.toStdWString();
+#endif
+}
+//---------------------------------------------------------------------------
+QString
+CUtils::fromStdWString(
+    const std::wstring &str
+)
+{
+#ifdef _MSC_VER
+    return QString::fromUtf16(reinterpret_cast<const ushort *>( str.c_str() ));
+#else
+    return QString::fromStdWString(str);
+#endif
 }
 //---------------------------------------------------------------------------
 
