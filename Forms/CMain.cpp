@@ -34,8 +34,9 @@ CMain::CMain(
     m_sDbBackupDir     (),
     m_navNavigator     (this),
     actFile_CreateDb   (this),
-    actFile_Import     (this),
-    actFile_Export     (this),
+    actFile_ImportCsv  (this),
+    actFile_ExportCsv  (this),
+    actFile_ExportPdf  (this),
     actFile_Exit       (this),
     actEdit_MovetoFirst(this),
     actEdit_MovetoPrior(this),
@@ -185,15 +186,26 @@ CMain::_initActions() {
                 this,              SLOT  ( slot_OnCreateDb() ));
         m_Ui.toolBar->addAction(&actFile_CreateDb);
 
-        actFile_Import.setText(tr("Import"));
-        connect(&actFile_Import, SIGNAL( triggered() ),
-                this,            SLOT  ( slot_OnImport() ));
-        m_Ui.toolBar->addAction(&actFile_Import);
+        m_Ui.toolBar->addSeparator();
 
-        actFile_Export.setText(tr("Export"));
-        connect(&actFile_Export, SIGNAL( triggered() ),
-                this,            SLOT  ( slot_OnExport() ));
-        m_Ui.toolBar->addAction(&actFile_Export);
+        actFile_ImportCsv.setText(tr("Import CSV"));
+        connect(&actFile_ImportCsv, SIGNAL( triggered() ),
+                this,               SLOT  ( slot_OnImportCsv() ));
+        m_Ui.toolBar->addAction(&actFile_ImportCsv);
+
+        m_Ui.toolBar->addSeparator();
+
+        actFile_ExportCsv.setText(tr("Export CSV"));
+        connect(&actFile_ExportCsv, SIGNAL( triggered() ),
+                this,               SLOT  ( slot_OnExportCsv() ));
+        m_Ui.toolBar->addAction(&actFile_ExportCsv);
+
+        actFile_ExportPdf.setText(tr("Export PDF"));
+        connect(&actFile_ExportPdf, SIGNAL( triggered() ),
+                this,               SLOT  ( slot_OnExportPdf() ));
+        m_Ui.toolBar->addAction(&actFile_ExportPdf);
+
+        m_Ui.toolBar->addSeparator();
 
         actFile_Exit.setText(tr("Exit"));
         connect(&actFile_Exit, SIGNAL( triggered() ),
@@ -304,8 +316,12 @@ CMain::_initMenus() {
         mnuFile.setTitle(tr("File"));
 
         mnuFile.addAction(&actFile_CreateDb);
-        mnuFile.addAction(&actFile_Import);
-        mnuFile.addAction(&actFile_Export);
+        mnuFile.addSeparator();
+        mnuFile.addAction(&actFile_ImportCsv);
+        mnuFile.addSeparator();
+        mnuFile.addAction(&actFile_ExportCsv);
+        mnuFile.addAction(&actFile_ExportPdf);
+        mnuFile.addSeparator();
         mnuFile.addAction(&actFile_Exit);
 
         menuBar()->addMenu(&mnuFile);
@@ -319,6 +335,7 @@ CMain::_initMenus() {
         mnuEdit.addAction(&actEdit_MovetoPrior);
         mnuEdit.addAction(&actEdit_MovetoNext);
         mnuEdit.addAction(&actEdit_MovetoLast);
+        mnuEdit.addSeparator();
         mnuEdit.addAction(&actEdit_Insert);
         mnuEdit.addAction(&actEdit_Delete);
         mnuEdit.addAction(&actEdit_Edit);
@@ -400,7 +417,7 @@ CMain::slot_OnCreateDb() {
 }
 //---------------------------------------------------------------------------
 void
-CMain::slot_OnImport() {
+CMain::slot_OnImportCsv() {
     // choose file path
     QString filePath = QFileDialog::getOpenFileName(
                             this,
@@ -429,7 +446,7 @@ CMain::slot_OnImport() {
 
     // report
     {
-        QString sMsg = QString(tr("File: %1\nImport finished."))
+        QString sMsg = QString(tr("File: %1\nImport CSV finished."))
                             .arg(filePath);
 
         QMessageBox::information(this, qApp->applicationName(), sMsg);
@@ -437,7 +454,40 @@ CMain::slot_OnImport() {
 }
 //---------------------------------------------------------------------------
 void
-CMain::slot_OnExport() {
+CMain::slot_OnExportCsv() {
+    // choose file path
+    QString filePath = QFileDialog::getSaveFileName(
+                            this,
+                            tr("Save file"),
+                            m_Ui.cboDictionaryPath->currentText() + ".csv",
+                            tr("CSV document (*.csv)"));
+    qCHECK_DO(true == filePath.isEmpty(), return);
+
+    // export
+    {
+        // DB field names
+        QVector<QString> fieldNames;
+
+        fieldNames.push_back(CONFIG_DB_F_MAIN_TERM);
+        fieldNames.push_back(CONFIG_DB_F_MAIN_VALUE);
+        fieldNames.push_back(CONFIG_DB_F_MAIN_IS_LEARNED);
+        fieldNames.push_back(CONFIG_DB_F_MAIN_IS_MARKED);
+
+        // import
+        CUtils::exportCsv(filePath, _m_tmModel, fieldNames, "\t");
+    }
+
+    // report
+    {
+        QString sMsg = QString(tr("File: %1\nExport PDF finished."))
+                            .arg(filePath);
+
+        QMessageBox::information(this, qApp->applicationName(), sMsg);
+    }
+}
+//---------------------------------------------------------------------------
+void
+CMain::slot_OnExportPdf() {
     // choose file path
     QString filePath = QFileDialog::getSaveFileName(
                             this,
@@ -476,7 +526,7 @@ CMain::slot_OnExport() {
 
     // report
     {
-        QString sMsg = QString(tr("File: %1\nExport finished."))
+        QString sMsg = QString(tr("File: %1\nExport PDF finished."))
                             .arg(filePath);
 
         QMessageBox::information(this, qApp->applicationName(), sMsg);

@@ -20,9 +20,9 @@ win32 {
     INCLUDEPATH     = "$$(xLib)/Project/Include"
 
     CONFIG(debug, debug|release) {
-        LIBS        = "$$(xLib)/Build/Libs/VC++2010/Debug/StaticLib_VC++2010.lib"
+        LIBS        = "$$(xLib)/Build/Libs/VC++2010/Debug_Unicode/StaticLib_VC++2010.lib"
     } else {
-        LIBS        = "$$(xLib)/Build/Libs/VC++2010/Release/StaticLib_VC++2010.lib"
+        LIBS        = "$$(xLib)/Build/Libs/VC++2010/Release_Unicode/StaticLib_VC++2010.lib"
     }
 
     LIBS           += User32.lib Ole32.lib Advapi32.lib shell32.lib

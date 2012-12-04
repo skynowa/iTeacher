@@ -43,8 +43,9 @@ class CMain :
 
         // group "File"
         QAction                actFile_CreateDb;
-        QAction                actFile_Import;
-        QAction                actFile_Export;
+        QAction                actFile_ImportCsv;
+        QAction                actFile_ExportCsv;
+        QAction                actFile_ExportPdf;
         QAction                actFile_Exit;
 
         // group "Edit"
@@ -82,8 +83,9 @@ class CMain :
     private Q_SLOTS:
         // group "File"
         void                   slot_OnCreateDb   ();
-        void                   slot_OnImport     ();
-        void                   slot_OnExport     ();
+        void                   slot_OnImportCsv  ();
+        void                   slot_OnExportCsv  ();
+        void                   slot_OnExportPdf  ();
         void                   slot_OnExit       ();
 
         // group "Edit"

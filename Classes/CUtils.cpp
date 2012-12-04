@@ -22,6 +22,12 @@
 *
 *****************************************************************************/
 
+
+/****************************************************************************
+*   GUI
+*
+*****************************************************************************/
+
 //---------------------------------------------------------------------------
 /* static */
 bool
@@ -104,6 +110,28 @@ CUtils::applicationActivate(
 #endif
 }
 //---------------------------------------------------------------------------
+
+
+/****************************************************************************
+*   DB
+*
+*****************************************************************************/
+
+//---------------------------------------------------------------------------
+int
+CUtils::sqlTableModelRowCount(
+    QSqlTableModel *model
+)
+{
+    Q_ASSERT(NULL != model);
+
+    for ( ; model->canFetchMore(); ) {
+        model->fetchMore();
+    }
+
+    return model->rowCount();
+}
+//---------------------------------------------------------------------------
 /* static */
 void
 CUtils::importCsv(
@@ -142,9 +170,9 @@ CUtils::importCsv(
         // srRecord
         QSqlRecord srRecord;
 
-        for (int i = 0; i < a_fieldNames.size(); ++ i) {
-            srRecord.append(QSqlField(a_fieldNames.at(i)));
-            srRecord.setValue(a_fieldNames.at(i), cslRow.at(i));
+        for (int x = 0; x < a_fieldNames.size(); ++ x) {
+            srRecord.append(QSqlField(a_fieldNames.at(x)));
+            srRecord.setValue(a_fieldNames.at(x), cslRow.at(x));
         }
 
         bRv = a_sqlTableModel->insertRecord(iTargetRow, srRecord);
@@ -154,6 +182,61 @@ CUtils::importCsv(
         Q_ASSERT(true == bRv);
     }
 }
+//---------------------------------------------------------------------------
+/* static */
+void
+CUtils::exportCsv(
+    const QString          &a_filePath,
+    QSqlTableModel         *a_sqlTableModel,
+    const QVector<QString> &a_fieldNames,
+    const QString          &a_columnSeparator
+)
+{
+    // DB -> text
+    QString sCsv;
+
+    // DB fields -> CSV header
+    for (int x = 0; x < a_fieldNames.size(); ++ x) {
+        sCsv.push_back( a_fieldNames.at(x) );
+        sCsv.push_back( a_columnSeparator );
+    }
+    sCsv.push_back( "\n" );
+
+    // DB -> file
+    {
+        int iRealRowCount = CUtils::sqlTableModelRowCount(a_sqlTableModel);
+
+        for (int i = 0; i < iRealRowCount; ++ i) {
+            for (int x = 0; x < a_fieldNames.size(); ++ x) {
+                sCsv.push_back( a_sqlTableModel->record(i).value( a_fieldNames.at(x) ).toString() );
+                sCsv.push_back( a_columnSeparator );
+            }
+
+            sCsv.push_back( "\n" );
+        }
+    }
+
+    // write to file
+    {
+        QFile fileCSV(a_filePath);
+
+        bool bRv = fileCSV.open(QFile::WriteOnly | QIODevice::Text);
+        Q_ASSERT(true == bRv);
+
+        QTextStream stream(&fileCSV);
+
+        stream.setCodec("UTF-8");
+        stream << sCsv;
+    }
+}
+//---------------------------------------------------------------------------
+
+
+/****************************************************************************
+*   web
+*
+*****************************************************************************/
+
 //---------------------------------------------------------------------------
 QString
 CUtils::googleTranslate(
@@ -233,19 +316,13 @@ CUtils::googleTranslate(
     return sRv;
 }
 //---------------------------------------------------------------------------
-int
-CUtils::sqlTableModelRowCount(
-    QSqlTableModel *model
-)
-{
-    Q_ASSERT(NULL != model);
 
-    for ( ; model->canFetchMore(); ) {
-        model->fetchMore();
-    }
 
-    return model->rowCount();
-}
+/****************************************************************************
+*   converters
+*
+*****************************************************************************/
+
 //---------------------------------------------------------------------------
 std::wstring
 CUtils::toStdWString(
