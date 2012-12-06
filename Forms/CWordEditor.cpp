@@ -6,7 +6,7 @@
 
 #include "CWordEditor.h"
 
-#include "../Classes/CUtils.h"
+#include "../QtLib/CUtils.h"
 
 
 /****************************************************************************

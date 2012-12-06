@@ -6,7 +6,7 @@
 
 #include "CSqlNavigator.h"
 
-#include "CUtils.h"
+#include "../QtLib/CUtils.h"
 
 
 /****************************************************************************

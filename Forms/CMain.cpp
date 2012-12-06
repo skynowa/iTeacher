@@ -6,7 +6,7 @@
 
 #include "CMain.h"
 
-#include "../Classes/CUtils.h"
+#include "../QtLib/CUtils.h"
 #include "../Classes/CCheckBoxItemDelegate.h"
 #include "../Forms/CWordEditor.h"
 #include "../Forms/CWordFinder.h"

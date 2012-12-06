@@ -11,8 +11,8 @@
 
 #include <xLib/Common/xCommon.h>
 #include "../QtLib/Common.h"
+#include "../QtLib/CUtils.h"
 #include "../Classes/CSqlNavigator.h"
-#include "../Classes/CUtils.h"
 
 #include "ui_CMain.h"
 //---------------------------------------------------------------------------

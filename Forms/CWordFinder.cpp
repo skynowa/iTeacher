@@ -6,7 +6,7 @@
 
 #include "CWordFinder.h"
 
-#include "../Classes/CUtils.h"
+#include "../QtLib/CUtils.h"
 
 
 /****************************************************************************
@@ -168,11 +168,23 @@ CWordFinder::_saveAll() {
     // fill sFilterAll
     QString sFilterAll;
 
-    sFilterAll = slFilterAll.join(" and ");
+    sFilterAll = slFilterAll.join(" or ");
     qDebug() << sFilterAll;
 
     // set filter
     _m_tmModel->setFilter(sFilterAll);
+
+#if 0
+    QSqlQueryModel *qmModel = dynamic_cast<QSqlQueryModel *>( _m_tmModel );
+    Q_ASSERT(NULL != qmModel);
+
+    const QString csSql = \
+            "SELECT * "
+            "   FROM " CONFIG_DB_T_MAIN " "
+            "   ORDER BY " CONFIG_DB_F_MAIN_TERM " DESC";
+
+    qmModel->setQuery(csSql);
+#endif
 }
 //---------------------------------------------------------------------------
 
