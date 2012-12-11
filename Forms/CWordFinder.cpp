@@ -119,84 +119,51 @@ CWordFinder::_resetAll() {
 //---------------------------------------------------------------------------
 void
 CWordFinder::_saveAll() {
-#if 0
-    // fill vsFilters
-    QVector<QString> vsFilters;
-    {
-        if (! m_Ui.cboWordTerm->currentText().isEmpty()) {
-            QString filter = QString("%2 = '%1'")
-                                .arg(m_Ui.cboWordTerm->currentText())
-                                .arg(CONFIG_DB_F_MAIN_TERM);
-
-            vsFilters.push_back(filter);
-        }
-
-        if (! m_Ui.cboWordValue->currentText().isEmpty()) {
-            QString filter = QString("%2 = '%1'")
-                                .arg(m_Ui.cboWordValue->currentText())
-                                .arg(CONFIG_DB_F_MAIN_VALUE);
-
-            vsFilters.push_back(filter);
-        }
-
-        {
-            QString filter = QString("%2 = %1")
-                                .arg(m_Ui.chkWordIsLearned->isChecked())
-                                .arg(CONFIG_DB_F_MAIN_IS_LEARNED);
-
-            vsFilters.push_back(filter);
-        }
-
-        {
-            QString filter = QString("%2 = %1")
-                                .arg(m_Ui.chkWordIsMarked->isChecked())
-                                .arg(CONFIG_DB_F_MAIN_IS_MARKED);
-
-            vsFilters.push_back(filter);
-        }
-    }
-
-    // fill slFilterAll
-    QStringList slFilterAll;
-
-    for (QVector<QString>::ConstIterator it = vsFilters.constBegin();
-         it != vsFilters.constEnd();
-         ++ it)
-    {
-        qCHECK_DO((*it).isEmpty(), continue);
-
-        slFilterAll.append(*it);
-    }
-
-    // fill sFilterAll
-    QString sFilterAll;
-
-    sFilterAll = slFilterAll.join(" or ");
-    qDebug() << sFilterAll;
-
-    // set filter
-    _m_tmModel->setFilter(sFilterAll);
-#endif
-
-
-#if 0
-    QSqlQueryModel *qmModel = dynamic_cast<QSqlQueryModel *>( _m_tmModel );
-    Q_ASSERT(NULL != qmModel);
-
-    const QString csSql = \
-            "SELECT * "
-            "   FROM " CONFIG_DB_T_MAIN " "
-            "   ORDER BY " CONFIG_DB_F_MAIN_TERM " DESC";
-
-    qmModel->setQuery(csSql);
-#endif
-
     CUtils::db_fields_t fields;
+    {
+        fields.push_back( QPair<QString, QString>(CONFIG_DB_F_MAIN_TERM,  m_Ui.cboWordTerm->currentText())  );
+        fields.push_back( QPair<QString, QString>(CONFIG_DB_F_MAIN_VALUE, m_Ui.cboWordValue->currentText()) );
+    }
 
-    fields.push_back( QPair<QString, QString>(CONFIG_DB_F_MAIN_TERM,  m_Ui.cboWordTerm->currentText())  );
-    fields.push_back( QPair<QString, QString>(CONFIG_DB_F_MAIN_VALUE, m_Ui.cboWordValue->currentText()) );
+    QString sqlStrWhere;
+    {
+        QString sSql1;
+        if (true == m_Ui.chkWordIsLearned->isChecked()) {
+            sSql1 = QString("%1=%2")
+                        .arg(CONFIG_DB_F_MAIN_IS_LEARNED)
+                        .arg(1);
+        }
 
-    CUtils::dbFilter(_m_tmModel, CONFIG_DB_T_MAIN, fields, "", "", "");
+        QString sSql2;
+        if (true == m_Ui.chkWordIsMarked->isChecked()) {
+            sSql2 = QString("%1=%2")
+                        .arg(CONFIG_DB_F_MAIN_IS_MARKED)
+                        .arg(1);
+        }
+
+        bool bCond1 = m_Ui.chkWordIsLearned->isChecked();
+        bool bCond2 = m_Ui.chkWordIsMarked->isChecked();
+
+        if      (!bCond1 && !bCond2) {
+            sqlStrWhere.clear();
+        }
+        else if (!bCond1 && bCond2) {
+            sqlStrWhere = sSql2;
+        }
+        else if (bCond1 && !bCond2) {
+            sqlStrWhere = sSql1;
+        }
+        else if (bCond1 && bCond2) {
+            sqlStrWhere = QString("%1 AND %2")
+                            .arg(sSql1)
+                            .arg(sSql2);
+        }
+        else {
+            Q_ASSERT(false);
+        }
+    }
+
+    CUtils::dbFilter(_m_tmModel, CONFIG_DB_T_MAIN, fields, "", sqlStrWhere, "");
 }
 //---------------------------------------------------------------------------
 
