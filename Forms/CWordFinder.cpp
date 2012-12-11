@@ -44,10 +44,12 @@ void
 CWordFinder::_construct() {
     m_Ui.setupUi(this);
 
+    m_Ui.cboWordTerm->setFocus();
+
     // signals
     {
-        connect(m_Ui.bbxButtons,       SIGNAL( clicked(QAbstractButton *) ),
-                this,                  SLOT  ( slot_bbxButtons_OnClicked(QAbstractButton *) ));
+        connect(m_Ui.bbxButtons, SIGNAL( clicked(QAbstractButton *) ),
+                this,            SLOT  ( slot_bbxButtons_OnClicked(QAbstractButton *) ));
     }
 }
 //---------------------------------------------------------------------------
@@ -117,6 +119,7 @@ CWordFinder::_resetAll() {
 //---------------------------------------------------------------------------
 void
 CWordFinder::_saveAll() {
+#if 0
     // fill vsFilters
     QVector<QString> vsFilters;
     {
@@ -173,6 +176,8 @@ CWordFinder::_saveAll() {
 
     // set filter
     _m_tmModel->setFilter(sFilterAll);
+#endif
+
 
 #if 0
     QSqlQueryModel *qmModel = dynamic_cast<QSqlQueryModel *>( _m_tmModel );
@@ -185,6 +190,13 @@ CWordFinder::_saveAll() {
 
     qmModel->setQuery(csSql);
 #endif
+
+    CUtils::db_fields_t fields;
+
+    fields.push_back( QPair<QString, QString>(CONFIG_DB_F_MAIN_TERM,  m_Ui.cboWordTerm->currentText())  );
+    fields.push_back( QPair<QString, QString>(CONFIG_DB_F_MAIN_VALUE, m_Ui.cboWordValue->currentText()) );
+
+    CUtils::dbFilter(_m_tmModel, CONFIG_DB_T_MAIN, fields, "", "", "");
 }
 //---------------------------------------------------------------------------
 
