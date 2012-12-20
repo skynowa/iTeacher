@@ -97,7 +97,7 @@ CMain::_initMain() {
         m_sDbDir       = m_sAppDir + QDir::separator() + "Db";
         m_sDbBackupDir = m_sDbDir  + QDir::separator() + "Backup";
 
-        CxDir::vCreateForce( qQS2S(m_sDbDir) );
+        CxDir( qQS2S(m_sDbDir) ).vPathCreate();
     }
 
     //--------------------------------------------------
@@ -184,35 +184,35 @@ CMain::_initActions() {
         actFile_CreateDb.setText(tr("Create DB"));
         connect(&actFile_CreateDb, SIGNAL( triggered() ),
                 this,              SLOT  ( slot_OnCreateDb() ));
-        m_Ui.toolBar->addAction(&actFile_CreateDb);
+        //// m_Ui.toolBar->addAction(&actFile_CreateDb);
 
-        m_Ui.toolBar->addSeparator();
+        //// m_Ui.toolBar->addSeparator();
 
         actFile_ImportCsv.setText(tr("Import CSV"));
         connect(&actFile_ImportCsv, SIGNAL( triggered() ),
                 this,               SLOT  ( slot_OnImportCsv() ));
-        m_Ui.toolBar->addAction(&actFile_ImportCsv);
+        //// m_Ui.toolBar->addAction(&actFile_ImportCsv);
 
-        m_Ui.toolBar->addSeparator();
+        //// m_Ui.toolBar->addSeparator();
 
         actFile_ExportCsv.setText(tr("Export CSV"));
         connect(&actFile_ExportCsv, SIGNAL( triggered() ),
                 this,               SLOT  ( slot_OnExportCsv() ));
-        m_Ui.toolBar->addAction(&actFile_ExportCsv);
+        //// m_Ui.toolBar->addAction(&actFile_ExportCsv);
 
         actFile_ExportPdf.setText(tr("Export PDF"));
         connect(&actFile_ExportPdf, SIGNAL( triggered() ),
                 this,               SLOT  ( slot_OnExportPdf() ));
-        m_Ui.toolBar->addAction(&actFile_ExportPdf);
+        //// m_Ui.toolBar->addAction(&actFile_ExportPdf);
 
-        m_Ui.toolBar->addSeparator();
+        //// m_Ui.toolBar->addSeparator();
 
         actFile_Exit.setText(tr("Exit"));
         connect(&actFile_Exit, SIGNAL( triggered() ),
                 this,          SLOT  ( slot_OnExit() ));
-        m_Ui.toolBar->addAction(&actFile_Exit);
+        //// m_Ui.toolBar->addAction(&actFile_Exit);
 
-        m_Ui.toolBar->addSeparator();
+        //// m_Ui.toolBar->addSeparator();
     }
 
     // group "Edit"
@@ -282,7 +282,7 @@ CMain::_initActions() {
 
     // group "View"
     {
-        m_Ui.toolBar->addSeparator();
+        //// m_Ui.toolBar->addSeparator();
     }
 
     // group "Options"
@@ -290,9 +290,9 @@ CMain::_initActions() {
         actOptions_Settings.setText(tr("Settings"));
         connect(&actOptions_Settings, SIGNAL( triggered() ),
                 this,                 SLOT  ( slot_OnSettings() ));
-        m_Ui.toolBar->addAction(&actOptions_Settings);
+        //// m_Ui.toolBar->addAction(&actOptions_Settings);
 
-        m_Ui.toolBar->addSeparator();
+        //// m_Ui.toolBar->addSeparator();
     }
 
     // group "Help"
@@ -300,12 +300,12 @@ CMain::_initActions() {
         actHelp_Faq.setText(tr("FAQ"));
         connect(&actHelp_Faq, SIGNAL( triggered() ),
                 this,         SLOT  ( slot_OnFaq() ));
-        m_Ui.toolBar->addAction(&actHelp_Faq);
+        //// m_Ui.toolBar->addAction(&actHelp_Faq);
 
         actHelp_About.setText(tr("About"));
         connect(&actHelp_About, SIGNAL( triggered() ),
                 this,           SLOT  ( slot_OnAbout() ));
-        m_Ui.toolBar->addAction(&actHelp_About);
+        //// m_Ui.toolBar->addAction(&actHelp_About);
     }
 }
 //---------------------------------------------------------------------------
@@ -784,12 +784,12 @@ CMain::slot_cboDictionaryPath_OnCurrentIndexChanged(
 //---------------------------------------------------------------------------
 void
 CMain::cboDictionaryPath_reload() {
-    qCHECK_DO(false == CxDir::bIsExists(qQS2S(m_sDbDir)), return);
+    qCHECK_DO(false == CxDir( qQS2S(m_sDbDir) ).bIsExists(), return);
 
     std::vec_tstring_t vsDicts;
 
     vsDicts.clear();
-    CxDir::vFindFiles( qQS2S(m_sDbDir), xT("*.db"), true, &vsDicts);
+    CxDir( qQS2S(m_sDbDir) ).vFilesFind(xT("*.db"), true, &vsDicts);
     qCHECK_DO(true == vsDicts.empty(), return);
 
     m_Ui.cboDictionaryPath->clear();
@@ -817,7 +817,7 @@ CMain::dbOpen(
     // _m_dbDatabase
     {
         Q_ASSERT(NULL == _m_dbDatabase);
-        Q_ASSERT(true == CxDir::bIsExists( qQS2S(m_sDbDir) ));
+        Q_ASSERT(true == CxDir( qQS2S(m_sDbDir) ).bIsExists());
 
         bool bRv = QSqlDatabase::isDriverAvailable("QSQLITE");
         qCHECK_DO(false == bRv, qMSG(QSqlDatabase().lastError().text()); return);

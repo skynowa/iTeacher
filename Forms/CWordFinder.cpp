@@ -113,8 +113,10 @@ void
 CWordFinder::_resetAll() {
     m_Ui.cboWordTerm->clear();
     m_Ui.cboWordValue->clear();
-    m_Ui.chkWordIsLearned->setChecked(false);
-    m_Ui.chkWordIsMarked->setChecked (false);
+    m_Ui.chkWordNotLearned->setChecked(false);
+    m_Ui.chkWordNotMarked->setChecked(false);
+    m_Ui.chkWordLearned->setChecked(false);
+    m_Ui.chkWordMarked->setChecked (false);
 }
 //---------------------------------------------------------------------------
 void
@@ -127,45 +129,114 @@ CWordFinder::_saveAll() {
 
     QString sqlStrWhere;
     {
+        const QString csSeparator = "##";
+
+        bool bCond1 = m_Ui.chkWordNotLearned->isChecked();
+        bool bCond2 = m_Ui.chkWordNotMarked->isChecked();
+        bool bCond3 = m_Ui.chkWordLearned->isChecked();
+        bool bCond4 = m_Ui.chkWordMarked->isChecked();
+
         QString sSql1;
-        if (true == m_Ui.chkWordIsLearned->isChecked()) {
+        if (bCond1) {
             sSql1 = QString("%1=%2")
                         .arg(CONFIG_DB_F_MAIN_IS_LEARNED)
-                        .arg(1);
+                        .arg(0);
+            sqlStrWhere += sSql1 + csSeparator;
         }
 
         QString sSql2;
-        if (true == m_Ui.chkWordIsMarked->isChecked()) {
+        if (bCond2) {
             sSql2 = QString("%1=%2")
                         .arg(CONFIG_DB_F_MAIN_IS_MARKED)
+                        .arg(0);
+            sqlStrWhere += sSql2 + csSeparator;
+        }
+
+        QString sSql3;
+        if (bCond3) {
+            sSql3 = QString("%1=%2")
+                        .arg(CONFIG_DB_F_MAIN_IS_LEARNED)
                         .arg(1);
+            sqlStrWhere += sSql3 + csSeparator;
         }
 
-        bool bCond1 = m_Ui.chkWordIsLearned->isChecked();
-        bool bCond2 = m_Ui.chkWordIsMarked->isChecked();
+        QString sSql4;
+        if (bCond4) {
+            sSql4 = QString("%1=%2")
+                        .arg(CONFIG_DB_F_MAIN_IS_MARKED)
+                        .arg(1);
+            sqlStrWhere += sSql4 + csSeparator;
+        }
 
-        if      (!bCond1 && !bCond2) {
-            sqlStrWhere.clear();
+        // remove csSeparator from end
+        {
+            if (csSeparator == sqlStrWhere.right( csSeparator.size() )) {
+                sqlStrWhere.truncate( sqlStrWhere.size() - csSeparator.size() );
+            }
         }
-        else if (!bCond1 && bCond2) {
-            sqlStrWhere = sSql2;
+
+        // replace csSeparator -> " OR "
+        {
+            sqlStrWhere.replace(csSeparator, " OR ");
         }
-        else if (bCond1 && !bCond2) {
-            sqlStrWhere = sSql1;
-        }
-        else if (bCond1 && bCond2) {
-            sqlStrWhere = QString("%1 AND %2")
-                            .arg(sSql1)
-                            .arg(sSql2);
-        }
-        else {
-            Q_ASSERT(false);
-        }
+
     }
 
     CUtils::dbFilter(_m_tmModel, CONFIG_DB_T_MAIN, fields, "", sqlStrWhere, "");
 }
 //---------------------------------------------------------------------------
 
-
+#if 0
+        if      (!bCond1 && !bCond2 && !bCond3 && !bCond4) {
+            sqlStrWhere.clear();
+        }
+        else if (!bCond1 && !bCond2 && !bCond3 &&  bCond4) {
+            sqlStrWhere = sSql4;
+        }
+        else if (!bCond1 && !bCond2 &&  bCond3 && !bCond4) {
+            sqlStrWhere = sSql3;
+        }
+        else if (!bCond1 && !bCond2 &&  bCond3 &&  bCond4) {
+            sqlStrWhere = sSql3 + " OR " + sSql4;
+        }
+        else if (!bCond1 &&  bCond2 && !bCond3 && !bCond4) {
+            sqlStrWhere = sSql2;
+        }
+        else if (!bCond1 &&  bCond2 && !bCond3 &&  bCond4) {
+            sqlStrWhere = sSql2 + " OR " + sSql4;
+        }
+        else if (!bCond1 &&  bCond2 &&  bCond3 && !bCond4) {
+            sqlStrWhere = sSql2 + " OR " + sSql3;
+        }
+        else if (!bCond1 &&  bCond2 &&  bCond3 &&  bCond4) {
+            sqlStrWhere = sSql2 + " OR " + sSql2 + " OR " + sSql4;
+        }
+        else if ( bCond1 && !bCond2 && !bCond3 && !bCond4) {
+            sqlStrWhere = ;
+        }
+        else if ( bCond1 && !bCond2 && !bCond3 &&  bCond4) {
+            sqlStrWhere = ;
+        }
+        else if ( bCond1 && !bCond2 &&  bCond3 && !bCond4) {
+            sqlStrWhere = ;
+        }
+        else if ( bCond1 && !bCond2 &&  bCond3 &&  bCond4) {
+            sqlStrWhere = ;
+        }
+        else if ( bCond1 &&  bCond2 && !bCond3 && !bCond4) {
+            sqlStrWhere = ;
+        }
+        else if ( bCond1 &&  bCond2 && !bCond3 &&  bCond4) {
+            sqlStrWhere = ;
+        }
+        else if ( bCond1 &&  bCond2 &&  bCond3 && !bCond4) {
+            sqlStrWhere = ;
+        }
+        else if ( bCond1 &&  bCond2 &&  bCond3 &&  bCond4) {
+            sqlStrWhere = ;
+        }
+        else {
+            Q_ASSERT(false);
+        }
+#endif
 

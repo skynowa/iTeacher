@@ -52,36 +52,30 @@
     <bool>true</bool>
    </property>
   </widget>
-  <widget class="QCheckBox" name="chkWordIsLearned">
+  <widget class="QCheckBox" name="chkWordLearned">
    <property name="geometry">
     <rect>
-     <x>8</x>
-     <y>68</y>
-     <width>70</width>
+     <x>152</x>
+     <y>64</y>
+     <width>80</width>
      <height>17</height>
     </rect>
    </property>
-   <property name="layoutDirection">
-    <enum>Qt::RightToLeft</enum>
-   </property>
    <property name="text">
-    <string>Is learned:</string>
+    <string>Learned</string>
    </property>
   </widget>
-  <widget class="QCheckBox" name="chkWordIsMarked">
+  <widget class="QCheckBox" name="chkWordMarked">
    <property name="geometry">
     <rect>
-     <x>8</x>
-     <y>96</y>
-     <width>70</width>
+     <x>152</x>
+     <y>88</y>
+     <width>80</width>
      <height>17</height>
     </rect>
    </property>
-   <property name="layoutDirection">
-    <enum>Qt::RightToLeft</enum>
-   </property>
    <property name="text">
-    <string>Is marked:</string>
+    <string>Marked</string>
    </property>
   </widget>
   <widget class="QLabel" name="label">
@@ -108,6 +102,32 @@
    </property>
    <property name="text">
     <string>Value:</string>
+   </property>
+  </widget>
+  <widget class="QCheckBox" name="chkWordNotLearned">
+   <property name="geometry">
+    <rect>
+     <x>60</x>
+     <y>64</y>
+     <width>80</width>
+     <height>17</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Not learned</string>
+   </property>
+  </widget>
+  <widget class="QCheckBox" name="chkWordNotMarked">
+   <property name="geometry">
+    <rect>
+     <x>60</x>
+     <y>88</y>
+     <width>80</width>
+     <height>17</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Not marked</string>
    </property>
   </widget>
  </widget>
