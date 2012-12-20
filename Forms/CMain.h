@@ -64,6 +64,9 @@ class CMain :
         QAction                actFind_Search;
 
         // group "View"
+        QAction                actView_ZoomIn;
+        QAction                actView_ZoomOut;
+        QAction                actView_ZoomDefault;
 
         // group "Options"
         QAction                actOptions_Settings;
@@ -104,6 +107,9 @@ class CMain :
         void                   slot_OnSearch     ();
 
         // group "View"
+        void                   slot_OnZoomIn     ();
+        void                   slot_OnZoomOut    ();
+        void                   slot_OnZoomDefault();
 
 
         // group "Options"

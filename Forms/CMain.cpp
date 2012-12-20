@@ -48,6 +48,9 @@ CMain::CMain(
     actEdit_Post       (this),
     actEdit_Cancel     (this),
     actEdit_Refresh    (this),
+    actView_ZoomIn     (this),
+    actView_ZoomOut    (this),
+    actView_ZoomDefault(this),
     actFind_Search     (this),
     actOptions_Settings(this),
     actHelp_Faq        (this),
@@ -92,7 +95,7 @@ CMain::_initMain() {
     //--------------------------------------------------
     // data
     {
-        m_sAppName     = "iTeacher";
+        m_sAppName     = CONFIG_APP_NAME;
         m_sAppDir      = qS2QS( CxPath::sExeDir() );
         m_sDbDir       = m_sAppDir + QDir::separator() + "Db";
         m_sDbBackupDir = m_sDbDir  + QDir::separator() + "Backup";
@@ -282,7 +285,22 @@ CMain::_initActions() {
 
     // group "View"
     {
-        //// m_Ui.toolBar->addSeparator();
+        actView_ZoomIn.setText(tr("Zoom In"));
+        connect(&actView_ZoomIn,      SIGNAL( triggered() ),
+                this,                 SLOT  ( slot_OnZoomIn() ));
+        m_Ui.toolBar->addAction(&actView_ZoomIn);
+
+        actView_ZoomOut.setText(tr("Zoom Out"));
+        connect(&actView_ZoomOut,     SIGNAL( triggered() ),
+                this,                 SLOT  ( slot_OnZoomOut() ));
+        m_Ui.toolBar->addAction(&actView_ZoomOut);
+
+        actView_ZoomDefault.setText(tr("Zoom default"));
+        connect(&actView_ZoomDefault, SIGNAL( triggered() ),
+                this,                 SLOT  ( slot_OnZoomDefault() ));
+        m_Ui.toolBar->addAction(&actView_ZoomDefault);
+
+        m_Ui.toolBar->addSeparator();
     }
 
     // group "Options"
@@ -358,6 +376,10 @@ CMain::_initMenus() {
     // group "View"
     {
         mnuView.setTitle(tr("View"));
+
+        mnuView.addAction(&actView_ZoomIn);
+        mnuView.addAction(&actView_ZoomOut);
+        mnuView.addAction(&actView_ZoomDefault);
 
         menuBar()->addMenu(&mnuView);
     }
@@ -647,6 +669,71 @@ CMain::slot_OnSearch() {
 *
 *****************************************************************************/
 
+//---------------------------------------------------------------------------
+void
+CMain::slot_OnZoomIn() {
+    // table font
+    {
+        QFont font     = m_Ui.tabvInfo->font();
+        int   iOldSize = m_Ui.tabvInfo->font().pointSize();
+        ++ iOldSize;
+        font.setPointSize(iOldSize);
+
+        m_Ui.tabvInfo->setFont(font);
+    }
+
+    // table row height
+    {
+        int iOldSize = m_Ui.tabvInfo->verticalHeader()->defaultSectionSize();
+        ++ iOldSize;
+
+        m_Ui.tabvInfo->verticalHeader()->setDefaultSectionSize(iOldSize);
+    }
+}
+//---------------------------------------------------------------------------
+void
+CMain::slot_OnZoomOut() {
+    // table font
+    {
+        QFont font     = m_Ui.tabvInfo->font();
+        int   iOldSize = m_Ui.tabvInfo->font().pointSize();
+
+        if (iOldSize > 1) {
+            -- iOldSize;
+
+            font.setPointSize(iOldSize);
+            m_Ui.tabvInfo->setFont(font);
+        }
+    }
+
+    // table row height
+    {
+        int iOldSize = m_Ui.tabvInfo->verticalHeader()->defaultSectionSize();
+
+        if (iOldSize > 1) {
+            -- iOldSize;
+
+            m_Ui.tabvInfo->verticalHeader()->setDefaultSectionSize(iOldSize);
+        }
+    }
+}
+//---------------------------------------------------------------------------
+void
+CMain::slot_OnZoomDefault() {
+    // font
+    {
+        QFont font = m_Ui.tabvInfo->font();
+        font.setPointSize(CONFIG_APP_FONT_SIZE_DEFAULT);
+
+        m_Ui.tabvInfo->setFont(font);
+    }
+
+    // row height
+    {
+        m_Ui.tabvInfo->verticalHeader()->setDefaultSectionSize(CONFIG_TABLEVIEW_ROW_HEIGHT);
+    }
+}
+//---------------------------------------------------------------------------
 
 /****************************************************************************
 *   group "Options"

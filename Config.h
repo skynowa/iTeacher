@@ -7,9 +7,6 @@
 #ifndef iTeacher_ConfigH
 #define iTeacher_ConfigH
 //---------------------------------------------------------------------------
-//#undef UNICODE
-//#undef _UNICODE
-
 // main window
 #define CONFIG_APP_NAME                     "iTeacher"
 #define CONFIG_ORG_NAME                     ""
@@ -17,6 +14,7 @@
 #define CONFIG_APP_WINDOW_CLASS             "QTool"
 #define CONFIG_APP_WIDTH                    700
 #define CONFIG_APP_HEIGHT                   600
+#define CONFIG_APP_FONT_SIZE_DEFAULT        9
 
 // DB tables, fields
 #define CONFIG_DB_T_MAIN                    "t_main"
