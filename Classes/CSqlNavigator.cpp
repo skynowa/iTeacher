@@ -16,9 +16,9 @@
 
 //---------------------------------------------------------------------------
 CSqlNavigator::CSqlNavigator(
-    QWidget *parent
+    QWidget *a_parent
 ) :
-    QObject   (parent),
+    QObject   (a_parent),
     _m_tmModel(NULL),
     _m_tvView (NULL)
 {
@@ -32,103 +32,141 @@ CSqlNavigator::~CSqlNavigator() {
 //---------------------------------------------------------------------------
 void
 CSqlNavigator::construct(
-    QSqlTableModel *tmTableModel,
-    QTableView     *tabvTableView
+    QSqlTableModel *a_tmTableModel,
+    QTableView     *a_tabvTableView
 )
 {
-    Q_ASSERT(NULL != tmTableModel);
-    Q_ASSERT(NULL != tabvTableView);
+    Q_ASSERT(NULL != a_tmTableModel);
+    Q_ASSERT(NULL != a_tabvTableView);
 
-    _m_tmModel = tmTableModel;
-    _m_tvView  = tabvTableView;
+    _m_tmModel = a_tmTableModel;
+    _m_tvView  = a_tabvTableView;
+}
+//---------------------------------------------------------------------------
+QSqlTableModel *
+CSqlNavigator::model() {
+    Q_ASSERT(NULL != _m_tmModel);
+
+    return _m_tmModel;
+}
+//---------------------------------------------------------------------------
+QTableView *
+CSqlNavigator::view() {
+    Q_ASSERT(NULL != _m_tvView);
+
+    return _m_tvView;
+}
+//---------------------------------------------------------------------------
+bool
+CSqlNavigator::isValid() const {
+    return ( (NULL != _m_tmModel) && (NULL != _m_tvView) );
 }
 //---------------------------------------------------------------------------
 void
 CSqlNavigator::first() {
+    qCHECK_DO(false == isValid(), return);
+
     int iTargetRow = 0;
 
-    _m_tvView->selectRow(iTargetRow);
+    view()->selectRow(iTargetRow);
 }
 //---------------------------------------------------------------------------
 void
 CSqlNavigator::prior() {
-    int iTargetRow = _m_tvView->currentIndex().row() - 1;
+    qCHECK_DO(false == isValid(), return);
 
-    _m_tvView->selectRow(iTargetRow);
+    int iTargetRow = view()->currentIndex().row() - 1;
+
+    view()->selectRow(iTargetRow);
 }
 //---------------------------------------------------------------------------
 void
 CSqlNavigator::next() {
-    int iTargetRow = _m_tvView->currentIndex().row() + 1;
+    qCHECK_DO(false == isValid(), return);
 
-    _m_tvView->selectRow(iTargetRow);
+    int iTargetRow = view()->currentIndex().row() + 1;
+
+    view()->selectRow(iTargetRow);
 }
 //---------------------------------------------------------------------------
 void
 CSqlNavigator::last() {
-    int iTargetRow = CUtils::sqlTableModelRowCount(_m_tmModel) - 1;
+    qCHECK_DO(false == isValid(), return);
+
+    int iTargetRow = CUtils::sqlTableModelRowCount( model() ) - 1;
     qCHECK_DO(- 1 >= iTargetRow, iTargetRow = 0);
 
-    _m_tvView->selectRow(iTargetRow);
+    view()->selectRow(iTargetRow);
 }
 //---------------------------------------------------------------------------
 void
 CSqlNavigator::insert() {
-    bool bRv = _m_tmModel->insertRow(CUtils::sqlTableModelRowCount(_m_tmModel), QModelIndex());
-    qCHECK_PTR(bRv, _m_tmModel);
+    qCHECK_DO(false == isValid(), return);
+
+    bool bRv = model()->insertRow(CUtils::sqlTableModelRowCount(model()), QModelIndex());
+    qCHECK_PTR(bRv, model());
 
     last();
 }
 //---------------------------------------------------------------------------
 void
 CSqlNavigator::remove() {
-    QModelIndexList ilList = _m_tvView->selectionModel()->selectedIndexes();
+    qCHECK_DO(false == isValid(), return);
+
+    QModelIndexList ilList = view()->selectionModel()->selectedIndexes();
     foreach (QModelIndex index, ilList) {
         int iTargetRow = index.row();
 
-        bool bRv = _m_tvView->model()->removeRow(iTargetRow, QModelIndex());
-        qCHECK_PTR(bRv, _m_tmModel);
+        bool bRv = view()->model()->removeRow(iTargetRow, QModelIndex());
+        qCHECK_PTR(bRv, model());
     }
 }
 //---------------------------------------------------------------------------
 void
 CSqlNavigator::edit() {
+    qCHECK_DO(false == isValid(), return);
+
     const int   ciTargetCell = 1;
 
-    int         iTargetRow   = _m_tvView->currentIndex().row();
-    QModelIndex miIndex      = _m_tmModel->index(iTargetRow, ciTargetCell);
+    int         iTargetRow   = view()->currentIndex().row();
+    QModelIndex miIndex      = model()->index(iTargetRow, ciTargetCell);
     qCHECK_DO(- 1 == iTargetRow, return);
 
-    _m_tvView->setCurrentIndex(miIndex);
-    _m_tvView->edit(miIndex);
+    view()->setCurrentIndex(miIndex);
+    view()->edit(miIndex);
 }
 //---------------------------------------------------------------------------
 void
 CSqlNavigator::post() {
+    qCHECK_DO(false == isValid(), return);
+
     const int   ciTargetCell = 1;
 
-    int         iTargetRow   = _m_tvView->currentIndex().row();
-    QModelIndex miIndex      = _m_tmModel->index(iTargetRow, ciTargetCell);
+    int         iTargetRow   = view()->currentIndex().row();
+    QModelIndex miIndex      = model()->index(iTargetRow, ciTargetCell);
 
-    _m_tmModel->submitAll();
+    model()->submitAll();
 
-    _m_tvView->setCurrentIndex(miIndex);
-    _m_tvView->update(miIndex);
+    view()->setCurrentIndex(miIndex);
+    view()->update(miIndex);
 }
 //---------------------------------------------------------------------------
 void
 CSqlNavigator::cancel() {
+    qCHECK_DO(false == isValid(), return);
 
 }
 //---------------------------------------------------------------------------
 void
 CSqlNavigator::refresh() {
-    int iTargetRow = _m_tvView->currentIndex().row();
+    qCHECK_DO(false == isValid(), return);
+
+    int iTargetRow = view()->currentIndex().row();
     qCHECK_DO(- 1 == iTargetRow, return);
 
-    bool bRv = _m_tmModel->select();
-    qCHECK_PTR(bRv, _m_tmModel);
+    bool bRv = model()->select();
+    qCHECK_PTR(bRv, model());
 
-    _m_tvView->selectRow(iTargetRow);
+    view()->selectRow(iTargetRow);
 }
 //---------------------------------------------------------------------------

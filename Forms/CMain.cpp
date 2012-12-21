@@ -624,6 +624,8 @@ CMain::slot_OnLast() {
 //---------------------------------------------------------------------------
 void
 CMain::slot_OnInsert() {
+    qCHECK_DO(NULL == _m_tmModel, return);
+
     m_navNavigator.insert();
 
     const int   ciCurrentRow = CUtils::sqlTableModelRowCount(_m_tmModel) - 1;
@@ -639,6 +641,8 @@ CMain::slot_OnRemove() {
 //---------------------------------------------------------------------------
 void
 CMain::slot_OnEdit() {
+    qCHECK_DO(NULL == _m_tmModel, return);
+
     const int   ciCurrentRow = m_Ui.tabvInfo->currentIndex().row();
     CWordEditor dlgWordEditor(this, _m_tmModel, ciCurrentRow);
 
@@ -691,6 +695,8 @@ CMain::slot_OnRefresh() {
 //---------------------------------------------------------------------------
 void
 CMain::slot_OnSearch() {
+    qCHECK_DO(NULL == _m_tmModel, return);
+
     CWordFinder dlgWordFinder(this, _m_tmModel);
 
     dlgWordFinder.exec();

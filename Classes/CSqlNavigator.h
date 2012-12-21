@@ -21,6 +21,9 @@ class CSqlNavigator :
         void            construct    (QSqlTableModel *tmTableModel,
                                       QTableView     *tabvTableView);
 
+        QSqlTableModel *model        ();
+        QTableView     *view         ();
+        bool            isValid      () const;
         void            first        ();
         void            prior        ();
         void            next         ();
