@@ -69,6 +69,38 @@ CMain::~CMain() {
 
 
 /****************************************************************************
+*   protected
+*
+*****************************************************************************/
+
+//---------------------------------------------------------------------------
+/* virtual */
+bool
+CMain::eventFilter(
+    QObject *obj,
+    QEvent  *ev
+)
+{
+    // table zooming
+    if (m_Ui.tabvInfo->viewport() == obj) {
+        if (QEvent::Wheel == ev->type()) {
+            QWheelEvent *inputEvent = static_cast<QWheelEvent *>( ev );
+            if (inputEvent->modifiers() & Qt::ControlModifier) {
+                if (inputEvent->delta() > 0) {
+                    slot_OnZoomIn();
+                } else {
+                    slot_OnZoomOut();
+                }
+            }
+        }
+    }
+
+    return false;
+}
+//---------------------------------------------------------------------------
+
+
+/****************************************************************************
 *   private
 *
 *****************************************************************************/
@@ -112,6 +144,8 @@ CMain::_initMain() {
         CUtils::widgetAlignCenter(this);
         cboDictionaryPath_reload();
     }
+
+    m_Ui.tabvInfo->viewport()->installEventFilter(this);
 }
 //---------------------------------------------------------------------------
 void
@@ -674,9 +708,10 @@ void
 CMain::slot_OnZoomIn() {
     // table font
     {
-        QFont font     = m_Ui.tabvInfo->font();
-        int   iOldSize = m_Ui.tabvInfo->font().pointSize();
+        int iOldSize = m_Ui.tabvInfo->font().pointSize();
         ++ iOldSize;
+
+        QFont font = m_Ui.tabvInfo->font();
         font.setPointSize(iOldSize);
 
         m_Ui.tabvInfo->setFont(font);
@@ -695,13 +730,13 @@ void
 CMain::slot_OnZoomOut() {
     // table font
     {
-        QFont font     = m_Ui.tabvInfo->font();
-        int   iOldSize = m_Ui.tabvInfo->font().pointSize();
-
-        if (iOldSize > 1) {
+        int iOldSize = m_Ui.tabvInfo->font().pointSize();
+        if (iOldSize > CONFIG_APP_FONT_SIZE_DEFAULT) {
             -- iOldSize;
 
+            QFont font = m_Ui.tabvInfo->font();
             font.setPointSize(iOldSize);
+
             m_Ui.tabvInfo->setFont(font);
         }
     }
@@ -709,8 +744,7 @@ CMain::slot_OnZoomOut() {
     // table row height
     {
         int iOldSize = m_Ui.tabvInfo->verticalHeader()->defaultSectionSize();
-
-        if (iOldSize > 1) {
+        if (iOldSize > CONFIG_TABLEVIEW_ROW_HEIGHT) {
             -- iOldSize;
 
             m_Ui.tabvInfo->verticalHeader()->setDefaultSectionSize(iOldSize);

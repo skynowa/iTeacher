@@ -32,6 +32,10 @@ class CMain :
         QString                m_sDbBackupDir;
         CSqlNavigator          m_navNavigator;
 
+    protected:
+        // table zooming
+        virtual bool           eventFilter       (QObject *obj, QEvent *ev);
+
     private:
         void                   _construct        ();
         void                   _destruct         ();
@@ -119,8 +123,8 @@ class CMain :
         void                   slot_OnFaq        ();
         void                   slot_OnAbout      ();
 
-        void                   slot_tabvInfo_OnSelectionChanged            (const QItemSelection &selected, const QItemSelection &deselected);
-        void                   slot_tabvInfo_OnDoubleClicked               (const QModelIndex &index);
+        void                   slot_tabvInfo_OnSelectionChanged(const QItemSelection &selected, const QItemSelection &deselected);
+        void                   slot_tabvInfo_OnDoubleClicked(const QModelIndex &index);
 
         void                   slot_cboDictionaryPath_OnCurrentIndexChanged(const QString &arg);
 
@@ -134,7 +138,6 @@ class CMain :
         void                   dbOpen            (const QString &filePath);
         void                   dbReopen          (const QString &filePath);
         void                   dbClose           ();
-
 };
 //---------------------------------------------------------------------------
 #endif // iTeacher_CMainH
