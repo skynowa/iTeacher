@@ -109,6 +109,12 @@ CWordEditor::_saveAll() {
 
     _m_tmModel->setRecord(_m_ciCurrentRow, srRecord);
     _m_tmModel->submitAll();
+
+     // set current index
+     CMain *parent = static_cast<CMain *>( this->parent() );
+     Q_ASSERT(NULL != parent);
+
+     parent->m_Ui.tabvInfo->selectRow(_m_ciCurrentRow);
 }
 //---------------------------------------------------------------------------
 

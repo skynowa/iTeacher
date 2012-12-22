@@ -11,6 +11,8 @@
 
 #include "../Config.h"
 #include "../QtLib/Common.h"
+
+#include "CMain.h"
 //---------------------------------------------------------------------------
 class CWordEditor :
     public QDialog
