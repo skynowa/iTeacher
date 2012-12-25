@@ -42,7 +42,7 @@ unix {
 HEADERS             = Config.h \
                       QtLib/Common.h \
                       QtLib/CUtils.h \
-                      Classes/CSqlNavigator.h \
+                      QtLib/CSqlNavigator.h \
                       Classes/CCheckBoxItemDelegate.h \
                       Classes/CCenteredCheckBox.h \
                       Forms/CMain.h \
@@ -51,7 +51,7 @@ HEADERS             = Config.h \
 
 SOURCES             = main.cpp \
                       QtLib/CUtils.cpp \
-                      Classes/CSqlNavigator.cpp \
+                      QtLib/CSqlNavigator.cpp \
                       Classes/CCheckBoxItemDelegate.cpp \
                       Classes/CCenteredCheckBox.cpp \
                       Forms/CMain.cpp \

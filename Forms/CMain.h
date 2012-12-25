@@ -12,7 +12,7 @@
 #include <xLib/Common/xCommon.h>
 #include "../QtLib/Common.h"
 #include "../QtLib/CUtils.h"
-#include "../Classes/CSqlNavigator.h"
+#include "../QtLib/CSqlNavigator.h"
 
 #include "ui_CMain.h"
 //---------------------------------------------------------------------------
@@ -42,50 +42,6 @@ class CMain :
         void                   _initMain         ();
         void                   _initModel        ();
         void                   _initActions      ();
-        void                   _initMenus        ();
-
-
-        // group "File"
-        QAction                actFile_CreateDb;
-        QAction                actFile_ImportCsv;
-        QAction                actFile_ExportCsv;
-        QAction                actFile_ExportPdf;
-        QAction                actFile_Exit;
-
-        // group "Edit"
-        QAction                actEdit_MovetoFirst;
-        QAction                actEdit_MovetoPrior;
-        QAction                actEdit_MovetoNext;
-        QAction                actEdit_MovetoLast;
-        QAction                actEdit_Insert;
-        QAction                actEdit_Delete;
-        QAction                actEdit_Edit;
-        QAction                actEdit_Post;
-        QAction                actEdit_Cancel;
-        QAction                actEdit_Refresh;
-
-        // group "Find"
-        QAction                actFind_Search;
-
-        // group "View"
-        QAction                actView_ZoomIn;
-        QAction                actView_ZoomOut;
-        QAction                actView_ZoomDefault;
-
-        // group "Options"
-        QAction                actOptions_Settings;
-
-        // group "Help"
-        QAction                actHelp_Faq;
-        QAction                actHelp_About;
-
-        // menu
-        QMenu                  mnuFile;
-        QMenu                  mnuEdit;
-        QMenu                  mnuFind;
-        QMenu                  mnuView;
-        QMenu                  mnuOptions;
-        QMenu                  mnuHelp;
 
     private Q_SLOTS:
         // group "File"
@@ -122,9 +78,6 @@ class CMain :
         // group "Help"
         void                   slot_OnFaq        ();
         void                   slot_OnAbout      ();
-
-        void                   slot_tabvInfo_OnSelectionChanged(const QItemSelection &selected, const QItemSelection &deselected);
-        void                   slot_tabvInfo_OnDoubleClicked(const QModelIndex &index);
 
         void                   slot_cboDictionaryPath_OnCurrentIndexChanged(const QString &arg);
 

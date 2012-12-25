@@ -70,6 +70,68 @@
      <height>21</height>
     </rect>
    </property>
+   <widget class="QMenu" name="menuFile">
+    <property name="title">
+     <string>File</string>
+    </property>
+    <addaction name="actFile_CreateDb"/>
+    <addaction name="separator"/>
+    <addaction name="actFile_ImportCsv"/>
+    <addaction name="separator"/>
+    <addaction name="actFile_ExportCsv"/>
+    <addaction name="actFile_ExportPdf"/>
+    <addaction name="separator"/>
+    <addaction name="actFile_Exit"/>
+   </widget>
+   <widget class="QMenu" name="menuEdit">
+    <property name="title">
+     <string>Edit</string>
+    </property>
+    <addaction name="actEdit_First"/>
+    <addaction name="actEdit_Prior"/>
+    <addaction name="actEdit_Next"/>
+    <addaction name="actEdit_Last"/>
+    <addaction name="separator"/>
+    <addaction name="actEdit_Insert"/>
+    <addaction name="actEdit_Delete"/>
+    <addaction name="actEdit_Edit"/>
+    <addaction name="actEdit_Post"/>
+    <addaction name="actEdit_Cancel"/>
+    <addaction name="actEdit_Refresh"/>
+   </widget>
+   <widget class="QMenu" name="menuView">
+    <property name="title">
+     <string>View</string>
+    </property>
+    <addaction name="actView_ZoomIn"/>
+    <addaction name="actView_ZoomOut"/>
+    <addaction name="actView_ZoomDefault"/>
+   </widget>
+   <widget class="QMenu" name="menuOptions">
+    <property name="title">
+     <string>Options</string>
+    </property>
+    <addaction name="actOptions_Settings"/>
+   </widget>
+   <widget class="QMenu" name="menuHelp">
+    <property name="title">
+     <string>Help</string>
+    </property>
+    <addaction name="actHelp_Faq"/>
+    <addaction name="actHelp_About"/>
+   </widget>
+   <widget class="QMenu" name="menuFind">
+    <property name="title">
+     <string>Find</string>
+    </property>
+    <addaction name="actFind_Search"/>
+   </widget>
+   <addaction name="menuFile"/>
+   <addaction name="menuEdit"/>
+   <addaction name="menuFind"/>
+   <addaction name="menuView"/>
+   <addaction name="menuOptions"/>
+   <addaction name="menuHelp"/>
   </widget>
   <widget class="QToolBar" name="toolBar">
    <property name="windowTitle">
@@ -82,9 +144,197 @@
     <bool>false</bool>
    </attribute>
    <addaction name="separator"/>
+   <addaction name="actEdit_First"/>
+   <addaction name="actEdit_Prior"/>
+   <addaction name="actEdit_Next"/>
+   <addaction name="actEdit_Last"/>
+   <addaction name="separator"/>
+   <addaction name="actEdit_Insert"/>
+   <addaction name="actEdit_Delete"/>
+   <addaction name="actEdit_Edit"/>
+   <addaction name="actEdit_Post"/>
+   <addaction name="actEdit_Cancel"/>
+   <addaction name="actEdit_Refresh"/>
+   <addaction name="separator"/>
+   <addaction name="actFind_Search"/>
   </widget>
+  <action name="actFile_CreateDb">
+   <property name="icon">
+    <iconset resource="../Resources/App.qrc">
+     <normaloff>:/Menu/Menu/NewDB.bmp</normaloff>:/Menu/Menu/NewDB.bmp</iconset>
+   </property>
+   <property name="text">
+    <string>Create Db...</string>
+   </property>
+  </action>
+  <action name="actFile_ImportCsv">
+   <property name="text">
+    <string>Import CSV...</string>
+   </property>
+   <property name="toolTip">
+    <string>Import CSV</string>
+   </property>
+  </action>
+  <action name="actFile_ExportCsv">
+   <property name="text">
+    <string>Export CSV...</string>
+   </property>
+  </action>
+  <action name="actFile_ExportPdf">
+   <property name="text">
+    <string>Export PDF...</string>
+   </property>
+  </action>
+  <action name="actFile_Exit">
+   <property name="icon">
+    <iconset resource="../Resources/App.qrc">
+     <normaloff>:/Menu/Menu/Exit.bmp</normaloff>:/Menu/Menu/Exit.bmp</iconset>
+   </property>
+   <property name="text">
+    <string>Exit</string>
+   </property>
+  </action>
+  <action name="actEdit_First">
+   <property name="icon">
+    <iconset resource="../Resources/App.qrc">
+     <normaloff>:/Menu/Menu/First.bmp</normaloff>:/Menu/Menu/First.bmp</iconset>
+   </property>
+   <property name="text">
+    <string>First</string>
+   </property>
+  </action>
+  <action name="actEdit_Next">
+   <property name="icon">
+    <iconset resource="../Resources/App.qrc">
+     <normaloff>:/Menu/Menu/Next.bmp</normaloff>:/Menu/Menu/Next.bmp</iconset>
+   </property>
+   <property name="text">
+    <string>Next</string>
+   </property>
+  </action>
+  <action name="actEdit_Last">
+   <property name="icon">
+    <iconset resource="../Resources/App.qrc">
+     <normaloff>:/Menu/Menu/Last.bmp</normaloff>:/Menu/Menu/Last.bmp</iconset>
+   </property>
+   <property name="text">
+    <string>Last</string>
+   </property>
+  </action>
+  <action name="actEdit_Insert">
+   <property name="icon">
+    <iconset resource="../Resources/App.qrc">
+     <normaloff>:/Menu/Menu/Insert.bmp</normaloff>:/Menu/Menu/Insert.bmp</iconset>
+   </property>
+   <property name="text">
+    <string>Insert</string>
+   </property>
+  </action>
+  <action name="actEdit_Delete">
+   <property name="icon">
+    <iconset resource="../Resources/App.qrc">
+     <normaloff>:/Menu/Menu/Delete.bmp</normaloff>:/Menu/Menu/Delete.bmp</iconset>
+   </property>
+   <property name="text">
+    <string>Delete</string>
+   </property>
+  </action>
+  <action name="actEdit_Post">
+   <property name="icon">
+    <iconset resource="../Resources/App.qrc">
+     <normaloff>:/Menu/Menu/Post.bmp</normaloff>:/Menu/Menu/Post.bmp</iconset>
+   </property>
+   <property name="text">
+    <string>Post</string>
+   </property>
+  </action>
+  <action name="actEdit_Prior">
+   <property name="icon">
+    <iconset resource="../Resources/App.qrc">
+     <normaloff>:/Menu/Menu/Prior.bmp</normaloff>:/Menu/Menu/Prior.bmp</iconset>
+   </property>
+   <property name="text">
+    <string>Prior</string>
+   </property>
+  </action>
+  <action name="actEdit_Cancel">
+   <property name="icon">
+    <iconset resource="../Resources/App.qrc">
+     <normaloff>:/Menu/Menu/Cancel.bmp</normaloff>:/Menu/Menu/Cancel.bmp</iconset>
+   </property>
+   <property name="text">
+    <string>Cancel</string>
+   </property>
+  </action>
+  <action name="actEdit_Refresh">
+   <property name="icon">
+    <iconset resource="../Resources/App.qrc">
+     <normaloff>:/Menu/Menu/Refresh.bmp</normaloff>:/Menu/Menu/Refresh.bmp</iconset>
+   </property>
+   <property name="text">
+    <string>Refresh</string>
+   </property>
+  </action>
+  <action name="actEdit_Edit">
+   <property name="icon">
+    <iconset resource="../Resources/App.qrc">
+     <normaloff>:/Menu/Menu/Edit.bmp</normaloff>:/Menu/Menu/Edit.bmp</iconset>
+   </property>
+   <property name="text">
+    <string>Edit</string>
+   </property>
+  </action>
+  <action name="actFind_Search">
+   <property name="icon">
+    <iconset resource="../Resources/App.qrc">
+     <normaloff>:/Menu/Menu/Search.bmp</normaloff>:/Menu/Menu/Search.bmp</iconset>
+   </property>
+   <property name="text">
+    <string>Search...</string>
+   </property>
+  </action>
+  <action name="actView_ZoomIn">
+   <property name="text">
+    <string>Zoom In</string>
+   </property>
+  </action>
+  <action name="actView_ZoomOut">
+   <property name="text">
+    <string>Zoom Out</string>
+   </property>
+  </action>
+  <action name="actView_ZoomDefault">
+   <property name="text">
+    <string>Zoom Default</string>
+   </property>
+  </action>
+  <action name="actOptions_Settings">
+   <property name="icon">
+    <iconset resource="../Resources/App.qrc">
+     <normaloff>:/Menu/Menu/Options.bmp</normaloff>:/Menu/Menu/Options.bmp</iconset>
+   </property>
+   <property name="text">
+    <string>Settings...</string>
+   </property>
+  </action>
+  <action name="actHelp_Faq">
+   <property name="icon">
+    <iconset resource="../Resources/App.qrc">
+     <normaloff>:/Menu/Menu/Faq.bmp</normaloff>:/Menu/Menu/Faq.bmp</iconset>
+   </property>
+   <property name="text">
+    <string>Help</string>
+   </property>
+  </action>
+  <action name="actHelp_About">
+   <property name="text">
+    <string>About</string>
+   </property>
+  </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
- <resources/>
+ <resources>
+  <include location="../Resources/App.qrc"/>
+ </resources>
  <connections/>
 </ui>

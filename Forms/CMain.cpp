@@ -33,28 +33,6 @@ CMain::CMain(
     m_sDbDir           (),
     m_sDbBackupDir     (),
     m_navNavigator     (this),
-    actFile_CreateDb   (this),
-    actFile_ImportCsv  (this),
-    actFile_ExportCsv  (this),
-    actFile_ExportPdf  (this),
-    actFile_Exit       (this),
-    actEdit_MovetoFirst(this),
-    actEdit_MovetoPrior(this),
-    actEdit_MovetoNext (this),
-    actEdit_MovetoLast (this),
-    actEdit_Insert     (this),
-    actEdit_Delete     (this),
-    actEdit_Edit       (this),
-    actEdit_Post       (this),
-    actEdit_Cancel     (this),
-    actEdit_Refresh    (this),
-    actView_ZoomIn     (this),
-    actView_ZoomOut    (this),
-    actView_ZoomDefault(this),
-    actFind_Search     (this),
-    actOptions_Settings(this),
-    actHelp_Faq        (this),
-    actHelp_About      (this),
     _m_dbDatabase      (NULL),
     _m_tmModel         (NULL)
 {
@@ -92,6 +70,8 @@ CMain::eventFilter(
                     slot_OnZoomOut();
                 }
             }
+
+            return true;
         }
     }
 
@@ -111,7 +91,6 @@ CMain::_construct() {
     _initMain();
     _initModel();
     _initActions();
-    _initMenus();
 }
 //---------------------------------------------------------------------------
 void
@@ -196,14 +175,11 @@ CMain::_initModel() {
     //--------------------------------------------------
     // slots
     {
-        connect(m_Ui.tabvInfo->selectionModel(), SIGNAL( selectionChanged(const QItemSelection &, const QItemSelection &) ),
-                this,                            SLOT  ( slot_tabvInfo_OnSelectionChanged(const QItemSelection &, const QItemSelection &) ));
+        connect(m_Ui.tabvInfo,          SIGNAL( doubleClicked(const QModelIndex &) ),
+                this,                   SLOT  ( slot_OnEdit() ));
 
-        connect(m_Ui.tabvInfo,                   SIGNAL( doubleClicked(const QModelIndex &) ),
-                this,                            SLOT  ( slot_tabvInfo_OnDoubleClicked(const QModelIndex &) ));
-
-        connect(m_Ui.cboDictionaryPath,          SIGNAL( currentIndexChanged(const QString &) ),
-                this,                            SLOT  ( slot_cboDictionaryPath_OnCurrentIndexChanged(const QString &) ));
+        connect(m_Ui.cboDictionaryPath, SIGNAL( currentIndexChanged(const QString &) ),
+                this,                   SLOT  ( slot_cboDictionaryPath_OnCurrentIndexChanged(const QString &) ));
     }
 
     //--------------------------------------------------
@@ -218,223 +194,86 @@ void
 CMain::_initActions() {
     // group "File"
     {
-        actFile_CreateDb.setText(tr("Create DB"));
-        connect(&actFile_CreateDb, SIGNAL( triggered() ),
-                this,              SLOT  ( slot_OnCreateDb() ));
-        //// m_Ui.toolBar->addAction(&actFile_CreateDb);
+        connect(m_Ui.actFile_CreateDb,    SIGNAL( triggered() ),
+                this,                     SLOT  ( slot_OnCreateDb() ));
 
-        //// m_Ui.toolBar->addSeparator();
+        connect(m_Ui.actFile_ImportCsv,   SIGNAL( triggered() ),
+                this,                     SLOT  ( slot_OnImportCsv() ));
 
-        actFile_ImportCsv.setText(tr("Import CSV"));
-        connect(&actFile_ImportCsv, SIGNAL( triggered() ),
-                this,               SLOT  ( slot_OnImportCsv() ));
-        //// m_Ui.toolBar->addAction(&actFile_ImportCsv);
+        connect(m_Ui.actFile_ExportCsv,   SIGNAL( triggered() ),
+                this,                     SLOT  ( slot_OnExportCsv() ));
 
-        //// m_Ui.toolBar->addSeparator();
+        connect(m_Ui.actFile_ExportPdf,   SIGNAL( triggered() ),
+                this,                     SLOT  ( slot_OnExportPdf() ));
 
-        actFile_ExportCsv.setText(tr("Export CSV"));
-        connect(&actFile_ExportCsv, SIGNAL( triggered() ),
-                this,               SLOT  ( slot_OnExportCsv() ));
-        //// m_Ui.toolBar->addAction(&actFile_ExportCsv);
-
-        actFile_ExportPdf.setText(tr("Export PDF"));
-        connect(&actFile_ExportPdf, SIGNAL( triggered() ),
-                this,               SLOT  ( slot_OnExportPdf() ));
-        //// m_Ui.toolBar->addAction(&actFile_ExportPdf);
-
-        //// m_Ui.toolBar->addSeparator();
-
-        actFile_Exit.setText(tr("Exit"));
-        connect(&actFile_Exit, SIGNAL( triggered() ),
-                this,          SLOT  ( slot_OnExit() ));
-        //// m_Ui.toolBar->addAction(&actFile_Exit);
-
-        //// m_Ui.toolBar->addSeparator();
+        connect(m_Ui.actFile_Exit,        SIGNAL( triggered() ),
+                this,                     SLOT  ( slot_OnExit() ));
     }
 
     // group "Edit"
     {
-        actEdit_MovetoFirst.setText(tr("First"));
-        connect(&actEdit_MovetoFirst, SIGNAL( triggered() ),
-                this,                 SLOT  ( slot_OnFirst() ));
-        m_Ui.toolBar->addAction(&actEdit_MovetoFirst);
+        connect(m_Ui.actEdit_First,       SIGNAL( triggered() ),
+                this,                     SLOT  ( slot_OnFirst() ));
 
-        actEdit_MovetoPrior.setText(tr("Prior"));
-        connect(&actEdit_MovetoPrior, SIGNAL( triggered() ),
-                this,                 SLOT  ( slot_OnPrior() ));
-        m_Ui.toolBar->addAction(&actEdit_MovetoPrior);
+        connect(m_Ui.actEdit_Prior,       SIGNAL( triggered() ),
+                this,                     SLOT  ( slot_OnPrior() ));
 
-        actEdit_MovetoNext.setText(tr("Next"));
-        connect(&actEdit_MovetoNext, SIGNAL( triggered() ),
-                this,                SLOT  ( slot_OnNext() ));
-        m_Ui.toolBar->addAction(&actEdit_MovetoNext);
+        connect(m_Ui.actEdit_Next,        SIGNAL( triggered() ),
+                this,                     SLOT  ( slot_OnNext() ));
 
-        actEdit_MovetoLast.setText(tr("Last"));
-        connect(&actEdit_MovetoLast, SIGNAL( triggered() ),
-                this,                SLOT  ( slot_OnLast() ));
-        m_Ui.toolBar->addAction(&actEdit_MovetoLast);
+        connect(m_Ui.actEdit_Last,        SIGNAL( triggered() ),
+                this,                     SLOT  ( slot_OnLast() ));
 
-        actEdit_Insert.setText(tr("Insert"));
-        connect(&actEdit_Insert, SIGNAL( triggered() ),
-                this,            SLOT  ( slot_OnInsert() ));
-        m_Ui.toolBar->addAction(&actEdit_Insert);
+        connect(m_Ui.actEdit_Insert,      SIGNAL( triggered() ),
+                this,                     SLOT  ( slot_OnInsert() ));
 
-        actEdit_Delete.setText(tr("Delete"));
-        connect(&actEdit_Delete, SIGNAL( triggered() ),
-                this,            SLOT  ( slot_OnRemove() ));
-        m_Ui.toolBar->addAction(&actEdit_Delete);
+        connect(m_Ui.actEdit_Delete,      SIGNAL( triggered() ),
+                this,                     SLOT  ( slot_OnRemove() ));
 
-        actEdit_Edit.setText(tr("Edit"));
-        connect(&actEdit_Edit, SIGNAL( triggered() ),
-                this,          SLOT  ( slot_OnEdit() ));
-        m_Ui.toolBar->addAction(&actEdit_Edit);
+        connect(m_Ui.actEdit_Edit,        SIGNAL( triggered() ),
+                this,                     SLOT  ( slot_OnEdit() ));
 
-        actEdit_Post.setText(tr("Post"));
-        connect(&actEdit_Post, SIGNAL( triggered() ),
-                this,          SLOT  ( slot_OnPost() ));
-        m_Ui.toolBar->addAction(&actEdit_Post);
+        connect(m_Ui.actEdit_Post,        SIGNAL( triggered() ),
+                this,                     SLOT  ( slot_OnPost() ));
 
-        actEdit_Cancel.setText(tr("Cancel"));
-        connect(&actEdit_Cancel, SIGNAL( triggered() ),
-                this,            SLOT  ( slot_OnCancel() ));
-        m_Ui.toolBar->addAction(&actEdit_Cancel);
+        connect(m_Ui.actEdit_Cancel,      SIGNAL( triggered() ),
+                this,                     SLOT  ( slot_OnCancel() ));
 
-        actEdit_Refresh.setText(tr("Refresh"));
-        connect(&actEdit_Refresh, SIGNAL( triggered() ),
-                this,             SLOT  ( slot_OnRefresh() ));
-        m_Ui.toolBar->addAction(&actEdit_Refresh);
-
-        m_Ui.toolBar->addSeparator();
+        connect(m_Ui.actEdit_Refresh,     SIGNAL( triggered() ),
+                this,                     SLOT  ( slot_OnRefresh() ));
     }
 
     // group "Find"
     {
-        actFind_Search.setText(tr("Search"));
-        connect(&actFind_Search, SIGNAL( triggered() ),
-                this,            SLOT  ( slot_OnSearch() ));
-        m_Ui.toolBar->addAction(&actFind_Search);
-
-        m_Ui.toolBar->addSeparator();
+        connect(m_Ui.actFind_Search,      SIGNAL( triggered() ),
+                this,                     SLOT  ( slot_OnSearch() ));
     }
 
     // group "View"
     {
-        actView_ZoomIn.setText(tr("Zoom In"));
-        connect(&actView_ZoomIn,      SIGNAL( triggered() ),
-                this,                 SLOT  ( slot_OnZoomIn() ));
-        m_Ui.toolBar->addAction(&actView_ZoomIn);
+        connect(m_Ui.actView_ZoomIn,      SIGNAL( triggered() ),
+                this,                     SLOT  ( slot_OnZoomIn() ));
 
-        actView_ZoomOut.setText(tr("Zoom Out"));
-        connect(&actView_ZoomOut,     SIGNAL( triggered() ),
-                this,                 SLOT  ( slot_OnZoomOut() ));
-        m_Ui.toolBar->addAction(&actView_ZoomOut);
+        connect(m_Ui.actView_ZoomOut,     SIGNAL( triggered() ),
+                this,                     SLOT  ( slot_OnZoomOut() ));
 
-        actView_ZoomDefault.setText(tr("Zoom default"));
-        connect(&actView_ZoomDefault, SIGNAL( triggered() ),
-                this,                 SLOT  ( slot_OnZoomDefault() ));
-        m_Ui.toolBar->addAction(&actView_ZoomDefault);
-
-        m_Ui.toolBar->addSeparator();
+        connect(m_Ui.actView_ZoomDefault, SIGNAL( triggered() ),
+                this,                     SLOT  ( slot_OnZoomDefault() ));
     }
 
     // group "Options"
     {
-        actOptions_Settings.setText(tr("Settings"));
-        connect(&actOptions_Settings, SIGNAL( triggered() ),
-                this,                 SLOT  ( slot_OnSettings() ));
-        //// m_Ui.toolBar->addAction(&actOptions_Settings);
-
-        //// m_Ui.toolBar->addSeparator();
+        connect(m_Ui.actOptions_Settings, SIGNAL( triggered() ),
+                this,                     SLOT  ( slot_OnSettings() ));
     }
 
     // group "Help"
     {
-        actHelp_Faq.setText(tr("FAQ"));
-        connect(&actHelp_Faq, SIGNAL( triggered() ),
-                this,         SLOT  ( slot_OnFaq() ));
-        //// m_Ui.toolBar->addAction(&actHelp_Faq);
+        connect(m_Ui.actHelp_Faq,         SIGNAL( triggered() ),
+                this,                     SLOT  ( slot_OnFaq() ));
 
-        actHelp_About.setText(tr("About"));
-        connect(&actHelp_About, SIGNAL( triggered() ),
-                this,           SLOT  ( slot_OnAbout() ));
-        //// m_Ui.toolBar->addAction(&actHelp_About);
-    }
-}
-//---------------------------------------------------------------------------
-void
-CMain::_initMenus() {
-    // group "File"
-    {
-        mnuFile.setTitle(tr("File"));
-
-        mnuFile.addAction(&actFile_CreateDb);
-        mnuFile.addSeparator();
-        mnuFile.addAction(&actFile_ImportCsv);
-        mnuFile.addSeparator();
-        mnuFile.addAction(&actFile_ExportCsv);
-        mnuFile.addAction(&actFile_ExportPdf);
-        mnuFile.addSeparator();
-        mnuFile.addAction(&actFile_Exit);
-
-        menuBar()->addMenu(&mnuFile);
-    }
-
-    // group "Edit"
-    {
-        mnuEdit.setTitle(tr("Edit"));
-
-        mnuEdit.addAction(&actEdit_MovetoFirst);
-        mnuEdit.addAction(&actEdit_MovetoPrior);
-        mnuEdit.addAction(&actEdit_MovetoNext);
-        mnuEdit.addAction(&actEdit_MovetoLast);
-        mnuEdit.addSeparator();
-        mnuEdit.addAction(&actEdit_Insert);
-        mnuEdit.addAction(&actEdit_Delete);
-        mnuEdit.addAction(&actEdit_Edit);
-        mnuEdit.addAction(&actEdit_Post);
-        mnuEdit.addAction(&actEdit_Cancel);
-        mnuEdit.addAction(&actEdit_Refresh);
-
-        menuBar()->addMenu(&mnuEdit);
-    }
-
-    // group "Find"
-    {
-        mnuFind.setTitle(tr("Find"));
-
-        mnuFind.addAction(&actFind_Search);
-
-        menuBar()->addMenu(&mnuFind);
-    }
-
-    // group "View"
-    {
-        mnuView.setTitle(tr("View"));
-
-        mnuView.addAction(&actView_ZoomIn);
-        mnuView.addAction(&actView_ZoomOut);
-        mnuView.addAction(&actView_ZoomDefault);
-
-        menuBar()->addMenu(&mnuView);
-    }
-
-    // group "Options"
-    {
-        mnuOptions.setTitle(tr("Options"));
-
-        mnuOptions.addAction(&actOptions_Settings);
-
-        menuBar()->addMenu(&mnuOptions);
-    }
-
-    // group "Help"
-    {
-        mnuHelp.setTitle(tr("Help"));
-
-        mnuHelp.addAction(&actHelp_Faq);
-        mnuHelp.addAction(&actHelp_About);
-
-        menuBar()->addMenu(&mnuHelp);
+        connect(m_Ui.actHelp_About,       SIGNAL( triggered() ),
+                this,                     SLOT  ( slot_OnAbout() ));
     }
 }
 //---------------------------------------------------------------------------
@@ -644,27 +483,6 @@ CMain::slot_OnEdit() {
     qCHECK_DO(NULL == _m_tmModel, return);
 
     const int   ciCurrentRow = m_Ui.tabvInfo->currentIndex().row();
-    CWordEditor dlgWordEditor(this, _m_tmModel, ciCurrentRow);
-
-    dlgWordEditor.exec();
-}
-//---------------------------------------------------------------------------
-void
-CMain::slot_tabvInfo_OnSelectionChanged(
-    const QItemSelection &selected,
-    const QItemSelection &deselected
-)
-{
-    Q_UNUSED(selected);
-    Q_UNUSED(deselected);
-}
-//---------------------------------------------------------------------------
-void
-CMain::slot_tabvInfo_OnDoubleClicked(
-    const QModelIndex &index
-)
-{
-    const int   ciCurrentRow = index.row();
     CWordEditor dlgWordEditor(this, _m_tmModel, ciCurrentRow);
 
     dlgWordEditor.exec();
