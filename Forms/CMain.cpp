@@ -70,8 +70,6 @@ CMain::eventFilter(
                     slot_OnZoomOut();
                 }
             }
-
-            return true;
         }
     }
 
