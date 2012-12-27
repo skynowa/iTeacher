@@ -20,5 +20,6 @@
         <file>Menu/Refresh.bmp</file>
         <file>Menu/SaveAs.bmp</file>
         <file>Menu/Search.bmp</file>
+        <file>Menu/To.bmp</file>
     </qresource>
 </RCC>

@@ -89,11 +89,14 @@ CMain::_construct() {
     _initMain();
     _initModel();
     _initActions();
+
+    _settingsLoad();
 }
 //---------------------------------------------------------------------------
 void
 CMain::_destruct() {
-    // _m_dbDatabase disconnect
+    _settingsSave();
+
     dbClose();
 }
 //---------------------------------------------------------------------------
@@ -104,8 +107,8 @@ CMain::_initMain() {
     //--------------------------------------------------
     // data
     {
-        m_sAppName     = CONFIG_APP_NAME;
-        m_sAppDir      = qS2QS( CxPath::sExeDir() );
+        m_sAppName     = QCoreApplication::applicationName();;
+        m_sAppDir      = QCoreApplication::applicationDirPath();
         m_sDbDir       = m_sAppDir + QDir::separator() + "Db";
         m_sDbBackupDir = m_sDbDir  + QDir::separator() + "Backup";
 
@@ -221,6 +224,9 @@ CMain::_initActions() {
 
         connect(m_Ui.actEdit_Last,        SIGNAL( triggered() ),
                 this,                     SLOT  ( slot_OnLast() ));
+
+        connect(m_Ui.actEdit_To,          SIGNAL( triggered() ),
+                this,                     SLOT  ( slot_OnTo() ));
 
         connect(m_Ui.actEdit_Insert,      SIGNAL( triggered() ),
                 this,                     SLOT  ( slot_OnInsert() ));
@@ -457,6 +463,18 @@ CMain::slot_OnNext() {
 void
 CMain::slot_OnLast() {
     m_navNavigator.last();
+}
+//---------------------------------------------------------------------------
+void
+CMain::slot_OnTo() {
+    const int ciCurrentRow = m_Ui.tabvInfo->currentIndex().row() + 1;
+    const int ciMinValue   = 1;
+    const int ciMaxValue   = CUtils::sqlTableModelRowCount(_m_tmModel);
+
+    int iTargetRow = QInputDialog::getInt(
+                        this, CONFIG_APP_NAME, "Go to row:", ciCurrentRow, ciMinValue, ciMaxValue) - 1;
+
+    m_navNavigator.to(iTargetRow);
 }
 //---------------------------------------------------------------------------
 void
@@ -869,5 +887,60 @@ CMain::dbClose() {
         }
     }
 
+}
+//---------------------------------------------------------------------------
+
+
+/****************************************************************************
+*   private
+*
+*****************************************************************************/
+
+//---------------------------------------------------------------------------
+void
+CMain::_settingsLoad() {
+    QSize  szSize;
+    QPoint pnPosition;
+    int    iTableCurrentRow = 0;
+
+    {
+        QSettings stSettings(QCoreApplication::applicationName() + ".ini", QSettings::IniFormat, this);
+
+        stSettings.beginGroup("main");
+        szSize           = stSettings.value("size",        QSize(CONFIG_APP_WIDTH, CONFIG_APP_HEIGHT)).toSize();
+        pnPosition       = stSettings.value("position",    QPoint(200, 200)).toPoint();
+        stSettings.endGroup();
+
+        stSettings.beginGroup("table");
+        iTableCurrentRow = stSettings.value("current_row", 0).toInt();
+        stSettings.endGroup();
+    }
+
+    // apply settings
+    {
+        // main
+        resize(szSize);
+        move(pnPosition);
+
+        // table
+        m_Ui.tabvInfo->setFocus();
+        m_Ui.tabvInfo->selectRow(iTableCurrentRow);
+    }
+}
+//---------------------------------------------------------------------------
+void
+CMain::_settingsSave() {
+    QSettings stSettings(QCoreApplication::applicationName() + ".ini", QSettings::IniFormat, this);
+
+    // main
+    stSettings.beginGroup("main");
+    stSettings.setValue("position", pos());
+    stSettings.setValue("size",     size());
+    stSettings.endGroup();
+
+    // table
+    stSettings.beginGroup("table");
+    stSettings.setValue("current_row", m_Ui.tabvInfo->currentIndex().row());
+    stSettings.endGroup();
 }
 //---------------------------------------------------------------------------

@@ -91,6 +91,7 @@
     <addaction name="actEdit_Prior"/>
     <addaction name="actEdit_Next"/>
     <addaction name="actEdit_Last"/>
+    <addaction name="actEdit_To"/>
     <addaction name="separator"/>
     <addaction name="actEdit_Insert"/>
     <addaction name="actEdit_Delete"/>
@@ -143,11 +144,13 @@
    <attribute name="toolBarBreak">
     <bool>false</bool>
    </attribute>
+   <addaction name="actFile_Exit"/>
    <addaction name="separator"/>
    <addaction name="actEdit_First"/>
    <addaction name="actEdit_Prior"/>
    <addaction name="actEdit_Next"/>
    <addaction name="actEdit_Last"/>
+   <addaction name="actEdit_To"/>
    <addaction name="separator"/>
    <addaction name="actEdit_Insert"/>
    <addaction name="actEdit_Delete"/>
@@ -329,6 +332,15 @@
   <action name="actHelp_About">
    <property name="text">
     <string>About</string>
+   </property>
+  </action>
+  <action name="actEdit_To">
+   <property name="icon">
+    <iconset resource="../Resources/App.qrc">
+     <normaloff>:/Menu/Menu/To.bmp</normaloff>:/Menu/Menu/To.bmp</iconset>
+   </property>
+   <property name="text">
+    <string>To...</string>
    </property>
   </action>
  </widget>

@@ -56,6 +56,7 @@ class CMain :
         void                   slot_OnPrior      ();
         void                   slot_OnNext       ();
         void                   slot_OnLast       ();
+        void                   slot_OnTo         ();
         void                   slot_OnInsert     ();
         void                   slot_OnRemove     ();
         void                   slot_OnEdit       ();
@@ -91,6 +92,9 @@ class CMain :
         void                   dbOpen            (const QString &filePath);
         void                   dbReopen          (const QString &filePath);
         void                   dbClose           ();
+
+        void                   _settingsLoad     ();
+        void                   _settingsSave     ();
 };
 //---------------------------------------------------------------------------
 #endif // iTeacher_CMainH

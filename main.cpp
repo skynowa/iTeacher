@@ -43,7 +43,7 @@ int main(int argc, char *argv[])
         QApplication apStart(argc, argv);
 
         QCoreApplication::setOrganizationName(CONFIG_ORG_NAME);
-        QCoreApplication::setApplicationName( apStart.applicationFilePath() );
+        QCoreApplication::setApplicationName(CONFIG_APP_NAME);
 
         CMain dlgMain;
         dlgMain.show();
