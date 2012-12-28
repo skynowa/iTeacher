@@ -13,8 +13,6 @@
 #include "../QtLib/Common.h"
 #include "../QtLib/CUtils.h"
 #include "../QtLib/CSqlNavigator.h"
-#include <phonon/audiooutput.h>
-#include <phonon/mediaobject.h>
 
 #include "ui_CMain.h"
 //---------------------------------------------------------------------------
