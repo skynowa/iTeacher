@@ -15,6 +15,6 @@ Prerequisites:
 
 
 Dependencies:
-
+                Ubuntu: libphonon-dev
 
 
