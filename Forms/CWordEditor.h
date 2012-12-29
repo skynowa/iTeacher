@@ -22,24 +22,29 @@ class CWordEditor :
     public:
         Ui::CWordEditor m_Ui;
 
-                        CWordEditor      (QWidget *parent, QSqlTableModel *tableModel, const int &currentRow);
+                        CWordEditor      (QWidget *parent, QSqlTableModel *tableModel,
+                                          const int &currentRow, const QString &newTerm = QString());
         virtual        ~CWordEditor      ();
 
     private:
         QSqlTableModel *_m_tmModel;
         const int       _m_ciCurrentRow;
-        QClipboard     *_m_pcbClipboard;    ///< clipboard
+        const QString   _m_csNewTerm;
 
-        void           _construct        ();
-        void           _destruct         ();
+        QStatusBar     *_m_sbInfo;
+        QPalette        _m_plInfoDefault;
 
-        void           _resetAll         ();
-        void           _saveAll          ();
+        void            _construct        ();
+        void            _destruct         ();
+
+        void            _resetAll         ();
+        void            _saveAll          ();
 
     private Q_SLOTS:
-        void           slot_textTranslate();
-        void           slot_bbxButtons_OnClicked(QAbstractButton *button);
-        void           slot_WordTermOrValue_OnTextChanged();
+        void            slot_termTranslate();
+        void            slot_termCheck    ();
+        void            slot_bbxButtons_OnClicked(QAbstractButton *button);
+        void            slot_WordTermOrValue_OnTextChanged();
 };
 //---------------------------------------------------------------------------
 #endif // iTeacher_CWordEditorH

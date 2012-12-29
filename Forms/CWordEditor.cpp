@@ -16,14 +16,17 @@
 
 //---------------------------------------------------------------------------
 CWordEditor::CWordEditor(
-    QWidget        *parent,
-    QSqlTableModel *tableModel,
-    const int      &currentRow
+    QWidget        *a_parent,
+    QSqlTableModel *a_tableModel,
+    const int      &a_currentRow,
+    const QString  &a_newTerm /* = QString() */
 ) :
-    QDialog        (parent),
-    _m_tmModel     (tableModel),
-    _m_ciCurrentRow(currentRow),
-    _m_pcbClipboard(QApplication::clipboard())
+    QDialog         (a_parent),
+    _m_tmModel      (a_tableModel),
+    _m_ciCurrentRow (a_currentRow),
+    _m_csNewTerm    (a_newTerm.trimmed()),
+    _m_sbInfo       (NULL),
+    _m_plInfoDefault()
 {
     Q_ASSERT(NULL != _m_tmModel);
     Q_ASSERT(- 1  <  _m_ciCurrentRow);
@@ -48,7 +51,7 @@ void
 CWordEditor::_construct() {
     m_Ui.setupUi(this);
 
-    // "Main" group
+    // CMain
     {
         QSqlRecord srRecord = _m_tmModel->record(_m_ciCurrentRow);
 
@@ -57,21 +60,41 @@ CWordEditor::_construct() {
         m_Ui.tedtWordValue->setText      ( srRecord.value(CONFIG_DB_F_MAIN_VALUE).toString() );
         m_Ui.chkWordIsLearned->setChecked( srRecord.value(CONFIG_DB_F_MAIN_IS_LEARNED).toBool() );
         m_Ui.chkWordIsMarked->setChecked ( srRecord.value(CONFIG_DB_F_MAIN_IS_MARKED).toBool() );
+
+        // _m_sbInfo
+        {
+            _m_sbInfo = new QStatusBar(this);
+            _m_sbInfo->setSizeGripEnabled(false);
+
+            m_Ui.gridLayout->addWidget(_m_sbInfo);
+
+            _m_plInfoDefault = _m_sbInfo->palette();
+        }
+
+        // check word term
+        if (!_m_csNewTerm.isEmpty()) {
+            m_Ui.tedtWordTerm->setText(_m_csNewTerm);
+            slot_termCheck();
+            slot_termTranslate();
+        }
     }
 
     // signals
     {
-        connect(m_Ui.pbtnTranslate, SIGNAL( clicked() ),
-                 this,              SLOT  ( slot_textTranslate() ));
+        connect(m_Ui.pbtnTermTranslate, SIGNAL( clicked() ),
+                 this,                  SLOT  ( slot_termTranslate() ));
 
-        connect(m_Ui.bbxButtons,    SIGNAL( clicked(QAbstractButton *) ),
-                this,               SLOT  ( slot_bbxButtons_OnClicked(QAbstractButton *) ));
+        connect(m_Ui.pbtnTermCheck,     SIGNAL( clicked() ),
+                 this,                  SLOT  ( slot_termCheck() ));
 
-        connect(m_Ui.tedtWordTerm,  SIGNAL( textChanged()),
-                this,               SLOT  ( slot_WordTermOrValue_OnTextChanged() ));
+        connect(m_Ui.bbxButtons,        SIGNAL( clicked(QAbstractButton *) ),
+                this,                   SLOT  ( slot_bbxButtons_OnClicked(QAbstractButton *) ));
 
-        connect(m_Ui.tedtWordValue, SIGNAL( textChanged()),
-                this,               SLOT  ( slot_WordTermOrValue_OnTextChanged() ));
+        connect(m_Ui.tedtWordTerm,      SIGNAL( textChanged()),
+                this,                   SLOT  ( slot_WordTermOrValue_OnTextChanged() ));
+
+        connect(m_Ui.tedtWordValue,     SIGNAL( textChanged()),
+                this,                   SLOT  ( slot_WordTermOrValue_OnTextChanged() ));
     }
 }
 //---------------------------------------------------------------------------
@@ -109,15 +132,8 @@ CWordEditor::_saveAll() {
 
     _m_tmModel->setRecord(_m_ciCurrentRow, srRecord);
     _m_tmModel->submitAll();
-
-     // set current index
-     CMain *parent = static_cast<CMain *>( this->parent() );
-     Q_ASSERT(NULL != parent);
-
-     parent->m_Ui.tabvInfo->selectRow(_m_ciCurrentRow);
 }
 //---------------------------------------------------------------------------
-
 
 
 /****************************************************************************
@@ -127,7 +143,7 @@ CWordEditor::_saveAll() {
 
 //---------------------------------------------------------------------------
 void
-CWordEditor::slot_textTranslate() {
+CWordEditor::slot_termTranslate() {
     m_Ui.tedtWordValue->clear();
 
     qCHECK_DO(true == m_Ui.tedtWordTerm->toPlainText().isEmpty(), return);
@@ -137,15 +153,59 @@ CWordEditor::slot_textTranslate() {
     const QString sLangTo   = QString("ru").toUtf8();
     QString       sTextTo   = CUtils::googleTranslate(sTextFrom, sLangFrom, sLangTo);
 
-    m_Ui.tedtWordValue->setText( sTextTo );
+    m_Ui.tedtWordValue->setText(sTextTo);
+}
+//---------------------------------------------------------------------------
+void
+CWordEditor::slot_termCheck() {
+    bool bIsTermExists = false;
+    {
+        QSqlQuery qryQuery( _m_tmModel->database() );
+
+        const QString csSql =
+                    "SELECT COUNT(*) AS f_records_count "
+                    "   FROM  " CONFIG_DB_T_MAIN " "
+                    "   WHERE " CONFIG_DB_F_MAIN_TERM " = '" + m_Ui.tedtWordTerm->toPlainText().trimmed() + "';";
+
+        bool bRv = qryQuery.exec(csSql);
+        qCHECK_REF(bRv, qryQuery);
+
+        bRv = qryQuery.next();
+        qCHECK_REF(bRv, qryQuery);
+
+        bIsTermExists = qryQuery.value(0).toBool();
+    }
+
+    QPalette plInfo;
+    QString  sMsg;
+    {
+        if (bIsTermExists) {
+            sMsg = QString(tr("The word '%1' already exists"))
+                                .arg( m_Ui.tedtWordTerm->toPlainText() );
+
+            QPalette pallete = _m_sbInfo->palette();
+            pallete.setColor(QPalette::WindowText, Qt::red);
+
+            qSwap(plInfo, pallete);
+        } else {
+            sMsg = QString(tr("The word '%1' is a new"))
+                                .arg( m_Ui.tedtWordTerm->toPlainText() );
+
+            qSwap(plInfo, _m_plInfoDefault);
+        }
+    }
+
+    Q_ASSERT(NULL != _m_sbInfo);
+    _m_sbInfo->setPalette(plInfo);
+    _m_sbInfo->showMessage(sMsg);
 }
 //---------------------------------------------------------------------------
 void
 CWordEditor::slot_bbxButtons_OnClicked(
-    QAbstractButton *button
+    QAbstractButton *a_button
 )
 {
-    QDialogButtonBox::StandardButton sbType = m_Ui.bbxButtons->standardButton(button);
+    QDialogButtonBox::StandardButton sbType = m_Ui.bbxButtons->standardButton(a_button);
     switch (sbType) {
         case QDialogButtonBox::Reset: {
                 _resetAll();

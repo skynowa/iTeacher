@@ -77,6 +77,7 @@
     <addaction name="actFile_CreateDb"/>
     <addaction name="separator"/>
     <addaction name="actFile_ImportCsv"/>
+    <addaction name="actFile_ImportClipboard"/>
     <addaction name="separator"/>
     <addaction name="actFile_ExportCsv"/>
     <addaction name="actFile_ExportPdf"/>
@@ -145,6 +146,7 @@
     <bool>false</bool>
    </attribute>
    <addaction name="actFile_Exit"/>
+   <addaction name="actFile_ImportClipboard"/>
    <addaction name="separator"/>
    <addaction name="actEdit_First"/>
    <addaction name="actEdit_Prior"/>
@@ -341,6 +343,15 @@
    </property>
    <property name="text">
     <string>To...</string>
+   </property>
+  </action>
+  <action name="actFile_ImportClipboard">
+   <property name="icon">
+    <iconset resource="../Resources/App.qrc">
+     <normaloff>:/Menu/Menu/ImportClipboard.bmp</normaloff>:/Menu/Menu/ImportClipboard.bmp</iconset>
+   </property>
+   <property name="text">
+    <string>Import Clipboard...</string>
    </property>
   </action>
  </widget>

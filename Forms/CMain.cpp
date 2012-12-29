@@ -112,7 +112,7 @@ CMain::_initMain() {
         m_sDbDir       = m_sAppDir + QDir::separator() + "Db";
         m_sDbBackupDir = m_sDbDir  + QDir::separator() + "Backup";
 
-        CxDir( qQS2S(m_sDbDir) ).vPathCreate();
+        QDir().mkpath(m_sDbDir);
     }
 
     //--------------------------------------------------
@@ -189,62 +189,71 @@ CMain::_initModel() {
         m_Ui.cboDictionaryPath->setCurrentIndex(- 1);
         m_Ui.cboDictionaryPath->setCurrentIndex(0);
     }
+
+    //--------------------------------------------------
+    // m_navNavigator
+    {
+        m_navNavigator.last();
+    }
 }
 //---------------------------------------------------------------------------
 void
 CMain::_initActions() {
     // group "File"
     {
-        connect(m_Ui.actFile_CreateDb,    SIGNAL( triggered() ),
-                this,                     SLOT  ( slot_OnCreateDb() ));
+        connect(m_Ui.actFile_CreateDb,        SIGNAL( triggered() ),
+                this,                         SLOT  ( slot_OnCreateDb() ));
 
-        connect(m_Ui.actFile_ImportCsv,   SIGNAL( triggered() ),
-                this,                     SLOT  ( slot_OnImportCsv() ));
+        connect(m_Ui.actFile_ImportCsv,       SIGNAL( triggered() ),
+                this,                         SLOT  ( slot_OnImportCsv() ));
 
-        connect(m_Ui.actFile_ExportCsv,   SIGNAL( triggered() ),
-                this,                     SLOT  ( slot_OnExportCsv() ));
+        connect(m_Ui.actFile_ImportClipboard, SIGNAL( triggered() ),
+                this,                         SLOT  ( slot_OnImportClipboard() ));
 
-        connect(m_Ui.actFile_ExportPdf,   SIGNAL( triggered() ),
-                this,                     SLOT  ( slot_OnExportPdf() ));
+        connect(m_Ui.actFile_ExportCsv,       SIGNAL( triggered() ),
+                this,                         SLOT  ( slot_OnExportCsv() ));
 
-        connect(m_Ui.actFile_Exit,        SIGNAL( triggered() ),
-                this,                     SLOT  ( slot_OnExit() ));
+        connect(m_Ui.actFile_ExportPdf,       SIGNAL( triggered() ),
+                this,                         SLOT  ( slot_OnExportPdf() ));
+
+        connect(m_Ui.actFile_Exit,            SIGNAL( triggered() ),
+                this,                         SLOT  ( slot_OnExit() ));
     }
 
     // group "Edit"
     {
-        connect(m_Ui.actEdit_First,       SIGNAL( triggered() ),
-                this,                     SLOT  ( slot_OnFirst() ));
+        connect(m_Ui.actEdit_First,           SIGNAL( triggered() ),
+                this,                         SLOT  ( slot_OnFirst() ));
 
-        connect(m_Ui.actEdit_Prior,       SIGNAL( triggered() ),
-                this,                     SLOT  ( slot_OnPrior() ));
+        connect(m_Ui.actEdit_Prior,           SIGNAL( triggered() ),
+                this,                         SLOT  ( slot_OnPrior() ));
 
-        connect(m_Ui.actEdit_Next,        SIGNAL( triggered() ),
-                this,                     SLOT  ( slot_OnNext() ));
+        connect(m_Ui.actEdit_Next,            SIGNAL( triggered() ),
+                this,                         SLOT  ( slot_OnNext() ));
 
-        connect(m_Ui.actEdit_Last,        SIGNAL( triggered() ),
-                this,                     SLOT  ( slot_OnLast() ));
+        connect(m_Ui.actEdit_Last,            SIGNAL( triggered() ),
+                this,                         SLOT  ( slot_OnLast() ));
 
-        connect(m_Ui.actEdit_To,          SIGNAL( triggered() ),
-                this,                     SLOT  ( slot_OnTo() ));
+        connect(m_Ui.actEdit_To,              SIGNAL( triggered() ),
+                this,                         SLOT  ( slot_OnTo() ));
 
-        connect(m_Ui.actEdit_Insert,      SIGNAL( triggered() ),
-                this,                     SLOT  ( slot_OnInsert() ));
+        connect(m_Ui.actEdit_Insert,          SIGNAL( triggered() ),
+                this,                         SLOT  ( slot_OnInsert() ));
 
-        connect(m_Ui.actEdit_Delete,      SIGNAL( triggered() ),
-                this,                     SLOT  ( slot_OnRemove() ));
+        connect(m_Ui.actEdit_Delete,          SIGNAL( triggered() ),
+                this,                         SLOT  ( slot_OnRemove() ));
 
-        connect(m_Ui.actEdit_Edit,        SIGNAL( triggered() ),
-                this,                     SLOT  ( slot_OnEdit() ));
+        connect(m_Ui.actEdit_Edit,            SIGNAL( triggered() ),
+                this,                         SLOT  ( slot_OnEdit() ));
 
-        connect(m_Ui.actEdit_Post,        SIGNAL( triggered() ),
-                this,                     SLOT  ( slot_OnPost() ));
+        connect(m_Ui.actEdit_Post,            SIGNAL( triggered() ),
+                this,                         SLOT  ( slot_OnPost() ));
 
-        connect(m_Ui.actEdit_Cancel,      SIGNAL( triggered() ),
-                this,                     SLOT  ( slot_OnCancel() ));
+        connect(m_Ui.actEdit_Cancel,          SIGNAL( triggered() ),
+                this,                         SLOT  ( slot_OnCancel() ));
 
-        connect(m_Ui.actEdit_Refresh,     SIGNAL( triggered() ),
-                this,                     SLOT  ( slot_OnRefresh() ));
+        connect(m_Ui.actEdit_Refresh,         SIGNAL( triggered() ),
+                this,                         SLOT  ( slot_OnRefresh() ));
     }
 
     // group "Find"
@@ -350,6 +359,19 @@ CMain::slot_OnImportCsv() {
 
         QMessageBox::information(this, qApp->applicationName(), sMsg);
     }
+}
+//---------------------------------------------------------------------------
+void
+CMain::slot_OnImportClipboard() {
+    qCHECK_DO(NULL == _m_tmModel, return);
+
+    m_navNavigator.insert();
+
+    const QString csData       = QApplication::clipboard()->text();
+    const int     ciCurrentRow = CUtils::sqlTableModelRowCount(_m_tmModel) - 1;
+    CWordEditor   dlgWordEditor(this, _m_tmModel, ciCurrentRow, csData);
+
+    dlgWordEditor.exec();
 }
 //---------------------------------------------------------------------------
 void
@@ -667,7 +689,7 @@ CMain::slot_cboDictionaryPath_OnCurrentIndexChanged(
         {
             QSqlQuery qryWordsAll(*_m_dbDatabase);
 
-            const QString csSql = \
+            const QString csSql =
                         "SELECT COUNT(*) AS f_records_count "
                         "   FROM  " CONFIG_DB_T_MAIN ";";
 
@@ -686,7 +708,7 @@ CMain::slot_cboDictionaryPath_OnCurrentIndexChanged(
         {
             QSqlQuery qryWordsLearned(*_m_dbDatabase);
 
-            const QString csSql = \
+            const QString csSql =
                         "SELECT COUNT(*) AS f_records_count "
                         "   FROM  " CONFIG_DB_T_MAIN " "
                         "   WHERE " CONFIG_DB_F_MAIN_IS_LEARNED " = 1;";
@@ -706,7 +728,7 @@ CMain::slot_cboDictionaryPath_OnCurrentIndexChanged(
         {
             QSqlQuery qryWordsNotLearned(*_m_dbDatabase);
 
-            const QString csSql = \
+            const QString csSql =
                         "SELECT COUNT(*) AS f_records_count "
                         "   FROM  " CONFIG_DB_T_MAIN " "
                         "   WHERE " CONFIG_DB_F_MAIN_IS_LEARNED " = 0;";
@@ -720,7 +742,7 @@ CMain::slot_cboDictionaryPath_OnCurrentIndexChanged(
             iWordsNotLearned = qryWordsNotLearned.value(0).toInt();
         }
 
-        const QString csDictInfo = \
+        const QString csDictInfo =
             QString(tr("&nbsp;&nbsp;&nbsp;<b>All</b>: %1 (%2)"
                        "&nbsp;&nbsp;&nbsp;<b>Learned</b>: %3 (%4)"
                        "&nbsp;&nbsp;&nbsp;<b>Not learned:</b> %5 (%6)"))
@@ -821,31 +843,16 @@ CMain::dbOpen(
         _m_tmModel->setHeaderData(2, Qt::Horizontal, tr("Value"),   Qt::DisplayRole);
         _m_tmModel->setHeaderData(3, Qt::Horizontal, tr("Learned"), Qt::DisplayRole);
         _m_tmModel->setHeaderData(4, Qt::Horizontal, tr("Marked"),  Qt::DisplayRole);
-        _m_tmModel->setEditStrategy(QSqlTableModel::OnManualSubmit);
+        _m_tmModel->setEditStrategy(QSqlTableModel::OnRowChange);
 
         _m_tmModel->select();
-
-        #if 0
-            QSqlQueryModel *qmModel = dynamic_cast<QSqlQueryModel *>( _m_tmModel );
-            Q_ASSERT(NULL != qmModel);
-
-            const QString csSql = \
-                    "SELECT * "
-                    "   FROM " CONFIG_DB_T_MAIN " "
-                    "   ORDER BY " CONFIG_DB_F_MAIN_TERM " DESC";
-
-            qmModel->setQuery(csSql);
-        #endif
     }
 
     //--------------------------------------------------
     // m_navNavigator
     {
         m_navNavigator.construct(_m_tmModel, m_Ui.tabvInfo);
-
-        // go to the last record
-        //// m_navNavigator.last();
-        //// slot_tabvInfo_OnSelectionChanged(QItemSelection(), QItemSelection());
+        m_navNavigator.last();
     }
 }
 //---------------------------------------------------------------------------

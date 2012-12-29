@@ -21,5 +21,6 @@
         <file>Menu/SaveAs.bmp</file>
         <file>Menu/Search.bmp</file>
         <file>Menu/To.bmp</file>
+        <file>Menu/ImportClipboard.bmp</file>
     </qresource>
 </RCC>
