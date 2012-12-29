@@ -15,6 +15,7 @@
 #define CONFIG_APP_WIDTH                    700
 #define CONFIG_APP_HEIGHT                   600
 #define CONFIG_APP_FONT_SIZE_DEFAULT        9
+#define CONFIG_APP_SETTINGS_FIE_EXT         ".ini"
 
 // DB tables, fields
 #define CONFIG_DB_T_MAIN                    "t_main"
@@ -29,7 +30,8 @@
 #define CONFIG_RES_MAIN_ICON                ":/App.ico"
 
 // etc
-#define CONFIG_BACKUP_DIR_NAME              "Backups"
+#define CONFIG_DB_DIR_NAME                  "Db"
+#define CONFIG_BACKUP_DIR_NAME              "Backup"
 #define CONFIG_DB_FILE_EXT                  ".db"
 #define CONFIG_GUID                         CONFIG_APP_NAME"_simple_guid"
 #define CONFIG_TABLEVIEW_ROW_HEIGHT         20

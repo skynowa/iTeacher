@@ -96,11 +96,13 @@ CWordEditor::_construct() {
         connect(m_Ui.tedtWordValue,     SIGNAL( textChanged()),
                 this,                   SLOT  ( slot_WordTermOrValue_OnTextChanged() ));
     }
+
+    _settingsLoad();
 }
 //---------------------------------------------------------------------------
 void
 CWordEditor::_destruct() {
-
+    _settingsSave();
 }
 //---------------------------------------------------------------------------
 
@@ -132,6 +134,37 @@ CWordEditor::_saveAll() {
 
     _m_tmModel->setRecord(_m_ciCurrentRow, srRecord);
     _m_tmModel->submitAll();
+}
+//---------------------------------------------------------------------------
+void
+CWordEditor::_settingsLoad() {
+    QSize szSize;
+
+    {
+        QSettings stSettings(QCoreApplication::applicationName() + CONFIG_APP_SETTINGS_FIE_EXT,
+                             QSettings::IniFormat, this);
+
+        stSettings.beginGroup("word_editor");
+        szSize = stSettings.value("size", QSize(CONFIG_APP_WIDTH, CONFIG_APP_HEIGHT)).toSize();
+        stSettings.endGroup();
+    }
+
+    // apply settings
+    {
+        // main
+        resize(szSize);
+    }
+}
+//---------------------------------------------------------------------------
+void
+CWordEditor::_settingsSave() {
+    QSettings stSettings(QCoreApplication::applicationName() + CONFIG_APP_SETTINGS_FIE_EXT,
+                         QSettings::IniFormat, this);
+
+    // main
+    stSettings.beginGroup("word_editor");
+    stSettings.setValue("size", size());
+    stSettings.endGroup();
 }
 //---------------------------------------------------------------------------
 

@@ -27,14 +27,14 @@ CMain::CMain(
     QWidget    *parent,
     Qt::WFlags  flags
 ) :
-    QMainWindow        (parent, flags),
-    m_sAppName         (),
-    m_sAppDir          (),
-    m_sDbDir           (),
-    m_sDbBackupDir     (),
-    m_navNavigator     (this),
-    _m_dbDatabase      (NULL),
-    _m_tmModel         (NULL)
+    QMainWindow   (parent, flags),
+    m_sAppName    (),
+    m_sAppDir     (),
+    m_sDbDir      (),
+    m_sDbBackupDir(),
+    m_navNavigator(this),
+    _m_dbDatabase (NULL),
+    _m_tmModel    (NULL)
 {
     _construct();
 }
@@ -109,8 +109,8 @@ CMain::_initMain() {
     {
         m_sAppName     = QCoreApplication::applicationName();;
         m_sAppDir      = QCoreApplication::applicationDirPath();
-        m_sDbDir       = m_sAppDir + QDir::separator() + "Db";
-        m_sDbBackupDir = m_sDbDir  + QDir::separator() + "Backup";
+        m_sDbDir       = m_sAppDir + QDir::separator() + CONFIG_DB_DIR_NAME;
+        m_sDbBackupDir = m_sDbDir  + QDir::separator() + CONFIG_BACKUP_DIR_NAME;
 
         QDir().mkpath(m_sDbDir);
     }
@@ -639,7 +639,7 @@ CMain::slot_OnZoomDefault() {
 //---------------------------------------------------------------------------
 void
 CMain::slot_OnSettings() {
-
+    // TODO: slot_OnSettings
 }
 //---------------------------------------------------------------------------
 
@@ -652,7 +652,7 @@ CMain::slot_OnSettings() {
 //---------------------------------------------------------------------------
 void
 CMain::slot_OnFaq() {
-
+    // TODO: slot_OnFaq
 }
 //---------------------------------------------------------------------------
 void
@@ -669,14 +669,14 @@ CMain::slot_OnAbout() {
 //---------------------------------------------------------------------------
 void
 CMain::slot_cboDictionaryPath_OnCurrentIndexChanged(
-    const QString &arg
+    const QString &a_arg
 )
 {
-    qCHECK_DO(true == arg.isEmpty(), return);
+    qCHECK_DO(true == a_arg.isEmpty(), return);
 
     // reopen DB
     {
-        QString sDictPath = m_sDbDir + QDir::separator() + arg;
+        QString sDictPath = m_sDbDir + QDir::separator() + a_arg;
 
         dbReopen(sDictPath);
     }
@@ -772,7 +772,8 @@ CMain::cboDictionaryPath_reload() {
     std::vec_tstring_t vsDicts;
 
     vsDicts.clear();
-    CxDir( qQS2S(m_sDbDir) ).vFilesFind(xT("*.db"), true, &vsDicts);
+
+    CxDir( qQS2S(m_sDbDir) ).vFilesFind( CxString::sFormat(xT("*%s"), xT(CONFIG_DB_FILE_EXT) ), true, &vsDicts);
     qCHECK_DO(true == vsDicts.empty(), return);
 
     m_Ui.cboDictionaryPath->clear();
@@ -794,7 +795,7 @@ CMain::cboDictionaryPath_reload() {
 //---------------------------------------------------------------------------
 void
 CMain::dbOpen(
-    const QString &filePath
+    const QString &a_filePath
 )
 {
     // _m_dbDatabase
@@ -806,7 +807,7 @@ CMain::dbOpen(
         qCHECK_DO(false == bRv, qMSG(QSqlDatabase().lastError().text()); return);
 
         _m_dbDatabase = new QSqlDatabase(QSqlDatabase::addDatabase("QSQLITE"));
-        _m_dbDatabase->setDatabaseName(filePath);
+        _m_dbDatabase->setDatabaseName(a_filePath);
 
         bRv = _m_dbDatabase->open();
         qCHECK_PTR(bRv, _m_dbDatabase);
@@ -911,11 +912,12 @@ CMain::_settingsLoad() {
     int    iTableCurrentRow = 0;
 
     {
-        QSettings stSettings(QCoreApplication::applicationName() + ".ini", QSettings::IniFormat, this);
+        QSettings stSettings(QCoreApplication::applicationName() + CONFIG_APP_SETTINGS_FIE_EXT,
+                             QSettings::IniFormat, this);
 
         stSettings.beginGroup("main");
-        szSize           = stSettings.value("size",        QSize(CONFIG_APP_WIDTH, CONFIG_APP_HEIGHT)).toSize();
-        pnPosition       = stSettings.value("position",    QPoint(200, 200)).toPoint();
+        szSize           = stSettings.value("size",     QSize(CONFIG_APP_WIDTH, CONFIG_APP_HEIGHT)).toSize();
+        pnPosition       = stSettings.value("position", QPoint(200, 200)).toPoint();
         stSettings.endGroup();
 
         stSettings.beginGroup("table");
@@ -937,7 +939,8 @@ CMain::_settingsLoad() {
 //---------------------------------------------------------------------------
 void
 CMain::_settingsSave() {
-    QSettings stSettings(QCoreApplication::applicationName() + ".ini", QSettings::IniFormat, this);
+    QSettings stSettings(QCoreApplication::applicationName() + CONFIG_APP_SETTINGS_FIE_EXT,
+                         QSettings::IniFormat, this);
 
     // main
     stSettings.beginGroup("main");

@@ -40,6 +40,9 @@ class CWordEditor :
         void            _resetAll         ();
         void            _saveAll          ();
 
+        void            _settingsLoad     ();
+        void            _settingsSave     ();
+
     private Q_SLOTS:
         void            slot_termTranslate();
         void            slot_termCheck    ();
