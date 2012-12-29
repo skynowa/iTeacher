@@ -33,8 +33,8 @@ class CMain :
         CSqlNavigator          m_navNavigator;
 
     protected:
-        // table zooming
         virtual bool           eventFilter             (QObject *obj, QEvent *ev);
+        virtual void           keyPressEvent           (QKeyEvent *ev);
 
     private:
         void                   _construct              ();

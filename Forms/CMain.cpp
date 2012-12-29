@@ -55,14 +55,14 @@ CMain::~CMain() {
 /* virtual */
 bool
 CMain::eventFilter(
-    QObject *obj,
-    QEvent  *ev
+    QObject *a_obj,
+    QEvent  *a_ev
 )
 {
     // table zooming
-    if (m_Ui.tabvInfo->viewport() == obj) {
-        if (QEvent::Wheel == ev->type()) {
-            QWheelEvent *inputEvent = static_cast<QWheelEvent *>( ev );
+    if (m_Ui.tabvInfo->viewport() == a_obj) {
+        if (QEvent::Wheel == a_ev->type()) {
+            QWheelEvent *inputEvent = static_cast<QWheelEvent *>( a_ev );
             if (inputEvent->modifiers() & Qt::ControlModifier) {
                 if (inputEvent->delta() > 0) {
                     slot_OnZoomIn();
@@ -74,6 +74,26 @@ CMain::eventFilter(
     }
 
     return false;
+}
+//---------------------------------------------------------------------------
+/* virtual */
+void
+CMain::keyPressEvent(
+    QKeyEvent *a_ev
+)
+{
+    switch (a_ev->key()) {
+        // minimize on pressing escape
+        case Qt::Key_Escape: {
+                setWindowState(Qt::WindowMinimized);;
+            }
+            break;
+
+        default: {
+                QMainWindow::keyPressEvent(a_ev);
+            }
+            break;
+    }
 }
 //---------------------------------------------------------------------------
 
