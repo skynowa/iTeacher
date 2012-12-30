@@ -26,12 +26,17 @@
 #define CONFIG_DB_F_MAIN_IS_LEARNED         "f_main_is_learned"
 #define CONFIG_DB_F_MAIN_IS_MARKED          "f_main_is_marked"
 
+// audio
+#define CONFIG_AUDIO_WORD_FILE_NAME         "word.mp3"
+#define CONFIG_AUDIO_TRANSLATION_FILE_NAME  "translation.mp3"
+
 // resources
 #define CONFIG_RES_MAIN_ICON                ":/App.ico"
 
 // etc
 #define CONFIG_DB_DIR_NAME                  "Db"
 #define CONFIG_BACKUP_DIR_NAME              "Backup"
+#define CONFIG_TEMP_DIR_NAME                "Temp"
 #define CONFIG_DB_FILE_EXT                  ".db"
 #define CONFIG_GUID                         CONFIG_APP_NAME"_simple_guid"
 #define CONFIG_TABLEVIEW_ROW_HEIGHT         20

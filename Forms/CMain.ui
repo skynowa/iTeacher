@@ -9,7 +9,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>584</width>
+    <width>649</width>
     <height>403</height>
    </rect>
   </property>
@@ -66,7 +66,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>584</width>
+     <width>649</width>
      <height>21</height>
     </rect>
    </property>
@@ -100,6 +100,9 @@
     <addaction name="actEdit_Post"/>
     <addaction name="actEdit_Cancel"/>
     <addaction name="actEdit_Refresh"/>
+    <addaction name="separator"/>
+    <addaction name="actEdit_PlayWord"/>
+    <addaction name="actEdit_PlayTranslation"/>
    </widget>
    <widget class="QMenu" name="menuView">
     <property name="title">
@@ -153,6 +156,9 @@
    <addaction name="actEdit_Next"/>
    <addaction name="actEdit_Last"/>
    <addaction name="actEdit_To"/>
+   <addaction name="separator"/>
+   <addaction name="actEdit_PlayWord"/>
+   <addaction name="actEdit_PlayTranslation"/>
    <addaction name="separator"/>
    <addaction name="actEdit_Insert"/>
    <addaction name="actEdit_Delete"/>
@@ -328,7 +334,10 @@
      <normaloff>:/Menu/Menu/Faq.bmp</normaloff>:/Menu/Menu/Faq.bmp</iconset>
    </property>
    <property name="text">
-    <string>Help</string>
+    <string>FAQ</string>
+   </property>
+   <property name="toolTip">
+    <string>FAQ</string>
    </property>
   </action>
   <action name="actHelp_About">
@@ -352,6 +361,27 @@
    </property>
    <property name="text">
     <string>Import Clipboard...</string>
+   </property>
+  </action>
+  <action name="actEdit_PlayWord">
+   <property name="icon">
+    <iconset resource="../Resources/App.qrc">
+     <normaloff>:/Menu/Menu/PlaySound.bmp</normaloff>:/Menu/Menu/PlaySound.bmp</iconset>
+   </property>
+   <property name="text">
+    <string>Play word</string>
+   </property>
+   <property name="toolTip">
+    <string>Play word</string>
+   </property>
+  </action>
+  <action name="actEdit_PlayTranslation">
+   <property name="icon">
+    <iconset resource="../Resources/App.qrc">
+     <normaloff>:/Menu/Menu/PlaySound.bmp</normaloff>:/Menu/Menu/PlaySound.bmp</iconset>
+   </property>
+   <property name="text">
+    <string>Play translation</string>
    </property>
   </action>
  </widget>

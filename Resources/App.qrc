@@ -22,5 +22,6 @@
         <file>Menu/Search.bmp</file>
         <file>Menu/To.bmp</file>
         <file>Menu/ImportClipboard.bmp</file>
+        <file>Menu/PlaySound.bmp</file>
     </qresource>
 </RCC>

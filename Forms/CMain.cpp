@@ -32,9 +32,12 @@ CMain::CMain(
     m_sAppDir     (),
     m_sDbDir      (),
     m_sDbBackupDir(),
+    m_sTempDir    (),
     m_navNavigator(this),
     _m_dbDatabase (NULL),
-    _m_tmModel    (NULL)
+    _m_tmModel    (NULL),
+    _m_nmAudioFile(NULL),
+    _m_moPlayer   (NULL)
 {
     _construct();
 }
@@ -131,8 +134,20 @@ CMain::_initMain() {
         m_sAppDir      = QCoreApplication::applicationDirPath();
         m_sDbDir       = m_sAppDir + QDir::separator() + CONFIG_DB_DIR_NAME;
         m_sDbBackupDir = m_sDbDir  + QDir::separator() + CONFIG_BACKUP_DIR_NAME;
+        m_sTempDir     = m_sAppDir + QDir::separator() + CONFIG_TEMP_DIR_NAME;
 
         QDir().mkpath(m_sDbDir);
+        QDir().mkpath(m_sDbBackupDir);
+        QDir().mkpath(m_sTempDir);
+    }
+
+    //--------------------------------------------------
+    // audio
+    {
+        _m_nmAudioFile = new QNetworkAccessManager(this);
+
+        connect(_m_nmAudioFile, SIGNAL( finished(QNetworkReply *) ),
+                this,           SLOT  ( slot_audioFile_OnFinished(QNetworkReply *) ));
     }
 
     //--------------------------------------------------
@@ -144,8 +159,6 @@ CMain::_initMain() {
         CUtils::widgetAlignCenter(this);
         cboDictionaryPath_reload();
     }
-
-    m_Ui.tabvInfo->viewport()->installEventFilter(this);
 }
 //---------------------------------------------------------------------------
 void
@@ -166,6 +179,7 @@ CMain::_initModel() {
         // tabvInfo
         {
             m_Ui.tabvInfo->setModel(_m_tmModel);
+            m_Ui.tabvInfo->viewport()->installEventFilter(this);
 
             m_Ui.tabvInfo->hideColumn(0); // don't show the CONFIG_DB_F_MAIN_ID
             m_Ui.tabvInfo->setColumnWidth(0, 40);
@@ -274,6 +288,12 @@ CMain::_initActions() {
 
         connect(m_Ui.actEdit_Refresh,         SIGNAL( triggered() ),
                 this,                         SLOT  ( slot_OnRefresh() ));
+
+        connect(m_Ui.actEdit_PlayWord,        SIGNAL( triggered() ),
+                this,                         SLOT  ( slot_OnPlayWord() ));
+
+        connect(m_Ui.actEdit_PlayTranslation, SIGNAL( triggered() ),
+                this,                         SLOT  ( slot_OnPlayTranslation() ));
     }
 
     // group "Find"
@@ -561,7 +581,26 @@ CMain::slot_OnRefresh() {
     m_navNavigator.refresh();
 }
 //---------------------------------------------------------------------------
+void
+CMain::slot_OnPlayWord() {
+    QString sTextFrom;
+    {
+        const int  ciCurrentRow = m_Ui.tabvInfo->currentIndex().row();
+        QSqlRecord srRecord     = _m_tmModel->record(ciCurrentRow);
 
+        sTextFrom = srRecord.value(CONFIG_DB_F_MAIN_TERM).toString();
+    }
+
+    const QString csLangTo = "en";
+
+    _googleSpeech(sTextFrom, csLangTo);
+}
+//---------------------------------------------------------------------------
+void
+CMain::slot_OnPlayTranslation() {
+    // TODO: slot_OnPlayTranslation
+}
+//---------------------------------------------------------------------------
 
 /****************************************************************************
 *   group "Find"
@@ -780,6 +819,78 @@ CMain::slot_cboDictionaryPath_OnCurrentIndexChanged(
 
 
 /****************************************************************************
+*   audio
+*
+*****************************************************************************/
+
+//---------------------------------------------------------------------------
+void
+CMain::_googleSpeech(
+    const QString &a_textFrom,
+    const QString &a_langTo
+)
+{
+    QString sTextFrom;
+    {
+        const int  ciCurrentRow = m_Ui.tabvInfo->currentIndex().row();
+        QSqlRecord srRecord     = _m_tmModel->record(ciCurrentRow);
+
+        sTextFrom = srRecord.value(CONFIG_DB_F_MAIN_TERM).toString();
+    }
+
+    QString         sUrl = "http://translate.google.ru/translate_tts?&q=" + a_textFrom + "&tl=" + a_langTo;
+    QUrl            urUrl(sUrl);
+    QNetworkRequest nrRequest(urUrl);
+
+    QNetworkReply  *nrReply = _m_nmAudioFile->get(nrRequest);
+    Q_ASSERT(NULL != nrReply);
+}
+//---------------------------------------------------------------------------
+void
+CMain::slot_audioFile_OnFinished(
+    QNetworkReply *a_reply
+)
+{
+    const QString csAudioFilePath =
+        m_sTempDir + QDir::separator() + CONFIG_AUDIO_TRANSLATION_FILE_NAME;
+
+    // write to audio file
+    {
+        QFile file(csAudioFilePath);
+
+        bool bRv = file.open(QIODevice::WriteOnly);
+        Q_ASSERT(bRv);
+
+        file.write(a_reply->readAll());
+    }
+
+    // play audio file
+    {
+        _m_moPlayer = Phonon::createPlayer(Phonon::MusicCategory, Phonon::MediaSource(csAudioFilePath));
+        Q_ASSERT(NULL != _m_moPlayer);
+
+        connect(_m_moPlayer, SIGNAL( finished() ),
+                this,        SLOT  ( slot_audio_OnRemove() ));
+
+        connect(_m_moPlayer, SIGNAL( finished() ),
+                _m_moPlayer, SLOT  ( deleteLater() ));
+
+        _m_moPlayer->play();
+    }
+}
+//---------------------------------------------------------------------------
+void
+CMain::slot_audio_OnRemove() {
+    const QString csAudioFilePath =
+        m_sTempDir + QDir::separator() + CONFIG_AUDIO_TRANSLATION_FILE_NAME;
+
+    bool bRv = QFile::remove(csAudioFilePath);
+    Q_ASSERT(bRv);
+}
+//---------------------------------------------------------------------------
+
+
+/****************************************************************************
 *   private
 *
 *****************************************************************************/
@@ -787,14 +898,14 @@ CMain::slot_cboDictionaryPath_OnCurrentIndexChanged(
 //---------------------------------------------------------------------------
 void
 CMain::cboDictionaryPath_reload() {
-    qCHECK_DO(false == CxDir( qQS2S(m_sDbDir) ).bIsExists(), return);
+    qCHECK_DO(! QDir(m_sDbDir).exists(), return);
 
     std::vec_tstring_t vsDicts;
 
     vsDicts.clear();
 
     CxDir( qQS2S(m_sDbDir) ).vFilesFind( CxString::sFormat(xT("*%s"), xT(CONFIG_DB_FILE_EXT) ), true, &vsDicts);
-    qCHECK_DO(true == vsDicts.empty(), return);
+    qCHECK_DO(vsDicts.empty(), return);
 
     m_Ui.cboDictionaryPath->clear();
 
@@ -821,7 +932,7 @@ CMain::dbOpen(
     // _m_dbDatabase
     {
         Q_ASSERT(NULL == _m_dbDatabase);
-        Q_ASSERT(true == CxDir( qQS2S(m_sDbDir) ).bIsExists());
+        Q_ASSERT(true == QDir(m_sDbDir).exists());
 
         bool bRv = QSqlDatabase::isDriverAvailable("QSQLITE");
         qCHECK_DO(false == bRv, qMSG(QSqlDatabase().lastError().text()); return);
@@ -894,9 +1005,7 @@ void
 CMain::dbClose() {
     // _m_tmModel
     {
-        if (NULL != _m_tmModel) {
-            xPTR_DELETE(_m_tmModel);
-        }
+        xPTR_DELETE(_m_tmModel);
     }
 
     // _m_dbDatabase
