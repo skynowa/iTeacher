@@ -830,14 +830,6 @@ CMain::_googleSpeech(
     const QString &a_langTo
 )
 {
-    QString sTextFrom;
-    {
-        const int  ciCurrentRow = m_Ui.tabvInfo->currentIndex().row();
-        QSqlRecord srRecord     = _m_tmModel->record(ciCurrentRow);
-
-        sTextFrom = srRecord.value(CONFIG_DB_F_MAIN_TERM).toString();
-    }
-
     QString         sUrl = "http://translate.google.ru/translate_tts?&q=" + a_textFrom + "&tl=" + a_langTo;
     QUrl            urUrl(sUrl);
     QNetworkRequest nrRequest(urUrl);
