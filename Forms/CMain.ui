@@ -101,8 +101,6 @@
     <addaction name="actEdit_Cancel"/>
     <addaction name="actEdit_Refresh"/>
     <addaction name="separator"/>
-    <addaction name="actEdit_PlayWord"/>
-    <addaction name="actEdit_PlayTranslation"/>
    </widget>
    <widget class="QMenu" name="menuView">
     <property name="title">
@@ -131,8 +129,17 @@
     </property>
     <addaction name="actFind_Search"/>
    </widget>
+   <widget class="QMenu" name="menuAudio">
+    <property name="title">
+     <string>Audio</string>
+    </property>
+    <addaction name="actEdit_PlayWordTranslation"/>
+    <addaction name="actEdit_PlayWord"/>
+    <addaction name="actEdit_PlayTranslation"/>
+   </widget>
    <addaction name="menuFile"/>
    <addaction name="menuEdit"/>
+   <addaction name="menuAudio"/>
    <addaction name="menuFind"/>
    <addaction name="menuView"/>
    <addaction name="menuOptions"/>
@@ -157,6 +164,7 @@
    <addaction name="actEdit_Last"/>
    <addaction name="actEdit_To"/>
    <addaction name="separator"/>
+   <addaction name="actEdit_PlayWordTranslation"/>
    <addaction name="actEdit_PlayWord"/>
    <addaction name="actEdit_PlayTranslation"/>
    <addaction name="separator"/>
@@ -382,6 +390,15 @@
    </property>
    <property name="text">
     <string>Play translation</string>
+   </property>
+  </action>
+  <action name="actEdit_PlayWordTranslation">
+   <property name="icon">
+    <iconset resource="../Resources/App.qrc">
+     <normaloff>:/Menu/Menu/PlaySound.bmp</normaloff>:/Menu/Menu/PlaySound.bmp</iconset>
+   </property>
+   <property name="text">
+    <string>Play word and translation</string>
    </property>
   </action>
  </widget>

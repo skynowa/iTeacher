@@ -235,98 +235,104 @@ void
 CMain::_initActions() {
     // group "File"
     {
-        connect(m_Ui.actFile_CreateDb,        SIGNAL( triggered() ),
-                this,                         SLOT  ( slot_OnCreateDb() ));
+        connect(m_Ui.actFile_CreateDb,            SIGNAL( triggered() ),
+                this,                             SLOT  ( slot_OnCreateDb() ));
 
-        connect(m_Ui.actFile_ImportCsv,       SIGNAL( triggered() ),
-                this,                         SLOT  ( slot_OnImportCsv() ));
+        connect(m_Ui.actFile_ImportCsv,           SIGNAL( triggered() ),
+                this,                             SLOT  ( slot_OnImportCsv() ));
 
-        connect(m_Ui.actFile_ImportClipboard, SIGNAL( triggered() ),
-                this,                         SLOT  ( slot_OnImportClipboard() ));
+        connect(m_Ui.actFile_ImportClipboard,     SIGNAL( triggered() ),
+                this,                             SLOT  ( slot_OnImportClipboard() ));
 
-        connect(m_Ui.actFile_ExportCsv,       SIGNAL( triggered() ),
-                this,                         SLOT  ( slot_OnExportCsv() ));
+        connect(m_Ui.actFile_ExportCsv,           SIGNAL( triggered() ),
+                this,                             SLOT  ( slot_OnExportCsv() ));
 
-        connect(m_Ui.actFile_ExportPdf,       SIGNAL( triggered() ),
-                this,                         SLOT  ( slot_OnExportPdf() ));
+        connect(m_Ui.actFile_ExportPdf,           SIGNAL( triggered() ),
+                this,                             SLOT  ( slot_OnExportPdf() ));
 
-        connect(m_Ui.actFile_Exit,            SIGNAL( triggered() ),
-                this,                         SLOT  ( slot_OnExit() ));
+        connect(m_Ui.actFile_Exit,                SIGNAL( triggered() ),
+                this,                             SLOT  ( slot_OnExit() ));
     }
 
     // group "Edit"
     {
-        connect(m_Ui.actEdit_First,           SIGNAL( triggered() ),
-                this,                         SLOT  ( slot_OnFirst() ));
+        connect(m_Ui.actEdit_First,               SIGNAL( triggered() ),
+                this,                             SLOT  ( slot_OnFirst() ));
 
-        connect(m_Ui.actEdit_Prior,           SIGNAL( triggered() ),
-                this,                         SLOT  ( slot_OnPrior() ));
+        connect(m_Ui.actEdit_Prior,               SIGNAL( triggered() ),
+                this,                             SLOT  ( slot_OnPrior() ));
 
-        connect(m_Ui.actEdit_Next,            SIGNAL( triggered() ),
-                this,                         SLOT  ( slot_OnNext() ));
+        connect(m_Ui.actEdit_Next,                SIGNAL( triggered() ),
+                this,                             SLOT  ( slot_OnNext() ));
 
-        connect(m_Ui.actEdit_Last,            SIGNAL( triggered() ),
-                this,                         SLOT  ( slot_OnLast() ));
+        connect(m_Ui.actEdit_Last,                SIGNAL( triggered() ),
+                this,                             SLOT  ( slot_OnLast() ));
 
-        connect(m_Ui.actEdit_To,              SIGNAL( triggered() ),
-                this,                         SLOT  ( slot_OnTo() ));
+        connect(m_Ui.actEdit_To,                  SIGNAL( triggered() ),
+                this,                             SLOT  ( slot_OnTo() ));
 
-        connect(m_Ui.actEdit_Insert,          SIGNAL( triggered() ),
-                this,                         SLOT  ( slot_OnInsert() ));
+        connect(m_Ui.actEdit_Insert,              SIGNAL( triggered() ),
+                this,                             SLOT  ( slot_OnInsert() ));
 
-        connect(m_Ui.actEdit_Delete,          SIGNAL( triggered() ),
-                this,                         SLOT  ( slot_OnRemove() ));
+        connect(m_Ui.actEdit_Delete,              SIGNAL( triggered() ),
+                this,                             SLOT  ( slot_OnRemove() ));
 
-        connect(m_Ui.actEdit_Edit,            SIGNAL( triggered() ),
-                this,                         SLOT  ( slot_OnEdit() ));
+        connect(m_Ui.actEdit_Edit,                SIGNAL( triggered() ),
+                this,                             SLOT  ( slot_OnEdit() ));
 
-        connect(m_Ui.actEdit_Post,            SIGNAL( triggered() ),
-                this,                         SLOT  ( slot_OnPost() ));
+        connect(m_Ui.actEdit_Post,                SIGNAL( triggered() ),
+                this,                             SLOT  ( slot_OnPost() ));
 
-        connect(m_Ui.actEdit_Cancel,          SIGNAL( triggered() ),
-                this,                         SLOT  ( slot_OnCancel() ));
+        connect(m_Ui.actEdit_Cancel,              SIGNAL( triggered() ),
+                this,                             SLOT  ( slot_OnCancel() ));
 
-        connect(m_Ui.actEdit_Refresh,         SIGNAL( triggered() ),
-                this,                         SLOT  ( slot_OnRefresh() ));
+        connect(m_Ui.actEdit_Refresh,             SIGNAL( triggered() ),
+                this,                             SLOT  ( slot_OnRefresh() ));
+    }
 
-        connect(m_Ui.actEdit_PlayWord,        SIGNAL( triggered() ),
-                this,                         SLOT  ( slot_OnPlayWord() ));
+    // audio
+    {
+        connect(m_Ui.actEdit_PlayWord,            SIGNAL( triggered() ),
+                this,                             SLOT  ( slot_OnPlayWord() ));
 
-        connect(m_Ui.actEdit_PlayTranslation, SIGNAL( triggered() ),
-                this,                         SLOT  ( slot_OnPlayTranslation() ));
+        connect(m_Ui.actEdit_PlayTranslation,     SIGNAL( triggered() ),
+                this,                             SLOT  ( slot_OnPlayTranslation() ));
+
+        connect(m_Ui.actEdit_PlayWordTranslation, SIGNAL( triggered() ),
+                this,                             SLOT  ( slot_OnPlayWordTranslation() ));
     }
 
     // group "Find"
     {
-        connect(m_Ui.actFind_Search,      SIGNAL( triggered() ),
-                this,                     SLOT  ( slot_OnSearch() ));
+        connect(m_Ui.actFind_Search,              SIGNAL( triggered() ),
+                this,                             SLOT  ( slot_OnSearch() ));
     }
 
     // group "View"
     {
-        connect(m_Ui.actView_ZoomIn,      SIGNAL( triggered() ),
-                this,                     SLOT  ( slot_OnZoomIn() ));
+        connect(m_Ui.actView_ZoomIn,              SIGNAL( triggered() ),
+                this,                             SLOT  ( slot_OnZoomIn() ));
 
-        connect(m_Ui.actView_ZoomOut,     SIGNAL( triggered() ),
-                this,                     SLOT  ( slot_OnZoomOut() ));
+        connect(m_Ui.actView_ZoomOut,             SIGNAL( triggered() ),
+                this,                             SLOT  ( slot_OnZoomOut() ));
 
-        connect(m_Ui.actView_ZoomDefault, SIGNAL( triggered() ),
-                this,                     SLOT  ( slot_OnZoomDefault() ));
+        connect(m_Ui.actView_ZoomDefault,         SIGNAL( triggered() ),
+                this,                             SLOT  ( slot_OnZoomDefault() ));
     }
 
     // group "Options"
     {
-        connect(m_Ui.actOptions_Settings, SIGNAL( triggered() ),
-                this,                     SLOT  ( slot_OnSettings() ));
+        connect(m_Ui.actOptions_Settings,         SIGNAL( triggered() ),
+                this,                             SLOT  ( slot_OnSettings() ));
     }
 
     // group "Help"
     {
-        connect(m_Ui.actHelp_Faq,         SIGNAL( triggered() ),
-                this,                     SLOT  ( slot_OnFaq() ));
+        connect(m_Ui.actHelp_Faq,                 SIGNAL( triggered() ),
+                this,                             SLOT  ( slot_OnFaq() ));
 
-        connect(m_Ui.actHelp_About,       SIGNAL( triggered() ),
-                this,                     SLOT  ( slot_OnAbout() ));
+        connect(m_Ui.actHelp_About,               SIGNAL( triggered() ),
+                this,                             SLOT  ( slot_OnAbout() ));
     }
 }
 //---------------------------------------------------------------------------
@@ -598,9 +604,29 @@ CMain::slot_OnPlayWord() {
 //---------------------------------------------------------------------------
 void
 CMain::slot_OnPlayTranslation() {
-    // TODO: slot_OnPlayTranslation
+    QString sTextFrom;
+    {
+        const int  ciCurrentRow = m_Ui.tabvInfo->currentIndex().row();
+        QSqlRecord srRecord     = _m_tmModel->record(ciCurrentRow);
+
+        sTextFrom = srRecord.value(CONFIG_DB_F_MAIN_VALUE).toString();
+    }
+
+    const QString csLangTo = "ru";
+
+    _googleSpeech(sTextFrom, csLangTo);
 }
 //---------------------------------------------------------------------------
+void
+CMain::slot_OnPlayWordTranslation() {
+    slot_OnPlayWord();
+
+    QCoreApplication::processEvents(QEventLoop::ExcludeUserInputEvents);
+
+    slot_OnPlayTranslation();
+}
+//---------------------------------------------------------------------------
+
 
 /****************************************************************************
 *   group "Find"
