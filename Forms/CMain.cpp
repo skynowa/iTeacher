@@ -36,8 +36,7 @@ CMain::CMain(
     m_navNavigator(this),
     _m_dbDatabase (NULL),
     _m_tmModel    (NULL),
-    _m_nmAudioFile(NULL),
-    _m_moPlayer   (NULL)
+    _m_nmAudioFile(NULL)
 {
     _construct();
 }
@@ -901,13 +900,13 @@ CMain::slot_audioFile_OnFinished(
 
     // play audio file
     {
-        _m_moPlayer = Phonon::createPlayer(Phonon::MusicCategory, Phonon::MediaSource(sAudioFilePath));
-        Q_ASSERT(NULL != _m_moPlayer);
+        Phonon::MediaObject *moPlayer = Phonon::createPlayer(Phonon::MusicCategory, Phonon::MediaSource(sAudioFilePath));
+        Q_ASSERT(NULL != moPlayer);
 
-        connect(_m_moPlayer, SIGNAL( finished() ),
-                _m_moPlayer, SLOT  ( deleteLater() ));
+        connect(moPlayer, SIGNAL( finished() ),
+                moPlayer, SLOT  ( deleteLater() ));
 
-        _m_moPlayer->play();
+        moPlayer->play();
     }
 }
 //---------------------------------------------------------------------------

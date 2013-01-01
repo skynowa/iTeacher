@@ -107,7 +107,6 @@ class CMain :
 
         // audio
         QNetworkAccessManager *_m_nmAudioFile;
-        Phonon::MediaObject   *_m_moPlayer;
 
         void                   _googleSpeech             (const QString &text, const QString &lang);
 
