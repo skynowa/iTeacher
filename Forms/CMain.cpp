@@ -15,6 +15,7 @@
 #include <xLib/Common/CxString.h>
 #include <xLib/Filesystem/CxPath.h>
 #include <xLib/Filesystem/CxDir.h>
+#include <xLib/Sync/CxCurrentThread.h>
 
 
 /****************************************************************************
@@ -35,8 +36,7 @@ CMain::CMain(
     m_sTempDir    (),
     m_navNavigator(this),
     _m_dbDatabase (NULL),
-    _m_tmModel    (NULL),
-    _m_nmAudioFile(NULL)
+    _m_tmModel    (NULL)
 {
     _construct();
 }
@@ -138,15 +138,6 @@ CMain::_initMain() {
         QDir().mkpath(m_sDbDir);
         QDir().mkpath(m_sDbBackupDir);
         QDir().mkpath(m_sTempDir);
-    }
-
-    //--------------------------------------------------
-    // audio
-    {
-        _m_nmAudioFile = new QNetworkAccessManager(this);
-
-        connect(_m_nmAudioFile, SIGNAL( finished(QNetworkReply *) ),
-                this,           SLOT  ( slot_audioFile_OnFinished(QNetworkReply *) ));
     }
 
     //--------------------------------------------------
@@ -596,35 +587,49 @@ CMain::slot_OnRefresh() {
 //---------------------------------------------------------------------------
 void
 CMain::slot_OnPlayWord() {
-    QString sTextFrom;
+    QString sText;
     {
         const int  ciCurrentRow = m_Ui.tabvInfo->currentIndex().row();
         QSqlRecord srRecord     = _m_tmModel->record(ciCurrentRow);
 
-        sTextFrom = srRecord.value(CONFIG_DB_F_MAIN_TERM).toString();
+        sText = srRecord.value(CONFIG_DB_F_MAIN_TERM).toString();
     }
 
-    _googleSpeech(sTextFrom, CONFIG_TRANSLATION_LANG_ENGLISH);
+    QString sAudioFilePath;
+    {
+        sAudioFilePath = m_sTempDir + QDir::separator() + CONFIG_AUDIO_WORD_FILE_NAME;
+    }
+
+    CUtils::googleSpeech(sText, CONFIG_TRANSLATION_LANG_ENGLISH, sAudioFilePath);
 }
 //---------------------------------------------------------------------------
 void
 CMain::slot_OnPlayTranslation() {
-    QString sTextFrom;
+    QString sText;
     {
         const int  ciCurrentRow = m_Ui.tabvInfo->currentIndex().row();
         QSqlRecord srRecord     = _m_tmModel->record(ciCurrentRow);
 
-        sTextFrom = srRecord.value(CONFIG_DB_F_MAIN_VALUE).toString();
+        sText = srRecord.value(CONFIG_DB_F_MAIN_VALUE).toString();
     }
 
-    _googleSpeech(sTextFrom, CONFIG_TRANSLATION_LANG_RUSSIAN);
+    QString sAudioFilePath;
+    {
+        sAudioFilePath = m_sTempDir + QDir::separator() + CONFIG_AUDIO_TRANSLATION_FILE_NAME;
+    }
+
+    CUtils::googleSpeech(sText, CONFIG_TRANSLATION_LANG_RUSSIAN, sAudioFilePath);
 }
 //---------------------------------------------------------------------------
 void
 CMain::slot_OnPlayWordTranslation() {
     slot_OnPlayWord();
 
-    QCoreApplication::processEvents(QEventLoop::ExcludeUserInputEvents);
+    // sleep for 1 second
+    for (int i = 0; i < 1200; ++ i) {
+        CxCurrentThread::vSleep(1);
+        QCoreApplication::processEvents();
+    }
 
     slot_OnPlayTranslation();
 }
@@ -842,71 +847,6 @@ CMain::slot_cboDictionaryPath_OnCurrentIndexChanged(
                         .arg( qS2QS(CxString::sFormatPercentage(iWordsAll, iWordsNotLearned)) );
 
         m_Ui.lblDictInfo->setText(csDictInfo);
-    }
-}
-//---------------------------------------------------------------------------
-
-
-/****************************************************************************
-*   audio
-*
-*****************************************************************************/
-
-//---------------------------------------------------------------------------
-void
-CMain::_googleSpeech(
-    const QString &a_text,
-    const QString &a_lang
-)
-{
-    const QString         csUrl = "http://translate.google.ru/translate_tts?&q=" + a_text + "&tl=" + a_lang;
-    const QUrl            curUrl(csUrl);
-    const QNetworkRequest cnrRequest(curUrl);
-
-    QNetworkReply  *nrReply = _m_nmAudioFile->get(cnrRequest);
-    Q_ASSERT(NULL != nrReply);
-}
-//---------------------------------------------------------------------------
-void
-CMain::slot_audioFile_OnFinished(
-    QNetworkReply *a_reply
-)
-{
-    QString sAudioFilePath;
-    {
-        const QString csLang = a_reply->url().toString().right(2);
-
-        if      (CONFIG_TRANSLATION_LANG_ENGLISH == csLang) {
-            sAudioFilePath = m_sTempDir + QDir::separator() + CONFIG_AUDIO_WORD_FILE_NAME;
-        }
-        else if (CONFIG_TRANSLATION_LANG_RUSSIAN == csLang) {
-            sAudioFilePath = m_sTempDir + QDir::separator() + CONFIG_AUDIO_TRANSLATION_FILE_NAME;
-        }
-        else {
-            Q_ASSERT(false);
-            return;
-        }
-    }
-
-    // write to audio file
-    {
-        QFile file(sAudioFilePath);
-
-        bool bRv = file.open(QIODevice::WriteOnly);
-        Q_ASSERT(bRv);
-
-        file.write(a_reply->readAll());
-    }
-
-    // play audio file
-    {
-        Phonon::MediaObject *moPlayer = Phonon::createPlayer(Phonon::MusicCategory, Phonon::MediaSource(sAudioFilePath));
-        Q_ASSERT(NULL != moPlayer);
-
-        connect(moPlayer, SIGNAL( finished() ),
-                moPlayer, SLOT  ( deleteLater() ));
-
-        moPlayer->play();
     }
 }
 //---------------------------------------------------------------------------

@@ -91,9 +91,6 @@ class CMain :
 
         void                   slot_cboDictionaryPath_OnCurrentIndexChanged(const QString &arg);
 
-        // Audio
-        void                   slot_audioFile_OnFinished (QNetworkReply *reply);
-
     private:
         void                   cboDictionaryPath_reload  ();
 
@@ -104,11 +101,6 @@ class CMain :
         void                   dbOpen                    (const QString &filePath);
         void                   dbReopen                  (const QString &filePath);
         void                   dbClose                   ();
-
-        // audio
-        QNetworkAccessManager *_m_nmAudioFile;
-
-        void                   _googleSpeech             (const QString &text, const QString &lang);
 
         // settings
         void                   _settingsLoad             ();
