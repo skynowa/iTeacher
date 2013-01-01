@@ -93,7 +93,6 @@ class CMain :
 
         // Audio
         void                   slot_audioFile_OnFinished (QNetworkReply *reply);
-        void                   slot_audio_OnRemove       ();
 
     private:
         void                   cboDictionaryPath_reload  ();
@@ -110,7 +109,7 @@ class CMain :
         QNetworkAccessManager *_m_nmAudioFile;
         Phonon::MediaObject   *_m_moPlayer;
 
-        void                   _googleSpeech             (const QString &textFrom, const QString &langTo);
+        void                   _googleSpeech             (const QString &text, const QString &lang);
 
         // settings
         void                   _settingsLoad             ();

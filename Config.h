@@ -40,5 +40,7 @@
 #define CONFIG_DB_FILE_EXT                  ".db"
 #define CONFIG_GUID                         CONFIG_APP_NAME"_simple_guid"
 #define CONFIG_TABLEVIEW_ROW_HEIGHT         20
+#define CONFIG_TRANSLATION_LANG_ENGLISH     "en"
+#define CONFIG_TRANSLATION_LANG_RUSSIAN     "ru"
 //---------------------------------------------------------------------------
 #endif // iTeacher_ConfigH
