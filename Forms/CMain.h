@@ -100,6 +100,11 @@ class CMain :
         void                   dbReopen                  (const QString &filePath);
         void                   dbClose                   ();
 
+        // audio
+        static void            _googleSpeech             (const QString &text,
+                                                          const QString &lang,
+                                                          const QString &filePath);
+
         // settings
         void                   _settingsLoad             ();
         void                   _settingsSave             ();
