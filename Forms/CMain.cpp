@@ -860,11 +860,11 @@ CMain::_googleSpeech(
     const QString &a_lang
 )
 {
-    QString         sUrl = "http://translate.google.ru/translate_tts?&q=" + a_text + "&tl=" + a_lang;
-    QUrl            urUrl(sUrl);
-    QNetworkRequest nrRequest(urUrl);
+    const QString         csUrl = "http://translate.google.ru/translate_tts?&q=" + a_text + "&tl=" + a_lang;
+    const QUrl            curUrl(csUrl);
+    const QNetworkRequest cnrRequest(curUrl);
 
-    QNetworkReply  *nrReply = _m_nmAudioFile->get(nrRequest);
+    QNetworkReply  *nrReply = _m_nmAudioFile->get(cnrRequest);
     Q_ASSERT(NULL != nrReply);
 }
 //---------------------------------------------------------------------------
