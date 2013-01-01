@@ -15,7 +15,6 @@
 #include <xLib/Common/CxString.h>
 #include <xLib/Filesystem/CxPath.h>
 #include <xLib/Filesystem/CxDir.h>
-#include <xLib/Sync/CxCurrentThread.h>
 
 
 /****************************************************************************
@@ -624,13 +623,6 @@ CMain::slot_OnPlayTranslation() {
 void
 CMain::slot_OnPlayWordTranslation() {
     slot_OnPlayWord();
-
-    // sleep for 1 second
-    for (int i = 0; i < 1200; ++ i) {
-        CxCurrentThread::vSleep(1);
-        QCoreApplication::processEvents();
-    }
-
     slot_OnPlayTranslation();
 }
 //---------------------------------------------------------------------------
