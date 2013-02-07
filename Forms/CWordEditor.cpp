@@ -262,6 +262,7 @@ CWordEditor::slot_bbxButtons_OnClicked(
             break;
 
         case QDialogButtonBox::Cancel: {
+                _m_tmModel->revertAll();
                 close();
             }
             break;
