@@ -835,11 +835,11 @@ CMain::slot_cboDictionaryPath_OnCurrentIndexChanged(
                        "&nbsp;&nbsp;&nbsp;<b>Learned</b>: %3 (%4)"
                        "&nbsp;&nbsp;&nbsp;<b>Not learned:</b> %5 (%6)"))
                         .arg( iWordsAll )
-                        .arg( qS2QS(CxString::sFormatPercentage(iWordsAll, iWordsAll)) )
+                        .arg( qS2QS(CxString::formatPercentage(iWordsAll, iWordsAll)) )
                         .arg( iWordsLearned )
-                        .arg( qS2QS(CxString::sFormatPercentage(iWordsAll, iWordsLearned)) )
+                        .arg( qS2QS(CxString::formatPercentage(iWordsAll, iWordsLearned)) )
                         .arg( iWordsNotLearned )
-                        .arg( qS2QS(CxString::sFormatPercentage(iWordsAll, iWordsNotLearned)) );
+                        .arg( qS2QS(CxString::formatPercentage(iWordsAll, iWordsNotLearned)) );
 
         m_Ui.lblDictInfo->setText(csDictInfo);
     }
@@ -861,7 +861,7 @@ CMain::cboDictionaryPath_reload() {
 
     vsDicts.clear();
 
-    CxDir( qQS2S(m_sDbDir) ).vFilesFind( CxString::sFormat(xT("*%s"), xT(CONFIG_DB_FILE_EXT) ), true, &vsDicts);
+    CxDir( qQS2S(m_sDbDir) ).filesFind( CxString::format(xT("*%s"), xT(CONFIG_DB_FILE_EXT) ), true, &vsDicts);
     qCHECK_DO(vsDicts.empty(), return);
 
     m_Ui.cboDictionaryPath->clear();

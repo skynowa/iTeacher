@@ -97,6 +97,16 @@ CWordEditor::_construct() {
                 this,                   SLOT  ( slot_WordTermOrValue_OnTextChanged() ));
     }
 
+    // shortcuts
+    {
+        // term translate (Ctrl+Return)
+        QShortcut *shortcut = new QShortcut(this);
+        shortcut->setKey(QKeySequence(Qt::CTRL + Qt::Key_Return));
+
+        connect(shortcut, SIGNAL( activated() ),
+                this,     SLOT  ( slot_termTranslate() ));
+    }
+
     _settingsLoad();
 }
 //---------------------------------------------------------------------------
