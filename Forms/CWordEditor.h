@@ -43,6 +43,8 @@ class CWordEditor :
         void            _settingsLoad     ();
         void            _settingsSave     ();
 
+        bool            _isTermExists     (const QString &term);
+
     private Q_SLOTS:
         void            slot_termTranslate();
         void            slot_termCheck    ();

@@ -177,6 +177,30 @@ CWordEditor::_settingsSave() {
     stSettings.endGroup();
 }
 //---------------------------------------------------------------------------
+bool
+CWordEditor::_isTermExists(
+    const QString &term
+)
+{
+    bool      bRv = false;
+    QSqlQuery qryQuery( _m_tmModel->database() );
+
+    const QString csSql =
+                "SELECT COUNT(*) AS f_records_count "
+                "   FROM  " CONFIG_DB_T_MAIN " "
+                "   WHERE " CONFIG_DB_F_MAIN_TERM " = '" + term.trimmed() + "';";
+
+    bRv = qryQuery.exec(csSql);
+    qCHECK_REF(bRv, qryQuery);
+
+    bRv = qryQuery.next();
+    qCHECK_REF(bRv, qryQuery);
+
+    bRv = qryQuery.value(0).toBool();
+
+    return bRv;
+}
+//---------------------------------------------------------------------------
 
 
 /****************************************************************************
@@ -197,32 +221,21 @@ CWordEditor::slot_termTranslate() {
     QString       sTextTo   = CUtils::googleTranslate(sTextFrom, sLangFrom, sLangTo);
 
     m_Ui.tedtWordValue->setText(sTextTo);
+
+    // check for term existing
+    slot_termCheck();
 }
 //---------------------------------------------------------------------------
 void
 CWordEditor::slot_termCheck() {
-    bool bIsTermExists = false;
-    {
-        QSqlQuery qryQuery( _m_tmModel->database() );
+    // check for term existing
+    const bool cbIsTermExists = _isTermExists( m_Ui.tedtWordTerm->toPlainText() );
 
-        const QString csSql =
-                    "SELECT COUNT(*) AS f_records_count "
-                    "   FROM  " CONFIG_DB_T_MAIN " "
-                    "   WHERE " CONFIG_DB_F_MAIN_TERM " = '" + m_Ui.tedtWordTerm->toPlainText().trimmed() + "';";
-
-        bool bRv = qryQuery.exec(csSql);
-        qCHECK_REF(bRv, qryQuery);
-
-        bRv = qryQuery.next();
-        qCHECK_REF(bRv, qryQuery);
-
-        bIsTermExists = qryQuery.value(0).toBool();
-    }
-
+    // format info message
     QPalette plInfo;
     QString  sMsg;
     {
-        if (bIsTermExists) {
+        if (cbIsTermExists) {
             sMsg = QString(tr("The word '%1' already exists"))
                                 .arg( m_Ui.tedtWordTerm->toPlainText() );
 
@@ -250,25 +263,30 @@ CWordEditor::slot_bbxButtons_OnClicked(
 {
     QDialogButtonBox::StandardButton sbType = m_Ui.bbxButtons->standardButton(a_button);
     switch (sbType) {
-        case QDialogButtonBox::Reset: {
-                _resetAll();
+        case QDialogButtonBox::Ok:
+        case QDialogButtonBox::Apply: {
+                const bool bRv1 = m_Ui.tedtWordTerm->toPlainText().trimmed().isEmpty();
+                const bool bRv2 = _isTermExists( m_Ui.tedtWordTerm->toPlainText() );
+                if (bRv1 || bRv2) {
+                    slot_termCheck();
+                } else {
+                    _saveAll();
+
+                    if (QDialogButtonBox::Ok == sbType) {
+                        close();
+                    }
+                }
             }
             break;
 
-        case QDialogButtonBox::Ok: {
-                _saveAll();
-                close();
+        case QDialogButtonBox::Reset: {
+                _resetAll();
             }
             break;
 
         case QDialogButtonBox::Cancel: {
                 _m_tmModel->revertAll();
                 close();
-            }
-            break;
-
-        case QDialogButtonBox::Apply: {
-                _saveAll();
             }
             break;
 
