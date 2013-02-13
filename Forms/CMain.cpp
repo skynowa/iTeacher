@@ -64,7 +64,7 @@ CMain::eventFilter(
 )
 {
     // table zooming
-    if (m_Ui.tabvInfo->viewport() == a_obj) {
+    if (m_Ui.tvInfo->viewport() == a_obj) {
         if (QEvent::Wheel == a_ev->type()) {
             QWheelEvent *inputEvent = static_cast<QWheelEvent *>( a_ev );
             if (inputEvent->modifiers() & Qt::ControlModifier) {
@@ -149,7 +149,7 @@ CMain::_initMain() {
         setWindowTitle(CONFIG_APP_NAME);
         setGeometry(0, 0, CONFIG_APP_WIDTH, CONFIG_APP_HEIGHT);
         CUtils::widgetAlignCenter(this);
-        cboDictionaryPath_reload();
+        cboDictPath_reload();
     }
 }
 //---------------------------------------------------------------------------
@@ -158,62 +158,62 @@ CMain::_initModel() {
     //--------------------------------------------------
     // open DB
     {
-        if (false == m_Ui.cboDictionaryPath->currentText().isEmpty()) {
-            QString sDictPath = m_sDbDir + QDir::separator() + m_Ui.cboDictionaryPath->currentText();
+        if (false == m_Ui.cboDictPath->currentText().isEmpty()) {
+            QString sDictPath = m_sDbDir + QDir::separator() + m_Ui.cboDictPath->currentText();
 
             dbOpen(sDictPath);
         }
     }
 
     //--------------------------------------------------
-    // _m_tmModel, tabvInfo
+    // _m_tmModel, tvInfo
     {
-        // tabvInfo
+        // tvInfo
         {
-            m_Ui.tabvInfo->setModel(_m_tmModel);
-            m_Ui.tabvInfo->viewport()->installEventFilter(this);
+            m_Ui.tvInfo->setModel(_m_tmModel);
+            m_Ui.tvInfo->viewport()->installEventFilter(this);
 
-            m_Ui.tabvInfo->hideColumn(0); // don't show the CONFIG_DB_F_MAIN_ID
-            m_Ui.tabvInfo->setColumnWidth(0, 40);
-            m_Ui.tabvInfo->setColumnWidth(1, 100);
-            m_Ui.tabvInfo->setColumnWidth(2, 400);
-            m_Ui.tabvInfo->setColumnWidth(3, 60);
-            m_Ui.tabvInfo->setColumnWidth(4, 60);
+            m_Ui.tvInfo->hideColumn(0); // don't show the CONFIG_DB_F_MAIN_ID
+            m_Ui.tvInfo->setColumnWidth(0, 40);
+            m_Ui.tvInfo->setColumnWidth(1, 100);
+            m_Ui.tvInfo->setColumnWidth(2, 400);
+            m_Ui.tvInfo->setColumnWidth(3, 60);
+            m_Ui.tvInfo->setColumnWidth(4, 60);
 
-            m_Ui.tabvInfo->verticalHeader()->setVisible(true);
-            m_Ui.tabvInfo->verticalHeader()->setDefaultSectionSize(CONFIG_TABLEVIEW_ROW_HEIGHT);
+            m_Ui.tvInfo->verticalHeader()->setVisible(true);
+            m_Ui.tvInfo->verticalHeader()->setDefaultSectionSize(CONFIG_TABLEVIEW_ROW_HEIGHT);
 
-            m_Ui.tabvInfo->setEditTriggers(QAbstractItemView::NoEditTriggers);
-            m_Ui.tabvInfo->setSelectionBehavior(QAbstractItemView::SelectRows);
-            m_Ui.tabvInfo->setSelectionMode(QAbstractItemView::ExtendedSelection);
-            m_Ui.tabvInfo->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
-            m_Ui.tabvInfo->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
-            m_Ui.tabvInfo->setAlternatingRowColors(true);
-            m_Ui.tabvInfo->setStyleSheet("alternate-background-color: white; background-color: gray;");
-            m_Ui.tabvInfo->setSortingEnabled(true);
-            m_Ui.tabvInfo->sortByColumn(0, Qt::AscendingOrder);
-            m_Ui.tabvInfo->setItemDelegateForColumn(3, new CCheckBoxItemDelegate(m_Ui.tabvInfo));
-            m_Ui.tabvInfo->setItemDelegateForColumn(4, new CCheckBoxItemDelegate(m_Ui.tabvInfo));
+            m_Ui.tvInfo->setEditTriggers(QAbstractItemView::NoEditTriggers);
+            m_Ui.tvInfo->setSelectionBehavior(QAbstractItemView::SelectRows);
+            m_Ui.tvInfo->setSelectionMode(QAbstractItemView::ExtendedSelection);
+            m_Ui.tvInfo->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
+            m_Ui.tvInfo->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
+            m_Ui.tvInfo->setAlternatingRowColors(true);
+            m_Ui.tvInfo->setStyleSheet("alternate-background-color: white; background-color: gray;");
+            m_Ui.tvInfo->setSortingEnabled(true);
+            m_Ui.tvInfo->sortByColumn(0, Qt::AscendingOrder);
+            m_Ui.tvInfo->setItemDelegateForColumn(3, new CCheckBoxItemDelegate(m_Ui.tvInfo));
+            m_Ui.tvInfo->setItemDelegateForColumn(4, new CCheckBoxItemDelegate(m_Ui.tvInfo));
 
-            m_Ui.tabvInfo->show();
+            m_Ui.tvInfo->show();
         }
     }
 
     //--------------------------------------------------
     // slots
     {
-        connect(m_Ui.tabvInfo,          SIGNAL( doubleClicked(const QModelIndex &) ),
-                this,                   SLOT  ( slot_OnEdit() ));
+        connect(m_Ui.tvInfo,      SIGNAL( doubleClicked(const QModelIndex &) ),
+                this,             SLOT  ( slot_OnEdit() ));
 
-        connect(m_Ui.cboDictionaryPath, SIGNAL( currentIndexChanged(const QString &) ),
-                this,                   SLOT  ( slot_cboDictionaryPath_OnCurrentIndexChanged(const QString &) ));
+        connect(m_Ui.cboDictPath, SIGNAL( currentIndexChanged(const QString &) ),
+                this,             SLOT  ( slot_cboDictPath_OnCurrentIndexChanged(const QString &) ));
     }
 
     //--------------------------------------------------
-    // fire cboDictionaryPath
+    // fire cboDictPath
     {
-        m_Ui.cboDictionaryPath->setCurrentIndex(- 1);
-        m_Ui.cboDictionaryPath->setCurrentIndex(0);
+        m_Ui.cboDictPath->setCurrentIndex(- 1);
+        m_Ui.cboDictPath->setCurrentIndex(0);
     }
 
     //--------------------------------------------------
@@ -351,14 +351,14 @@ CMain::slot_OnCreateDb() {
     // reopen DB
     {
         dbReopen(sDictPath);
-        cboDictionaryPath_reload();
+        cboDictPath_reload();
     }
 
     // activate this DB file name in QComboBox
     {
-        int iSectionPos = m_Ui.cboDictionaryPath->findText(csDbName);
+        int iSectionPos = m_Ui.cboDictPath->findText(csDbName);
 
-        m_Ui.cboDictionaryPath->setCurrentIndex(iSectionPos);
+        m_Ui.cboDictPath->setCurrentIndex(iSectionPos);
     }
 }
 //---------------------------------------------------------------------------
@@ -383,11 +383,11 @@ CMain::slot_OnImportCsv() {
     // import
     CUtils::importCsv(filePath, _m_tmModel, fieldNames, "\t");
 
-    // "fire" cboDictionaryPath
+    // "fire" cboDictPath
     {
-        int iCurrent = m_Ui.cboDictionaryPath->currentIndex();
-        m_Ui.cboDictionaryPath->setCurrentIndex(- 1);
-        m_Ui.cboDictionaryPath->setCurrentIndex(iCurrent);
+        int iCurrent = m_Ui.cboDictPath->currentIndex();
+        m_Ui.cboDictPath->setCurrentIndex(- 1);
+        m_Ui.cboDictPath->setCurrentIndex(iCurrent);
     }
 
     // report
@@ -418,7 +418,7 @@ CMain::slot_OnExportCsv() {
     QString filePath = QFileDialog::getSaveFileName(
                             this,
                             tr("Save file"),
-                            m_Ui.cboDictionaryPath->currentText() + ".csv",
+                            m_Ui.cboDictPath->currentText() + ".csv",
                             tr("CSV document (*.csv)"));
     qCHECK_DO(true == filePath.isEmpty(), return);
 
@@ -451,7 +451,7 @@ CMain::slot_OnExportPdf() {
     QString filePath = QFileDialog::getSaveFileName(
                             this,
                             tr("Save file"),
-                            m_Ui.cboDictionaryPath->currentText() + ".pdf",
+                            m_Ui.cboDictPath->currentText() + ".pdf",
                             tr("PDF Document (*.pdf)"));
     qCHECK_DO(true == filePath.isEmpty(), return);
 
@@ -527,7 +527,7 @@ CMain::slot_OnLast() {
 //---------------------------------------------------------------------------
 void
 CMain::slot_OnTo() {
-    const int ciCurrentRow = m_Ui.tabvInfo->currentIndex().row() + 1;
+    const int ciCurrentRow = m_Ui.tvInfo->currentIndex().row() + 1;
     const int ciMinValue   = 1;
     const int ciMaxValue   = CUtils::sqlTableModelRowCount(_m_tmModel);
 
@@ -539,14 +539,19 @@ CMain::slot_OnTo() {
 //---------------------------------------------------------------------------
 void
 CMain::slot_OnInsert() {
-    qCHECK_DO(NULL == _m_tmModel, return);
-
     m_navNavigator.insert();
 
-    const int   ciCurrentRow = CUtils::sqlTableModelRowCount(_m_tmModel) - 1;
-    CWordEditor dlgWordEditor(this, _m_tmModel, ciCurrentRow);
+    cint ciCurrentRow = m_Ui.tvInfo->currentIndex().row();
 
-    dlgWordEditor.exec();
+    // show edit dialog
+    {
+        CWordEditor dlgWordEditor(this, _m_tmModel, ciCurrentRow);
+
+        (int)dlgWordEditor.exec();
+    }
+
+    // set current index
+    m_navNavigator.to(ciCurrentRow);
 }
 //---------------------------------------------------------------------------
 void
@@ -556,12 +561,17 @@ CMain::slot_OnRemove() {
 //---------------------------------------------------------------------------
 void
 CMain::slot_OnEdit() {
-    qCHECK_DO(NULL == _m_tmModel, return);
+    cint ciCurrentRow = m_Ui.tvInfo->currentIndex().row();
 
-    const int   ciCurrentRow = m_Ui.tabvInfo->currentIndex().row();
-    CWordEditor dlgWordEditor(this, _m_tmModel, ciCurrentRow);
+    // show edit dialog
+    {
+        CWordEditor dlgWordEditor(this, _m_tmModel, ciCurrentRow);
 
-    dlgWordEditor.exec();
+        (int)dlgWordEditor.exec();
+    }
+
+    // set current index
+    m_navNavigator.to(ciCurrentRow);
 }
 //---------------------------------------------------------------------------
 void
@@ -591,7 +601,7 @@ void
 CMain::slot_OnPlayWord() {
     QString sText;
     {
-        const int  ciCurrentRow = m_Ui.tabvInfo->currentIndex().row();
+        const int  ciCurrentRow = m_Ui.tvInfo->currentIndex().row();
         QSqlRecord srRecord     = _m_tmModel->record(ciCurrentRow);
 
         sText = srRecord.value(CONFIG_DB_F_MAIN_TERM).toString();
@@ -609,7 +619,7 @@ void
 CMain::slot_OnPlayTranslation() {
     QString sText;
     {
-        const int  ciCurrentRow = m_Ui.tabvInfo->currentIndex().row();
+        const int  ciCurrentRow = m_Ui.tvInfo->currentIndex().row();
         QSqlRecord srRecord     = _m_tmModel->record(ciCurrentRow);
 
         sText = srRecord.value(CONFIG_DB_F_MAIN_VALUE).toString();
@@ -658,21 +668,21 @@ void
 CMain::slot_OnZoomIn() {
     // table font
     {
-        int iOldSize = m_Ui.tabvInfo->font().pointSize();
+        int iOldSize = m_Ui.tvInfo->font().pointSize();
         ++ iOldSize;
 
-        QFont font = m_Ui.tabvInfo->font();
+        QFont font = m_Ui.tvInfo->font();
         font.setPointSize(iOldSize);
 
-        m_Ui.tabvInfo->setFont(font);
+        m_Ui.tvInfo->setFont(font);
     }
 
     // table row height
     {
-        int iOldSize = m_Ui.tabvInfo->verticalHeader()->defaultSectionSize();
+        int iOldSize = m_Ui.tvInfo->verticalHeader()->defaultSectionSize();
         ++ iOldSize;
 
-        m_Ui.tabvInfo->verticalHeader()->setDefaultSectionSize(iOldSize);
+        m_Ui.tvInfo->verticalHeader()->setDefaultSectionSize(iOldSize);
     }
 }
 //---------------------------------------------------------------------------
@@ -680,24 +690,24 @@ void
 CMain::slot_OnZoomOut() {
     // table font
     {
-        int iOldSize = m_Ui.tabvInfo->font().pointSize();
+        int iOldSize = m_Ui.tvInfo->font().pointSize();
         if (iOldSize > CONFIG_APP_FONT_SIZE_DEFAULT) {
             -- iOldSize;
 
-            QFont font = m_Ui.tabvInfo->font();
+            QFont font = m_Ui.tvInfo->font();
             font.setPointSize(iOldSize);
 
-            m_Ui.tabvInfo->setFont(font);
+            m_Ui.tvInfo->setFont(font);
         }
     }
 
     // table row height
     {
-        int iOldSize = m_Ui.tabvInfo->verticalHeader()->defaultSectionSize();
+        int iOldSize = m_Ui.tvInfo->verticalHeader()->defaultSectionSize();
         if (iOldSize > CONFIG_TABLEVIEW_ROW_HEIGHT) {
             -- iOldSize;
 
-            m_Ui.tabvInfo->verticalHeader()->setDefaultSectionSize(iOldSize);
+            m_Ui.tvInfo->verticalHeader()->setDefaultSectionSize(iOldSize);
         }
     }
 }
@@ -706,15 +716,15 @@ void
 CMain::slot_OnZoomDefault() {
     // font
     {
-        QFont font = m_Ui.tabvInfo->font();
+        QFont font = m_Ui.tvInfo->font();
         font.setPointSize(CONFIG_APP_FONT_SIZE_DEFAULT);
 
-        m_Ui.tabvInfo->setFont(font);
+        m_Ui.tvInfo->setFont(font);
     }
 
     // row height
     {
-        m_Ui.tabvInfo->verticalHeader()->setDefaultSectionSize(CONFIG_TABLEVIEW_ROW_HEIGHT);
+        m_Ui.tvInfo->verticalHeader()->setDefaultSectionSize(CONFIG_TABLEVIEW_ROW_HEIGHT);
     }
 }
 //---------------------------------------------------------------------------
@@ -756,7 +766,7 @@ CMain::slot_OnAbout() {
 }
 //---------------------------------------------------------------------------
 void
-CMain::slot_cboDictionaryPath_OnCurrentIndexChanged(
+CMain::slot_cboDictPath_OnCurrentIndexChanged(
     const QString &a_arg
 )
 {
@@ -854,7 +864,7 @@ CMain::slot_cboDictionaryPath_OnCurrentIndexChanged(
 
 //---------------------------------------------------------------------------
 void
-CMain::cboDictionaryPath_reload() {
+CMain::cboDictPath_reload() {
     qCHECK_DO(! QDir(m_sDbDir).exists(), return);
 
     std::vec_tstring_t vsDicts;
@@ -864,12 +874,12 @@ CMain::cboDictionaryPath_reload() {
     CxDir( qQS2S(m_sDbDir) ).filesFind( CxString::format(xT("*%s"), xT(CONFIG_DB_FILE_EXT) ), true, &vsDicts);
     qCHECK_DO(vsDicts.empty(), return);
 
-    m_Ui.cboDictionaryPath->clear();
+    m_Ui.cboDictPath->clear();
 
     xFOREACH(std::vec_tstring_t, it, vsDicts) {
         QString sDict = qS2QS( (*it).erase(0, (qQS2S(m_sDbDir) + CxConst::xSLASH).size()) );
 
-        m_Ui.cboDictionaryPath->addItem(sDict);
+        m_Ui.cboDictPath->addItem(sDict);
     }
 }
 //---------------------------------------------------------------------------
@@ -940,7 +950,7 @@ CMain::dbOpen(
     //--------------------------------------------------
     // m_navNavigator
     {
-        m_navNavigator.construct(_m_tmModel, m_Ui.tabvInfo);
+        m_navNavigator.construct(_m_tmModel, m_Ui.tvInfo);
         m_navNavigator.last();
     }
 }
@@ -955,7 +965,7 @@ CMain::dbReopen(
 
     // _m_tmModel
     _m_tmModel->select();
-    m_Ui.tabvInfo->setModel(_m_tmModel);
+    m_Ui.tvInfo->setModel(_m_tmModel);
 }
 //---------------------------------------------------------------------------
 void
@@ -1101,8 +1111,8 @@ CMain::_settingsLoad() {
         move(pnPosition);
 
         // table
-        m_Ui.tabvInfo->setFocus();
-        m_Ui.tabvInfo->selectRow(iTableCurrentRow);
+        m_Ui.tvInfo->setFocus();
+        m_Ui.tvInfo->selectRow(iTableCurrentRow);
     }
 }
 //---------------------------------------------------------------------------
@@ -1119,7 +1129,7 @@ CMain::_settingsSave() {
 
     // table
     stSettings.beginGroup("table");
-    stSettings.setValue("current_row", m_Ui.tabvInfo->currentIndex().row());
+    stSettings.setValue("current_row", m_Ui.tvInfo->currentIndex().row());
     stSettings.endGroup();
 }
 //---------------------------------------------------------------------------

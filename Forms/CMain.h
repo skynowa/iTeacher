@@ -87,10 +87,10 @@ class CMain :
         void                   slot_OnFaq                ();
         void                   slot_OnAbout              ();
 
-        void                   slot_cboDictionaryPath_OnCurrentIndexChanged(const QString &arg);
+        void                   slot_cboDictPath_OnCurrentIndexChanged(const QString &arg);
 
     private:
-        void                   cboDictionaryPath_reload  ();
+        void                   cboDictPath_reload        ();
 
         // DB
         QSqlDatabase          *_m_dbDatabase;

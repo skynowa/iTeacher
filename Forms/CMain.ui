@@ -30,7 +30,7 @@
          </widget>
         </item>
         <item>
-         <widget class="QComboBox" name="cboDictionaryPath"/>
+         <widget class="QComboBox" name="cboDictPath"/>
         </item>
         <item>
          <widget class="QLabel" name="lblDictInfo">
@@ -55,7 +55,7 @@
        </layout>
       </item>
       <item>
-       <widget class="QTableView" name="tabvInfo"/>
+       <widget class="QTableView" name="tvInfo"/>
       </item>
      </layout>
     </item>
