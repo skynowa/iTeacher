@@ -9,17 +9,17 @@
 #include "../QtLib/CUtils.h"
 
 
-/****************************************************************************
+/*******************************************************************************
 *   public
 *
-*****************************************************************************/
+*******************************************************************************/
 
-//---------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 CWordEditor::CWordEditor(
     QWidget        *a_parent,
     QSqlTableModel *a_tableModel,
-    const int      &a_currentRow,
-    const QString  &a_newTerm /* = QString() */
+    cint            &a_currentRow,
+    cQString        &a_newTerm /* = QString() */
 ) :
     QDialog         (a_parent),
     _m_tmModel      (a_tableModel),
@@ -33,20 +33,20 @@ CWordEditor::CWordEditor(
 
     _construct();
 }
-//---------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 /*virtual*/
 CWordEditor::~CWordEditor() {
     _destruct();
 }
-//---------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 
 
-/****************************************************************************
+/*******************************************************************************
 *   private
 *
-*****************************************************************************/
+*******************************************************************************/
 
-//---------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 void
 CWordEditor::_construct() {
     m_Ui.setupUi(this);
@@ -56,10 +56,10 @@ CWordEditor::_construct() {
         QSqlRecord srRecord = _m_tmModel->record(_m_ciCurrentRow);
 
         // lables
-        m_Ui.tedtWordTerm->setText       ( srRecord.value(CONFIG_DB_F_MAIN_TERM).toString() );
-        m_Ui.tedtWordValue->setText      ( srRecord.value(CONFIG_DB_F_MAIN_VALUE).toString() );
-        m_Ui.chkWordIsLearned->setChecked( srRecord.value(CONFIG_DB_F_MAIN_IS_LEARNED).toBool() );
-        m_Ui.chkWordIsMarked->setChecked ( srRecord.value(CONFIG_DB_F_MAIN_IS_MARKED).toBool() );
+        m_Ui.tedtWordTerm->setText       ( srRecord.value(DB_F_MAIN_TERM).toString() );
+        m_Ui.tedtWordValue->setText      ( srRecord.value(DB_F_MAIN_VALUE).toString() );
+        m_Ui.chkWordIsLearned->setChecked( srRecord.value(DB_F_MAIN_IS_LEARNED).toBool() );
+        m_Ui.chkWordIsMarked->setChecked ( srRecord.value(DB_F_MAIN_IS_MARKED).toBool() );
 
         // _m_sbInfo
         {
@@ -109,20 +109,20 @@ CWordEditor::_construct() {
 
     _settingsLoad();
 }
-//---------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 void
 CWordEditor::_destruct() {
     _settingsSave();
 }
-//---------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 
 
-/****************************************************************************
+/*******************************************************************************
 *   private
 *
-*****************************************************************************/
+*******************************************************************************/
 
-//---------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 void
 CWordEditor::_resetAll() {
     m_Ui.tedtWordTerm->clear();
@@ -130,32 +130,32 @@ CWordEditor::_resetAll() {
     m_Ui.chkWordIsLearned->setChecked(false);
     m_Ui.chkWordIsMarked->setChecked(false);
 }
-//---------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 void
 CWordEditor::_saveAll() {
     QSqlRecord srRecord = _m_tmModel->record(_m_ciCurrentRow);
 
     {
-        srRecord.setValue(CONFIG_DB_F_MAIN_TERM,       m_Ui.tedtWordTerm->toPlainText());
-        srRecord.setValue(CONFIG_DB_F_MAIN_VALUE,      m_Ui.tedtWordValue->toPlainText());
-        srRecord.setValue(CONFIG_DB_F_MAIN_IS_LEARNED, m_Ui.chkWordIsLearned->isChecked());
-        srRecord.setValue(CONFIG_DB_F_MAIN_IS_MARKED,  m_Ui.chkWordIsMarked->isChecked());
+        srRecord.setValue(DB_F_MAIN_TERM,       m_Ui.tedtWordTerm->toPlainText());
+        srRecord.setValue(DB_F_MAIN_VALUE,      m_Ui.tedtWordValue->toPlainText());
+        srRecord.setValue(DB_F_MAIN_IS_LEARNED, m_Ui.chkWordIsLearned->isChecked());
+        srRecord.setValue(DB_F_MAIN_IS_MARKED,  m_Ui.chkWordIsMarked->isChecked());
     }
 
     _m_tmModel->setRecord(_m_ciCurrentRow, srRecord);
     _m_tmModel->submitAll();
 }
-//---------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 void
 CWordEditor::_settingsLoad() {
     QSize szSize;
 
     {
-        QSettings stSettings(QCoreApplication::applicationName() + CONFIG_APP_SETTINGS_FIE_EXT,
+        QSettings stSettings(QCoreApplication::applicationName() + APP_SETTINGS_FILE_EXT,
                              QSettings::IniFormat, this);
 
         stSettings.beginGroup("word_editor");
-        szSize = stSettings.value("size", QSize(CONFIG_APP_WIDTH, CONFIG_APP_HEIGHT)).toSize();
+        szSize = stSettings.value("size", QSize(APP_WIDTH, APP_HEIGHT)).toSize();
         stSettings.endGroup();
     }
 
@@ -165,10 +165,10 @@ CWordEditor::_settingsLoad() {
         resize(szSize);
     }
 }
-//---------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 void
 CWordEditor::_settingsSave() {
-    QSettings stSettings(QCoreApplication::applicationName() + CONFIG_APP_SETTINGS_FIE_EXT,
+    QSettings stSettings(QCoreApplication::applicationName() + APP_SETTINGS_FILE_EXT,
                          QSettings::IniFormat, this);
 
     // main
@@ -176,19 +176,19 @@ CWordEditor::_settingsSave() {
     stSettings.setValue("size", size());
     stSettings.endGroup();
 }
-//---------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 bool
 CWordEditor::_isTermExists(
-    const QString &term
+    cQString &a_term
 )
 {
     bool      bRv = false;
     QSqlQuery qryQuery( _m_tmModel->database() );
 
-    const QString csSql =
+    cQString csSql =
                 "SELECT COUNT(*) AS f_records_count "
-                "   FROM  " CONFIG_DB_T_MAIN " "
-                "   WHERE " CONFIG_DB_F_MAIN_TERM " = '" + term.trimmed() + "';";
+                "   FROM  " DB_T_MAIN " "
+                "   WHERE " DB_F_MAIN_TERM " = '" + a_term.trimmed() + "';";
 
     bRv = qryQuery.exec(csSql);
     qCHECK_REF(bRv, qryQuery);
@@ -200,24 +200,24 @@ CWordEditor::_isTermExists(
 
     return bRv;
 }
-//---------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 
 
-/****************************************************************************
+/*******************************************************************************
 *   private slots
 *
-*****************************************************************************/
+*******************************************************************************/
 
-//---------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 void
 CWordEditor::slot_termTranslate() {
     m_Ui.tedtWordValue->clear();
 
     qCHECK_DO(true == m_Ui.tedtWordTerm->toPlainText().isEmpty(), return);
 
-    const QString sTextFrom = m_Ui.tedtWordTerm->toPlainText().toUtf8();
-    const QString sLangFrom = QString("en").toUtf8();
-    const QString sLangTo   = QString("ru").toUtf8();
+    cQString sTextFrom = m_Ui.tedtWordTerm->toPlainText().toUtf8();
+    cQString sLangFrom = QString("en").toUtf8();
+    cQString sLangTo   = QString("ru").toUtf8();
     QString       sTextTo   = CUtils::googleTranslate(sTextFrom, sLangFrom, sLangTo);
 
     m_Ui.tedtWordValue->setText(sTextTo);
@@ -225,11 +225,11 @@ CWordEditor::slot_termTranslate() {
     // check for term existing
     slot_termCheck();
 }
-//---------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 void
 CWordEditor::slot_termCheck() {
     // check for term existing
-    const bool cbIsTermExists = _isTermExists( m_Ui.tedtWordTerm->toPlainText() );
+    cbool cbIsTermExists = _isTermExists( m_Ui.tedtWordTerm->toPlainText() );
 
     // format info message
     QPalette plInfo;
@@ -255,7 +255,7 @@ CWordEditor::slot_termCheck() {
     _m_sbInfo->setPalette(plInfo);
     _m_sbInfo->showMessage(sMsg);
 }
-//---------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 void
 CWordEditor::slot_bbxButtons_OnClicked(
     QAbstractButton *a_button
@@ -265,47 +265,40 @@ CWordEditor::slot_bbxButtons_OnClicked(
     switch (sbType) {
         case QDialogButtonBox::Ok:
         case QDialogButtonBox::Apply: {
-                const bool bRv1 = m_Ui.tedtWordTerm->toPlainText().trimmed().isEmpty();
-                const bool bRv2 = _isTermExists( m_Ui.tedtWordTerm->toPlainText() );
-                if (bRv1 || bRv2) {
-                    slot_termCheck();
-                } else {
-                    _saveAll();
+            cbool bRv1 = m_Ui.tedtWordTerm->toPlainText().trimmed().isEmpty();
+            cbool bRv2 = _isTermExists( m_Ui.tedtWordTerm->toPlainText() );
+            if (bRv1 || bRv2) {
+                slot_termCheck();
+            } else {
+                _saveAll();
 
-                    if (QDialogButtonBox::Ok == sbType) {
-                        close();
-                    }
+                if (QDialogButtonBox::Ok == sbType) {
+                    close();
                 }
-            }
+            }}
             break;
-
-        case QDialogButtonBox::Reset: {
-                _resetAll();
-            }
+        case QDialogButtonBox::Reset:
+            _resetAll();
             break;
-
-        case QDialogButtonBox::Cancel: {
-                _m_tmModel->revertAll();
-                close();
-            }
+        case QDialogButtonBox::Cancel:
+            _m_tmModel->revertAll();
+            close();
             break;
-
-        default: {
-                Q_ASSERT(false);
-            }
+        default:
+            Q_ASSERT(false);
             break;
     }
 }
-//---------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 void
 CWordEditor::slot_WordTermOrValue_OnTextChanged() {
     m_Ui.tedtWordTerm->document()->setModified(true);
     m_Ui.tedtWordValue->document()->setModified(true);
 
-    const bool cbFlag  =
+    cbool cbFlag  =
         m_Ui.tedtWordTerm->document()->isModified() ||
         m_Ui.tedtWordValue->document()->isModified();
 
     setWindowModified(cbFlag);
 }
-//---------------------------------------------------------------------------
+//------------------------------------------------------------------------------

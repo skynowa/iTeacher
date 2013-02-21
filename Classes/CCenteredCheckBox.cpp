@@ -9,11 +9,11 @@
 #include <QtGui>
 
 
-//---------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 CCenteredCheckBox::CCenteredCheckBox(
-    QWidget *parent
+    QWidget *a_parent
 ) :
-    QWidget    (parent),
+    QWidget    (a_parent),
     _m_checkBox(NULL)
 {
     setContentsMargins(0, 0, 0, 0);
@@ -30,9 +30,9 @@ CCenteredCheckBox::CCenteredCheckBox(
     setLayout(layout);
     setFocusProxy(_m_checkBox);
 }
-//---------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 QCheckBox *
 CCenteredCheckBox::checkBox() const {
     return _m_checkBox;
 }
-//---------------------------------------------------------------------------
+//------------------------------------------------------------------------------

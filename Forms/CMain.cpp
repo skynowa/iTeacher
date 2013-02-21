@@ -20,17 +20,17 @@
 #include <phonon/mediaobject.h>
 
 
-/****************************************************************************
+/*******************************************************************************
 *   public
 *
-*****************************************************************************/
+*******************************************************************************/
 
-//---------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 CMain::CMain(
-    QWidget    *parent,
-    Qt::WFlags  flags
+    QWidget    *a_parent,
+    Qt::WFlags  a_flags
 ) :
-    QMainWindow   (parent, flags),
+    QMainWindow   (a_parent, a_flags),
     m_sAppName    (),
     m_sAppDir     (),
     m_sDbDir      (),
@@ -42,20 +42,20 @@ CMain::CMain(
 {
     _construct();
 }
-//---------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 /*virtual*/
 CMain::~CMain() {
     _destruct();
 }
-//---------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 
 
-/****************************************************************************
+/*******************************************************************************
 *   protected
 *
-*****************************************************************************/
+*******************************************************************************/
 
-//---------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 /* virtual */
 bool
 CMain::eventFilter(
@@ -79,7 +79,7 @@ CMain::eventFilter(
 
     return false;
 }
-//---------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 /* virtual */
 void
 CMain::keyPressEvent(
@@ -88,26 +88,23 @@ CMain::keyPressEvent(
 {
     switch (a_ev->key()) {
         // minimize on pressing escape
-        case Qt::Key_Escape: {
-                setWindowState(Qt::WindowMinimized);;
-            }
+        case Qt::Key_Escape:
+            setWindowState(Qt::WindowMinimized);;
             break;
-
-        default: {
-                QMainWindow::keyPressEvent(a_ev);
-            }
+        default:
+            QMainWindow::keyPressEvent(a_ev);
             break;
     }
 }
-//---------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 
 
-/****************************************************************************
+/*******************************************************************************
 *   private
 *
-*****************************************************************************/
+*******************************************************************************/
 
-//---------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 void
 CMain::_construct() {
     _initMain();
@@ -116,14 +113,14 @@ CMain::_construct() {
 
     _settingsLoad();
 }
-//---------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 void
 CMain::_destruct() {
     _settingsSave();
 
     dbClose();
 }
-//---------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 void
 CMain::_initMain() {
     m_Ui.setupUi(this);
@@ -133,9 +130,9 @@ CMain::_initMain() {
     {
         m_sAppName     = QCoreApplication::applicationName();;
         m_sAppDir      = QCoreApplication::applicationDirPath();
-        m_sDbDir       = m_sAppDir + QDir::separator() + CONFIG_DB_DIR_NAME;
-        m_sDbBackupDir = m_sDbDir  + QDir::separator() + CONFIG_BACKUP_DIR_NAME;
-        m_sTempDir     = m_sAppDir + QDir::separator() + CONFIG_TEMP_DIR_NAME;
+        m_sDbDir       = m_sAppDir + QDir::separator() + DB_DIR_NAME;
+        m_sDbBackupDir = m_sDbDir  + QDir::separator() + BACKUP_DIR_NAME;
+        m_sTempDir     = m_sAppDir + QDir::separator() + TEMP_DIR_NAME;
 
         QDir().mkpath(m_sDbDir);
         QDir().mkpath(m_sDbBackupDir);
@@ -145,23 +142,23 @@ CMain::_initMain() {
     //--------------------------------------------------
     // CMain
     {
-        setWindowIcon(QIcon(CONFIG_RES_MAIN_ICON));
-        setWindowTitle(CONFIG_APP_NAME);
-        setGeometry(0, 0, CONFIG_APP_WIDTH, CONFIG_APP_HEIGHT);
+        setWindowIcon(QIcon(RES_MAIN_ICON));
+        setWindowTitle(APP_NAME);
+        setGeometry(0, 0, APP_WIDTH, APP_HEIGHT);
         CUtils::widgetAlignCenter(this);
         cboDictPath_reload();
     }
 }
-//---------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 void
 CMain::_initModel() {
     //--------------------------------------------------
     // open DB
     {
         if (false == m_Ui.cboDictPath->currentText().isEmpty()) {
-            QString sDictPath = m_sDbDir + QDir::separator() + m_Ui.cboDictPath->currentText();
+            cQString csDictPath = m_sDbDir + QDir::separator() + m_Ui.cboDictPath->currentText();
 
-            dbOpen(sDictPath);
+            dbOpen(csDictPath);
         }
     }
 
@@ -173,7 +170,7 @@ CMain::_initModel() {
             m_Ui.tvInfo->setModel(_m_tmModel);
             m_Ui.tvInfo->viewport()->installEventFilter(this);
 
-            m_Ui.tvInfo->hideColumn(0); // don't show the CONFIG_DB_F_MAIN_ID
+            m_Ui.tvInfo->hideColumn(0); // don't show the DB_F_MAIN_ID
             m_Ui.tvInfo->setColumnWidth(0, 40);
             m_Ui.tvInfo->setColumnWidth(1, 100);
             m_Ui.tvInfo->setColumnWidth(2, 400);
@@ -181,7 +178,7 @@ CMain::_initModel() {
             m_Ui.tvInfo->setColumnWidth(4, 60);
 
             m_Ui.tvInfo->verticalHeader()->setVisible(true);
-            m_Ui.tvInfo->verticalHeader()->setDefaultSectionSize(CONFIG_TABLEVIEW_ROW_HEIGHT);
+            m_Ui.tvInfo->verticalHeader()->setDefaultSectionSize(TABLEVIEW_ROW_HEIGHT);
 
             m_Ui.tvInfo->setEditTriggers(QAbstractItemView::NoEditTriggers);
             m_Ui.tvInfo->setSelectionBehavior(QAbstractItemView::SelectRows);
@@ -222,7 +219,7 @@ CMain::_initModel() {
         m_navNavigator.last();
     }
 }
-//---------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 void
 CMain::_initActions() {
     // group "File"
@@ -327,18 +324,18 @@ CMain::_initActions() {
                 this,                             SLOT  ( slot_OnAbout() ));
     }
 }
-//---------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 
 
-/****************************************************************************
+/*******************************************************************************
 *   group "File"
 *
-*****************************************************************************/
+*******************************************************************************/
 
-//---------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 void
 CMain::slot_OnCreateDb() {
-    const QString csDbName = QInputDialog::getText(
+    cQString csDbName = QInputDialog::getText(
                                  this,
                                  m_sAppName,
                                  "New DB file path:",
@@ -346,26 +343,26 @@ CMain::slot_OnCreateDb() {
                                  ".db");
     qCHECK_DO(true == csDbName.trimmed().isEmpty(), return);
 
-    QString sDictPath = m_sDbDir + QDir::separator() + csDbName;
+    cQString csDictPath = m_sDbDir + QDir::separator() + csDbName;
 
     // reopen DB
     {
-        dbReopen(sDictPath);
+        dbReopen(csDictPath);
         cboDictPath_reload();
     }
 
     // activate this DB file name in QComboBox
     {
-        int iSectionPos = m_Ui.cboDictPath->findText(csDbName);
+        cint ciSectionPos = m_Ui.cboDictPath->findText(csDbName);
 
-        m_Ui.cboDictPath->setCurrentIndex(iSectionPos);
+        m_Ui.cboDictPath->setCurrentIndex(ciSectionPos);
     }
 }
-//---------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 void
 CMain::slot_OnImportCsv() {
     // choose file path
-    QString filePath = QFileDialog::getOpenFileName(
+    cQString filePath = QFileDialog::getOpenFileName(
                             this,
                             "Open file",
                             "",
@@ -375,47 +372,47 @@ CMain::slot_OnImportCsv() {
     // DB field names
     QVector<QString> fieldNames;
 
-    fieldNames.push_back(CONFIG_DB_F_MAIN_TERM);
-    fieldNames.push_back(CONFIG_DB_F_MAIN_VALUE);
-    fieldNames.push_back(CONFIG_DB_F_MAIN_IS_LEARNED);
-    fieldNames.push_back(CONFIG_DB_F_MAIN_IS_MARKED);
+    fieldNames.push_back(DB_F_MAIN_TERM);
+    fieldNames.push_back(DB_F_MAIN_VALUE);
+    fieldNames.push_back(DB_F_MAIN_IS_LEARNED);
+    fieldNames.push_back(DB_F_MAIN_IS_MARKED);
 
     // import
     CUtils::importCsv(filePath, _m_tmModel, fieldNames, "\t");
 
     // "fire" cboDictPath
     {
-        int iCurrent = m_Ui.cboDictPath->currentIndex();
+        cint iCurrent = m_Ui.cboDictPath->currentIndex();
         m_Ui.cboDictPath->setCurrentIndex(- 1);
         m_Ui.cboDictPath->setCurrentIndex(iCurrent);
     }
 
     // report
     {
-        QString sMsg = QString(tr("File: %1\nImport CSV finished."))
+        cQString csMsg = QString(tr("File: %1\nImport CSV finished."))
                             .arg(filePath);
 
-        QMessageBox::information(this, qApp->applicationName(), sMsg);
+        QMessageBox::information(this, qApp->applicationName(), csMsg);
     }
 }
-//---------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 void
 CMain::slot_OnImportClipboard() {
     qCHECK_DO(NULL == _m_tmModel, return);
 
     m_navNavigator.insert();
 
-    const QString csData       = QApplication::clipboard()->text();
-    const int     ciCurrentRow = CUtils::sqlTableModelRowCount(_m_tmModel) - 1;
-    CWordEditor   dlgWordEditor(this, _m_tmModel, ciCurrentRow, csData);
+    cQString    csData       = QApplication::clipboard()->text();
+    cint        ciCurrentRow = CUtils::sqlTableModelRowCount(_m_tmModel) - 1;
+    CWordEditor dlgWordEditor(this, _m_tmModel, ciCurrentRow, csData);
 
     dlgWordEditor.exec();
 }
-//---------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 void
 CMain::slot_OnExportCsv() {
     // choose file path
-    QString filePath = QFileDialog::getSaveFileName(
+    cQString filePath = QFileDialog::getSaveFileName(
                             this,
                             tr("Save file"),
                             m_Ui.cboDictPath->currentText() + ".csv",
@@ -427,10 +424,10 @@ CMain::slot_OnExportCsv() {
         // DB field names
         QVector<QString> fieldNames;
 
-        fieldNames.push_back(CONFIG_DB_F_MAIN_TERM);
-        fieldNames.push_back(CONFIG_DB_F_MAIN_VALUE);
-        fieldNames.push_back(CONFIG_DB_F_MAIN_IS_LEARNED);
-        fieldNames.push_back(CONFIG_DB_F_MAIN_IS_MARKED);
+        fieldNames.push_back(DB_F_MAIN_TERM);
+        fieldNames.push_back(DB_F_MAIN_VALUE);
+        fieldNames.push_back(DB_F_MAIN_IS_LEARNED);
+        fieldNames.push_back(DB_F_MAIN_IS_MARKED);
 
         // import
         CUtils::exportCsv(filePath, _m_tmModel, fieldNames, "\t");
@@ -438,17 +435,17 @@ CMain::slot_OnExportCsv() {
 
     // report
     {
-        QString sMsg = QString(tr("File: %1\nExport PDF finished."))
+        cQString csMsg = QString(tr("File: %1\nExport PDF finished."))
                             .arg(filePath);
 
-        QMessageBox::information(this, qApp->applicationName(), sMsg);
+        QMessageBox::information(this, qApp->applicationName(), csMsg);
     }
 }
-//---------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 void
 CMain::slot_OnExportPdf() {
     // choose file path
-    QString filePath = QFileDialog::getSaveFileName(
+    cQString filePath = QFileDialog::getSaveFileName(
                             this,
                             tr("Save file"),
                             m_Ui.cboDictPath->currentText() + ".pdf",
@@ -460,13 +457,13 @@ CMain::slot_OnExportPdf() {
 
 
     // file -> DB
-    int iRealRowCount = CUtils::sqlTableModelRowCount(_m_tmModel);
+    cint ciRealRowCount = CUtils::sqlTableModelRowCount(_m_tmModel);
 
-    for (int i = 0; i < iRealRowCount; ++ i) {
-        sHtml.push_back( _m_tmModel->record(i).value(CONFIG_DB_F_MAIN_TERM).toString() );
+    for (int i = 0; i < ciRealRowCount; ++ i) {
+        sHtml.push_back( _m_tmModel->record(i).value(DB_F_MAIN_TERM).toString() );
         sHtml.push_back( "\n" );
         sHtml.push_back( " - " );
-        sHtml.push_back( _m_tmModel->record(i).value(CONFIG_DB_F_MAIN_VALUE).toString() );
+        sHtml.push_back( _m_tmModel->record(i).value(DB_F_MAIN_VALUE).toString() );
         sHtml.push_back( "<br>" );
     }
 
@@ -485,63 +482,64 @@ CMain::slot_OnExportPdf() {
 
     // report
     {
-        QString sMsg = QString(tr("File: %1\nExport PDF finished."))
+        cQString csMsg = QString(tr("File: %1\nExport PDF finished."))
                             .arg(filePath);
 
-        QMessageBox::information(this, qApp->applicationName(), sMsg);
+        QMessageBox::information(this, qApp->applicationName(), csMsg);
     }
 }
-//---------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 void
 CMain::slot_OnExit() {
     close();
 }
-//---------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 
 
-/****************************************************************************
+/*******************************************************************************
 *   group "Edit"
 *
-*****************************************************************************/
+*******************************************************************************/
 
-//---------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 void
 CMain::slot_OnFirst() {
     m_navNavigator.first();
 }
-//---------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 void
 CMain::slot_OnPrior() {
     m_navNavigator.prior();
 }
-//---------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 void
 CMain::slot_OnNext() {
     m_navNavigator.next();
 }
-//---------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 void
 CMain::slot_OnLast() {
     m_navNavigator.last();
 }
-//---------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 void
 CMain::slot_OnTo() {
-    const int ciCurrentRow = m_Ui.tvInfo->currentIndex().row() + 1;
-    const int ciMinValue   = 1;
-    const int ciMaxValue   = CUtils::sqlTableModelRowCount(_m_tmModel);
+    cint ciCurrentRow = m_navNavigator.view()->currentIndex().row() + 1;
+    cint ciMinValue   = 1;
+    cint ciMaxValue   = CUtils::sqlTableModelRowCount(_m_tmModel);
 
-    int iTargetRow = QInputDialog::getInt(
-                        this, CONFIG_APP_NAME, "Go to row:", ciCurrentRow, ciMinValue, ciMaxValue) - 1;
+    cint ciTargetRow  = QInputDialog::getInt(
+                            this, APP_NAME, "Go to row:",
+                            ciCurrentRow, ciMinValue, ciMaxValue) - 1;
 
-    m_navNavigator.to(iTargetRow);
+    m_navNavigator.to(ciTargetRow);
 }
-//---------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 void
 CMain::slot_OnInsert() {
     m_navNavigator.insert();
 
-    cint ciCurrentRow = m_Ui.tvInfo->currentIndex().row();
+    cint ciCurrentRow = m_navNavigator.view()->currentIndex().row();
 
     // show edit dialog
     {
@@ -553,15 +551,15 @@ CMain::slot_OnInsert() {
     // set current index
     m_navNavigator.to(ciCurrentRow);
 }
-//---------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 void
 CMain::slot_OnRemove() {
     m_navNavigator.remove();
 }
-//---------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 void
 CMain::slot_OnEdit() {
-    cint ciCurrentRow = m_Ui.tvInfo->currentIndex().row();
+    cint ciCurrentRow = m_navNavigator.view()->currentIndex().row();
 
     // show edit dialog
     {
@@ -573,80 +571,80 @@ CMain::slot_OnEdit() {
     // set current index
     m_navNavigator.to(ciCurrentRow);
 }
-//---------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 void
 CMain::slot_OnPost() {
     m_navNavigator.post();
 }
-//---------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 void
 CMain::slot_OnCancel() {
     m_navNavigator.cancel();
 }
-//---------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 void
 CMain::slot_OnRefresh() {
     m_navNavigator.refresh();
 }
-//---------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 
 
-/****************************************************************************
+/*******************************************************************************
 *   group "Audio"
 *
-*****************************************************************************/
+*******************************************************************************/
 
-//---------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 void
 CMain::slot_OnPlayWord() {
     QString sText;
     {
-        const int  ciCurrentRow = m_Ui.tvInfo->currentIndex().row();
+        cint       ciCurrentRow = m_Ui.tvInfo->currentIndex().row();
         QSqlRecord srRecord     = _m_tmModel->record(ciCurrentRow);
 
-        sText = srRecord.value(CONFIG_DB_F_MAIN_TERM).toString();
+        sText = srRecord.value(DB_F_MAIN_TERM).toString();
     }
 
     QString sAudioFilePath;
     {
-        sAudioFilePath = m_sTempDir + QDir::separator() + CONFIG_AUDIO_WORD_FILE_NAME;
+        sAudioFilePath = m_sTempDir + QDir::separator() + AUDIO_WORD_FILE_NAME;
     }
 
-    _googleSpeech(sText, CONFIG_TRANSLATION_LANG_ENGLISH, sAudioFilePath);
+    _googleSpeech(sText, TRANSLATION_LANG_ENGLISH, sAudioFilePath);
 }
-//---------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 void
 CMain::slot_OnPlayTranslation() {
     QString sText;
     {
-        const int  ciCurrentRow = m_Ui.tvInfo->currentIndex().row();
+        cint       ciCurrentRow = m_Ui.tvInfo->currentIndex().row();
         QSqlRecord srRecord     = _m_tmModel->record(ciCurrentRow);
 
-        sText = srRecord.value(CONFIG_DB_F_MAIN_VALUE).toString();
+        sText = srRecord.value(DB_F_MAIN_VALUE).toString();
     }
 
     QString sAudioFilePath;
     {
-        sAudioFilePath = m_sTempDir + QDir::separator() + CONFIG_AUDIO_TRANSLATION_FILE_NAME;
+        sAudioFilePath = m_sTempDir + QDir::separator() + AUDIO_TRANSLATION_FILE_NAME;
     }
 
-    _googleSpeech(sText, CONFIG_TRANSLATION_LANG_RUSSIAN, sAudioFilePath);
+    _googleSpeech(sText, TRANSLATION_LANG_RUSSIAN, sAudioFilePath);
 }
-//---------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 void
 CMain::slot_OnPlayWordTranslation() {
     slot_OnPlayWord();
     slot_OnPlayTranslation();
 }
-//---------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 
 
-/****************************************************************************
+/*******************************************************************************
 *   group "Find"
 *
-*****************************************************************************/
+*******************************************************************************/
 
-//---------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 void
 CMain::slot_OnSearch() {
     qCHECK_DO(NULL == _m_tmModel, return);
@@ -655,15 +653,15 @@ CMain::slot_OnSearch() {
 
     dlgWordFinder.exec();
 }
-//---------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 
 
-/****************************************************************************
+/*******************************************************************************
 *   group "View"
 *
-*****************************************************************************/
+*******************************************************************************/
 
-//---------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 void
 CMain::slot_OnZoomIn() {
     // table font
@@ -685,13 +683,13 @@ CMain::slot_OnZoomIn() {
         m_Ui.tvInfo->verticalHeader()->setDefaultSectionSize(iOldSize);
     }
 }
-//---------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 void
 CMain::slot_OnZoomOut() {
     // table font
     {
         int iOldSize = m_Ui.tvInfo->font().pointSize();
-        if (iOldSize > CONFIG_APP_FONT_SIZE_DEFAULT) {
+        if (iOldSize > APP_FONT_SIZE_DEFAULT) {
             -- iOldSize;
 
             QFont font = m_Ui.tvInfo->font();
@@ -704,67 +702,66 @@ CMain::slot_OnZoomOut() {
     // table row height
     {
         int iOldSize = m_Ui.tvInfo->verticalHeader()->defaultSectionSize();
-        if (iOldSize > CONFIG_TABLEVIEW_ROW_HEIGHT) {
+        if (iOldSize > TABLEVIEW_ROW_HEIGHT) {
             -- iOldSize;
 
             m_Ui.tvInfo->verticalHeader()->setDefaultSectionSize(iOldSize);
         }
     }
 }
-//---------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 void
 CMain::slot_OnZoomDefault() {
     // font
     {
         QFont font = m_Ui.tvInfo->font();
-        font.setPointSize(CONFIG_APP_FONT_SIZE_DEFAULT);
+        font.setPointSize(APP_FONT_SIZE_DEFAULT);
 
         m_Ui.tvInfo->setFont(font);
     }
 
     // row height
     {
-        m_Ui.tvInfo->verticalHeader()->setDefaultSectionSize(CONFIG_TABLEVIEW_ROW_HEIGHT);
+        m_Ui.tvInfo->verticalHeader()->setDefaultSectionSize(TABLEVIEW_ROW_HEIGHT);
     }
 }
-//---------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 
-/****************************************************************************
+/*******************************************************************************
 *   group "Options"
 *
-*****************************************************************************/
+*******************************************************************************/
 
-//---------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 void
 CMain::slot_OnSettings() {
     // TODO: slot_OnSettings
 }
-//---------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 
 
-/****************************************************************************
+/*******************************************************************************
 *   group "Help"
 *
-*****************************************************************************/
+*******************************************************************************/
 
-//---------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 void
 CMain::slot_OnFaq() {
     // TODO: slot_OnFaq
 }
-//---------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 void
 CMain::slot_OnAbout() {
-    QString sMsg = QString(tr(
+    cQString csMsg = QString(tr(
         "<p>"
-        "<b>%1</b> - " CONFIG_APP_COMMENT
-        "</p>")
-            .arg(CONFIG_APP_NAME)
-        );
+        "<b>%1</b> - " APP_COMMENT
+        "</p>"))
+            .arg(APP_NAME);
 
-    QMessageBox::about(this, tr("About ") + CONFIG_APP_NAME, sMsg);
+    QMessageBox::about(this, tr("About ") + APP_NAME, csMsg);
 }
-//---------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 void
 CMain::slot_cboDictPath_OnCurrentIndexChanged(
     const QString &a_arg
@@ -774,9 +771,9 @@ CMain::slot_cboDictPath_OnCurrentIndexChanged(
 
     // reopen DB
     {
-        QString sDictPath = m_sDbDir + QDir::separator() + a_arg;
+        cQString csDictPath = m_sDbDir + QDir::separator() + a_arg;
 
-        dbReopen(sDictPath);
+        dbReopen(csDictPath);
     }
 
     // words info
@@ -787,9 +784,9 @@ CMain::slot_cboDictPath_OnCurrentIndexChanged(
         {
             QSqlQuery qryWordsAll(*_m_dbDatabase);
 
-            const QString csSql =
+            cQString csSql =
                         "SELECT COUNT(*) AS f_records_count "
-                        "   FROM  " CONFIG_DB_T_MAIN ";";
+                        "   FROM  " DB_T_MAIN ";";
 
             bool bRv = qryWordsAll.exec(csSql);
             qCHECK_REF(bRv, qryWordsAll);
@@ -806,10 +803,10 @@ CMain::slot_cboDictPath_OnCurrentIndexChanged(
         {
             QSqlQuery qryWordsLearned(*_m_dbDatabase);
 
-            const QString csSql =
+            cQString csSql =
                         "SELECT COUNT(*) AS f_records_count "
-                        "   FROM  " CONFIG_DB_T_MAIN " "
-                        "   WHERE " CONFIG_DB_F_MAIN_IS_LEARNED " = 1;";
+                        "   FROM  " DB_T_MAIN " "
+                        "   WHERE " DB_F_MAIN_IS_LEARNED " = 1;";
 
             bool bRv = qryWordsLearned.exec(csSql);
             qCHECK_REF(bRv, qryWordsLearned);
@@ -826,10 +823,10 @@ CMain::slot_cboDictPath_OnCurrentIndexChanged(
         {
             QSqlQuery qryWordsNotLearned(*_m_dbDatabase);
 
-            const QString csSql =
+            cQString csSql =
                         "SELECT COUNT(*) AS f_records_count "
-                        "   FROM  " CONFIG_DB_T_MAIN " "
-                        "   WHERE " CONFIG_DB_F_MAIN_IS_LEARNED " = 0;";
+                        "   FROM  " DB_T_MAIN " "
+                        "   WHERE " DB_F_MAIN_IS_LEARNED " = 0;";
 
             bool bRv = qryWordsNotLearned.exec(csSql);
             qCHECK_REF(bRv, qryWordsNotLearned);
@@ -840,7 +837,7 @@ CMain::slot_cboDictPath_OnCurrentIndexChanged(
             iWordsNotLearned = qryWordsNotLearned.value(0).toInt();
         }
 
-        const QString csDictInfo =
+        cQString csDictInfo =
             QString(tr("&nbsp;&nbsp;&nbsp;<b>All</b>: %1 (%2)"
                        "&nbsp;&nbsp;&nbsp;<b>Learned</b>: %3 (%4)"
                        "&nbsp;&nbsp;&nbsp;<b>Not learned:</b> %5 (%6)"))
@@ -854,15 +851,15 @@ CMain::slot_cboDictPath_OnCurrentIndexChanged(
         m_Ui.lblDictInfo->setText(csDictInfo);
     }
 }
-//---------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 
 
-/****************************************************************************
+/*******************************************************************************
 *   private
 *
-*****************************************************************************/
+*******************************************************************************/
 
-//---------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 void
 CMain::cboDictPath_reload() {
     qCHECK_DO(! QDir(m_sDbDir).exists(), return);
@@ -871,7 +868,7 @@ CMain::cboDictPath_reload() {
 
     vsDicts.clear();
 
-    CxDir( qQS2S(m_sDbDir) ).filesFind( CxString::format(xT("*%s"), xT(CONFIG_DB_FILE_EXT) ), true, &vsDicts);
+    CxDir( qQS2S(m_sDbDir) ).filesFind( CxString::format(xT("*%s"), xT(DB_FILE_EXT) ), true, &vsDicts);
     qCHECK_DO(vsDicts.empty(), return);
 
     m_Ui.cboDictPath->clear();
@@ -882,18 +879,18 @@ CMain::cboDictPath_reload() {
         m_Ui.cboDictPath->addItem(sDict);
     }
 }
-//---------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 
 
-/****************************************************************************
+/*******************************************************************************
 *   private: DB
 *
-*****************************************************************************/
+*******************************************************************************/
 
-//---------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 void
 CMain::dbOpen(
-    const QString &a_filePath
+    cQString &a_filePath
 )
 {
     // _m_dbDatabase
@@ -914,15 +911,15 @@ CMain::dbOpen(
         {
             QSqlQuery qryInfo(*_m_dbDatabase);
 
-            const QString csSql = \
+            cQString csSql = \
                     "CREATE TABLE IF NOT EXISTS "
-                    "    " CONFIG_DB_T_MAIN
+                    "    " DB_T_MAIN
                     "( "
-                    "    " CONFIG_DB_F_MAIN_ID         " integer PRIMARY KEY AUTOINCREMENT UNIQUE, "
-                    "    " CONFIG_DB_F_MAIN_TERM       " varchar(255) UNIQUE NOT NULL, "
-                    "    " CONFIG_DB_F_MAIN_VALUE      " varchar(255), "
-                    "    " CONFIG_DB_F_MAIN_IS_LEARNED " integer NOT NULL DEFAULT 0, "
-                    "    " CONFIG_DB_F_MAIN_IS_MARKED  " integer NOT NULL DEFAULT 0 "
+                    "    " DB_F_MAIN_ID         " integer PRIMARY KEY AUTOINCREMENT UNIQUE, "
+                    "    " DB_F_MAIN_TERM       " varchar(255) UNIQUE NOT NULL, "
+                    "    " DB_F_MAIN_VALUE      " varchar(255), "
+                    "    " DB_F_MAIN_IS_LEARNED " integer NOT NULL DEFAULT 0, "
+                    "    " DB_F_MAIN_IS_MARKED  " integer NOT NULL DEFAULT 0 "
                     ")";
 
             bRv = qryInfo.exec(csSql);
@@ -936,7 +933,7 @@ CMain::dbOpen(
 
         _m_tmModel = new QSqlTableModel(this, *_m_dbDatabase);
 
-        _m_tmModel->setTable(CONFIG_DB_T_MAIN);
+        _m_tmModel->setTable(DB_T_MAIN);
         _m_tmModel->setHeaderData(0, Qt::Horizontal, tr("Id"),      Qt::DisplayRole);
         _m_tmModel->setHeaderData(1, Qt::Horizontal, tr("Term"),    Qt::DisplayRole);
         _m_tmModel->setHeaderData(2, Qt::Horizontal, tr("Value"),   Qt::DisplayRole);
@@ -954,20 +951,20 @@ CMain::dbOpen(
         m_navNavigator.last();
     }
 }
-//---------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 void
 CMain::dbReopen(
-    const QString &filePath
+    cQString &a_filePath
 )
 {
     dbClose();
-    dbOpen(filePath);
+    dbOpen(a_filePath);
 
     // _m_tmModel
     _m_tmModel->select();
     m_Ui.tvInfo->setModel(_m_tmModel);
 }
-//---------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 void
 CMain::dbClose() {
     // _m_tmModel
@@ -980,7 +977,7 @@ CMain::dbClose() {
         if (NULL != _m_dbDatabase) {
             Q_ASSERT(true == _m_dbDatabase->isOpen());
 
-            const QString csConnectionName = _m_dbDatabase->connectionName();
+            cQString csConnectionName = _m_dbDatabase->connectionName();
 
             _m_dbDatabase->close();
             Q_ASSERT(false == _m_dbDatabase->isOpen());
@@ -992,31 +989,32 @@ CMain::dbClose() {
     }
 
 }
-//---------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 
 
-/****************************************************************************
+/*******************************************************************************
 *   private
 *
-*****************************************************************************/
+*******************************************************************************/
 
-/****************************************************************************
+/*******************************************************************************
 *   audio
 *
-*****************************************************************************/
+*******************************************************************************/
 
-//---------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 /* static */
 void
 CMain::_googleSpeech(
-    const QString &a_text,
-    const QString &a_lang,
-    const QString &a_filePath
+    cQString &a_text,
+    cQString &a_lang,
+    cQString &a_filePath
 )
 {
     // request to Google
     {
-        const QString         csUrl = "http://translate.google.ru/translate_tts?&q=" + a_text + "&tl=" + a_lang;
+        cQString              csUrl = "http://translate.google.ru/translate_tts?&q=" +
+                                       a_text + "&tl=" + a_lang;
         const QUrl            curUrl(csUrl);
         QNetworkAccessManager nmManager;
         const QNetworkRequest cnrRequest(curUrl);
@@ -1045,7 +1043,9 @@ CMain::_googleSpeech(
 
     // play audio file
     {
-        Phonon::MediaObject *moPlayer = Phonon::createPlayer(Phonon::MusicCategory, Phonon::MediaSource(a_filePath));
+        Phonon::MediaObject *moPlayer = Phonon::createPlayer(
+                                            Phonon::MusicCategory,
+                                            Phonon::MediaSource(a_filePath));
         Q_ASSERT(NULL != moPlayer);
 
         // for signal slot mechanism
@@ -1075,15 +1075,15 @@ CMain::_googleSpeech(
         delete moPlayer;    moPlayer = NULL;
     }
 }
-//---------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 
 
-/****************************************************************************
+/*******************************************************************************
 *   settings
 *
-*****************************************************************************/
+*******************************************************************************/
 
-//---------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 void
 CMain::_settingsLoad() {
     QSize  szSize;
@@ -1091,11 +1091,11 @@ CMain::_settingsLoad() {
     int    iTableCurrentRow = 0;
 
     {
-        QSettings stSettings(QCoreApplication::applicationName() + CONFIG_APP_SETTINGS_FIE_EXT,
+        QSettings stSettings(QCoreApplication::applicationName() + APP_SETTINGS_FILE_EXT,
                              QSettings::IniFormat, this);
 
         stSettings.beginGroup("main");
-        szSize           = stSettings.value("size",     QSize(CONFIG_APP_WIDTH, CONFIG_APP_HEIGHT)).toSize();
+        szSize           = stSettings.value("size",     QSize(APP_WIDTH, APP_HEIGHT)).toSize();
         pnPosition       = stSettings.value("position", QPoint(200, 200)).toPoint();
         stSettings.endGroup();
 
@@ -1115,10 +1115,10 @@ CMain::_settingsLoad() {
         m_Ui.tvInfo->selectRow(iTableCurrentRow);
     }
 }
-//---------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 void
 CMain::_settingsSave() {
-    QSettings stSettings(QCoreApplication::applicationName() + CONFIG_APP_SETTINGS_FIE_EXT,
+    QSettings stSettings(QCoreApplication::applicationName() + APP_SETTINGS_FILE_EXT,
                          QSettings::IniFormat, this);
 
     // main
@@ -1132,4 +1132,4 @@ CMain::_settingsSave() {
     stSettings.setValue("current_row", m_Ui.tvInfo->currentIndex().row());
     stSettings.endGroup();
 }
-//---------------------------------------------------------------------------
+//------------------------------------------------------------------------------

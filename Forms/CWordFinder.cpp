@@ -9,37 +9,37 @@
 #include "../QtLib/CUtils.h"
 
 
-/****************************************************************************
+/*******************************************************************************
 *   public
 *
-*****************************************************************************/
+*******************************************************************************/
 
-//---------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 CWordFinder::CWordFinder(
-    QWidget        *parent,
-    QSqlTableModel *tableModel
+    QWidget        *a_parent,
+    QSqlTableModel *a_tableModel
 ) :
-    QDialog   (parent),
-    _m_tmModel(tableModel)
+    QDialog   (a_parent),
+    _m_tmModel(a_tableModel)
 {
     Q_ASSERT(NULL != _m_tmModel);
 
     _construct();
 }
-//---------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 /*virtual*/
 CWordFinder::~CWordFinder() {
     _destruct();
 }
-//---------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 
 
-/****************************************************************************
+/*******************************************************************************
 *   private
 *
-*****************************************************************************/
+*******************************************************************************/
 
-//---------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 void
 CWordFinder::_construct() {
     m_Ui.setupUi(this);
@@ -52,63 +52,54 @@ CWordFinder::_construct() {
                 this,            SLOT  ( slot_bbxButtons_OnClicked(QAbstractButton *) ));
     }
 }
-//---------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 void
 CWordFinder::_destruct() {
 
 }
-//---------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 
 
-/****************************************************************************
+/*******************************************************************************
 *   private slots
 *
-*****************************************************************************/
+*******************************************************************************/
 
-//---------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 void
 CWordFinder::slot_bbxButtons_OnClicked(
-    QAbstractButton *button
+    QAbstractButton *a_button
 )
 {
-    QDialogButtonBox::StandardButton sbType = m_Ui.bbxButtons->standardButton(button);
+    QDialogButtonBox::StandardButton sbType = m_Ui.bbxButtons->standardButton(a_button);
     switch (sbType) {
-        case QDialogButtonBox::Reset: {
-                _resetAll();
-            }
+        case QDialogButtonBox::Reset:
+            _resetAll();
             break;
-
-        case QDialogButtonBox::Ok: {
-                _saveAll();
-                close();
-            }
+        case QDialogButtonBox::Ok:
+            _saveAll();
+            close();
             break;
-
-        case QDialogButtonBox::Cancel: {
-                close();
-            }
+        case QDialogButtonBox::Cancel:
+            close();
             break;
-
-        case QDialogButtonBox::Apply: {
-                _saveAll();
-            }
+        case QDialogButtonBox::Apply:
+            _saveAll();
             break;
-
-        default: {
-                Q_ASSERT(false);
-            }
+        default:
+            Q_ASSERT(false);
             break;
     }
 }
-//---------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 
 
-/****************************************************************************
+/*******************************************************************************
 *   private slots
 *
-*****************************************************************************/
+*******************************************************************************/
 
-//---------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 void
 CWordFinder::_resetAll() {
     m_Ui.cboWordTerm->clear();
@@ -118,18 +109,18 @@ CWordFinder::_resetAll() {
     m_Ui.chkWordLearned->setChecked(false);
     m_Ui.chkWordMarked->setChecked (false);
 }
-//---------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 void
 CWordFinder::_saveAll() {
     CUtils::db_fields_t fields;
     {
-        fields.push_back( QPair<QString, QString>(CONFIG_DB_F_MAIN_TERM,  m_Ui.cboWordTerm->currentText())  );
-        fields.push_back( QPair<QString, QString>(CONFIG_DB_F_MAIN_VALUE, m_Ui.cboWordValue->currentText()) );
+        fields.push_back( QPair<QString, QString>(DB_F_MAIN_TERM,  m_Ui.cboWordTerm->currentText())  );
+        fields.push_back( QPair<QString, QString>(DB_F_MAIN_VALUE, m_Ui.cboWordValue->currentText()) );
     }
 
     QString sqlStrWhere;
     {
-        const QString csSeparator = "##";
+        cQString csSeparator = "##";
 
         bool bCond1 = m_Ui.chkWordNotLearned->isChecked();
         bool bCond2 = m_Ui.chkWordNotMarked->isChecked();
@@ -139,7 +130,7 @@ CWordFinder::_saveAll() {
         QString sSql1;
         if (bCond1) {
             sSql1 = QString("%1=%2")
-                        .arg(CONFIG_DB_F_MAIN_IS_LEARNED)
+                        .arg(DB_F_MAIN_IS_LEARNED)
                         .arg(0);
             sqlStrWhere += sSql1 + csSeparator;
         }
@@ -147,7 +138,7 @@ CWordFinder::_saveAll() {
         QString sSql2;
         if (bCond2) {
             sSql2 = QString("%1=%2")
-                        .arg(CONFIG_DB_F_MAIN_IS_MARKED)
+                        .arg(DB_F_MAIN_IS_MARKED)
                         .arg(0);
             sqlStrWhere += sSql2 + csSeparator;
         }
@@ -155,7 +146,7 @@ CWordFinder::_saveAll() {
         QString sSql3;
         if (bCond3) {
             sSql3 = QString("%1=%2")
-                        .arg(CONFIG_DB_F_MAIN_IS_LEARNED)
+                        .arg(DB_F_MAIN_IS_LEARNED)
                         .arg(1);
             sqlStrWhere += sSql3 + csSeparator;
         }
@@ -163,7 +154,7 @@ CWordFinder::_saveAll() {
         QString sSql4;
         if (bCond4) {
             sSql4 = QString("%1=%2")
-                        .arg(CONFIG_DB_F_MAIN_IS_MARKED)
+                        .arg(DB_F_MAIN_IS_MARKED)
                         .arg(1);
             sqlStrWhere += sSql4 + csSeparator;
         }
@@ -182,9 +173,9 @@ CWordFinder::_saveAll() {
 
     }
 
-    CUtils::dbFilter(_m_tmModel, CONFIG_DB_T_MAIN, fields, "", sqlStrWhere, "");
+    CUtils::dbFilter(_m_tmModel, DB_T_MAIN, fields, "", sqlStrWhere, "");
 }
-//---------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 
 #if 0
         if      (!bCond1 && !bCond2 && !bCond3 && !bCond4) {

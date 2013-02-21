@@ -23,13 +23,13 @@ class CWordEditor :
         Ui::CWordEditor m_Ui;
 
                         CWordEditor      (QWidget *parent, QSqlTableModel *tableModel,
-                                          const int &currentRow, const QString &newTerm = QString());
+                                          cint &currentRow, cQString &newTerm = QString());
         virtual        ~CWordEditor      ();
 
     private:
         QSqlTableModel *_m_tmModel;
-        const int       _m_ciCurrentRow;
-        const QString   _m_csNewTerm;
+        cint            _m_ciCurrentRow;
+        cQString        _m_csNewTerm;
 
         QStatusBar     *_m_sbInfo;
         QPalette        _m_plInfoDefault;
@@ -43,7 +43,7 @@ class CWordEditor :
         void            _settingsLoad     ();
         void            _settingsSave     ();
 
-        bool            _isTermExists     (const QString &term);
+        bool            _isTermExists     (cQString &term);
 
     private Q_SLOTS:
         void            slot_termTranslate();

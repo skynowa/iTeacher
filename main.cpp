@@ -7,7 +7,7 @@
 #include <QtGui/QApplication>
 #include "Forms/CMain.h"
 
-//---------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 int main(int argc, char *argv[])
 {
 #if !xCOMPILER_MS && !xCOMPILER_GNUC
@@ -17,9 +17,9 @@ int main(int argc, char *argv[])
     int iExitCode = EXIT_FAILURE;
 
 #if defined(Q_WS_WIN)
-    const QByteArray codecName = "UTF-8";    // "Windows-1251";
+    cQByteArray codecName = "UTF-8";    // "Windows-1251";
 #else
-    const QByteArray codecName = "UTF-8";
+    cQByteArray codecName = "UTF-8";
 #endif
 
     QTextCodec *codec = QTextCodec::codecForName(codecName);
@@ -30,11 +30,11 @@ int main(int argc, char *argv[])
     QTextCodec::setCodecForLocale(codec);
 
     // activation application window
-    CUtils::applicationActivate(CONFIG_APP_WINDOW_CLASS, CONFIG_APP_NAME);
+    CUtils::applicationActivate(APP_WINDOW_CLASS, APP_NAME);
 
     // set application single inststance
     {
-        bool bRv = CUtils::setApplicationSingle(CONFIG_GUID);
+        bool bRv = CUtils::setApplicationSingle(APP_GUID);
         xCHECK_RET(false == bRv, EXIT_SUCCESS);
     }
 
@@ -42,8 +42,8 @@ int main(int argc, char *argv[])
     {
         QApplication apStart(argc, argv);
 
-        QCoreApplication::setOrganizationName(CONFIG_ORG_NAME);
-        QCoreApplication::setApplicationName(CONFIG_APP_NAME);
+        QCoreApplication::setOrganizationName(ORG_NAME);
+        QCoreApplication::setApplicationName(APP_NAME);
 
         CMain dlgMain;
         dlgMain.show();
@@ -53,4 +53,4 @@ int main(int argc, char *argv[])
 
     return iExitCode;
 }
-//---------------------------------------------------------------------------
+//------------------------------------------------------------------------------

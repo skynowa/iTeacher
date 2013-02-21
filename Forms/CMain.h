@@ -6,7 +6,7 @@
 
 #ifndef iTeacher_CMainH
 #define iTeacher_CMainH
-//---------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 #include "../Config.h"
 
 #include <xLib/Common/xCommon.h>
@@ -15,7 +15,7 @@
 #include "../QtLib/CSqlNavigator.h"
 
 #include "ui_CMain.h"
-//---------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 class CMain :
     public QMainWindow
 {
@@ -96,18 +96,18 @@ class CMain :
         QSqlDatabase          *_m_dbDatabase;
         QSqlTableModel        *_m_tmModel;
 
-        void                   dbOpen                    (const QString &filePath);
-        void                   dbReopen                  (const QString &filePath);
+        void                   dbOpen                    (cQString &filePath);
+        void                   dbReopen                  (cQString &filePath);
         void                   dbClose                   ();
 
         // audio
-        static void            _googleSpeech             (const QString &text,
-                                                          const QString &lang,
-                                                          const QString &filePath);
+        static void            _googleSpeech             (cQString &text,
+                                                          cQString &lang,
+                                                          cQString &filePath);
 
         // settings
         void                   _settingsLoad             ();
         void                   _settingsSave             ();
 };
-//---------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 #endif // iTeacher_CMainH
