@@ -57,7 +57,7 @@ CCheckBoxItemDelegate::setEditorData(
     const QModelIndex &a_index
 ) const
 {
-    cQVariant data = a_index.model()->data(a_index, Qt::EditRole);
+    QVariant data = a_index.model()->data(a_index, Qt::EditRole);
 
     bool value;
 

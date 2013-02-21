@@ -143,7 +143,14 @@ CWordEditor::_saveAll() {
     }
 
     _m_tmModel->setRecord(_m_ciCurrentRow, srRecord);
-    _m_tmModel->submitAll();
+
+    bool bRv = _m_tmModel->submitAll();
+    if (!bRv) {
+        cQString csMsg = QString(tr("Save fail: %1"))
+                            .arg(_m_tmModel->lastError().text());
+
+        QMessageBox::warning(this, qApp->applicationName(), csMsg);
+    }
 }
 //------------------------------------------------------------------------------
 void
@@ -218,7 +225,7 @@ CWordEditor::slot_termTranslate() {
     cQString sTextFrom = m_Ui.tedtWordTerm->toPlainText().toUtf8();
     cQString sLangFrom = QString("en").toUtf8();
     cQString sLangTo   = QString("ru").toUtf8();
-    QString       sTextTo   = CUtils::googleTranslate(sTextFrom, sLangFrom, sLangTo);
+    QString  sTextTo   = CUtils::googleTranslate(sTextFrom, sLangFrom, sLangTo);
 
     m_Ui.tedtWordValue->setText(sTextTo);
 
@@ -266,8 +273,8 @@ CWordEditor::slot_bbxButtons_OnClicked(
         case QDialogButtonBox::Ok:
         case QDialogButtonBox::Apply: {
             cbool bRv1 = m_Ui.tedtWordTerm->toPlainText().trimmed().isEmpty();
-            cbool bRv2 = _isTermExists( m_Ui.tedtWordTerm->toPlainText() );
-            if (bRv1 || bRv2) {
+            // cbool bRv2 = _isTermExists( m_Ui.tedtWordTerm->toPlainText() );
+            if (bRv1 /*|| bRv2*/) {
                 slot_termCheck();
             } else {
                 _saveAll();
@@ -295,7 +302,7 @@ CWordEditor::slot_WordTermOrValue_OnTextChanged() {
     m_Ui.tedtWordTerm->document()->setModified(true);
     m_Ui.tedtWordValue->document()->setModified(true);
 
-    cbool cbFlag  =
+    cbool cbFlag =
         m_Ui.tedtWordTerm->document()->isModified() ||
         m_Ui.tedtWordValue->document()->isModified();
 
