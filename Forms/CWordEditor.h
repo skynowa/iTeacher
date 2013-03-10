@@ -22,12 +22,15 @@ class CWordEditor :
     public:
         Ui::CWordEditor m_Ui;
 
-                        CWordEditor      (QWidget *parent, QSqlTableModel *tableModel,
-                                          cint &currentRow, cQString &newTerm = QString());
+                        CWordEditor      (QWidget        *parent,
+                                          QSqlTableModel *tableModel,
+                                          CSqlNavigator  *sqlNavigator,
+                                          cQString       &newTerm = QString());
         virtual        ~CWordEditor      ();
 
     private:
         QSqlTableModel *_m_tmModel;
+        CSqlNavigator  *_m_snSqlNavigator;
         cint            _m_ciCurrentRow;
         cQString        _m_csNewTerm;
 

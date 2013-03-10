@@ -31,7 +31,7 @@ class CMain :
         QString                m_sDbDir;
         QString                m_sDbBackupDir;
         QString                m_sTempDir;
-        CSqlNavigator          m_navNavigator;
+        CSqlNavigator          m_snSqlNavigator;
 
     protected:
         virtual bool           eventFilter               (QObject *obj, QEvent *ev);

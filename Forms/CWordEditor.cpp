@@ -18,15 +18,16 @@
 CWordEditor::CWordEditor(
     QWidget        *a_parent,
     QSqlTableModel *a_tableModel,
-    cint            &a_currentRow,
+    CSqlNavigator  *a_sqlNavigator,
     cQString        &a_newTerm /* = QString() */
 ) :
-    QDialog         (a_parent),
-    _m_tmModel      (a_tableModel),
-    _m_ciCurrentRow (a_currentRow),
-    _m_csNewTerm    (a_newTerm.trimmed()),
-    _m_sbInfo       (NULL),
-    _m_plInfoDefault()
+    QDialog          (a_parent),
+    _m_tmModel       (a_tableModel),
+    _m_snSqlNavigator(a_sqlNavigator),
+    _m_ciCurrentRow  (a_sqlNavigator->view()->currentIndex().row()),
+    _m_csNewTerm     (a_newTerm.trimmed()),
+    _m_sbInfo        (NULL),
+    _m_plInfoDefault ()
 {
     Q_ASSERT(NULL != _m_tmModel);
     Q_ASSERT(- 1  <  _m_ciCurrentRow);
@@ -151,6 +152,9 @@ CWordEditor::_saveAll() {
 
         QMessageBox::warning(this, qApp->applicationName(), csMsg);
     }
+
+    // set current index
+    _m_snSqlNavigator->to(_m_ciCurrentRow);
 }
 //------------------------------------------------------------------------------
 void

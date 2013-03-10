@@ -30,15 +30,15 @@ CMain::CMain(
     QWidget    *a_parent,
     Qt::WFlags  a_flags
 ) :
-    QMainWindow   (a_parent, a_flags),
-    m_sAppName    (),
-    m_sAppDir     (),
-    m_sDbDir      (),
-    m_sDbBackupDir(),
-    m_sTempDir    (),
-    m_navNavigator(this),
-    _m_dbDatabase (NULL),
-    _m_tmModel    (NULL)
+    QMainWindow     (a_parent, a_flags),
+    m_sAppName      (),
+    m_sAppDir       (),
+    m_sDbDir        (),
+    m_sDbBackupDir  (),
+    m_sTempDir      (),
+    m_snSqlNavigator(this),
+    _m_dbDatabase   (NULL),
+    _m_tmModel      (NULL)
 {
     _construct();
 }
@@ -215,9 +215,10 @@ CMain::_initModel() {
     }
 
     //--------------------------------------------------
-    // m_navNavigator
+    // m_snSqlNavigator
     {
-        m_navNavigator.last();
+        m_snSqlNavigator.construct(_m_tmModel, m_Ui.tvInfo);
+        m_snSqlNavigator.last();
     }
 }
 //------------------------------------------------------------------------------
@@ -401,13 +402,12 @@ void
 CMain::slot_OnImportClipboard() {
     qCHECK_DO(NULL == _m_tmModel, return);
 
-    m_navNavigator.insert();
+    m_snSqlNavigator.insert();
 
     cQString    csData       = QApplication::clipboard()->text();
-    cint        ciCurrentRow = CUtils::sqlTableModelRowCount(_m_tmModel) - 1;
-    CWordEditor dlgWordEditor(this, _m_tmModel, ciCurrentRow, csData);
+    CWordEditor dlgWordEditor(this, _m_tmModel, &m_snSqlNavigator, csData);
 
-    dlgWordEditor.exec();
+    (int)dlgWordEditor.exec();
 }
 //------------------------------------------------------------------------------
 void
@@ -505,27 +505,27 @@ CMain::slot_OnExit() {
 //------------------------------------------------------------------------------
 void
 CMain::slot_OnFirst() {
-    m_navNavigator.first();
+    m_snSqlNavigator.first();
 }
 //------------------------------------------------------------------------------
 void
 CMain::slot_OnPrior() {
-    m_navNavigator.prior();
+    m_snSqlNavigator.prior();
 }
 //------------------------------------------------------------------------------
 void
 CMain::slot_OnNext() {
-    m_navNavigator.next();
+    m_snSqlNavigator.next();
 }
 //------------------------------------------------------------------------------
 void
 CMain::slot_OnLast() {
-    m_navNavigator.last();
+    m_snSqlNavigator.last();
 }
 //------------------------------------------------------------------------------
 void
 CMain::slot_OnTo() {
-    cint ciCurrentRow = m_navNavigator.view()->currentIndex().row() + 1;
+    cint ciCurrentRow = m_snSqlNavigator.view()->currentIndex().row() + 1;
     cint ciMinValue   = 1;
     cint ciMaxValue   = CUtils::sqlTableModelRowCount(_m_tmModel);
 
@@ -533,59 +533,47 @@ CMain::slot_OnTo() {
                             this, APP_NAME, "Go to row:",
                             ciCurrentRow, ciMinValue, ciMaxValue) - 1;
 
-    m_navNavigator.to(ciTargetRow);
+    m_snSqlNavigator.to(ciTargetRow);
 }
 //------------------------------------------------------------------------------
 void
 CMain::slot_OnInsert() {
-    m_navNavigator.insert();
-
-    cint ciCurrentRow = m_navNavigator.view()->currentIndex().row();
+    m_snSqlNavigator.insert();
 
     // show edit dialog
     {
-        CWordEditor dlgWordEditor(this, _m_tmModel, ciCurrentRow);
+        CWordEditor dlgWordEditor(this, _m_tmModel, &m_snSqlNavigator);
 
         (int)dlgWordEditor.exec();
     }
-
-    // set current index
-    m_navNavigator.to(ciCurrentRow);
 }
 //------------------------------------------------------------------------------
 void
 CMain::slot_OnRemove() {
-    m_navNavigator.remove();
+    m_snSqlNavigator.remove();
 }
 //------------------------------------------------------------------------------
 void
 CMain::slot_OnEdit() {
-    cint ciCurrentRow = m_navNavigator.view()->currentIndex().row();
-
     // show edit dialog
-    {
-        CWordEditor dlgWordEditor(this, _m_tmModel, ciCurrentRow);
+    CWordEditor dlgWordEditor(this, _m_tmModel, &m_snSqlNavigator);
 
-        (int)dlgWordEditor.exec();
-    }
-
-    // set current index
-    m_navNavigator.to(ciCurrentRow);
+    (int)dlgWordEditor.exec();
 }
 //------------------------------------------------------------------------------
 void
 CMain::slot_OnPost() {
-    m_navNavigator.post();
+    m_snSqlNavigator.post();
 }
 //------------------------------------------------------------------------------
 void
 CMain::slot_OnCancel() {
-    m_navNavigator.cancel();
+    m_snSqlNavigator.cancel();
 }
 //------------------------------------------------------------------------------
 void
 CMain::slot_OnRefresh() {
-    m_navNavigator.refresh();
+    m_snSqlNavigator.refresh();
 }
 //------------------------------------------------------------------------------
 
@@ -946,10 +934,10 @@ CMain::dbOpen(
     }
 
     //--------------------------------------------------
-    // m_navNavigator
+    // m_snSqlNavigator
     {
-        m_navNavigator.construct(_m_tmModel, m_Ui.tvInfo);
-        m_navNavigator.last();
+        m_snSqlNavigator.construct(_m_tmModel, m_Ui.tvInfo);
+        m_snSqlNavigator.last();
     }
 }
 //------------------------------------------------------------------------------
@@ -1115,8 +1103,7 @@ CMain::_settingsLoad() {
         m_Ui.cboDictPath->setCurrentIndex(iDictionary);
 
         // table
-        m_Ui.tvInfo->setFocus();
-        m_Ui.tvInfo->selectRow(iTableCurrentRow);
+        m_snSqlNavigator.to(iTableCurrentRow);
     }
 }
 //------------------------------------------------------------------------------
