@@ -14,7 +14,7 @@
 #include <xLib/Common/CxConst.h>
 #include <xLib/Common/CxString.h>
 #include <xLib/Filesystem/CxPath.h>
-#include <xLib/Filesystem/CxDir.h>
+#include <xLib/Filesystem/CxFinder.h>
 
 #include <phonon/audiooutput.h>
 #include <phonon/mediaobject.h>
@@ -156,7 +156,8 @@ CMain::_initModel() {
     // open DB
     {
         if (false == m_Ui.cboDictPath->currentText().isEmpty()) {
-            cQString csDictPath = m_sDbDir + QDir::separator() + m_Ui.cboDictPath->currentText();
+            cQString csDictPath = m_sDbDir + QDir::separator() +
+                                  m_Ui.cboDictPath->currentText();
 
             dbOpen(csDictPath);
         }
@@ -868,7 +869,7 @@ CMain::cboDictPath_reload() {
 
     vsDicts.clear();
 
-    CxDir( qQS2S(m_sDbDir) ).filesFind( CxString::format(xT("*%s"), xT(DB_FILE_EXT) ), true, &vsDicts);
+    CxFinder::files(qQS2S(m_sDbDir), CxString::format(xT("*%s"), xT(DB_FILE_EXT) ), true, &vsDicts);
     qCHECK_DO(vsDicts.empty(), return);
 
     m_Ui.cboDictPath->clear();
@@ -939,7 +940,7 @@ CMain::dbOpen(
         _m_tmModel->setHeaderData(2, Qt::Horizontal, tr("Value"),   Qt::DisplayRole);
         _m_tmModel->setHeaderData(3, Qt::Horizontal, tr("Learned"), Qt::DisplayRole);
         _m_tmModel->setHeaderData(4, Qt::Horizontal, tr("Marked"),  Qt::DisplayRole);
-        _m_tmModel->setEditStrategy(QSqlTableModel::OnRowChange);
+        _m_tmModel->setEditStrategy(QSqlTableModel::OnManualSubmit);
 
         _m_tmModel->select();
     }
@@ -1088,6 +1089,7 @@ void
 CMain::_settingsLoad() {
     QSize  szSize;
     QPoint pnPosition;
+    int    iDictionary = 0;
     int    iTableCurrentRow = 0;
 
     {
@@ -1095,8 +1097,9 @@ CMain::_settingsLoad() {
                              QSettings::IniFormat, this);
 
         stSettings.beginGroup("main");
-        szSize           = stSettings.value("size",     QSize(APP_WIDTH, APP_HEIGHT)).toSize();
-        pnPosition       = stSettings.value("position", QPoint(200, 200)).toPoint();
+        szSize           = stSettings.value("size",        QSize(APP_WIDTH, APP_HEIGHT)).toSize();
+        pnPosition       = stSettings.value("position",    QPoint(200, 200)).toPoint();
+        iDictionary      = stSettings.value("dictionary",  0).toInt();
         stSettings.endGroup();
 
         stSettings.beginGroup("table");
@@ -1109,6 +1112,7 @@ CMain::_settingsLoad() {
         // main
         resize(szSize);
         move(pnPosition);
+        m_Ui.cboDictPath->setCurrentIndex(iDictionary);
 
         // table
         m_Ui.tvInfo->setFocus();
@@ -1123,8 +1127,9 @@ CMain::_settingsSave() {
 
     // main
     stSettings.beginGroup("main");
-    stSettings.setValue("position", pos());
-    stSettings.setValue("size",     size());
+    stSettings.setValue("position",    pos());
+    stSettings.setValue("size",        size());
+    stSettings.setValue("dictionary",  m_Ui.cboDictPath->currentIndex());
     stSettings.endGroup();
 
     // table

@@ -229,8 +229,8 @@ CWordEditor::slot_termTranslate() {
 
     m_Ui.tedtWordValue->setText(sTextTo);
 
-    // check for term existing
-    slot_termCheck();
+    // TODO: check for term existing
+    // slot_termCheck();
 }
 //------------------------------------------------------------------------------
 void
@@ -273,7 +273,7 @@ CWordEditor::slot_bbxButtons_OnClicked(
         case QDialogButtonBox::Ok:
         case QDialogButtonBox::Apply: {
             cbool bRv1 = m_Ui.tedtWordTerm->toPlainText().trimmed().isEmpty();
-            // cbool bRv2 = _isTermExists( m_Ui.tedtWordTerm->toPlainText() );
+            // TODO: cbool bRv2 = _isTermExists( m_Ui.tedtWordTerm->toPlainText() );
             if (bRv1 /*|| bRv2*/) {
                 slot_termCheck();
             } else {
