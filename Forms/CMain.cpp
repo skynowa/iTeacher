@@ -341,7 +341,7 @@ CMain::slot_OnCreateDb() {
                                  m_sAppName,
                                  "New DB file path:",
                                  QLineEdit::Normal,
-                                 ".db");
+                                 DB_FILE_EXT);
     qCHECK_DO(true == csDbName.trimmed().isEmpty(), return);
 
     cQString csDictPath = m_sDbDir + QDir::separator() + csDbName;
