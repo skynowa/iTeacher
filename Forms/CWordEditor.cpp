@@ -306,9 +306,8 @@ CWordEditor::slot_WordTermOrValue_OnTextChanged() {
     m_Ui.tedtWordTerm->document()->setModified(true);
     m_Ui.tedtWordValue->document()->setModified(true);
 
-    cbool cbFlag =
-        m_Ui.tedtWordTerm->document()->isModified() ||
-        m_Ui.tedtWordValue->document()->isModified();
+    cbool cbFlag = m_Ui.tedtWordTerm->document()->isModified() ||
+                   m_Ui.tedtWordValue->document()->isModified();
 
     setWindowModified(cbFlag);
 }
