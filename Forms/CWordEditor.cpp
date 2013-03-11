@@ -149,10 +149,18 @@ CWordEditor::_saveAll() {
 
     bool bRv = _m_tmModel->submitAll();
     if (!bRv) {
-        cQString csMsg = QString(tr("Save fail: %1"))
-                            .arg(_m_tmModel->lastError().text());
+        QString sMsg;
 
-        QMessageBox::warning(this, qApp->applicationName(), csMsg);
+        if (19 == _m_tmModel->lastError().number()) {
+            sMsg = QString(tr("Save fail: term is exists"));
+        } else {
+            sMsg = QString(tr("Save fail: %1 - %2"))
+                                .arg(_m_tmModel->lastError().number())
+                                .arg(_m_tmModel->lastError().text());
+        }
+
+        QMessageBox::warning(this, qApp->applicationName(), sMsg);
+        _m_tmModel->revertAll();
     }
 
     // set current index
@@ -299,7 +307,8 @@ CWordEditor::slot_bbxButtons_OnClicked(
     switch (sbType) {
         case QDialogButtonBox::Ok:
         case QDialogButtonBox::Apply:
-            qCHECK_DO(!slot_termCheck(), return);
+            // now use _m_tmModel->submitAll(), remove this check
+            // qCHECK_DO(!slot_termCheck(), return);
             _saveAll();
             if (QDialogButtonBox::Ok == sbType) {
                 close();
