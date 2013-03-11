@@ -209,7 +209,7 @@ CWordEditor::_isTermExists(
     cQString csSql =
                 "SELECT COUNT(*) AS f_records_count "
                 "   FROM  " DB_T_MAIN " "
-                "   WHERE " DB_F_MAIN_TERM " = '" + a_term.trimmed() + "';";
+                "   WHERE " DB_F_MAIN_TERM " LIKE '" + a_term.trimmed() + "';";
 
     bRv = qryQuery.exec(csSql);
     qCHECK_REF(bRv, qryQuery);
