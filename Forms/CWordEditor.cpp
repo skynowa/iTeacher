@@ -29,7 +29,9 @@ CWordEditor::CWordEditor(
     _m_sbInfo        (NULL),
     _m_plInfoDefault ()
 {
-    Q_ASSERT(NULL != _m_tmModel);
+    Q_ASSERT(NULL != a_parent);
+    Q_ASSERT(NULL != a_tableModel);
+    Q_ASSERT(NULL != a_sqlNavigator);
     Q_ASSERT(- 1  <  _m_ciCurrentRow);
 
     _construct();
@@ -232,39 +234,60 @@ CWordEditor::slot_termTranslate() {
     QString  sTextTo   = CUtils::googleTranslate(sTextFrom, sLangFrom, sLangTo);
 
     m_Ui.tedtWordValue->setText(sTextTo);
-
-    // TODO: check for term existing
-    // slot_termCheck();
 }
 //------------------------------------------------------------------------------
-void
+bool
 CWordEditor::slot_termCheck() {
-    // check for term existing
-    cbool cbIsTermExists = _isTermExists( m_Ui.tedtWordTerm->toPlainText() );
-
-    // format info message
+    bool     bRv = false;
     QPalette plInfo;
     QString  sMsg;
-    {
-        if (cbIsTermExists) {
-            sMsg = QString(tr("The word '%1' already exists"))
-                                .arg( m_Ui.tedtWordTerm->toPlainText() );
 
-            QPalette pallete = _m_sbInfo->palette();
-            pallete.setColor(QPalette::WindowText, Qt::red);
+    // is term empty
+    bRv = m_Ui.tedtWordTerm->toPlainText().trimmed().isEmpty();
+    if (bRv) {
+        sMsg = QString(tr("The word '%1' already exists"))
+                            .arg( m_Ui.tedtWordTerm->toPlainText() );
 
-            qSwap(plInfo, pallete);
-        } else {
-            sMsg = QString(tr("The word '%1' is a new"))
-                                .arg( m_Ui.tedtWordTerm->toPlainText() );
+        QPalette pallete = _m_sbInfo->palette();
+        pallete.setColor(QPalette::WindowText, Qt::red);
 
-            qSwap(plInfo, _m_plInfoDefault);
-        }
+        qSwap(plInfo, pallete);
+
+        _m_sbInfo->setPalette(plInfo);
+        _m_sbInfo->showMessage(sMsg);
+
+        return false;
     }
 
-    Q_ASSERT(NULL != _m_sbInfo);
-    _m_sbInfo->setPalette(plInfo);
-    _m_sbInfo->showMessage(sMsg);
+    // is term exists
+    bRv = _isTermExists( m_Ui.tedtWordTerm->toPlainText() );
+    if (bRv) {
+        sMsg = QString(tr("The word '%1' already exists"))
+                            .arg( m_Ui.tedtWordTerm->toPlainText() );
+
+        QPalette pallete = _m_sbInfo->palette();
+        pallete.setColor(QPalette::WindowText, Qt::red);
+
+        qSwap(plInfo, pallete);
+
+        _m_sbInfo->setPalette(plInfo);
+        _m_sbInfo->showMessage(sMsg);
+
+        return false;
+    }
+
+    // ok, term is a new
+    {
+        sMsg = QString(tr("The word '%1' is a new"))
+                            .arg( m_Ui.tedtWordTerm->toPlainText() );
+
+        qSwap(plInfo, _m_plInfoDefault);
+
+        _m_sbInfo->setPalette(plInfo);
+        _m_sbInfo->showMessage(sMsg);
+    }
+
+    return true;
 }
 //------------------------------------------------------------------------------
 void
@@ -275,18 +298,12 @@ CWordEditor::slot_bbxButtons_OnClicked(
     QDialogButtonBox::StandardButton sbType = m_Ui.bbxButtons->standardButton(a_button);
     switch (sbType) {
         case QDialogButtonBox::Ok:
-        case QDialogButtonBox::Apply: {
-            cbool bRv1 = m_Ui.tedtWordTerm->toPlainText().trimmed().isEmpty();
-            // TODO: cbool bRv2 = _isTermExists( m_Ui.tedtWordTerm->toPlainText() );
-            if (bRv1 /*|| bRv2*/) {
-                slot_termCheck();
-            } else {
-                _saveAll();
-
-                if (QDialogButtonBox::Ok == sbType) {
-                    close();
-                }
-            }}
+        case QDialogButtonBox::Apply:
+            qCHECK_DO(!slot_termCheck(), return);
+            _saveAll();
+            if (QDialogButtonBox::Ok == sbType) {
+                close();
+            }
             break;
         case QDialogButtonBox::Reset:
             _resetAll();

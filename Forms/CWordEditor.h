@@ -50,7 +50,7 @@ class CWordEditor :
 
     private Q_SLOTS:
         void            slot_termTranslate();
-        void            slot_termCheck    ();
+        bool            slot_termCheck    ();
         void            slot_bbxButtons_OnClicked(QAbstractButton *button);
         void            slot_WordTermOrValue_OnTextChanged();
 };
