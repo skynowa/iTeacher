@@ -164,7 +164,7 @@ CWordEditor::_saveAll() {
     }
 
     // set current index
-    _m_snSqlNavigator->to(_m_ciCurrentRow);
+    _m_snSqlNavigator->goTo(_m_ciCurrentRow);
 }
 //------------------------------------------------------------------------------
 void

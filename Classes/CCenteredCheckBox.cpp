@@ -7,7 +7,8 @@
 #include "CCenteredCheckBox.h"
 
 #include <QtGui>
-
+#include <QCheckBox>
+#include <QHBoxLayout>
 
 //------------------------------------------------------------------------------
 CCenteredCheckBox::CCenteredCheckBox(

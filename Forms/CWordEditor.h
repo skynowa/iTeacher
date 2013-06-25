@@ -9,6 +9,8 @@
 //---------------------------------------------------------------------------
 #include "ui_CWordEditor.h"
 
+#include <QStatusBar>
+
 #include "../Config.h"
 #include "../QtLib/Common.h"
 

@@ -6,9 +6,9 @@
 
 #include "CCheckBoxItemDelegate.h"
 
-#include <QtGui/QApplication>
+#include <QApplication>
 #include <QtGui/QMouseEvent>
-#include <QtGui/QCheckBox>
+#include <QCheckBox>
 #include <QDebug>
 
 #include "CCenteredCheckBox.h"
@@ -112,7 +112,7 @@ CCheckBoxItemDelegate::paint(
 {
     const QVariant value = a_index.data();
 
-    if (!value.isValid() || qVariantCanConvert<bool>(value)) {
+    if (!value.isValid() || value.canConvert<bool>()) {
         bool boolVal = value.isValid() ? value.toBool() : defaultValue;
 
         QStyle *style        = qApp->style();

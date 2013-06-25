@@ -11,13 +11,12 @@
 #include "../Forms/CWordEditor.h"
 #include "../Forms/CWordFinder.h"
 
+#include <QPrinter>
+
 #include <xLib/Common/CxConst.h>
 #include <xLib/Common/CxString.h>
 #include <xLib/Filesystem/CxPath.h>
 #include <xLib/Filesystem/CxFinder.h>
-
-#include <phonon/audiooutput.h>
-#include <phonon/mediaobject.h>
 
 
 /*******************************************************************************
@@ -27,8 +26,8 @@
 
 //------------------------------------------------------------------------------
 CMain::CMain(
-    QWidget    *a_parent,
-    Qt::WFlags  a_flags
+    QWidget         *a_parent,
+    Qt::WindowFlags  a_flags
 ) :
     QMainWindow     (a_parent, a_flags),
     m_sAppName      (),
@@ -533,7 +532,7 @@ CMain::slot_OnTo() {
                             this, APP_NAME, "Go to row:",
                             ciCurrentRow, ciMinValue, ciMaxValue) - 1;
 
-    m_snSqlNavigator.to(ciTargetRow);
+    m_snSqlNavigator.goTo(ciTargetRow);
 }
 //------------------------------------------------------------------------------
 void
@@ -563,17 +562,14 @@ CMain::slot_OnEdit() {
 //------------------------------------------------------------------------------
 void
 CMain::slot_OnPost() {
-    m_snSqlNavigator.post();
 }
 //------------------------------------------------------------------------------
 void
 CMain::slot_OnCancel() {
-    m_snSqlNavigator.cancel();
 }
 //------------------------------------------------------------------------------
 void
 CMain::slot_OnRefresh() {
-    m_snSqlNavigator.refresh();
 }
 //------------------------------------------------------------------------------
 
@@ -1032,6 +1028,7 @@ CMain::_googleSpeech(
 
     // play audio file
     {
+    #if 0
         Phonon::MediaObject *moPlayer = Phonon::createPlayer(
                                             Phonon::MusicCategory,
                                             Phonon::MediaSource(a_filePath));
@@ -1062,6 +1059,7 @@ CMain::_googleSpeech(
         }
 
         delete moPlayer;    moPlayer = NULL;
+    #endif
     }
 }
 //------------------------------------------------------------------------------
@@ -1103,7 +1101,7 @@ CMain::_settingsLoad() {
         m_Ui.cboDictPath->setCurrentIndex(iDictionary);
 
         // table
-        m_snSqlNavigator.to(iTableCurrentRow);
+        m_snSqlNavigator.goTo(iTableCurrentRow);
     }
 }
 //------------------------------------------------------------------------------
