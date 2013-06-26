@@ -31,9 +31,9 @@ unix {
     INCLUDEPATH     =
 
     CONFIG(debug, debug|release) {
-        LIBS        = -lxlib_d
+        LIBS        = /usr/local/bin/libxLib_static.a -ldl
     } else {
-        LIBS        = -lxlib_r
+        LIBS        = -lxLib_static -ldl
     }
 
     LIBS           +=

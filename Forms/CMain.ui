@@ -67,7 +67,7 @@
      <x>0</x>
      <y>0</y>
      <width>649</width>
-     <height>21</height>
+     <height>25</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
@@ -97,9 +97,6 @@
     <addaction name="actEdit_Insert"/>
     <addaction name="actEdit_Delete"/>
     <addaction name="actEdit_Edit"/>
-    <addaction name="actEdit_Post"/>
-    <addaction name="actEdit_Cancel"/>
-    <addaction name="actEdit_Refresh"/>
     <addaction name="separator"/>
    </widget>
    <widget class="QMenu" name="menuView">
@@ -171,9 +168,6 @@
    <addaction name="actEdit_Insert"/>
    <addaction name="actEdit_Delete"/>
    <addaction name="actEdit_Edit"/>
-   <addaction name="actEdit_Post"/>
-   <addaction name="actEdit_Cancel"/>
-   <addaction name="actEdit_Refresh"/>
    <addaction name="separator"/>
    <addaction name="actFind_Search"/>
   </widget>
@@ -258,15 +252,6 @@
     <string>Delete</string>
    </property>
   </action>
-  <action name="actEdit_Post">
-   <property name="icon">
-    <iconset resource="../Resources/App.qrc">
-     <normaloff>:/Menu/Menu/Post.bmp</normaloff>:/Menu/Menu/Post.bmp</iconset>
-   </property>
-   <property name="text">
-    <string>Post</string>
-   </property>
-  </action>
   <action name="actEdit_Prior">
    <property name="icon">
     <iconset resource="../Resources/App.qrc">
@@ -274,24 +259,6 @@
    </property>
    <property name="text">
     <string>Prior</string>
-   </property>
-  </action>
-  <action name="actEdit_Cancel">
-   <property name="icon">
-    <iconset resource="../Resources/App.qrc">
-     <normaloff>:/Menu/Menu/Cancel.bmp</normaloff>:/Menu/Menu/Cancel.bmp</iconset>
-   </property>
-   <property name="text">
-    <string>Cancel</string>
-   </property>
-  </action>
-  <action name="actEdit_Refresh">
-   <property name="icon">
-    <iconset resource="../Resources/App.qrc">
-     <normaloff>:/Menu/Menu/Refresh.bmp</normaloff>:/Menu/Menu/Refresh.bmp</iconset>
-   </property>
-   <property name="text">
-    <string>Refresh</string>
    </property>
   </action>
   <action name="actEdit_Edit">

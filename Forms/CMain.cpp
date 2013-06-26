@@ -269,15 +269,6 @@ CMain::_initActions() {
 
         connect(m_Ui.actEdit_Edit,                SIGNAL( triggered() ),
                 this,                             SLOT  ( slot_OnEdit() ));
-
-        connect(m_Ui.actEdit_Post,                SIGNAL( triggered() ),
-                this,                             SLOT  ( slot_OnPost() ));
-
-        connect(m_Ui.actEdit_Cancel,              SIGNAL( triggered() ),
-                this,                             SLOT  ( slot_OnCancel() ));
-
-        connect(m_Ui.actEdit_Refresh,             SIGNAL( triggered() ),
-                this,                             SLOT  ( slot_OnRefresh() ));
     }
 
     // audio
@@ -558,18 +549,6 @@ CMain::slot_OnEdit() {
     CWordEditor dlgWordEditor(this, _m_tmModel, &m_snSqlNavigator);
 
     (int)dlgWordEditor.exec();
-}
-//------------------------------------------------------------------------------
-void
-CMain::slot_OnPost() {
-}
-//------------------------------------------------------------------------------
-void
-CMain::slot_OnCancel() {
-}
-//------------------------------------------------------------------------------
-void
-CMain::slot_OnRefresh() {
 }
 //------------------------------------------------------------------------------
 

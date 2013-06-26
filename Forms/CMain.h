@@ -62,9 +62,6 @@ class CMain :
         void                   slot_OnInsert             ();
         void                   slot_OnRemove             ();
         void                   slot_OnEdit               ();
-        void                   slot_OnPost               ();
-        void                   slot_OnCancel             ();
-        void                   slot_OnRefresh            ();
 
         // group "Audio"
         void                   slot_OnPlayWord           ();
