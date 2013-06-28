@@ -20,12 +20,13 @@ win32 {
     INCLUDEPATH     = "$$(xLib)/Project/Include"
 
     CONFIG(debug, debug|release) {
-        LIBS        = "C:/Program Files (x86)/xLib/bin/xLib_static.lib"
+        LIBS        = "C:/Program Files (x86)/xLib/bin/libxLib_static.a"
     } else {
-        LIBS        = "C:/Program Files (x86)/xLib/bin/xLib_static.lib"
+        LIBS        = "C:/Program Files (x86)/xLib/bin/libxLib_static.a"
     }
 
     #LIBS           += User32.lib Ole32.lib Advapi32.lib shell32.lib
+    LIBS            += -lpsapi -luuid -lole32 -lmpr
 }
 unix {
     INCLUDEPATH     =
