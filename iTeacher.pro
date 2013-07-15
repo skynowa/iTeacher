@@ -34,7 +34,7 @@ unix {
     CONFIG(debug, debug|release) {
         LIBS        = /usr/local/bin/libxLib_static.a -ldl
     } else {
-        LIBS        = -lxLib_static -ldl
+        LIBS        = /usr/local/bin/libxLib_static.a -ldl
     }
 
     LIBS           +=
