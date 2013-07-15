@@ -25,6 +25,7 @@
 #define DB_F_MAIN_VALUE              "f_main_value"
 #define DB_F_MAIN_IS_LEARNED         "f_main_is_learned"
 #define DB_F_MAIN_IS_MARKED          "f_main_is_marked"
+#define DB_F_MAIN_TAG                "f_main_tag"
 
 // audio
 #define AUDIO_WORD_FILE_NAME         "word.mp3"

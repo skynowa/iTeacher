@@ -176,6 +176,7 @@ CMain::_initModel() {
             m_Ui.tvInfo->setColumnWidth(2, 400);
             m_Ui.tvInfo->setColumnWidth(3, 60);
             m_Ui.tvInfo->setColumnWidth(4, 60);
+            m_Ui.tvInfo->setColumnWidth(5, 100);
 
             m_Ui.tvInfo->verticalHeader()->setVisible(true);
             m_Ui.tvInfo->verticalHeader()->setDefaultSectionSize(TABLEVIEW_ROW_HEIGHT);
@@ -368,6 +369,7 @@ CMain::slot_OnImportCsv() {
     fieldNames.push_back(DB_F_MAIN_VALUE);
     fieldNames.push_back(DB_F_MAIN_IS_LEARNED);
     fieldNames.push_back(DB_F_MAIN_IS_MARKED);
+    fieldNames.push_back(DB_F_MAIN_TAG);
 
     // import
     CUtils::importCsv(filePath, _m_tmModel, fieldNames, "\t");
@@ -419,6 +421,7 @@ CMain::slot_OnExportCsv() {
         fieldNames.push_back(DB_F_MAIN_VALUE);
         fieldNames.push_back(DB_F_MAIN_IS_LEARNED);
         fieldNames.push_back(DB_F_MAIN_IS_MARKED);
+        fieldNames.push_back(DB_F_MAIN_TAG);
 
         // import
         CUtils::exportCsv(filePath, _m_tmModel, fieldNames, "\t");
@@ -875,15 +878,16 @@ CMain::dbOpen(
         {
             QSqlQuery qryInfo(*_m_dbDatabase);
 
-            cQString csSql = \
+            cQString csSql =
                     "CREATE TABLE IF NOT EXISTS "
                     "    " DB_T_MAIN
                     "( "
                     "    " DB_F_MAIN_ID         " integer PRIMARY KEY AUTOINCREMENT UNIQUE, "
                     "    " DB_F_MAIN_TERM       " varchar(255) UNIQUE NOT NULL, "
-                    "    " DB_F_MAIN_VALUE      " varchar(255), "
-                    "    " DB_F_MAIN_IS_LEARNED " integer NOT NULL DEFAULT 0, "
-                    "    " DB_F_MAIN_IS_MARKED  " integer NOT NULL DEFAULT 0 "
+                    "    " DB_F_MAIN_VALUE      " varchar(255) DEFAULT '', "
+                    "    " DB_F_MAIN_IS_LEARNED " integer      DEFAULT 0 NOT NULL, "
+                    "    " DB_F_MAIN_IS_MARKED  " integer      DEFAULT 0 NOT NULL, "
+                    "    " DB_F_MAIN_TAG        " varchar(255) DEFAULT ''"
                     ")";
 
             bRv = qryInfo.exec(csSql);
@@ -903,6 +907,7 @@ CMain::dbOpen(
         _m_tmModel->setHeaderData(2, Qt::Horizontal, tr("Value"),   Qt::DisplayRole);
         _m_tmModel->setHeaderData(3, Qt::Horizontal, tr("Learned"), Qt::DisplayRole);
         _m_tmModel->setHeaderData(4, Qt::Horizontal, tr("Marked"),  Qt::DisplayRole);
+        _m_tmModel->setHeaderData(5, Qt::Horizontal, tr("Tag"),     Qt::DisplayRole);
         _m_tmModel->setEditStrategy(QSqlTableModel::OnManualSubmit);
 
         _m_tmModel->select();
