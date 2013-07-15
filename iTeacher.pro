@@ -45,8 +45,9 @@ HEADERS             = Config.h \
                       QtLib/CApplication.h \
                       QtLib/CUtils.h \
                       QtLib/CSqlNavigator.h \
-                      Classes/CCheckBoxItemDelegate.h \
                       Classes/CCenteredCheckBox.h \
+                      Classes/CCheckBoxItemDelegate.h \
+                      Classes/CComboBoxItemDelegate.h \
                       Forms/CMain.h \
                       Forms/CWordEditor.h \
                       Forms/CWordFinder.h
@@ -55,8 +56,9 @@ SOURCES             = main.cpp \
                       QtLib/CApplication.cpp \
                       QtLib/CUtils.cpp \
                       QtLib/CSqlNavigator.cpp \
-                      Classes/CCheckBoxItemDelegate.cpp \
                       Classes/CCenteredCheckBox.cpp \
+                      Classes/CCheckBoxItemDelegate.cpp \
+                      Classes/CComboBoxItemDelegate.cpp \
                       Forms/CMain.cpp \
                       Forms/CWordEditor.cpp \
                       Forms/CWordFinder.cpp
