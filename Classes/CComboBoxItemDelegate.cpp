@@ -18,11 +18,10 @@ CComboBoxItemDelegate::CComboBoxItemDelegate(
 ) :
     QStyledItemDelegate(a_parent)
 {
-
 }
 //------------------------------------------------------------------------------
-CComboBoxItemDelegate::~CComboBoxItemDelegate() {
-
+CComboBoxItemDelegate::~CComboBoxItemDelegate()
+{
 }
 //------------------------------------------------------------------------------
 QWidget *
@@ -50,8 +49,8 @@ CComboBoxItemDelegate::setEditorData(
     const QModelIndex &a_index
 ) const
 {
-    QVariant  data  = a_index.model()->data(a_index, Qt::EditRole);
-    const int value = data.toInt();
+    cQVariant data  = a_index.model()->data(a_index, Qt::EditRole);
+    cint      value = data.toInt();
 
     QComboBox *comboBox = static_cast<QComboBox *>( a_editor );
     comboBox->setCurrentIndex(value);
@@ -65,7 +64,7 @@ CComboBoxItemDelegate::setModelData(
 ) const
 {
     QComboBox *comboBox = static_cast<QComboBox *>( a_editor );
-    const int  value    = comboBox->currentIndex();
+    cint       value    = comboBox->currentIndex();
 
     a_model->setData(a_index, value, Qt::EditRole);
 }
@@ -81,15 +80,13 @@ CComboBoxItemDelegate::updateEditorGeometry(
 
     QComboBox *cb = static_cast<QComboBox *>(a_editor);
 
-    QSize size = cb->sizeHint();
+    cQSize size = cb->sizeHint();
 
     a_editor->setMinimumHeight(size.height());
     a_editor->setMinimumWidth(size.width());
     a_editor->setGeometry(a_option.rect);
 }
 //------------------------------------------------------------------------------
-#if 0
-
 void
 CComboBoxItemDelegate::paint(
     QPainter                   *a_painter,
@@ -97,17 +94,13 @@ CComboBoxItemDelegate::paint(
     const QModelIndex          &a_index
 ) const
 {
+#if 0
     QStyleOptionViewItemV4 myOption = a_option;
     QString                text     = Items[a_index.row()].c_str();
 
     myOption.text = text;
 
     QApplication::style()->drawControl(QStyle::CE_ItemViewItem, &myOption, a_painter);
-}
-
 #endif
-//------------------------------------------------------------------------------
-void CComboBoxItemDelegate::slot_OnToggled() {
-    qDebug() << "slot_OnToggled";
 }
 //------------------------------------------------------------------------------
