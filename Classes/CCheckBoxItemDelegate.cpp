@@ -14,19 +14,20 @@
 #include "CCenteredCheckBox.h"
 
 
-static const bool defaultValue = false;
-
+//------------------------------------------------------------------------------
+namespace {
+    const bool defaultValue = false;
+}
 //------------------------------------------------------------------------------
 CCheckBoxItemDelegate::CCheckBoxItemDelegate(
     QObject *a_parent /* = NULL */
 ) :
     QStyledItemDelegate(a_parent)
 {
-
 }
 //------------------------------------------------------------------------------
-CCheckBoxItemDelegate::~CCheckBoxItemDelegate() {
-
+CCheckBoxItemDelegate::~CCheckBoxItemDelegate()
+{
 }
 //------------------------------------------------------------------------------
 QWidget *
@@ -40,11 +41,9 @@ CCheckBoxItemDelegate::createEditor(
     Q_UNUSED(a_index);
 
     CCenteredCheckBox *editor = new CCenteredCheckBox(a_parent);
-
-    editor->checkBox()->setChecked(defaultValue);
+    editor->checkBox()->setChecked(::defaultValue);
 
     QCheckBox *chkEditor = editor->checkBox();
-
     connect(chkEditor, SIGNAL(pressed()),
             this,      SLOT  (slot_OnToggled()));
 
@@ -57,9 +56,9 @@ CCheckBoxItemDelegate::setEditorData(
     const QModelIndex &a_index
 ) const
 {
-    QVariant data = a_index.model()->data(a_index, Qt::EditRole);
+    cQVariant data = a_index.model()->data(a_index, Qt::EditRole);
 
-    bool value;
+    bool value = false;
 
     if (!data.isNull()){
         value = data.toBool();
@@ -68,7 +67,6 @@ CCheckBoxItemDelegate::setEditorData(
     }
 
     CCenteredCheckBox *checkBoxWidget = static_cast<CCenteredCheckBox*>(a_editor);
-
     checkBoxWidget->checkBox()->setChecked(value);
 }
 //------------------------------------------------------------------------------
@@ -80,7 +78,7 @@ CCheckBoxItemDelegate::setModelData(
 ) const
 {
     CCenteredCheckBox *checkBoxWidget = static_cast<CCenteredCheckBox*>(a_editor);
-    bool value = checkBoxWidget->checkBox()->isChecked();
+    cbool value = checkBoxWidget->checkBox()->isChecked();
 
     a_model->setData(a_index, value, Qt::EditRole);
 }
@@ -96,7 +94,7 @@ CCheckBoxItemDelegate::updateEditorGeometry(
 
     CCenteredCheckBox *checkBoxWidget = static_cast<CCenteredCheckBox*>(a_editor);
 
-    QSize size = checkBoxWidget->sizeHint();
+    cQSize size = checkBoxWidget->sizeHint();
 
     a_editor->setMinimumHeight(size.height());
     a_editor->setMinimumWidth(size.width());
@@ -110,19 +108,19 @@ CCheckBoxItemDelegate::paint(
     const QModelIndex          &a_index
 ) const
 {
-    const QVariant value = a_index.data();
+    cQVariant value = a_index.data();
 
     if (!value.isValid() || value.canConvert<bool>()) {
-        bool boolVal = value.isValid() ? value.toBool() : defaultValue;
+        cbool boolVal = value.isValid() ? value.toBool() : defaultValue;
 
         QStyle *style        = qApp->style();
         QRect   checkBoxRect = style->subElementRect(QStyle::SE_CheckBoxIndicator, &a_option);
 
-        int chkWidth  = checkBoxRect.width();
-        int chkHeight = checkBoxRect.height();
+        cint chkWidth  = checkBoxRect.width();
+        cint chkHeight = checkBoxRect.height();
 
-        int centerX   = a_option.rect.left() + qMax(a_option.rect.width()  / 2 - chkWidth  / 2, 0);
-        int centerY   = a_option.rect.top()  + qMax(a_option.rect.height() / 2 - chkHeight / 2, 0);
+        cint centerX   = a_option.rect.left() + qMax(a_option.rect.width()  / 2 - chkWidth  / 2, 0);
+        cint centerY   = a_option.rect.top()  + qMax(a_option.rect.height() / 2 - chkHeight / 2, 0);
 
         QStyleOptionViewItem modifiedOption(a_option);
         modifiedOption.rect.moveTo(centerX, centerY);
@@ -138,7 +136,9 @@ CCheckBoxItemDelegate::paint(
     }
 }
 //------------------------------------------------------------------------------
-void CCheckBoxItemDelegate::slot_OnToggled() {
-    qDebug() << "slot_OnToggled";
+void
+CCheckBoxItemDelegate::slot_OnToggled()
+{
+    qDebug() << __FUNCTION__;
 }
 //------------------------------------------------------------------------------
