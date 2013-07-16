@@ -14,9 +14,11 @@
 
 //------------------------------------------------------------------------------
 CComboBoxItemDelegate::CComboBoxItemDelegate(
-    QObject *a_parent /* = NULL */
+    QObject        *a_parent /* = NULL */,
+    QSqlTableModel *a_sqlModel
 ) :
-    QStyledItemDelegate(a_parent)
+    QStyledItemDelegate(a_parent),
+    _sqlModel          (a_sqlModel)
 {
 }
 //------------------------------------------------------------------------------
@@ -34,10 +36,22 @@ CComboBoxItemDelegate::createEditor(
     Q_UNUSED(a_option);
     Q_UNUSED(a_index);
 
+    // ComboBox ony in column 2
+#if 0
+    if (a_index.column() != 1) {
+        return QStyledItemDelegate::createEditor(parent, option, index);
+    }
+#endif
+
     QComboBox *comboBox = new QComboBox(a_parent);
 
-    for (int i = 0; i < 10; ++ i) {
-        comboBox->addItem( QString("item_%1").arg(i) );
+    QSqlQuery query;
+    query.prepare("SELECT " DB_F_TAGS_NAME " FROM " DB_T_TAGS ";");
+    bool rv = query.exec();
+    qTEST(rv);
+
+    for (; query.next(); ) {
+        comboBox->addItem( query.value(0).toString() );
     }
 
     return comboBox;
@@ -49,11 +63,17 @@ CComboBoxItemDelegate::setEditorData(
     const QModelIndex &a_index
 ) const
 {
-    cQVariant data  = a_index.model()->data(a_index, Qt::EditRole);
-    cint      value = data.toInt();
+    QComboBox *comboBox = static_cast<QComboBox *>(a_editor);
+    if (comboBox != NULL) {
+        cQString currentText = a_index.data(Qt::EditRole).toString();
 
-    QComboBox *comboBox = static_cast<QComboBox *>( a_editor );
-    comboBox->setCurrentIndex(value);
+        cint currentIndex = comboBox->findText(currentText);
+        if (currentIndex >= 0) {
+            comboBox->setCurrentIndex(currentIndex);
+        }
+    } else {
+        QStyledItemDelegate::setEditorData(a_editor, a_index);
+    }
 }
 //------------------------------------------------------------------------------
 void
@@ -64,9 +84,11 @@ CComboBoxItemDelegate::setModelData(
 ) const
 {
     QComboBox *comboBox = static_cast<QComboBox *>( a_editor );
-    cint       value    = comboBox->currentIndex();
-
-    a_model->setData(a_index, value, Qt::EditRole);
+    if (comboBox != NULL) {
+        a_model->setData(a_index, comboBox->currentText(), Qt::EditRole);
+    } else {
+        QStyledItemDelegate::setModelData(a_editor, a_model, a_index);
+    }
 }
 //------------------------------------------------------------------------------
 void
@@ -94,13 +116,11 @@ CComboBoxItemDelegate::paint(
     const QModelIndex          &a_index
 ) const
 {
-#if 0
-    QStyleOptionViewItemV4 myOption = a_option;
-    QString                text     = Items[a_index.row()].c_str();
+    cQString value = a_index.data().toString();
 
-    myOption.text = text;
+    QStyleOptionViewItemV4 myOption = a_option;
+    myOption.text = value;
 
     QApplication::style()->drawControl(QStyle::CE_ItemViewItem, &myOption, a_painter);
-#endif
 }
 //------------------------------------------------------------------------------

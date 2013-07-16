@@ -193,7 +193,7 @@ CMain::_initModel() {
             m_Ui.tvInfo->sortByColumn(0, Qt::AscendingOrder);
             m_Ui.tvInfo->setItemDelegateForColumn(3, new CCheckBoxItemDelegate(m_Ui.tvInfo));
             m_Ui.tvInfo->setItemDelegateForColumn(4, new CCheckBoxItemDelegate(m_Ui.tvInfo));
-            m_Ui.tvInfo->setItemDelegateForColumn(5, new CComboBoxItemDelegate(m_Ui.tvInfo));
+            m_Ui.tvInfo->setItemDelegateForColumn(5, new CComboBoxItemDelegate(m_Ui.tvInfo, _m_tmModel));
 
             m_Ui.tvInfo->show();
         }
@@ -876,9 +876,9 @@ CMain::dbOpen(
         bRv = _m_dbDatabase->open();
         qCHECK_PTR(bRv, _m_dbDatabase);
 
-        // create DB
+        // create DB - DB_T_MAIN
         {
-            QSqlQuery qryInfo(*_m_dbDatabase);
+            QSqlQuery qryMain(*_m_dbDatabase);
 
             cQString csSql =
                     "CREATE TABLE IF NOT EXISTS "
@@ -892,8 +892,24 @@ CMain::dbOpen(
                     "    " DB_F_MAIN_TAG        " varchar(255) DEFAULT ''"
                     ")";
 
-            bRv = qryInfo.exec(csSql);
-            qCHECK_REF(bRv, qryInfo);
+            bRv = qryMain.exec(csSql);
+            qCHECK_REF(bRv, qryMain);
+        }
+
+        // create DB - DB_T_TAGS
+        {
+            QSqlQuery qryTags(*_m_dbDatabase);
+
+            cQString csSql =
+                    "CREATE TABLE IF NOT EXISTS "
+                    "    " DB_T_TAGS
+                    "( "
+                    "    " DB_F_TAGS_ID         " integer PRIMARY KEY AUTOINCREMENT UNIQUE, "
+                    "    " DB_F_TAGS_NAME       " varchar(255) UNIQUE NOT NULL "
+                    ")";
+
+            bRv = qryTags.exec(csSql);
+            qCHECK_REF(bRv, qryTags);
         }
     }
 
@@ -910,7 +926,7 @@ CMain::dbOpen(
         _m_tmModel->setHeaderData(3, Qt::Horizontal, tr("Learned"), Qt::DisplayRole);
         _m_tmModel->setHeaderData(4, Qt::Horizontal, tr("Marked"),  Qt::DisplayRole);
         _m_tmModel->setHeaderData(5, Qt::Horizontal, tr("Tag"),     Qt::DisplayRole);
-        _m_tmModel->setEditStrategy(QSqlTableModel::OnManualSubmit);
+        _m_tmModel->setEditStrategy(QSqlTableModel::OnFieldChange);
 
         _m_tmModel->select();
     }

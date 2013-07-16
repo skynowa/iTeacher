@@ -27,6 +27,11 @@
 #define DB_F_MAIN_IS_MARKED          "f_main_is_marked"
 #define DB_F_MAIN_TAG                "f_main_tag"
 
+#define DB_T_TAGS                    "t_tags"
+
+#define DB_F_TAGS_ID                 "f_main_id"
+#define DB_F_TAGS_NAME               "f_main_naem"
+
 // audio
 #define AUDIO_WORD_FILE_NAME         "word.mp3"
 #define AUDIO_TRANSLATION_FILE_NAME  "translation.mp3"
