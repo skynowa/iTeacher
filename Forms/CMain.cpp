@@ -189,7 +189,7 @@ CMain::_initModel() {
             m_Ui.tvInfo->verticalHeader()->setVisible(true);
             m_Ui.tvInfo->verticalHeader()->setDefaultSectionSize(TABLEVIEW_ROW_HEIGHT);
 
-            //m_Ui.tvInfo->setEditTriggers(QAbstractItemView::NoEditTriggers);
+            m_Ui.tvInfo->setEditTriggers(QAbstractItemView::AllEditTriggers);
             //m_Ui.tvInfo->setSelectionBehavior(QAbstractItemView::SelectRows);
             m_Ui.tvInfo->setSelectionMode(QAbstractItemView::ExtendedSelection);
             m_Ui.tvInfo->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
