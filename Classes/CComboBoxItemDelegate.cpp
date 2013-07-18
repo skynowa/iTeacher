@@ -48,7 +48,7 @@ CComboBoxItemDelegate::createEditor(
     QSqlQuery query;
     query.prepare("SELECT " DB_F_TAGS_NAME " FROM " DB_T_TAGS ";");
     bool rv = query.exec();
-    qTEST(rv);
+    qCHECK_REF(rv, query);
 
     for (; query.next(); ) {
         comboBox->addItem( query.value(0).toString() );

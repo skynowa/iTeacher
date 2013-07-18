@@ -16,10 +16,10 @@
 #define APP_HEIGHT                   600
 #define APP_FONT_SIZE_DEFAULT        9
 #define APP_SETTINGS_FILE_EXT        ".ini"
+#define DB_FILE_NAME__NEW            "db_new.db"
 
 // DB tables, fields
 #define DB_T_MAIN                    "t_main"
-
 #define DB_F_MAIN_ID                 "f_main_id"
 #define DB_F_MAIN_TERM               "f_main_term"
 #define DB_F_MAIN_VALUE              "f_main_value"
@@ -28,9 +28,8 @@
 #define DB_F_MAIN_TAG                "f_main_tag"
 
 #define DB_T_TAGS                    "t_tags"
-
-#define DB_F_TAGS_ID                 "f_main_id"
-#define DB_F_TAGS_NAME               "f_main_naem"
+#define DB_F_TAGS_ID                 "f_tags_id"
+#define DB_F_TAGS_NAME               "f_tags_name"
 
 // audio
 #define AUDIO_WORD_FILE_NAME         "word.mp3"

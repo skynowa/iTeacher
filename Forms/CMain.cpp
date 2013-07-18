@@ -155,7 +155,11 @@ CMain::_initModel() {
     //--------------------------------------------------
     // open DB
     {
-        if (false == m_Ui.cboDictPath->currentText().isEmpty()) {
+        if (m_Ui.cboDictPath->currentText().isEmpty()) {
+            cQString csDictPath = m_sDbDir + QDir::separator() + DB_FILE_NAME__NEW;
+
+            dbOpen(csDictPath);
+        } else {
             cQString csDictPath = m_sDbDir + QDir::separator() +
                                   m_Ui.cboDictPath->currentText();
 
@@ -168,6 +172,8 @@ CMain::_initModel() {
     {
         // tvInfo
         {
+            Q_ASSERT(_m_tmModel != NULL);
+
             m_Ui.tvInfo->setModel(_m_tmModel);
             m_Ui.tvInfo->viewport()->installEventFilter(this);
 
@@ -876,6 +882,22 @@ CMain::dbOpen(
         bRv = _m_dbDatabase->open();
         qCHECK_PTR(bRv, _m_dbDatabase);
 
+        // create DB - DB_T_TAGS
+        {
+            QSqlQuery qryTags(*_m_dbDatabase);
+
+            cQString csSql =
+                    "CREATE TABLE IF NOT EXISTS "
+                    "    " DB_T_TAGS
+                    "( "
+                    "    " DB_F_TAGS_ID   " integer PRIMARY KEY AUTOINCREMENT UNIQUE, "
+                    "    " DB_F_TAGS_NAME " varchar(255) DEFAULT '' UNIQUE "
+                    ")";
+
+            bRv = qryTags.exec(csSql);
+            qCHECK_REF(bRv, qryTags);
+        }
+
         // create DB - DB_T_MAIN
         {
             QSqlQuery qryMain(*_m_dbDatabase);
@@ -885,31 +907,16 @@ CMain::dbOpen(
                     "    " DB_T_MAIN
                     "( "
                     "    " DB_F_MAIN_ID         " integer PRIMARY KEY AUTOINCREMENT UNIQUE, "
-                    "    " DB_F_MAIN_TERM       " varchar(255) UNIQUE NOT NULL, "
+                    "    " DB_F_MAIN_TERM       " varchar(255) UNIQUE, "
                     "    " DB_F_MAIN_VALUE      " varchar(255) DEFAULT '', "
-                    "    " DB_F_MAIN_IS_LEARNED " integer      DEFAULT 0 NOT NULL, "
-                    "    " DB_F_MAIN_IS_MARKED  " integer      DEFAULT 0 NOT NULL, "
-                    "    " DB_F_MAIN_TAG        " varchar(255) DEFAULT ''"
+                    "    " DB_F_MAIN_IS_LEARNED " integer      DEFAULT 0, "
+                    "    " DB_F_MAIN_IS_MARKED  " integer      DEFAULT 0, "
+                    "    " DB_F_MAIN_TAG        " varchar(255) DEFAULT '' UNIQUE, "
+                    "    FOREIGN KEY(" DB_F_MAIN_TAG ") REFERENCES " DB_T_TAGS "(" DB_F_TAGS_NAME ")"
                     ")";
 
             bRv = qryMain.exec(csSql);
             qCHECK_REF(bRv, qryMain);
-        }
-
-        // create DB - DB_T_TAGS
-        {
-            QSqlQuery qryTags(*_m_dbDatabase);
-
-            cQString csSql =
-                    "CREATE TABLE IF NOT EXISTS "
-                    "    " DB_T_TAGS
-                    "( "
-                    "    " DB_F_TAGS_ID         " integer PRIMARY KEY AUTOINCREMENT UNIQUE, "
-                    "    " DB_F_TAGS_NAME       " varchar(255) UNIQUE NOT NULL "
-                    ")";
-
-            bRv = qryTags.exec(csSql);
-            qCHECK_REF(bRv, qryTags);
         }
     }
 
