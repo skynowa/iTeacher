@@ -159,6 +159,7 @@ CMain::_initModel() {
             cQString csDictPath = m_sDbDir + QDir::separator() + DB_FILE_NAME__NEW;
 
             dbOpen(csDictPath);
+            cboDictPath_reload();
         } else {
             cQString csDictPath = m_sDbDir + QDir::separator() +
                                   m_Ui.cboDictPath->currentText();

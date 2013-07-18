@@ -54,6 +54,8 @@ CComboBoxItemDelegate::createEditor(
         comboBox->addItem( query.value(0).toString() );
     }
 
+    // comboBox->addItem("Add tag");
+
     return comboBox;
 }
 //------------------------------------------------------------------------------
