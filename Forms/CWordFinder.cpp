@@ -46,6 +46,20 @@ CWordFinder::_construct() {
 
     m_Ui.cboWordTerm->setFocus();
 
+    // tags
+    {
+        QSqlQuery query;
+        query.prepare("SELECT " DB_F_TAGS_NAME " FROM " DB_T_TAGS ";");
+        bool rv = query.exec();
+        qCHECK_REF(rv, query);
+
+        for ( ; query.next(); ) {
+            m_Ui.cboTags->addItem( query.value(0).toString() );
+        }
+
+        m_Ui.cboTags->setCurrentText("");
+    }
+
     // signals
     {
         connect(m_Ui.bbxButtons, SIGNAL( clicked(QAbstractButton *) ),
@@ -104,6 +118,7 @@ void
 CWordFinder::_resetAll() {
     m_Ui.cboWordTerm->clear();
     m_Ui.cboWordValue->clear();
+    m_Ui.cboTags->setCurrentText("");
     m_Ui.chkWordNotLearned->setChecked(false);
     m_Ui.chkWordNotMarked->setChecked(false);
     m_Ui.chkWordLearned->setChecked(false);
@@ -116,6 +131,7 @@ CWordFinder::_saveAll() {
     {
         fields.push_back( QPair<QString, QString>(DB_F_MAIN_TERM,  m_Ui.cboWordTerm->currentText())  );
         fields.push_back( QPair<QString, QString>(DB_F_MAIN_VALUE, m_Ui.cboWordValue->currentText()) );
+        fields.push_back( QPair<QString, QString>(DB_F_MAIN_TAG,   m_Ui.cboTags->currentText()) );
     }
 
     QString sqlStrWhere;
