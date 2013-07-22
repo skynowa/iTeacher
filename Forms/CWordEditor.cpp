@@ -58,9 +58,26 @@ CWordEditor::_construct() {
     {
         QSqlRecord srRecord = _m_tmModel->record(_m_ciCurrentRow);
 
-        // lables
+        // term, value
         m_Ui.tedtWordTerm->setText       ( srRecord.value(DB_F_MAIN_TERM).toString() );
         m_Ui.tedtWordValue->setText      ( srRecord.value(DB_F_MAIN_VALUE).toString() );
+
+        // tags
+        {
+            QSqlQuery query;
+            query.prepare("SELECT " DB_F_TAGS_NAME " FROM " DB_T_TAGS ";");
+            bool rv = query.exec();
+            qCHECK_REF(rv, query);
+
+            for ( ; query.next(); ) {
+                m_Ui.cboTags->addItem( query.value(0).toString() );
+            }
+
+            cint index = m_Ui.cboTags->findText( srRecord.value(DB_F_MAIN_TAG).toString() );
+            m_Ui.cboTags->setCurrentIndex(index);
+        }
+
+        // checkboxes
         m_Ui.chkWordIsLearned->setChecked( srRecord.value(DB_F_MAIN_IS_LEARNED).toBool() );
         m_Ui.chkWordIsMarked->setChecked ( srRecord.value(DB_F_MAIN_IS_MARKED).toBool() );
 
@@ -93,10 +110,10 @@ CWordEditor::_construct() {
         connect(m_Ui.bbxButtons,        SIGNAL( clicked(QAbstractButton *) ),
                 this,                   SLOT  ( slot_bbxButtons_OnClicked(QAbstractButton *) ));
 
-        connect(m_Ui.tedtWordTerm,      SIGNAL( textChanged()),
+        connect(m_Ui.tedtWordTerm,      SIGNAL( textChanged() ),
                 this,                   SLOT  ( slot_WordTermOrValue_OnTextChanged() ));
 
-        connect(m_Ui.tedtWordValue,     SIGNAL( textChanged()),
+        connect(m_Ui.tedtWordValue,     SIGNAL( textChanged() ),
                 this,                   SLOT  ( slot_WordTermOrValue_OnTextChanged() ));
     }
 
@@ -130,6 +147,7 @@ void
 CWordEditor::_resetAll() {
     m_Ui.tedtWordTerm->clear();
     m_Ui.tedtWordValue->clear();
+    m_Ui.cboTags->setCurrentText("");
     m_Ui.chkWordIsLearned->setChecked(false);
     m_Ui.chkWordIsMarked->setChecked(false);
 }
@@ -141,13 +159,14 @@ CWordEditor::_saveAll() {
     {
         srRecord.setValue(DB_F_MAIN_TERM,       m_Ui.tedtWordTerm->toPlainText());
         srRecord.setValue(DB_F_MAIN_VALUE,      m_Ui.tedtWordValue->toPlainText());
+        srRecord.setValue(DB_F_MAIN_TAG,        m_Ui.cboTags->currentText() );
         srRecord.setValue(DB_F_MAIN_IS_LEARNED, m_Ui.chkWordIsLearned->isChecked());
         srRecord.setValue(DB_F_MAIN_IS_MARKED,  m_Ui.chkWordIsMarked->isChecked());
     }
 
     _m_tmModel->setRecord(_m_ciCurrentRow, srRecord);
 
-    bool bRv = _m_tmModel->submitAll();
+    bool bRv = _m_tmModel->submit();
     if (!bRv) {
         QString sMsg;
 

@@ -189,8 +189,8 @@ CMain::_initModel() {
             m_Ui.tvInfo->verticalHeader()->setVisible(true);
             m_Ui.tvInfo->verticalHeader()->setDefaultSectionSize(TABLEVIEW_ROW_HEIGHT);
 
-            m_Ui.tvInfo->setEditTriggers(QAbstractItemView::AllEditTriggers);
-            //m_Ui.tvInfo->setSelectionBehavior(QAbstractItemView::SelectRows);
+            m_Ui.tvInfo->setEditTriggers(QAbstractItemView::NoEditTriggers);
+            m_Ui.tvInfo->setSelectionBehavior(QAbstractItemView::SelectRows);
             m_Ui.tvInfo->setSelectionMode(QAbstractItemView::ExtendedSelection);
             m_Ui.tvInfo->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
             m_Ui.tvInfo->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
@@ -200,7 +200,7 @@ CMain::_initModel() {
             m_Ui.tvInfo->sortByColumn(0, Qt::AscendingOrder);
             m_Ui.tvInfo->setItemDelegateForColumn(3, new CCheckBoxItemDelegate(m_Ui.tvInfo));
             m_Ui.tvInfo->setItemDelegateForColumn(4, new CCheckBoxItemDelegate(m_Ui.tvInfo));
-            m_Ui.tvInfo->setItemDelegateForColumn(5, new CComboBoxItemDelegate(m_Ui.tvInfo, _m_tmModel));
+            //m_Ui.tvInfo->setItemDelegateForColumn(5, new CComboBoxItemDelegate(m_Ui.tvInfo, _m_tmModel));
 
             m_Ui.tvInfo->show();
         }
@@ -935,7 +935,7 @@ CMain::dbOpen(
         _m_tmModel->setHeaderData(3, Qt::Horizontal, tr("Learned"), Qt::DisplayRole);
         _m_tmModel->setHeaderData(4, Qt::Horizontal, tr("Marked"),  Qt::DisplayRole);
         _m_tmModel->setHeaderData(5, Qt::Horizontal, tr("Tag"),     Qt::DisplayRole);
-        _m_tmModel->setEditStrategy(QSqlTableModel::OnFieldChange);
+        _m_tmModel->setEditStrategy(QSqlTableModel::OnManualSubmit);
 
         _m_tmModel->select();
     }
