@@ -1146,8 +1146,17 @@ CMain::_exportfileNameBuild(
 
     QString sRv;
 
-    sRv = QFileInfo( m_Ui.cboDictPath->currentText() ).baseName() + "-" +
-          _m_tmModel->record(0).value(DB_F_MAIN_TAG).toString() + a_fileExt;
+    cQString tag = _m_tmModel->record(0).value(DB_F_MAIN_TAG).toString().trimmed();
+
+    QString baseName;
+    {
+        baseName = QFileInfo( m_Ui.cboDictPath->currentText() ).baseName().trimmed();
+        if (!tag.isEmpty()) {
+            baseName.append("-");
+        }
+    }
+
+    sRv = baseName + tag + a_fileExt;
 
     return sRv;
 }
