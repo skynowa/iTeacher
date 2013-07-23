@@ -914,7 +914,7 @@ CMain::dbOpen(
                     "    " DB_F_MAIN_IS_MARKED  " integer      DEFAULT 0, "
                     "    " DB_F_MAIN_TAG        " varchar(255) DEFAULT '', "
                     " "
-                    "    FOREIGN KEY(" DB_F_MAIN_TAG ") REFERENCES " DB_T_TAGS "(" DB_F_TAGS_NAME ")"
+                    "    FOREIGN KEY (" DB_F_MAIN_TAG ") REFERENCES " DB_T_TAGS "(" DB_F_TAGS_NAME ")"
                     ")";
 
             bRv = qryMain.exec(csSql);

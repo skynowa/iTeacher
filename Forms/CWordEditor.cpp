@@ -32,7 +32,7 @@ CWordEditor::CWordEditor(
     Q_ASSERT(NULL != a_parent);
     Q_ASSERT(NULL != a_tableModel);
     Q_ASSERT(NULL != a_sqlNavigator);
-    Q_ASSERT(- 1  <  _m_ciCurrentRow);
+    //// Q_ASSERT(- 1  <  _m_ciCurrentRow);
 
     _construct();
 }
@@ -154,7 +154,19 @@ CWordEditor::_resetAll() {
 //------------------------------------------------------------------------------
 void
 CWordEditor::_saveAll() {
-    QSqlRecord srRecord = _m_tmModel->record(_m_ciCurrentRow);
+    bool bRv         = false;
+    int  iCurrentRow = - 1;
+
+    if (_m_tmModel->rowCount() > 0) {
+        iCurrentRow = _m_ciCurrentRow;
+    } else {
+        iCurrentRow = 0;
+
+        bRv = _m_tmModel->insertRow(iCurrentRow);
+        qCHECK_PTR(bRv, _m_tmModel);
+    }
+
+    QSqlRecord srRecord = _m_tmModel->record(iCurrentRow);
 
     {
         srRecord.setValue(DB_F_MAIN_TERM,       m_Ui.tedtWordTerm->toPlainText());
@@ -164,9 +176,9 @@ CWordEditor::_saveAll() {
         srRecord.setValue(DB_F_MAIN_IS_MARKED,  m_Ui.chkWordIsMarked->isChecked());
     }
 
-    _m_tmModel->setRecord(_m_ciCurrentRow, srRecord);
+    _m_tmModel->setRecord(iCurrentRow, srRecord);
 
-    bool bRv = _m_tmModel->submit();
+    bRv = _m_tmModel->submit();
     if (!bRv) {
         QString sMsg;
 
@@ -183,7 +195,7 @@ CWordEditor::_saveAll() {
     }
 
     // set current index
-    _m_snSqlNavigator->goTo(_m_ciCurrentRow);
+    _m_snSqlNavigator->goTo(iCurrentRow);
 }
 //------------------------------------------------------------------------------
 void
