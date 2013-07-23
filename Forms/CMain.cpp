@@ -180,11 +180,11 @@ CMain::_initModel() {
 
             m_Ui.tvInfo->hideColumn(0); // don't show the DB_F_MAIN_ID
             m_Ui.tvInfo->setColumnWidth(0, 40);
-            m_Ui.tvInfo->setColumnWidth(1, 100);
+            m_Ui.tvInfo->setColumnWidth(1, 120);
             m_Ui.tvInfo->setColumnWidth(2, 400);
             m_Ui.tvInfo->setColumnWidth(3, 60);
             m_Ui.tvInfo->setColumnWidth(4, 60);
-            m_Ui.tvInfo->setColumnWidth(5, 100);
+            m_Ui.tvInfo->setColumnWidth(5, 120);
 
             m_Ui.tvInfo->verticalHeader()->setVisible(true);
             m_Ui.tvInfo->verticalHeader()->setDefaultSectionSize(TABLEVIEW_ROW_HEIGHT);
@@ -965,6 +965,9 @@ void
 CMain::dbClose() {
     // _m_tmModel
     {
+        bool bRv = _m_tmModel->submitAll();
+        qCHECK_PTR(bRv, _m_tmModel);
+
         xPTR_DELETE(_m_tmModel);
     }
 

@@ -167,7 +167,6 @@ CWordEditor::_saveAll() {
     }
 
     QSqlRecord srRecord = _m_tmModel->record(iCurrentRow);
-
     {
         srRecord.setValue(DB_F_MAIN_TERM,       m_Ui.tedtWordTerm->toPlainText());
         srRecord.setValue(DB_F_MAIN_VALUE,      m_Ui.tedtWordValue->toPlainText());
@@ -176,7 +175,8 @@ CWordEditor::_saveAll() {
         srRecord.setValue(DB_F_MAIN_IS_MARKED,  m_Ui.chkWordIsMarked->isChecked());
     }
 
-    _m_tmModel->setRecord(iCurrentRow, srRecord);
+    bRv = _m_tmModel->setRecord(iCurrentRow, srRecord);
+    qCHECK_PTR(bRv, _m_tmModel);
 
     bRv = _m_tmModel->submit();
     if (!bRv) {
