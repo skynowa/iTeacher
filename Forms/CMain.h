@@ -105,6 +105,9 @@ class CMain :
         // settings
         void                   _settingsLoad             ();
         void                   _settingsSave             ();
+
+        // utils
+        QString                _exportfileNameBuild(cQString &fileExt);
 };
 //------------------------------------------------------------------------------
 #endif // iTeacher_CMainH

@@ -417,7 +417,7 @@ CMain::slot_OnExportCsv() {
     cQString filePath = QFileDialog::getSaveFileName(
                             this,
                             tr("Save file"),
-                            m_Ui.cboDictPath->currentText() + ".csv",
+                            _exportfileNameBuild(".csv"),
                             tr("CSV document (*.csv)"));
     qCHECK_DO(true == filePath.isEmpty(), return);
 
@@ -451,7 +451,7 @@ CMain::slot_OnExportPdf() {
     cQString filePath = QFileDialog::getSaveFileName(
                             this,
                             tr("Save file"),
-                            m_Ui.cboDictPath->currentText() + ".pdf",
+                            _exportfileNameBuild(".pdf"),
                             tr("PDF Document (*.pdf)"));
     qCHECK_DO(true == filePath.isEmpty(), return);
 
@@ -1135,5 +1135,20 @@ CMain::_settingsSave() {
     stSettings.beginGroup("table");
     stSettings.setValue("current_row", m_Ui.tvInfo->currentIndex().row());
     stSettings.endGroup();
+}
+//------------------------------------------------------------------------------
+QString
+CMain::_exportfileNameBuild(
+    cQString &a_fileExt
+)
+{
+    qCHECK_RET(_m_tmModel->rowCount() <= 0, QString());
+
+    QString sRv;
+
+    sRv = QFileInfo( m_Ui.cboDictPath->currentText() ).baseName() + "-" +
+          _m_tmModel->record(0).value(DB_F_MAIN_TAG).toString() + a_fileExt;
+
+    return sRv;
 }
 //------------------------------------------------------------------------------
