@@ -3,25 +3,23 @@
         <file>App.ico</file>
     </qresource>
     <qresource prefix="/Menu">
-        <file>Menu/Cancel.bmp</file>
-        <file>Menu/Delete.bmp</file>
-        <file>Menu/Edit.bmp</file>
-        <file>Menu/Exit.bmp</file>
-        <file>Menu/Faq.bmp</file>
-        <file>Menu/First.bmp</file>
         <file>Menu/Grid.bmp</file>
-        <file>Menu/Insert.bmp</file>
-        <file>Menu/Last.bmp</file>
         <file>Menu/NewDB.bmp</file>
-        <file>Menu/Next.bmp</file>
-        <file>Menu/Options.bmp</file>
-        <file>Menu/Post.bmp</file>
-        <file>Menu/Prior.bmp</file>
-        <file>Menu/Refresh.bmp</file>
-        <file>Menu/SaveAs.bmp</file>
-        <file>Menu/Search.bmp</file>
-        <file>Menu/To.bmp</file>
         <file>Menu/ImportClipboard.bmp</file>
         <file>Menu/PlaySound.bmp</file>
+        <file>Menu/Cancel.png</file>
+        <file>Menu/Delete.png</file>
+        <file>Menu/Edit.png</file>
+        <file>Menu/Exit.png</file>
+        <file>Menu/Faq.png</file>
+        <file>Menu/First.png</file>
+        <file>Menu/Insert.png</file>
+        <file>Menu/Last.png</file>
+        <file>Menu/Post.png</file>
+        <file>Menu/Prior.png</file>
+        <file>Menu/GoTo.png</file>
+        <file>Menu/Options.png</file>
+        <file>Menu/Search.png</file>
+        <file>Menu/Next.png</file>
     </qresource>
 </RCC>

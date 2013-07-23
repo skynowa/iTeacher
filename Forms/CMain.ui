@@ -67,7 +67,7 @@
      <x>0</x>
      <y>0</y>
      <width>649</width>
-     <height>25</height>
+     <height>20</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
@@ -201,7 +201,7 @@
   <action name="actFile_Exit">
    <property name="icon">
     <iconset resource="../Resources/App.qrc">
-     <normaloff>:/Menu/Menu/Exit.bmp</normaloff>:/Menu/Menu/Exit.bmp</iconset>
+     <normaloff>:/Menu/Menu/Exit.png</normaloff>:/Menu/Menu/Exit.png</iconset>
    </property>
    <property name="text">
     <string>Exit</string>
@@ -210,7 +210,7 @@
   <action name="actEdit_First">
    <property name="icon">
     <iconset resource="../Resources/App.qrc">
-     <normaloff>:/Menu/Menu/First.bmp</normaloff>:/Menu/Menu/First.bmp</iconset>
+     <normaloff>:/Menu/Menu/First.png</normaloff>:/Menu/Menu/First.png</iconset>
    </property>
    <property name="text">
     <string>First</string>
@@ -219,7 +219,7 @@
   <action name="actEdit_Next">
    <property name="icon">
     <iconset resource="../Resources/App.qrc">
-     <normaloff>:/Menu/Menu/Next.bmp</normaloff>:/Menu/Menu/Next.bmp</iconset>
+     <normaloff>:/Menu/Menu/Next.png</normaloff>:/Menu/Menu/Next.png</iconset>
    </property>
    <property name="text">
     <string>Next</string>
@@ -228,7 +228,7 @@
   <action name="actEdit_Last">
    <property name="icon">
     <iconset resource="../Resources/App.qrc">
-     <normaloff>:/Menu/Menu/Last.bmp</normaloff>:/Menu/Menu/Last.bmp</iconset>
+     <normaloff>:/Menu/Menu/Last.png</normaloff>:/Menu/Menu/Last.png</iconset>
    </property>
    <property name="text">
     <string>Last</string>
@@ -237,7 +237,7 @@
   <action name="actEdit_Insert">
    <property name="icon">
     <iconset resource="../Resources/App.qrc">
-     <normaloff>:/Menu/Menu/Insert.bmp</normaloff>:/Menu/Menu/Insert.bmp</iconset>
+     <normaloff>:/Menu/Menu/Insert.png</normaloff>:/Menu/Menu/Insert.png</iconset>
    </property>
    <property name="text">
     <string>Insert</string>
@@ -246,7 +246,7 @@
   <action name="actEdit_Delete">
    <property name="icon">
     <iconset resource="../Resources/App.qrc">
-     <normaloff>:/Menu/Menu/Delete.bmp</normaloff>:/Menu/Menu/Delete.bmp</iconset>
+     <normaloff>:/Menu/Menu/Delete.png</normaloff>:/Menu/Menu/Delete.png</iconset>
    </property>
    <property name="text">
     <string>Delete</string>
@@ -255,7 +255,7 @@
   <action name="actEdit_Prior">
    <property name="icon">
     <iconset resource="../Resources/App.qrc">
-     <normaloff>:/Menu/Menu/Prior.bmp</normaloff>:/Menu/Menu/Prior.bmp</iconset>
+     <normaloff>:/Menu/Menu/Prior.png</normaloff>:/Menu/Menu/Prior.png</iconset>
    </property>
    <property name="text">
     <string>Prior</string>
@@ -264,7 +264,7 @@
   <action name="actEdit_Edit">
    <property name="icon">
     <iconset resource="../Resources/App.qrc">
-     <normaloff>:/Menu/Menu/Edit.bmp</normaloff>:/Menu/Menu/Edit.bmp</iconset>
+     <normaloff>:/Menu/Menu/Edit.png</normaloff>:/Menu/Menu/Edit.png</iconset>
    </property>
    <property name="text">
     <string>Edit</string>
@@ -273,7 +273,7 @@
   <action name="actFind_Search">
    <property name="icon">
     <iconset resource="../Resources/App.qrc">
-     <normaloff>:/Menu/Menu/Search.bmp</normaloff>:/Menu/Menu/Search.bmp</iconset>
+     <normaloff>:/Menu/Menu/Search.png</normaloff>:/Menu/Menu/Search.png</iconset>
    </property>
    <property name="text">
     <string>Search...</string>
@@ -297,7 +297,7 @@
   <action name="actOptions_Settings">
    <property name="icon">
     <iconset resource="../Resources/App.qrc">
-     <normaloff>:/Menu/Menu/Options.bmp</normaloff>:/Menu/Menu/Options.bmp</iconset>
+     <normaloff>:/Menu/Menu/Options.png</normaloff>:/Menu/Menu/Options.png</iconset>
    </property>
    <property name="text">
     <string>Settings...</string>
@@ -306,7 +306,7 @@
   <action name="actHelp_Faq">
    <property name="icon">
     <iconset resource="../Resources/App.qrc">
-     <normaloff>:/Menu/Menu/Faq.bmp</normaloff>:/Menu/Menu/Faq.bmp</iconset>
+     <normaloff>:/Menu/Menu/Faq.png</normaloff>:/Menu/Menu/Faq.png</iconset>
    </property>
    <property name="text">
     <string>FAQ</string>
@@ -323,7 +323,7 @@
   <action name="actEdit_To">
    <property name="icon">
     <iconset resource="../Resources/App.qrc">
-     <normaloff>:/Menu/Menu/To.bmp</normaloff>:/Menu/Menu/To.bmp</iconset>
+     <normaloff>:/Menu/Menu/GoTo.png</normaloff>:/Menu/Menu/GoTo.png</iconset>
    </property>
    <property name="text">
     <string>To...</string>
