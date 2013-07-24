@@ -184,7 +184,7 @@ CMain::_initModel() {
             m_Ui.tvInfo->setColumnWidth(2, 400);
             m_Ui.tvInfo->setColumnWidth(3, 60);
             m_Ui.tvInfo->setColumnWidth(4, 60);
-            m_Ui.tvInfo->setColumnWidth(5, 120);
+            m_Ui.tvInfo->setColumnWidth(5, 80);
 
             m_Ui.tvInfo->verticalHeader()->setVisible(true);
             m_Ui.tvInfo->verticalHeader()->setDefaultSectionSize(TABLEVIEW_ROW_HEIGHT);
