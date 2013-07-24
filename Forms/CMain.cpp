@@ -968,7 +968,7 @@ CMain::dbClose() {
         bool bRv = _m_tmModel->submitAll();
         qCHECK_PTR(bRv, _m_tmModel);
 
-        xPTR_DELETE(_m_tmModel);
+        qPTR_DELETE(_m_tmModel);
     }
 
     // _m_dbDatabase
@@ -981,7 +981,7 @@ CMain::dbClose() {
             _m_dbDatabase->close();
             Q_ASSERT(false == _m_dbDatabase->isOpen());
 
-            xPTR_DELETE(_m_dbDatabase);
+            qPTR_DELETE(_m_dbDatabase);
 
             QSqlDatabase::removeDatabase(csConnectionName);
         }
