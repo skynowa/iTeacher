@@ -7,6 +7,7 @@
 #include "CMain.h"
 
 #include "../QtLib/CUtils.h"
+#include "../QtLib/CApplication.h"
 #include "../Classes/CCheckBoxItemDelegate.h"
 #include "../Classes/CComboBoxItemDelegate.h"
 #include "../Forms/CWordEditor.h"
@@ -1093,8 +1094,7 @@ CMain::_settingsLoad() {
     int    iTableCurrentRow = 0;
 
     {
-        QSettings stSettings(QCoreApplication::applicationName() + APP_SETTINGS_FILE_EXT,
-                             QSettings::IniFormat, this);
+        QSettings stSettings(CApplication::iniFilePath(), QSettings::IniFormat, this);
 
         stSettings.beginGroup("main");
         szSize           = stSettings.value("size",        QSize(APP_WIDTH, APP_HEIGHT)).toSize();
@@ -1121,8 +1121,7 @@ CMain::_settingsLoad() {
 //------------------------------------------------------------------------------
 void
 CMain::_settingsSave() {
-    QSettings stSettings(QCoreApplication::applicationName() + APP_SETTINGS_FILE_EXT,
-                         QSettings::IniFormat, this);
+    QSettings stSettings(CApplication::iniFilePath(), QSettings::IniFormat, this);
 
     // main
     stSettings.beginGroup("main");

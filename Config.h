@@ -15,7 +15,6 @@
 #define APP_WIDTH                    700
 #define APP_HEIGHT                   600
 #define APP_FONT_SIZE_DEFAULT        9
-#define APP_SETTINGS_FILE_EXT        ".ini"
 #define DB_FILE_NAME__NEW            "db_new.db"
 
 // DB tables, fields

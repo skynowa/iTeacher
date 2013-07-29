@@ -7,6 +7,7 @@
 #include "CWordEditor.h"
 
 #include "../QtLib/CUtils.h"
+#include "../QtLib/CApplication.h"
 
 
 /*******************************************************************************
@@ -203,8 +204,7 @@ CWordEditor::_settingsLoad() {
     QSize szSize;
 
     {
-        QSettings stSettings(QCoreApplication::applicationName() + APP_SETTINGS_FILE_EXT,
-                             QSettings::IniFormat, this);
+        QSettings stSettings(CApplication::iniFilePath(), QSettings::IniFormat, this);
 
         stSettings.beginGroup("word_editor");
         szSize = stSettings.value("size", QSize(APP_WIDTH, APP_HEIGHT)).toSize();
@@ -220,8 +220,7 @@ CWordEditor::_settingsLoad() {
 //------------------------------------------------------------------------------
 void
 CWordEditor::_settingsSave() {
-    QSettings stSettings(QCoreApplication::applicationName() + APP_SETTINGS_FILE_EXT,
-                         QSettings::IniFormat, this);
+    QSettings stSettings(CApplication::iniFilePath(), QSettings::IniFormat, this);
 
     // main
     stSettings.beginGroup("word_editor");
