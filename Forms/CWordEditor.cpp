@@ -283,8 +283,7 @@ CWordEditor::slot_termCheck() {
     // is term empty
     bRv = m_Ui.tedtWordTerm->toPlainText().trimmed().isEmpty();
     if (bRv) {
-        sMsg = QString(tr("The word '%1' already exists"))
-                            .arg( m_Ui.tedtWordTerm->toPlainText() );
+        sMsg = QString(tr("Termin is an empty"));
 
         QPalette pallete = _m_sbInfo->palette();
         pallete.setColor(QPalette::WindowText, Qt::red);
@@ -300,7 +299,7 @@ CWordEditor::slot_termCheck() {
     // is term exists
     bRv = _isTermExists( m_Ui.tedtWordTerm->toPlainText() );
     if (bRv) {
-        sMsg = QString(tr("The word '%1' already exists"))
+        sMsg = QString(tr("Termin '%1' already exists"))
                             .arg( m_Ui.tedtWordTerm->toPlainText() );
 
         QPalette pallete = _m_sbInfo->palette();
@@ -316,7 +315,7 @@ CWordEditor::slot_termCheck() {
 
     // ok, term is a new
     {
-        sMsg = QString(tr("The word '%1' is a new"))
+        sMsg = QString(tr("Termin '%1' is a new"))
                             .arg( m_Ui.tedtWordTerm->toPlainText() );
 
         qSwap(plInfo, _m_plInfoDefault);
@@ -338,7 +337,7 @@ CWordEditor::slot_bbxButtons_OnClicked(
         case QDialogButtonBox::Ok:
         case QDialogButtonBox::Apply:
             // now use _m_tmModel->submitAll(), remove this check
-            // qCHECK_DO(!slot_termCheck(), return);
+            qCHECK_DO(!slot_termCheck(), return);
             _saveAll();
             if (QDialogButtonBox::Ok == sbType) {
                 close();
