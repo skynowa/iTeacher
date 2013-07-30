@@ -3,11 +3,6 @@
         <file>App.ico</file>
     </qresource>
     <qresource prefix="/Menu">
-        <file>Menu/Grid.bmp</file>
-        <file>Menu/NewDB.bmp</file>
-        <file>Menu/ImportClipboard.bmp</file>
-        <file>Menu/PlaySound.bmp</file>
-        <file>Menu/Cancel.png</file>
         <file>Menu/Delete.png</file>
         <file>Menu/Edit.png</file>
         <file>Menu/Exit.png</file>
@@ -21,5 +16,8 @@
         <file>Menu/Options.png</file>
         <file>Menu/Search.png</file>
         <file>Menu/Next.png</file>
+        <file>Menu/NewDB.png</file>
+        <file>Menu/ImportClipboard.png</file>
+        <file>Menu/PlaySound.png</file>
     </qresource>
 </RCC>

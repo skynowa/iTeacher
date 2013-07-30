@@ -180,7 +180,7 @@
   </widget>
   <action name="actFile_CreateDb">
    <property name="icon">
-    <iconset resource="../Resources/App.qrc">
+    <iconset>
      <normaloff>:/Menu/Menu/NewDB.bmp</normaloff>:/Menu/Menu/NewDB.bmp</iconset>
    </property>
    <property name="text">
@@ -339,7 +339,7 @@
   <action name="actFile_ImportClipboard">
    <property name="icon">
     <iconset resource="../Resources/App.qrc">
-     <normaloff>:/Menu/Menu/ImportClipboard.bmp</normaloff>:/Menu/Menu/ImportClipboard.bmp</iconset>
+     <normaloff>:/Menu/Menu/ImportClipboard.png</normaloff>:/Menu/Menu/ImportClipboard.png</iconset>
    </property>
    <property name="text">
     <string>Import Clipboard...</string>
@@ -348,7 +348,7 @@
   <action name="actEdit_PlayWord">
    <property name="icon">
     <iconset resource="../Resources/App.qrc">
-     <normaloff>:/Menu/Menu/PlaySound.bmp</normaloff>:/Menu/Menu/PlaySound.bmp</iconset>
+     <normaloff>:/Menu/Menu/PlaySound.png</normaloff>:/Menu/Menu/PlaySound.png</iconset>
    </property>
    <property name="text">
     <string>Play word</string>
@@ -360,7 +360,7 @@
   <action name="actEdit_PlayTranslation">
    <property name="icon">
     <iconset resource="../Resources/App.qrc">
-     <normaloff>:/Menu/Menu/PlaySound.bmp</normaloff>:/Menu/Menu/PlaySound.bmp</iconset>
+     <normaloff>:/Menu/Menu/PlaySound.png</normaloff>:/Menu/Menu/PlaySound.png</iconset>
    </property>
    <property name="text">
     <string>Play translation</string>
@@ -369,7 +369,7 @@
   <action name="actEdit_PlayWordTranslation">
    <property name="icon">
     <iconset resource="../Resources/App.qrc">
-     <normaloff>:/Menu/Menu/PlaySound.bmp</normaloff>:/Menu/Menu/PlaySound.bmp</iconset>
+     <normaloff>:/Menu/Menu/PlaySound.png</normaloff>:/Menu/Menu/PlaySound.png</iconset>
    </property>
    <property name="text">
     <string>Play word and translation</string>
