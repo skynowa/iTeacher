@@ -154,9 +154,29 @@ CWordEditor::_resetAll() {
 }
 //------------------------------------------------------------------------------
 void
-CWordEditor::_saveAll() {
+CWordEditor::_saveAll(
+    QDialog::DialogCode *a_code
+)
+{
     bool bRv         = false;
     int  iCurrentRow = - 1;
+
+    // normilize term, value
+    {
+        cQString termNorm = m_Ui.tedtWordTerm->toPlainText().trimmed();
+        m_Ui.tedtWordTerm->setPlainText(termNorm);
+
+        cQString valueNorm = m_Ui.tedtWordValue->toPlainText().trimmed();
+        m_Ui.tedtWordValue->setPlainText(valueNorm);
+    }
+
+    // checks
+    {
+        if (m_Ui.tedtWordTerm->toPlainText().isEmpty()) {
+            *a_code = QDialog::Rejected;
+            return;
+        }
+    }
 
     if (_m_tmModel->rowCount() > 0) {
         iCurrentRow = _m_ciCurrentRow;
@@ -193,6 +213,10 @@ CWordEditor::_saveAll() {
 
         QMessageBox::warning(this, qApp->applicationName(), sMsg);
         _m_tmModel->revertAll();
+
+        *a_code = QDialog::Rejected;
+    } else {
+        *a_code = QDialog::Accepted;
     }
 
     // set current index
@@ -332,14 +356,16 @@ CWordEditor::slot_bbxButtons_OnClicked(
     QAbstractButton *a_button
 )
 {
-    QDialogButtonBox::StandardButton sbType = m_Ui.bbxButtons->standardButton(a_button);
-    switch (sbType) {
+    QDialog::DialogCode code = QDialog::Rejected;
+
+    QDialogButtonBox::StandardButton type = m_Ui.bbxButtons->standardButton(a_button);
+    switch (type) {
         case QDialogButtonBox::Ok:
         case QDialogButtonBox::Apply:
             // now use _m_tmModel->submitAll(), remove this check
             qCHECK_DO(!slot_termCheck(), return);
-            _saveAll();
-            if (QDialogButtonBox::Ok == sbType) {
+            _saveAll(&code);
+            if (QDialogButtonBox::Ok == type) {
                 close();
             }
             break;
@@ -354,6 +380,8 @@ CWordEditor::slot_bbxButtons_OnClicked(
             Q_ASSERT(false);
             break;
     }
+
+    setResult(code);
 }
 //------------------------------------------------------------------------------
 void

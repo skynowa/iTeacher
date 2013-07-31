@@ -43,7 +43,7 @@ class CWordEditor :
         void            _destruct         ();
 
         void            _resetAll         ();
-        void            _saveAll          ();
+        void            _saveAll          (QDialog::DialogCode *code);
 
         void            _settingsLoad     ();
         void            _settingsSave     ();

@@ -543,11 +543,15 @@ void
 CMain::slot_OnInsert() {
     m_snSqlNavigator.insert();
 
-    // show edit dialog
-    {
-        CWordEditor dlgWordEditor(this, _m_tmModel, &m_snSqlNavigator);
+    CWordEditor dlgWordEditor(this, _m_tmModel, &m_snSqlNavigator);
 
-        (int)dlgWordEditor.exec();
+    QDialog::DialogCode code = static_cast<QDialog::DialogCode>( dlgWordEditor.exec() );
+    switch (code) {
+        case QDialog::Rejected:
+            m_snSqlNavigator.remove();
+            break;
+        default:
+            break;
     }
 }
 //------------------------------------------------------------------------------
