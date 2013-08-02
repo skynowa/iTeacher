@@ -24,7 +24,7 @@ int main(int argc, char *argv[])
     // set application single inststance
     {
         bool bRv = CUtils::setApplicationSingle(APP_GUID);
-        xCHECK_RET(false == bRv, EXIT_SUCCESS);
+        qCHECK_RET(false == bRv, EXIT_SUCCESS);
     }
 
     // start application
