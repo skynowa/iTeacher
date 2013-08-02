@@ -28,7 +28,8 @@ CWordFinder::CWordFinder(
 }
 //------------------------------------------------------------------------------
 /*virtual*/
-CWordFinder::~CWordFinder() {
+CWordFinder::~CWordFinder()
+{
     _destruct();
 }
 //------------------------------------------------------------------------------
@@ -41,7 +42,8 @@ CWordFinder::~CWordFinder() {
 
 //------------------------------------------------------------------------------
 void
-CWordFinder::_construct() {
+CWordFinder::_construct()
+{
     m_Ui.setupUi(this);
 
     m_Ui.cboWordTerm->setFocus();
@@ -68,7 +70,8 @@ CWordFinder::_construct() {
 }
 //------------------------------------------------------------------------------
 void
-CWordFinder::_destruct() {
+CWordFinder::_destruct()
+{
 
 }
 //------------------------------------------------------------------------------
@@ -115,7 +118,8 @@ CWordFinder::slot_bbxButtons_OnClicked(
 
 //------------------------------------------------------------------------------
 void
-CWordFinder::_resetAll() {
+CWordFinder::_resetAll()
+{
     m_Ui.cboWordTerm->clear();
     m_Ui.cboWordValue->clear();
     m_Ui.cboTags->setCurrentText("");
@@ -126,7 +130,8 @@ CWordFinder::_resetAll() {
 }
 //------------------------------------------------------------------------------
 void
-CWordFinder::_saveAll() {
+CWordFinder::_saveAll()
+{
     CUtils::db_fields_t fields;
     {
         fields.push_back( QPair<QString, QString>(DB_F_MAIN_TERM,  m_Ui.cboWordTerm->currentText())  );
@@ -192,58 +197,3 @@ CWordFinder::_saveAll() {
     CUtils::dbFilter(_m_tmModel, DB_T_MAIN, fields, "", sqlStrWhere, "");
 }
 //------------------------------------------------------------------------------
-
-#if 0
-        if      (!bCond1 && !bCond2 && !bCond3 && !bCond4) {
-            sqlStrWhere.clear();
-        }
-        else if (!bCond1 && !bCond2 && !bCond3 &&  bCond4) {
-            sqlStrWhere = sSql4;
-        }
-        else if (!bCond1 && !bCond2 &&  bCond3 && !bCond4) {
-            sqlStrWhere = sSql3;
-        }
-        else if (!bCond1 && !bCond2 &&  bCond3 &&  bCond4) {
-            sqlStrWhere = sSql3 + " OR " + sSql4;
-        }
-        else if (!bCond1 &&  bCond2 && !bCond3 && !bCond4) {
-            sqlStrWhere = sSql2;
-        }
-        else if (!bCond1 &&  bCond2 && !bCond3 &&  bCond4) {
-            sqlStrWhere = sSql2 + " OR " + sSql4;
-        }
-        else if (!bCond1 &&  bCond2 &&  bCond3 && !bCond4) {
-            sqlStrWhere = sSql2 + " OR " + sSql3;
-        }
-        else if (!bCond1 &&  bCond2 &&  bCond3 &&  bCond4) {
-            sqlStrWhere = sSql2 + " OR " + sSql2 + " OR " + sSql4;
-        }
-        else if ( bCond1 && !bCond2 && !bCond3 && !bCond4) {
-            sqlStrWhere = ;
-        }
-        else if ( bCond1 && !bCond2 && !bCond3 &&  bCond4) {
-            sqlStrWhere = ;
-        }
-        else if ( bCond1 && !bCond2 &&  bCond3 && !bCond4) {
-            sqlStrWhere = ;
-        }
-        else if ( bCond1 && !bCond2 &&  bCond3 &&  bCond4) {
-            sqlStrWhere = ;
-        }
-        else if ( bCond1 &&  bCond2 && !bCond3 && !bCond4) {
-            sqlStrWhere = ;
-        }
-        else if ( bCond1 &&  bCond2 && !bCond3 &&  bCond4) {
-            sqlStrWhere = ;
-        }
-        else if ( bCond1 &&  bCond2 &&  bCond3 && !bCond4) {
-            sqlStrWhere = ;
-        }
-        else if ( bCond1 &&  bCond2 &&  bCond3 &&  bCond4) {
-            sqlStrWhere = ;
-        }
-        else {
-            Q_ASSERT(false);
-        }
-#endif
-
