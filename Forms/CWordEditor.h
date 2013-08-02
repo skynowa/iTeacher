@@ -24,35 +24,34 @@ class CWordEditor :
     public:
         Ui::CWordEditor m_Ui;
 
-                        CWordEditor      (QWidget        *parent,
-                                          QSqlTableModel *tableModel,
-                                          CSqlNavigator  *sqlNavigator,
-                                          cQString       &newTerm = QString());
-        virtual        ~CWordEditor      ();
+                        CWordEditor(QWidget *parent, QSqlTableModel *tableModel,
+                            CSqlNavigator *sqlNavigator,
+                            cQString &newTerm = QString());
+        virtual        ~CWordEditor();
 
     private:
-        QSqlTableModel *_m_tmModel;
-        CSqlNavigator  *_m_snSqlNavigator;
-        cint            _m_ciCurrentRow;
-        cQString        _m_csNewTerm;
+        QSqlTableModel *_tmModel;
+        CSqlNavigator  *_snSqlNavigator;
+        cint            _ciCurrentRow;
+        cQString        _csNewTerm;
 
-        QStatusBar     *_m_sbInfo;
-        QPalette        _m_plInfoDefault;
+        QStatusBar     *_sbInfo;
+        QPalette        _plInfoDefault;
 
-        void            _construct        ();
-        void            _destruct         ();
+        void            _construct();
+        void            _destruct();
 
-        void            _resetAll         ();
-        void            _saveAll          (QDialog::DialogCode *code);
+        void            _resetAll();
+        void            _saveAll(QDialog::DialogCode *code);
 
-        void            _settingsLoad     ();
-        void            _settingsSave     ();
+        void            _settingsLoad();
+        void            _settingsSave();
 
-        bool            _isTermExists     (cQString &term);
+        bool            _isTermExists(cQString &term);
 
     private Q_SLOTS:
         void            slot_termTranslate();
-        bool            slot_termCheck    ();
+        bool            slot_termCheck();
         void            slot_bbxButtons_OnClicked(QAbstractButton *button);
         void            slot_WordTermOrValue_OnTextChanged();
 };

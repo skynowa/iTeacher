@@ -24,13 +24,13 @@ class CWordFinder :
         virtual        ~CWordFinder();
 
     private:
-        QSqlTableModel *_m_tmModel;
+        QSqlTableModel *_tmModel;
 
-        void            _construct ();
-        void            _destruct  ();
+        void            _construct();
+        void            _destruct();
 
-        void            _resetAll  ();
-        void            _saveAll   ();
+        void            _resetAll();
+        void            _saveAll();
 
     private Q_SLOTS:
         void            slot_bbxButtons_OnClicked(QAbstractButton *button);

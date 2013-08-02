@@ -22,18 +22,18 @@ CWordEditor::CWordEditor(
     CSqlNavigator  *a_sqlNavigator,
     cQString        &a_newTerm /* = QString() */
 ) :
-    QDialog          (a_parent),
-    _m_tmModel       (a_tableModel),
-    _m_snSqlNavigator(a_sqlNavigator),
-    _m_ciCurrentRow  (a_sqlNavigator->view()->currentIndex().row()),
-    _m_csNewTerm     (a_newTerm.trimmed()),
-    _m_sbInfo        (NULL),
-    _m_plInfoDefault ()
+    QDialog        (a_parent),
+    _tmModel       (a_tableModel),
+    _snSqlNavigator(a_sqlNavigator),
+    _ciCurrentRow  (a_sqlNavigator->view()->currentIndex().row()),
+    _csNewTerm     (a_newTerm.trimmed()),
+    _sbInfo        (NULL),
+    _plInfoDefault ()
 {
     Q_ASSERT(NULL != a_parent);
     Q_ASSERT(NULL != a_tableModel);
     Q_ASSERT(NULL != a_sqlNavigator);
-    //// Q_ASSERT(- 1  <  _m_ciCurrentRow);
+    //// Q_ASSERT(- 1  <  _ciCurrentRow);
 
     _construct();
 }
@@ -59,7 +59,7 @@ CWordEditor::_construct()
 
     // CMain
     {
-        QSqlRecord srRecord = _m_tmModel->record(_m_ciCurrentRow);
+        QSqlRecord srRecord = _tmModel->record(_ciCurrentRow);
 
         // term, value
         m_Ui.tedtWordTerm->setText       ( srRecord.value(DB_F_MAIN_TERM).toString() );
@@ -84,19 +84,19 @@ CWordEditor::_construct()
         m_Ui.chkWordIsLearned->setChecked( srRecord.value(DB_F_MAIN_IS_LEARNED).toBool() );
         m_Ui.chkWordIsMarked->setChecked ( srRecord.value(DB_F_MAIN_IS_MARKED).toBool() );
 
-        // _m_sbInfo
+        // _sbInfo
         {
-            _m_sbInfo = new QStatusBar(this);
-            _m_sbInfo->setSizeGripEnabled(false);
+            _sbInfo = new QStatusBar(this);
+            _sbInfo->setSizeGripEnabled(false);
 
-            m_Ui.gridLayout->addWidget(_m_sbInfo);
+            m_Ui.gridLayout->addWidget(_sbInfo);
 
-            _m_plInfoDefault = _m_sbInfo->palette();
+            _plInfoDefault = _sbInfo->palette();
         }
 
         // check word term
-        if (!_m_csNewTerm.isEmpty()) {
-            m_Ui.tedtWordTerm->setText(_m_csNewTerm);
+        if (!_csNewTerm.isEmpty()) {
+            m_Ui.tedtWordTerm->setText(_csNewTerm);
             slot_termCheck();
             slot_termTranslate();
         }
@@ -182,16 +182,16 @@ CWordEditor::_saveAll(
         }
     }
 
-    if (_m_tmModel->rowCount() > 0) {
-        iCurrentRow = _m_ciCurrentRow;
+    if (_tmModel->rowCount() > 0) {
+        iCurrentRow = _ciCurrentRow;
     } else {
         iCurrentRow = 0;
 
-        bRv = _m_tmModel->insertRow(iCurrentRow);
-        qCHECK_PTR(bRv, _m_tmModel);
+        bRv = _tmModel->insertRow(iCurrentRow);
+        qCHECK_PTR(bRv, _tmModel);
     }
 
-    QSqlRecord srRecord = _m_tmModel->record(iCurrentRow);
+    QSqlRecord srRecord = _tmModel->record(iCurrentRow);
     {
         srRecord.setValue(DB_F_MAIN_TERM,       m_Ui.tedtWordTerm->toPlainText());
         srRecord.setValue(DB_F_MAIN_VALUE,      m_Ui.tedtWordValue->toPlainText());
@@ -200,23 +200,23 @@ CWordEditor::_saveAll(
         srRecord.setValue(DB_F_MAIN_IS_MARKED,  m_Ui.chkWordIsMarked->isChecked());
     }
 
-    bRv = _m_tmModel->setRecord(iCurrentRow, srRecord);
-    qCHECK_PTR(bRv, _m_tmModel);
+    bRv = _tmModel->setRecord(iCurrentRow, srRecord);
+    qCHECK_PTR(bRv, _tmModel);
 
-    bRv = _m_tmModel->submit();
+    bRv = _tmModel->submit();
     if (!bRv) {
         QString sMsg;
 
-        if (19 == _m_tmModel->lastError().number()) {
+        if (19 == _tmModel->lastError().number()) {
             sMsg = QString(tr("Save fail: term is exists"));
         } else {
             sMsg = QString(tr("Save fail: %1 - %2"))
-                                .arg(_m_tmModel->lastError().number())
-                                .arg(_m_tmModel->lastError().text());
+                                .arg(_tmModel->lastError().number())
+                                .arg(_tmModel->lastError().text());
         }
 
         QMessageBox::warning(this, qApp->applicationName(), sMsg);
-        _m_tmModel->revertAll();
+        _tmModel->revertAll();
 
         *a_code = QDialog::Rejected;
     } else {
@@ -224,7 +224,7 @@ CWordEditor::_saveAll(
     }
 
     // set current index
-    _m_snSqlNavigator->goTo(iCurrentRow);
+    _snSqlNavigator->goTo(iCurrentRow);
 }
 //------------------------------------------------------------------------------
 void
@@ -264,7 +264,7 @@ CWordEditor::_isTermExists(
 )
 {
     bool      bRv = false;
-    QSqlQuery qryQuery( _m_tmModel->database() );
+    QSqlQuery qryQuery( _tmModel->database() );
 
     cQString csSql =
                 "SELECT COUNT(*) AS f_records_count "
@@ -317,13 +317,13 @@ CWordEditor::slot_termCheck()
     if (bRv) {
         sMsg = QString(tr("Termin is an empty"));
 
-        QPalette pallete = _m_sbInfo->palette();
+        QPalette pallete = _sbInfo->palette();
         pallete.setColor(QPalette::WindowText, Qt::red);
 
         qSwap(plInfo, pallete);
 
-        _m_sbInfo->setPalette(plInfo);
-        _m_sbInfo->showMessage(sMsg);
+        _sbInfo->setPalette(plInfo);
+        _sbInfo->showMessage(sMsg);
 
         return false;
     }
@@ -334,13 +334,13 @@ CWordEditor::slot_termCheck()
         sMsg = QString(tr("Termin '%1' already exists"))
                             .arg( m_Ui.tedtWordTerm->toPlainText() );
 
-        QPalette pallete = _m_sbInfo->palette();
+        QPalette pallete = _sbInfo->palette();
         pallete.setColor(QPalette::WindowText, Qt::red);
 
         qSwap(plInfo, pallete);
 
-        _m_sbInfo->setPalette(plInfo);
-        _m_sbInfo->showMessage(sMsg);
+        _sbInfo->setPalette(plInfo);
+        _sbInfo->showMessage(sMsg);
 
         return false;
     }
@@ -350,10 +350,10 @@ CWordEditor::slot_termCheck()
         sMsg = QString(tr("Termin '%1' is a new"))
                             .arg( m_Ui.tedtWordTerm->toPlainText() );
 
-        qSwap(plInfo, _m_plInfoDefault);
+        qSwap(plInfo, _plInfoDefault);
 
-        _m_sbInfo->setPalette(plInfo);
-        _m_sbInfo->showMessage(sMsg);
+        _sbInfo->setPalette(plInfo);
+        _sbInfo->showMessage(sMsg);
     }
 
     return true;
@@ -370,7 +370,7 @@ CWordEditor::slot_bbxButtons_OnClicked(
     switch (type) {
         case QDialogButtonBox::Ok:
         case QDialogButtonBox::Apply:
-            // now use _m_tmModel->submitAll(), remove this check
+            // now use _tmModel->submitAll(), remove this check
             qCHECK_DO(!slot_termCheck(), return);
             _saveAll(&code);
             if (QDialogButtonBox::Ok == type) {
@@ -381,7 +381,7 @@ CWordEditor::slot_bbxButtons_OnClicked(
             _resetAll();
             break;
         case QDialogButtonBox::Cancel:
-            _m_tmModel->revertAll();
+            _tmModel->revertAll();
             close();
             break;
         default:

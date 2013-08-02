@@ -31,15 +31,15 @@ CMain::CMain(
     QWidget         *a_parent,
     Qt::WindowFlags  a_flags
 ) :
-    QMainWindow     (a_parent, a_flags),
-    m_sAppName      (),
-    m_sAppDir       (),
-    m_sDbDir        (),
-    m_sDbBackupDir  (),
-    m_sTempDir      (),
-    m_snSqlNavigator(this),
-    _m_dbDatabase   (NULL),
-    _m_tmModel      (NULL)
+    QMainWindow    (a_parent, a_flags),
+    _sAppName      (),
+    _sAppDir       (),
+    _sDbDir        (),
+    _sDbBackupDir  (),
+    _sTempDir      (),
+    _snSqlNavigator(this),
+    _dbDatabase    (NULL),
+    _tmModel       (NULL)
 {
     _construct();
 }
@@ -66,7 +66,7 @@ CMain::eventFilter(
 )
 {
     // table zooming
-    if (m_Ui.tvInfo->viewport() == a_obj) {
+    if (ui.tvInfo->viewport() == a_obj) {
         if (QEvent::Wheel == a_ev->type()) {
             QWheelEvent *inputEvent = static_cast<QWheelEvent *>( a_ev );
             if (inputEvent->modifiers() & Qt::ControlModifier) {
@@ -128,20 +128,20 @@ CMain::_destruct()
 void
 CMain::_initMain()
 {
-    m_Ui.setupUi(this);
+    ui.setupUi(this);
 
     //--------------------------------------------------
     // data
     {
-        m_sAppName     = QCoreApplication::applicationName();;
-        m_sAppDir      = QCoreApplication::applicationDirPath();
-        m_sDbDir       = m_sAppDir + QDir::separator() + DB_DIR_NAME;
-        m_sDbBackupDir = m_sDbDir  + QDir::separator() + BACKUP_DIR_NAME;
-        m_sTempDir     = m_sAppDir + QDir::separator() + TEMP_DIR_NAME;
+        _sAppName     = QCoreApplication::applicationName();;
+        _sAppDir      = QCoreApplication::applicationDirPath();
+        _sDbDir       = _sAppDir + QDir::separator() + DB_DIR_NAME;
+        _sDbBackupDir = _sDbDir  + QDir::separator() + BACKUP_DIR_NAME;
+        _sTempDir     = _sAppDir + QDir::separator() + TEMP_DIR_NAME;
 
-        QDir().mkpath(m_sDbDir);
-        QDir().mkpath(m_sDbBackupDir);
-        QDir().mkpath(m_sTempDir);
+        QDir().mkpath(_sDbDir);
+        QDir().mkpath(_sDbBackupDir);
+        QDir().mkpath(_sTempDir);
     }
 
     //--------------------------------------------------
@@ -161,79 +161,79 @@ CMain::_initModel()
     //--------------------------------------------------
     // open DB
     {
-        if (m_Ui.cboDictPath->currentText().isEmpty()) {
-            cQString csDictPath = m_sDbDir + QDir::separator() + DB_FILE_NAME__NEW;
+        if (ui.cboDictPath->currentText().isEmpty()) {
+            cQString csDictPath = _sDbDir + QDir::separator() + DB_FILE_NAME__NEW;
 
             dbOpen(csDictPath);
             cboDictPath_reload();
         } else {
-            cQString csDictPath = m_sDbDir + QDir::separator() +
-                                  m_Ui.cboDictPath->currentText();
+            cQString csDictPath = _sDbDir + QDir::separator() +
+                                  ui.cboDictPath->currentText();
 
             dbOpen(csDictPath);
         }
     }
 
     //--------------------------------------------------
-    // _m_tmModel, tvInfo
+    // _tmModel, tvInfo
     {
         // tvInfo
         {
-            Q_ASSERT(_m_tmModel != NULL);
+            Q_ASSERT(_tmModel != NULL);
 
-            m_Ui.tvInfo->setModel(_m_tmModel);
-            m_Ui.tvInfo->viewport()->installEventFilter(this);
+            ui.tvInfo->setModel(_tmModel);
+            ui.tvInfo->viewport()->installEventFilter(this);
 
-            m_Ui.tvInfo->hideColumn(0); // don't show the DB_F_MAIN_ID
-            m_Ui.tvInfo->setColumnWidth(0, 40);
-            m_Ui.tvInfo->setColumnWidth(1, 120);
-            m_Ui.tvInfo->setColumnWidth(2, 400);
-            m_Ui.tvInfo->setColumnWidth(3, 60);
-            m_Ui.tvInfo->setColumnWidth(4, 60);
-            m_Ui.tvInfo->setColumnWidth(5, 80);
+            ui.tvInfo->hideColumn(0); // don't show the DB_F_MAIN_ID
+            ui.tvInfo->setColumnWidth(0, 40);
+            ui.tvInfo->setColumnWidth(1, 120);
+            ui.tvInfo->setColumnWidth(2, 400);
+            ui.tvInfo->setColumnWidth(3, 60);
+            ui.tvInfo->setColumnWidth(4, 60);
+            ui.tvInfo->setColumnWidth(5, 80);
 
-            m_Ui.tvInfo->verticalHeader()->setVisible(true);
-            m_Ui.tvInfo->verticalHeader()->setDefaultSectionSize(TABLEVIEW_ROW_HEIGHT);
+            ui.tvInfo->verticalHeader()->setVisible(true);
+            ui.tvInfo->verticalHeader()->setDefaultSectionSize(TABLEVIEW_ROW_HEIGHT);
 
-            m_Ui.tvInfo->setEditTriggers(QAbstractItemView::NoEditTriggers);
-            m_Ui.tvInfo->setSelectionBehavior(QAbstractItemView::SelectRows);
-            m_Ui.tvInfo->setSelectionMode(QAbstractItemView::ExtendedSelection);
-            m_Ui.tvInfo->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
-            m_Ui.tvInfo->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
-            m_Ui.tvInfo->setAlternatingRowColors(true);
-            m_Ui.tvInfo->setStyleSheet("alternate-background-color: white; background-color: gray;");
-            m_Ui.tvInfo->setSortingEnabled(true);
-            m_Ui.tvInfo->sortByColumn(0, Qt::AscendingOrder);
-            m_Ui.tvInfo->setItemDelegateForColumn(3, new CCheckBoxItemDelegate(m_Ui.tvInfo));
-            m_Ui.tvInfo->setItemDelegateForColumn(4, new CCheckBoxItemDelegate(m_Ui.tvInfo));
-            //m_Ui.tvInfo->setItemDelegateForColumn(5, new CComboBoxItemDelegate(m_Ui.tvInfo, _m_tmModel));
+            ui.tvInfo->setEditTriggers(QAbstractItemView::NoEditTriggers);
+            ui.tvInfo->setSelectionBehavior(QAbstractItemView::SelectRows);
+            ui.tvInfo->setSelectionMode(QAbstractItemView::ExtendedSelection);
+            ui.tvInfo->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
+            ui.tvInfo->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
+            ui.tvInfo->setAlternatingRowColors(true);
+            ui.tvInfo->setStyleSheet("alternate-background-color: white; background-color: gray;");
+            ui.tvInfo->setSortingEnabled(true);
+            ui.tvInfo->sortByColumn(0, Qt::AscendingOrder);
+            ui.tvInfo->setItemDelegateForColumn(3, new CCheckBoxItemDelegate(ui.tvInfo));
+            ui.tvInfo->setItemDelegateForColumn(4, new CCheckBoxItemDelegate(ui.tvInfo));
+            //ui.tvInfo->setItemDelegateForColumn(5, new CComboBoxItemDelegate(ui.tvInfo, _tmModel));
 
-            m_Ui.tvInfo->show();
+            ui.tvInfo->show();
         }
     }
 
     //--------------------------------------------------
     // slots
     {
-        connect(m_Ui.tvInfo,      SIGNAL( doubleClicked(const QModelIndex &) ),
+        connect(ui.tvInfo,      SIGNAL( doubleClicked(const QModelIndex &) ),
                 this,             SLOT  ( slot_OnEdit() ));
 
-        connect(m_Ui.cboDictPath, SIGNAL( currentIndexChanged(const QString &) ),
+        connect(ui.cboDictPath, SIGNAL( currentIndexChanged(const QString &) ),
                 this,             SLOT  ( slot_cboDictPath_OnCurrentIndexChanged(const QString &) ));
     }
 
     //--------------------------------------------------
     // fire cboDictPath
     {
-        m_Ui.cboDictPath->setCurrentIndex(- 1);
-        m_Ui.cboDictPath->setCurrentIndex(0);
+        ui.cboDictPath->setCurrentIndex(- 1);
+        ui.cboDictPath->setCurrentIndex(0);
     }
 
     //--------------------------------------------------
-    // m_snSqlNavigator
+    // _snSqlNavigator
     {
-        m_snSqlNavigator.construct(_m_tmModel, m_Ui.tvInfo);
-        m_snSqlNavigator.last();
+        _snSqlNavigator.construct(_tmModel, ui.tvInfo);
+        _snSqlNavigator.last();
     }
 }
 //------------------------------------------------------------------------------
@@ -242,94 +242,94 @@ CMain::_initActions()
 {
     // group "File"
     {
-        connect(m_Ui.actFile_CreateDb,            SIGNAL( triggered() ),
+        connect(ui.actFile_CreateDb,            SIGNAL( triggered() ),
                 this,                             SLOT  ( slot_OnCreateDb() ));
 
-        connect(m_Ui.actFile_ImportCsv,           SIGNAL( triggered() ),
+        connect(ui.actFile_ImportCsv,           SIGNAL( triggered() ),
                 this,                             SLOT  ( slot_OnImportCsv() ));
 
-        connect(m_Ui.actFile_ImportClipboard,     SIGNAL( triggered() ),
+        connect(ui.actFile_ImportClipboard,     SIGNAL( triggered() ),
                 this,                             SLOT  ( slot_OnImportClipboard() ));
 
-        connect(m_Ui.actFile_ExportCsv,           SIGNAL( triggered() ),
+        connect(ui.actFile_ExportCsv,           SIGNAL( triggered() ),
                 this,                             SLOT  ( slot_OnExportCsv() ));
 
-        connect(m_Ui.actFile_ExportPdf,           SIGNAL( triggered() ),
+        connect(ui.actFile_ExportPdf,           SIGNAL( triggered() ),
                 this,                             SLOT  ( slot_OnExportPdf() ));
 
-        connect(m_Ui.actFile_Exit,                SIGNAL( triggered() ),
+        connect(ui.actFile_Exit,                SIGNAL( triggered() ),
                 this,                             SLOT  ( slot_OnExit() ));
     }
 
     // group "Edit"
     {
-        connect(m_Ui.actEdit_First,               SIGNAL( triggered() ),
+        connect(ui.actEdit_First,               SIGNAL( triggered() ),
                 this,                             SLOT  ( slot_OnFirst() ));
 
-        connect(m_Ui.actEdit_Prior,               SIGNAL( triggered() ),
+        connect(ui.actEdit_Prior,               SIGNAL( triggered() ),
                 this,                             SLOT  ( slot_OnPrior() ));
 
-        connect(m_Ui.actEdit_Next,                SIGNAL( triggered() ),
+        connect(ui.actEdit_Next,                SIGNAL( triggered() ),
                 this,                             SLOT  ( slot_OnNext() ));
 
-        connect(m_Ui.actEdit_Last,                SIGNAL( triggered() ),
+        connect(ui.actEdit_Last,                SIGNAL( triggered() ),
                 this,                             SLOT  ( slot_OnLast() ));
 
-        connect(m_Ui.actEdit_To,                  SIGNAL( triggered() ),
+        connect(ui.actEdit_To,                  SIGNAL( triggered() ),
                 this,                             SLOT  ( slot_OnTo() ));
 
-        connect(m_Ui.actEdit_Insert,              SIGNAL( triggered() ),
+        connect(ui.actEdit_Insert,              SIGNAL( triggered() ),
                 this,                             SLOT  ( slot_OnInsert() ));
 
-        connect(m_Ui.actEdit_Delete,              SIGNAL( triggered() ),
+        connect(ui.actEdit_Delete,              SIGNAL( triggered() ),
                 this,                             SLOT  ( slot_OnRemove() ));
 
-        connect(m_Ui.actEdit_Edit,                SIGNAL( triggered() ),
+        connect(ui.actEdit_Edit,                SIGNAL( triggered() ),
                 this,                             SLOT  ( slot_OnEdit() ));
     }
 
     // audio
     {
-        connect(m_Ui.actEdit_PlayWord,            SIGNAL( triggered() ),
+        connect(ui.actEdit_PlayWord,            SIGNAL( triggered() ),
                 this,                             SLOT  ( slot_OnPlayWord() ));
 
-        connect(m_Ui.actEdit_PlayTranslation,     SIGNAL( triggered() ),
+        connect(ui.actEdit_PlayTranslation,     SIGNAL( triggered() ),
                 this,                             SLOT  ( slot_OnPlayTranslation() ));
 
-        connect(m_Ui.actEdit_PlayWordTranslation, SIGNAL( triggered() ),
+        connect(ui.actEdit_PlayWordTranslation, SIGNAL( triggered() ),
                 this,                             SLOT  ( slot_OnPlayWordTranslation() ));
     }
 
     // group "Find"
     {
-        connect(m_Ui.actFind_Search,              SIGNAL( triggered() ),
+        connect(ui.actFind_Search,              SIGNAL( triggered() ),
                 this,                             SLOT  ( slot_OnSearch() ));
     }
 
     // group "View"
     {
-        connect(m_Ui.actView_ZoomIn,              SIGNAL( triggered() ),
+        connect(ui.actView_ZoomIn,              SIGNAL( triggered() ),
                 this,                             SLOT  ( slot_OnZoomIn() ));
 
-        connect(m_Ui.actView_ZoomOut,             SIGNAL( triggered() ),
+        connect(ui.actView_ZoomOut,             SIGNAL( triggered() ),
                 this,                             SLOT  ( slot_OnZoomOut() ));
 
-        connect(m_Ui.actView_ZoomDefault,         SIGNAL( triggered() ),
+        connect(ui.actView_ZoomDefault,         SIGNAL( triggered() ),
                 this,                             SLOT  ( slot_OnZoomDefault() ));
     }
 
     // group "Options"
     {
-        connect(m_Ui.actOptions_Settings,         SIGNAL( triggered() ),
+        connect(ui.actOptions_Settings,         SIGNAL( triggered() ),
                 this,                             SLOT  ( slot_OnSettings() ));
     }
 
     // group "Help"
     {
-        connect(m_Ui.actHelp_Faq,                 SIGNAL( triggered() ),
+        connect(ui.actHelp_Faq,                 SIGNAL( triggered() ),
                 this,                             SLOT  ( slot_OnFaq() ));
 
-        connect(m_Ui.actHelp_About,               SIGNAL( triggered() ),
+        connect(ui.actHelp_About,               SIGNAL( triggered() ),
                 this,                             SLOT  ( slot_OnAbout() ));
     }
 }
@@ -347,13 +347,13 @@ CMain::slot_OnCreateDb()
 {
     cQString csDbName = QInputDialog::getText(
                                  this,
-                                 m_sAppName,
+                                 _sAppName,
                                  "New DB file path:",
                                  QLineEdit::Normal,
                                  DB_FILE_EXT);
     qCHECK_DO(true == csDbName.trimmed().isEmpty(), return);
 
-    cQString csDictPath = m_sDbDir + QDir::separator() + csDbName;
+    cQString csDictPath = _sDbDir + QDir::separator() + csDbName;
 
     // reopen DB
     {
@@ -363,9 +363,9 @@ CMain::slot_OnCreateDb()
 
     // activate this DB file name in QComboBox
     {
-        cint ciSectionPos = m_Ui.cboDictPath->findText(csDbName);
+        cint ciSectionPos = ui.cboDictPath->findText(csDbName);
 
-        m_Ui.cboDictPath->setCurrentIndex(ciSectionPos);
+        ui.cboDictPath->setCurrentIndex(ciSectionPos);
     }
 }
 //------------------------------------------------------------------------------
@@ -390,13 +390,13 @@ CMain::slot_OnImportCsv()
     fieldNames.push_back(DB_F_MAIN_TAG);
 
     // import
-    CUtils::importCsv(filePath, _m_tmModel, fieldNames, "\t");
+    CUtils::importCsv(filePath, _tmModel, fieldNames, "\t");
 
     // "fire" cboDictPath
     {
-        cint iCurrent = m_Ui.cboDictPath->currentIndex();
-        m_Ui.cboDictPath->setCurrentIndex(- 1);
-        m_Ui.cboDictPath->setCurrentIndex(iCurrent);
+        cint iCurrent = ui.cboDictPath->currentIndex();
+        ui.cboDictPath->setCurrentIndex(- 1);
+        ui.cboDictPath->setCurrentIndex(iCurrent);
     }
 
     // report
@@ -411,17 +411,17 @@ CMain::slot_OnImportCsv()
 void
 CMain::slot_OnImportClipboard()
 {
-    qCHECK_DO(!m_snSqlNavigator.isValid(), return);
+    qCHECK_DO(!_snSqlNavigator.isValid(), return);
 
-    m_snSqlNavigator.insert();
+    _snSqlNavigator.insert();
 
     cQString    csData = QApplication::clipboard()->text();
-    CWordEditor dlgWordEditor(this, _m_tmModel, &m_snSqlNavigator, csData);
+    CWordEditor dlgWordEditor(this, _tmModel, &_snSqlNavigator, csData);
 
     QDialog::DialogCode code = static_cast<QDialog::DialogCode>( dlgWordEditor.exec() );
     switch (code) {
         case QDialog::Rejected:
-            m_snSqlNavigator.remove();
+            _snSqlNavigator.remove();
             break;
         default:
             break;
@@ -451,7 +451,7 @@ CMain::slot_OnExportCsv()
         fieldNames.push_back(DB_F_MAIN_TAG);
 
         // import
-        CUtils::exportCsv(filePath, _m_tmModel, fieldNames, "\t");
+        CUtils::exportCsv(filePath, _tmModel, fieldNames, "\t");
     }
 
     // report
@@ -479,13 +479,13 @@ CMain::slot_OnExportPdf()
 
 
     // file -> DB
-    cint ciRealRowCount = CUtils::sqlTableModelRowCount(_m_tmModel);
+    cint ciRealRowCount = CUtils::sqlTableModelRowCount(_tmModel);
 
     for (int i = 0; i < ciRealRowCount; ++ i) {
-        sHtml.push_back( _m_tmModel->record(i).value(DB_F_MAIN_TERM).toString() );
+        sHtml.push_back( _tmModel->record(i).value(DB_F_MAIN_TERM).toString() );
         sHtml.push_back( "\n" );
         sHtml.push_back( " - " );
-        sHtml.push_back( _m_tmModel->record(i).value(DB_F_MAIN_VALUE).toString() );
+        sHtml.push_back( _tmModel->record(i).value(DB_F_MAIN_VALUE).toString() );
         sHtml.push_back( "<br>" );
     }
 
@@ -528,54 +528,54 @@ CMain::slot_OnExit()
 void
 CMain::slot_OnFirst()
 {
-    m_snSqlNavigator.first();
+    _snSqlNavigator.first();
 }
 //------------------------------------------------------------------------------
 void
 CMain::slot_OnPrior()
 {
-    m_snSqlNavigator.prior();
+    _snSqlNavigator.prior();
 }
 //------------------------------------------------------------------------------
 void
 CMain::slot_OnNext()
 {
-    m_snSqlNavigator.next();
+    _snSqlNavigator.next();
 }
 //------------------------------------------------------------------------------
 void
 CMain::slot_OnLast()
 {
-    m_snSqlNavigator.last();
+    _snSqlNavigator.last();
 }
 //------------------------------------------------------------------------------
 void
 CMain::slot_OnTo()
 {
-    cint ciCurrentRow = m_snSqlNavigator.view()->currentIndex().row() + 1;
+    cint ciCurrentRow = _snSqlNavigator.view()->currentIndex().row() + 1;
     cint ciMinValue   = 1;
-    cint ciMaxValue   = CUtils::sqlTableModelRowCount(_m_tmModel);
+    cint ciMaxValue   = CUtils::sqlTableModelRowCount(_tmModel);
 
     cint ciTargetRow  = QInputDialog::getInt(
                             this, APP_NAME, "Go to row:",
                             ciCurrentRow, ciMinValue, ciMaxValue) - 1;
 
-    m_snSqlNavigator.goTo(ciTargetRow);
+    _snSqlNavigator.goTo(ciTargetRow);
 }
 //------------------------------------------------------------------------------
 void
 CMain::slot_OnInsert()
 {
-    qCHECK_DO(!m_snSqlNavigator.isValid(), return);
+    qCHECK_DO(!_snSqlNavigator.isValid(), return);
 
-    m_snSqlNavigator.insert();
+    _snSqlNavigator.insert();
 
-    CWordEditor dlgWordEditor(this, _m_tmModel, &m_snSqlNavigator);
+    CWordEditor dlgWordEditor(this, _tmModel, &_snSqlNavigator);
 
     QDialog::DialogCode code = static_cast<QDialog::DialogCode>( dlgWordEditor.exec() );
     switch (code) {
         case QDialog::Rejected:
-            m_snSqlNavigator.remove();
+            _snSqlNavigator.remove();
             break;
         default:
             break;
@@ -585,14 +585,14 @@ CMain::slot_OnInsert()
 void
 CMain::slot_OnRemove()
 {
-    m_snSqlNavigator.remove();
+    _snSqlNavigator.remove();
 }
 //------------------------------------------------------------------------------
 void
 CMain::slot_OnEdit()
 {
     // show edit dialog
-    CWordEditor dlgWordEditor(this, _m_tmModel, &m_snSqlNavigator);
+    CWordEditor dlgWordEditor(this, _tmModel, &_snSqlNavigator);
 
     (int)dlgWordEditor.exec();
 }
@@ -610,15 +610,15 @@ CMain::slot_OnPlayWord()
 {
     QString sText;
     {
-        cint       ciCurrentRow = m_Ui.tvInfo->currentIndex().row();
-        QSqlRecord srRecord     = _m_tmModel->record(ciCurrentRow);
+        cint       ciCurrentRow = ui.tvInfo->currentIndex().row();
+        QSqlRecord srRecord     = _tmModel->record(ciCurrentRow);
 
         sText = srRecord.value(DB_F_MAIN_TERM).toString();
     }
 
     QString sAudioFilePath;
     {
-        sAudioFilePath = m_sTempDir + QDir::separator() + AUDIO_WORD_FILE_NAME;
+        sAudioFilePath = _sTempDir + QDir::separator() + AUDIO_WORD_FILE_NAME;
     }
 
     _googleSpeech(sText, TRANSLATION_LANG_ENGLISH, sAudioFilePath);
@@ -629,15 +629,15 @@ CMain::slot_OnPlayTranslation()
 {
     QString sText;
     {
-        cint       ciCurrentRow = m_Ui.tvInfo->currentIndex().row();
-        QSqlRecord srRecord     = _m_tmModel->record(ciCurrentRow);
+        cint       ciCurrentRow = ui.tvInfo->currentIndex().row();
+        QSqlRecord srRecord     = _tmModel->record(ciCurrentRow);
 
         sText = srRecord.value(DB_F_MAIN_VALUE).toString();
     }
 
     QString sAudioFilePath;
     {
-        sAudioFilePath = m_sTempDir + QDir::separator() + AUDIO_TRANSLATION_FILE_NAME;
+        sAudioFilePath = _sTempDir + QDir::separator() + AUDIO_TRANSLATION_FILE_NAME;
     }
 
     _googleSpeech(sText, TRANSLATION_LANG_RUSSIAN, sAudioFilePath);
@@ -661,9 +661,9 @@ CMain::slot_OnPlayWordTranslation()
 void
 CMain::slot_OnSearch()
 {
-    qCHECK_DO(NULL == _m_tmModel, return);
+    qCHECK_DO(NULL == _tmModel, return);
 
-    CWordFinder dlgWordFinder(this, _m_tmModel);
+    CWordFinder dlgWordFinder(this, _tmModel);
 
     dlgWordFinder.exec();
 }
@@ -681,21 +681,21 @@ CMain::slot_OnZoomIn()
 {
     // table font
     {
-        int iOldSize = m_Ui.tvInfo->font().pointSize();
+        int iOldSize = ui.tvInfo->font().pointSize();
         ++ iOldSize;
 
-        QFont font = m_Ui.tvInfo->font();
+        QFont font = ui.tvInfo->font();
         font.setPointSize(iOldSize);
 
-        m_Ui.tvInfo->setFont(font);
+        ui.tvInfo->setFont(font);
     }
 
     // table row height
     {
-        int iOldSize = m_Ui.tvInfo->verticalHeader()->defaultSectionSize();
+        int iOldSize = ui.tvInfo->verticalHeader()->defaultSectionSize();
         ++ iOldSize;
 
-        m_Ui.tvInfo->verticalHeader()->setDefaultSectionSize(iOldSize);
+        ui.tvInfo->verticalHeader()->setDefaultSectionSize(iOldSize);
     }
 }
 //------------------------------------------------------------------------------
@@ -704,24 +704,24 @@ CMain::slot_OnZoomOut()
 {
     // table font
     {
-        int iOldSize = m_Ui.tvInfo->font().pointSize();
+        int iOldSize = ui.tvInfo->font().pointSize();
         if (iOldSize > APP_FONT_SIZE_DEFAULT) {
             -- iOldSize;
 
-            QFont font = m_Ui.tvInfo->font();
+            QFont font = ui.tvInfo->font();
             font.setPointSize(iOldSize);
 
-            m_Ui.tvInfo->setFont(font);
+            ui.tvInfo->setFont(font);
         }
     }
 
     // table row height
     {
-        int iOldSize = m_Ui.tvInfo->verticalHeader()->defaultSectionSize();
+        int iOldSize = ui.tvInfo->verticalHeader()->defaultSectionSize();
         if (iOldSize > TABLEVIEW_ROW_HEIGHT) {
             -- iOldSize;
 
-            m_Ui.tvInfo->verticalHeader()->setDefaultSectionSize(iOldSize);
+            ui.tvInfo->verticalHeader()->setDefaultSectionSize(iOldSize);
         }
     }
 }
@@ -731,15 +731,15 @@ CMain::slot_OnZoomDefault()
 {
     // font
     {
-        QFont font = m_Ui.tvInfo->font();
+        QFont font = ui.tvInfo->font();
         font.setPointSize(APP_FONT_SIZE_DEFAULT);
 
-        m_Ui.tvInfo->setFont(font);
+        ui.tvInfo->setFont(font);
     }
 
     // row height
     {
-        m_Ui.tvInfo->verticalHeader()->setDefaultSectionSize(TABLEVIEW_ROW_HEIGHT);
+        ui.tvInfo->verticalHeader()->setDefaultSectionSize(TABLEVIEW_ROW_HEIGHT);
     }
 }
 //------------------------------------------------------------------------------
@@ -791,7 +791,7 @@ CMain::slot_cboDictPath_OnCurrentIndexChanged(
 
     // reopen DB
     {
-        cQString csDictPath = m_sDbDir + QDir::separator() + a_arg;
+        cQString csDictPath = _sDbDir + QDir::separator() + a_arg;
 
         dbReopen(csDictPath);
     }
@@ -802,7 +802,7 @@ CMain::slot_cboDictPath_OnCurrentIndexChanged(
         int iWordsAll = 0;
 
         {
-            QSqlQuery qryWordsAll(*_m_dbDatabase);
+            QSqlQuery qryWordsAll(*_dbDatabase);
 
             cQString csSql =
                         "SELECT COUNT(*) AS f_records_count "
@@ -821,7 +821,7 @@ CMain::slot_cboDictPath_OnCurrentIndexChanged(
         int iWordsLearned = 0;
 
         {
-            QSqlQuery qryWordsLearned(*_m_dbDatabase);
+            QSqlQuery qryWordsLearned(*_dbDatabase);
 
             cQString csSql =
                         "SELECT COUNT(*) AS f_records_count "
@@ -841,7 +841,7 @@ CMain::slot_cboDictPath_OnCurrentIndexChanged(
         int iWordsNotLearned = 0;
 
         {
-            QSqlQuery qryWordsNotLearned(*_m_dbDatabase);
+            QSqlQuery qryWordsNotLearned(*_dbDatabase);
 
             cQString csSql =
                         "SELECT COUNT(*) AS f_records_count "
@@ -868,7 +868,7 @@ CMain::slot_cboDictPath_OnCurrentIndexChanged(
                         .arg( iWordsNotLearned )
                         .arg( qS2QS(CxString::formatPercentage(iWordsAll, iWordsNotLearned)) );
 
-        m_Ui.lblDictInfo->setText(csDictInfo);
+        ui.lblDictInfo->setText(csDictInfo);
     }
 }
 //------------------------------------------------------------------------------
@@ -883,21 +883,21 @@ CMain::slot_cboDictPath_OnCurrentIndexChanged(
 void
 CMain::cboDictPath_reload()
 {
-    qCHECK_DO(! QDir(m_sDbDir).exists(), return);
+    qCHECK_DO(! QDir(_sDbDir).exists(), return);
 
     std::vec_tstring_t vsDicts;
 
     vsDicts.clear();
 
-    CxFinder::files(qQS2S(m_sDbDir), CxString::format(xT("*%s"), xT(DB_FILE_EXT) ), true, &vsDicts);
+    CxFinder::files(qQS2S(_sDbDir), CxString::format(xT("*%s"), xT(DB_FILE_EXT) ), true, &vsDicts);
     qCHECK_DO(vsDicts.empty(), return);
 
-    m_Ui.cboDictPath->clear();
+    ui.cboDictPath->clear();
 
     xFOREACH(std::vec_tstring_t, it, vsDicts) {
-        QString sDict = qS2QS( (*it).erase(0, (qQS2S(m_sDbDir) + CxConst::xSLASH).size()) );
+        QString sDict = qS2QS( (*it).erase(0, (qQS2S(_sDbDir) + CxConst::xSLASH).size()) );
 
-        m_Ui.cboDictPath->addItem(sDict);
+        ui.cboDictPath->addItem(sDict);
     }
 }
 //------------------------------------------------------------------------------
@@ -914,23 +914,23 @@ CMain::dbOpen(
     cQString &a_filePath
 )
 {
-    // _m_dbDatabase
+    // _dbDatabase
     {
-        Q_ASSERT(NULL == _m_dbDatabase);
-        Q_ASSERT(true == QDir(m_sDbDir).exists());
+        Q_ASSERT(NULL == _dbDatabase);
+        Q_ASSERT(true == QDir(_sDbDir).exists());
 
         bool bRv = QSqlDatabase::isDriverAvailable("QSQLITE");
         qCHECK_DO(false == bRv, qMSG(QSqlDatabase().lastError().text()); return);
 
-        _m_dbDatabase = new QSqlDatabase(QSqlDatabase::addDatabase("QSQLITE"));
-        _m_dbDatabase->setDatabaseName(a_filePath);
+        _dbDatabase = new QSqlDatabase(QSqlDatabase::addDatabase("QSQLITE"));
+        _dbDatabase->setDatabaseName(a_filePath);
 
-        bRv = _m_dbDatabase->open();
-        qCHECK_PTR(bRv, _m_dbDatabase);
+        bRv = _dbDatabase->open();
+        qCHECK_PTR(bRv, _dbDatabase);
 
         // create DB - DB_T_TAGS
         {
-            QSqlQuery qryTags(*_m_dbDatabase);
+            QSqlQuery qryTags(*_dbDatabase);
 
             cQString csSql =
                     "CREATE TABLE IF NOT EXISTS "
@@ -946,7 +946,7 @@ CMain::dbOpen(
 
         // create DB - DB_T_MAIN
         {
-            QSqlQuery qryMain(*_m_dbDatabase);
+            QSqlQuery qryMain(*_dbDatabase);
 
             cQString csSql =
                     "CREATE TABLE IF NOT EXISTS "
@@ -967,29 +967,29 @@ CMain::dbOpen(
         }
     }
 
-    // _m_tmModel
+    // _tmModel
     {
-        Q_ASSERT(NULL == _m_tmModel);
+        Q_ASSERT(NULL == _tmModel);
 
-        _m_tmModel = new QSqlTableModel(this, *_m_dbDatabase);
+        _tmModel = new QSqlTableModel(this, *_dbDatabase);
 
-        _m_tmModel->setTable(DB_T_MAIN);
-        _m_tmModel->setHeaderData(0, Qt::Horizontal, tr("Id"),      Qt::DisplayRole);
-        _m_tmModel->setHeaderData(1, Qt::Horizontal, tr("Term"),    Qt::DisplayRole);
-        _m_tmModel->setHeaderData(2, Qt::Horizontal, tr("Value"),   Qt::DisplayRole);
-        _m_tmModel->setHeaderData(3, Qt::Horizontal, tr("Learned"), Qt::DisplayRole);
-        _m_tmModel->setHeaderData(4, Qt::Horizontal, tr("Marked"),  Qt::DisplayRole);
-        _m_tmModel->setHeaderData(5, Qt::Horizontal, tr("Tag"),     Qt::DisplayRole);
-        _m_tmModel->setEditStrategy(QSqlTableModel::OnManualSubmit);
+        _tmModel->setTable(DB_T_MAIN);
+        _tmModel->setHeaderData(0, Qt::Horizontal, tr("Id"),      Qt::DisplayRole);
+        _tmModel->setHeaderData(1, Qt::Horizontal, tr("Term"),    Qt::DisplayRole);
+        _tmModel->setHeaderData(2, Qt::Horizontal, tr("Value"),   Qt::DisplayRole);
+        _tmModel->setHeaderData(3, Qt::Horizontal, tr("Learned"), Qt::DisplayRole);
+        _tmModel->setHeaderData(4, Qt::Horizontal, tr("Marked"),  Qt::DisplayRole);
+        _tmModel->setHeaderData(5, Qt::Horizontal, tr("Tag"),     Qt::DisplayRole);
+        _tmModel->setEditStrategy(QSqlTableModel::OnManualSubmit);
 
-        _m_tmModel->select();
+        _tmModel->select();
     }
 
     //--------------------------------------------------
-    // m_snSqlNavigator
+    // _snSqlNavigator
     {
-        m_snSqlNavigator.construct(_m_tmModel, m_Ui.tvInfo);
-        m_snSqlNavigator.last();
+        _snSqlNavigator.construct(_tmModel, ui.tvInfo);
+        _snSqlNavigator.last();
     }
 }
 //------------------------------------------------------------------------------
@@ -1001,33 +1001,33 @@ CMain::dbReopen(
     dbClose();
     dbOpen(a_filePath);
 
-    // _m_tmModel
-    _m_tmModel->select();
-    m_Ui.tvInfo->setModel(_m_tmModel);
+    // _tmModel
+    _tmModel->select();
+    ui.tvInfo->setModel(_tmModel);
 }
 //------------------------------------------------------------------------------
 void
 CMain::dbClose()
 {
-    // _m_tmModel
+    // _tmModel
     {
-        bool bRv = _m_tmModel->submitAll();
-        qCHECK_PTR(bRv, _m_tmModel);
+        bool bRv = _tmModel->submitAll();
+        qCHECK_PTR(bRv, _tmModel);
 
-        qPTR_DELETE(_m_tmModel);
+        qPTR_DELETE(_tmModel);
     }
 
-    // _m_dbDatabase
+    // _dbDatabase
     {
-        if (NULL != _m_dbDatabase) {
-            Q_ASSERT(true == _m_dbDatabase->isOpen());
+        if (NULL != _dbDatabase) {
+            Q_ASSERT(true == _dbDatabase->isOpen());
 
-            cQString csConnectionName = _m_dbDatabase->connectionName();
+            cQString csConnectionName = _dbDatabase->connectionName();
 
-            _m_dbDatabase->close();
-            Q_ASSERT(false == _m_dbDatabase->isOpen());
+            _dbDatabase->close();
+            Q_ASSERT(false == _dbDatabase->isOpen());
 
-            qPTR_DELETE(_m_dbDatabase);
+            qPTR_DELETE(_dbDatabase);
 
             QSqlDatabase::removeDatabase(csConnectionName);
         }
@@ -1158,10 +1158,10 @@ CMain::_settingsLoad()
         // main
         resize(szSize);
         move(pnPosition);
-        m_Ui.cboDictPath->setCurrentIndex(iDictionary);
+        ui.cboDictPath->setCurrentIndex(iDictionary);
 
         // table
-        m_snSqlNavigator.goTo(iTableCurrentRow);
+        _snSqlNavigator.goTo(iTableCurrentRow);
     }
 }
 //------------------------------------------------------------------------------
@@ -1174,12 +1174,12 @@ CMain::_settingsSave()
     stSettings.beginGroup("main");
     stSettings.setValue("position",    pos());
     stSettings.setValue("size",        size());
-    stSettings.setValue("dictionary",  m_Ui.cboDictPath->currentIndex());
+    stSettings.setValue("dictionary",  ui.cboDictPath->currentIndex());
     stSettings.endGroup();
 
     // table
     stSettings.beginGroup("table");
-    stSettings.setValue("current_row", m_Ui.tvInfo->currentIndex().row());
+    stSettings.setValue("current_row", ui.tvInfo->currentIndex().row());
     stSettings.endGroup();
 }
 //------------------------------------------------------------------------------
@@ -1188,15 +1188,15 @@ CMain::_exportfileNameBuild(
     cQString &a_fileExt
 )
 {
-    qCHECK_RET(_m_tmModel->rowCount() <= 0, QString());
+    qCHECK_RET(_tmModel->rowCount() <= 0, QString());
 
     QString sRv;
 
-    cQString tag = _m_tmModel->record(0).value(DB_F_MAIN_TAG).toString().trimmed();
+    cQString tag = _tmModel->record(0).value(DB_F_MAIN_TAG).toString().trimmed();
 
     QString baseName;
     {
-        baseName = QFileInfo( m_Ui.cboDictPath->currentText() ).baseName().trimmed();
+        baseName = QFileInfo( ui.cboDictPath->currentText() ).baseName().trimmed();
         if (!tag.isEmpty()) {
             baseName.append("-");
         }

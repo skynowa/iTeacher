@@ -20,9 +20,9 @@ CWordFinder::CWordFinder(
     QSqlTableModel *a_tableModel
 ) :
     QDialog   (a_parent),
-    _m_tmModel(a_tableModel)
+    _tmModel(a_tableModel)
 {
-    Q_ASSERT(NULL != _m_tmModel);
+    Q_ASSERT(NULL != _tmModel);
 
     _construct();
 }
@@ -194,6 +194,6 @@ CWordFinder::_saveAll()
 
     }
 
-    CUtils::dbFilter(_m_tmModel, DB_T_MAIN, fields, "", sqlStrWhere, "");
+    CUtils::dbFilter(_tmModel, DB_T_MAIN, fields, "", sqlStrWhere, "");
 }
 //------------------------------------------------------------------------------
