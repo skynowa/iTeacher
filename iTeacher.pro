@@ -9,7 +9,7 @@
 TARGET              = iTeacher
 TEMPLATE            = app
 QT                  = core gui widgets sql network xml printsupport
-CONFIG             += debug_and_release warn_on
+CONFIG             += debug warn_on
 
 win32 {
     #QMAKE_CXXFLAGS -= -Zc:wchar_t-
