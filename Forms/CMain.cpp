@@ -402,14 +402,21 @@ CMain::slot_OnImportCsv() {
 //------------------------------------------------------------------------------
 void
 CMain::slot_OnImportClipboard() {
-    qCHECK_DO(NULL == _m_tmModel, return);
+    qCHECK_DO(!m_snSqlNavigator.isValid(), return);
 
     m_snSqlNavigator.insert();
 
-    cQString    csData       = QApplication::clipboard()->text();
+    cQString    csData = QApplication::clipboard()->text();
     CWordEditor dlgWordEditor(this, _m_tmModel, &m_snSqlNavigator, csData);
 
-    (int)dlgWordEditor.exec();
+    QDialog::DialogCode code = static_cast<QDialog::DialogCode>( dlgWordEditor.exec() );
+    switch (code) {
+        case QDialog::Rejected:
+            m_snSqlNavigator.remove();
+            break;
+        default:
+            break;
+    }
 }
 //------------------------------------------------------------------------------
 void
@@ -541,6 +548,8 @@ CMain::slot_OnTo() {
 //------------------------------------------------------------------------------
 void
 CMain::slot_OnInsert() {
+    qCHECK_DO(!m_snSqlNavigator.isValid(), return);
+
     m_snSqlNavigator.insert();
 
     CWordEditor dlgWordEditor(this, _m_tmModel, &m_snSqlNavigator);
