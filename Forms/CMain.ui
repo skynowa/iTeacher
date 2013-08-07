@@ -213,6 +213,9 @@
    <property name="text">
     <string>Exit</string>
    </property>
+   <property name="shortcut">
+    <string>Ctrl+Q</string>
+   </property>
   </action>
   <action name="actEdit_First">
    <property name="icon">
@@ -221,6 +224,9 @@
    </property>
    <property name="text">
     <string>First</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Home</string>
    </property>
   </action>
   <action name="actEdit_Next">
@@ -240,6 +246,9 @@
    <property name="text">
     <string>Last</string>
    </property>
+   <property name="shortcut">
+    <string>Ctrl+End</string>
+   </property>
   </action>
   <action name="actEdit_Insert">
    <property name="icon">
@@ -249,6 +258,9 @@
    <property name="text">
     <string>Insert</string>
    </property>
+   <property name="shortcut">
+    <string>Ins</string>
+   </property>
   </action>
   <action name="actEdit_Delete">
    <property name="icon">
@@ -257,6 +269,9 @@
    </property>
    <property name="text">
     <string>Delete</string>
+   </property>
+   <property name="shortcut">
+    <string>Del</string>
    </property>
   </action>
   <action name="actEdit_Prior">
@@ -276,6 +291,9 @@
    <property name="text">
     <string>Edit</string>
    </property>
+   <property name="shortcut">
+    <string>F2</string>
+   </property>
   </action>
   <action name="actFind_Search">
    <property name="icon">
@@ -285,20 +303,32 @@
    <property name="text">
     <string>Search...</string>
    </property>
+   <property name="shortcut">
+    <string>F3</string>
+   </property>
   </action>
   <action name="actView_ZoomIn">
    <property name="text">
     <string>Zoom In</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl++</string>
    </property>
   </action>
   <action name="actView_ZoomOut">
    <property name="text">
     <string>Zoom Out</string>
    </property>
+   <property name="shortcut">
+    <string>Ctrl+-</string>
+   </property>
   </action>
   <action name="actView_ZoomDefault">
    <property name="text">
     <string>Zoom Default</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+.</string>
    </property>
   </action>
   <action name="actOptions_Settings">
@@ -308,6 +338,9 @@
    </property>
    <property name="text">
     <string>Settings...</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+P</string>
    </property>
   </action>
   <action name="actHelp_Faq">
@@ -335,6 +368,9 @@
    <property name="text">
     <string>To...</string>
    </property>
+   <property name="shortcut">
+    <string>Ctrl+G</string>
+   </property>
   </action>
   <action name="actFile_ImportClipboard">
    <property name="icon">
@@ -343,6 +379,9 @@
    </property>
    <property name="text">
     <string>Import Clipboard...</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+V</string>
    </property>
   </action>
   <action name="actEdit_PlayWord">
@@ -373,6 +412,9 @@
    </property>
    <property name="text">
     <string>Play word and translation</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+P</string>
    </property>
   </action>
  </widget>
