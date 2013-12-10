@@ -15,8 +15,8 @@
 
 #include <QPrinter>
 
-#include <xLib/Common/CxConst.h>
-#include <xLib/Common/CxString.h>
+#include <xLib/Core/CxConst.h>
+#include <xLib/Core/CxString.h>
 #include <xLib/Filesystem/CxPath.h>
 #include <xLib/Filesystem/CxFinder.h>
 
@@ -895,7 +895,7 @@ CMain::cboDictPath_reload()
     ui.cboDictPath->clear();
 
     xFOREACH(std::vec_tstring_t, it, vsDicts) {
-        QString sDict = qS2QS( (*it).erase(0, (qQS2S(_sDbDir) + CxConst::xSLASH).size()) );
+        QString sDict = qS2QS( (*it).erase(0, (qQS2S(_sDbDir) + CxConst::slash()).size()) );
 
         ui.cboDictPath->addItem(sDict);
     }

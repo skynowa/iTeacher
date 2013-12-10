@@ -9,7 +9,7 @@
 //------------------------------------------------------------------------------
 #include "../Config.h"
 
-#include <xLib/Common/xCommon.h>
+#include <xLib/Core/xCore.h>
 #include "../QtLib/Common.h"
 #include "../QtLib/CUtils.h"
 #include "../QtLib/CSqlNavigator.h"
