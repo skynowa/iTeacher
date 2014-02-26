@@ -17,13 +17,13 @@ win32 {
     #QMAKE_CFLAGS   -= -Zc:wchar_t-
     #QMAKE_CFLAGS   += -Zc:wchar_t
 
-    INCLUDEPATH     = "$$(xLib)/Include"
+    INCLUDEPATH     =  xLib/Include
     #LIBS           += User32.lib Ole32.lib Advapi32.lib shell32.lib
     LIBS            += -lpsapi -luuid -lole32 -lmpr
 }
 unix {
-    INCLUDEPATH     =
-    LIBS           +=
+    INCLUDEPATH     = xLib/Include
+    LIBS           += -ldl #-lc (FreeBSD)
 }
 
 HEADERS             = Config.h \
