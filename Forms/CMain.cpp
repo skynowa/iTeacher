@@ -37,6 +37,7 @@ CMain::CMain(
     _sDbDir        (),
     _sDbBackupDir  (),
     _sTempDir      (),
+    _trayIcon      (this),
     _snSqlNavigator(this),
     _dbDatabase    (NULL),
     _tmModel       (NULL)
@@ -152,6 +153,10 @@ CMain::_initMain()
         setGeometry(0, 0, APP_WIDTH, APP_HEIGHT);
         CUtils::widgetAlignCenter(this);
         cboDictPath_reload();
+
+        // tray icon
+        _trayIcon.setIcon( this->windowIcon() );
+        _trayIcon.setVisible(true);
     }
 }
 //------------------------------------------------------------------------------

@@ -14,6 +14,7 @@
 #include "../QtLib/CUtils.h"
 #include "../QtLib/CSqlNavigator.h"
 
+#include <QSystemTrayIcon>
 #include "ui_CMain.h"
 //------------------------------------------------------------------------------
 class CMain :
@@ -36,6 +37,7 @@ class CMain :
         QString         _sDbDir;
         QString         _sDbBackupDir;
         QString         _sTempDir;
+        QSystemTrayIcon _trayIcon;
         CSqlNavigator   _snSqlNavigator;
 
         void            _construct();
