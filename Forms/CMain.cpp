@@ -153,9 +153,13 @@ CMain::_initMain()
         setGeometry(0, 0, APP_WIDTH, APP_HEIGHT);
         CUtils::widgetAlignCenter(this);
         cboDictPath_reload();
+    }
 
-        // tray icon
-        _trayIcon.setIcon( this->windowIcon() );
+    // tray icon
+    {
+        qDebug() << qDEBUG_VAR(QSystemTrayIcon::isSystemTrayAvailable());
+
+        _trayIcon.setIcon(windowIcon());
         _trayIcon.setVisible(true);
     }
 }
