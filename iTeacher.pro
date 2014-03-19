@@ -23,7 +23,7 @@ win32 {
 }
 unix {
     INCLUDEPATH     = xLib/Include
-    LIBS           += -ldl #-lc (FreeBSD)
+    LIBS           += -lx11 -ldl #-lc (FreeBSD)
 }
 
 HEADERS             = Config.h \
@@ -31,6 +31,7 @@ HEADERS             = Config.h \
                       QtLib/CApplication.h \
                       QtLib/CUtils.h \
                       QtLib/CSqlNavigator.h \
+                      QtLib/CGlobalShortcut_x11.h \
                       Classes/CCenteredCheckBox.h \
                       Classes/CCheckBoxItemDelegate.h \
                       Classes/CComboBoxItemDelegate.h \
@@ -42,6 +43,7 @@ SOURCES             = main.cpp \
                       QtLib/CApplication.cpp \
                       QtLib/CUtils.cpp \
                       QtLib/CSqlNavigator.cpp \
+                      QtLib/CGlobalShortcut_x11.cpp \
                       Classes/CCenteredCheckBox.cpp \
                       Classes/CCheckBoxItemDelegate.cpp \
                       Classes/CComboBoxItemDelegate.cpp \
