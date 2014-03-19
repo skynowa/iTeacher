@@ -23,7 +23,7 @@ win32 {
 }
 unix {
     INCLUDEPATH     = xLib/Include
-    LIBS           += -lx11 -ldl #-lc (FreeBSD)
+    LIBS           += -lX11 -ldl #-lc (FreeBSD)
 }
 
 HEADERS             = Config.h \
