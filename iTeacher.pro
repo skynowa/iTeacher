@@ -31,7 +31,7 @@ HEADERS             = Config.h \
                       QtLib/CApplication.h \
                       QtLib/CUtils.h \
                       QtLib/CSqlNavigator.h \
-                      QtLib/CGlobalShortcut_x11.h \
+                      QtLib/QxGlobalShortcut_x11.h \
                       Classes/CCenteredCheckBox.h \
                       Classes/CCheckBoxItemDelegate.h \
                       Classes/CComboBoxItemDelegate.h \
@@ -43,7 +43,7 @@ SOURCES             = main.cpp \
                       QtLib/CApplication.cpp \
                       QtLib/CUtils.cpp \
                       QtLib/CSqlNavigator.cpp \
-                      QtLib/CGlobalShortcut_x11.cpp \
+                      QtLib/QxGlobalShortcut_x11.cpp \
                       Classes/CCenteredCheckBox.cpp \
                       Classes/CCheckBoxItemDelegate.cpp \
                       Classes/CComboBoxItemDelegate.cpp \
