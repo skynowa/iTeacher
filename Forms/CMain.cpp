@@ -13,12 +13,54 @@
 #include "../Forms/CWordEditor.h"
 #include "../Forms/CWordFinder.h"
 
-#include <QPrinter>
-
 #include <xLib/Core/CxConst.h>
 #include <xLib/Core/CxString.h>
 #include <xLib/Filesystem/CxPath.h>
 #include <xLib/Filesystem/CxFinder.h>
+
+
+//-------------------------------------------------------------------------------------------------
+xNAMESPACE_ANONYM_BEGIN
+
+#if 1
+
+std::ctstring_t
+xlib_errorFormat
+(
+    Display *a_display,
+    cint_t  &a_code
+)
+{
+    std::tstring_t sRv;
+    tchar_t        buff[1024 + 1] = {0};
+
+    int_t iRv = ::XGetErrorText(a_display, a_code, buff, static_cast<int_t>( sizeof(buff) ) - 1);
+    xTEST_DIFF(iRv, 0);
+
+    sRv.assign(buff);
+
+    return sRv;
+}
+
+int
+xlib_errorHandler(
+    Display     *a_display,
+    XErrorEvent *a_errorEvent
+)
+{
+    std::ctstring_t errorStr = ::xlib_errorFormat(a_display, a_errorEvent->error_code);
+
+    CxTrace() << xT("xLib: XLIB error - ") << xTRACE_VAR7(a_errorEvent->type,
+        a_errorEvent->resourceid, a_errorEvent->serial, a_errorEvent->error_code, errorStr,
+        a_errorEvent->request_code, a_errorEvent->minor_code);
+
+    return 0;
+}
+
+#endif
+
+xNAMESPACE_ANONYM_END
+//-------------------------------------------------------------------------------------------------
 
 
 /*******************************************************************************
@@ -41,13 +83,48 @@ CMain::CMain(
     _snSqlNavigator(this),
     _dbDatabase    (NULL),
     _tmModel       (NULL)
+#if defined(Q_OS_UNIX)
+    // global hotkey
+    ,
+    _keyCode       (0),
+    _display       (Q_NULLPTR)
+#endif
 {
     _construct();
+
+#if defined(Q_OS_UNIX)
+    qCApp->installEventFilter(this);
+
+    // global hotkey
+    _display = ::XOpenDisplay(Q_NULLPTR);
+    qTEST_PTR(_display);
+
+    // handle errors is on
+    ::XSynchronize(_display, 1 /*True*/);
+    ::XSetErrorHandler(::xlib_errorHandler);
+
+    _keyCode = ::XKeysymToKeycode(_display, XK_F1);
+    iRv = ::XGrabKey(_display, _keyCode, ControlMask | ShiftMask, RootWindow(_display, 0),
+        /*False*/1, GrabModeAsync, GrabModeAsync);
+    xTEST_DIFF(iRv, 0);
+
+    iRv = ::XFlush(_display);
+    xTEST_DIFF(iRv, 0);
+#endif
 }
 //------------------------------------------------------------------------------
 /*virtual*/
 CMain::~CMain()
 {
+#if defined(Q_OS_UNIX)
+    // global hotkey
+    iRv = ::XUngrabKey(_display, _keyCode, ControlMask | ShiftMask, RootWindow(_display, 0));
+    xTEST_DIFF(iRv, 0);
+
+    iRv = ::XCloseDisplay(_display);  _display = Q_NULLPTR;
+    xTEST_DIFF(iRv, 0);
+#endif
+
     _destruct();
 }
 //------------------------------------------------------------------------------
@@ -62,14 +139,14 @@ CMain::~CMain()
 /* virtual */
 bool
 CMain::eventFilter(
-    QObject *a_obj,
-    QEvent  *a_ev
+    QObject *a_object,
+    QEvent  *a_event
 )
 {
     // table zooming
-    if (ui.tvInfo->viewport() == a_obj) {
-        if (QEvent::Wheel == a_ev->type()) {
-            QWheelEvent *inputEvent = static_cast<QWheelEvent *>( a_ev );
+    if (ui.tvInfo->viewport() == a_object) {
+        if (QEvent::Wheel == a_event->type()) {
+            QWheelEvent *inputEvent = static_cast<QWheelEvent *>( a_event );
             if (inputEvent->modifiers() & Qt::ControlModifier) {
                 if (inputEvent->delta() > 0) {
                     slot_OnZoomIn();
@@ -80,22 +157,35 @@ CMain::eventFilter(
         }
     }
 
+#if defined(Q_OS_UNIX)
+    // global hotkey
+    if (a_event->type() == QEvent::KeyPress) {
+        QKeyEvent *keyEvent = static_cast<QKeyEvent *>(a_event);
+
+        if (keyEvent->modifiers() == (Qt::ControlModifier | Qt::ShiftModifier) &&
+            keyEvent->key() == Qt::Key_F1)
+        {
+            qDebug() << "QxGlobalShortcut_x11 event";
+            return false;
+        }
+    }
+#endif
     return false;
 }
 //------------------------------------------------------------------------------
 /* virtual */
 void
 CMain::keyPressEvent(
-    QKeyEvent *a_ev
+    QKeyEvent *a_event
 )
 {
-    switch (a_ev->key()) {
+    switch (a_event->key()) {
         // minimize on pressing escape
         case Qt::Key_Escape:
             setWindowState(Qt::WindowMinimized);;
             break;
         default:
-            QMainWindow::keyPressEvent(a_ev);
+            QMainWindow::keyPressEvent(a_event);
             break;
     }
 }

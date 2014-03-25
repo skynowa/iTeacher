@@ -9,12 +9,31 @@
 //------------------------------------------------------------------------------
 #include "../Config.h"
 
+#include <X11/X.h>
+#include <X11/Xlib.h>
+#include <X11/keysym.h>
+
+#undef KeyPress
+#undef KeyRelease
+#undef Bool
+#undef Status
+#undef True
+#undef False
+#undef GrayScale
+#undef Unsorted
+#undef None
+#undef CursorShape
+#undef FocusIn
+#undef FocusOut
+#undef type
+#undef FontChange
+#undef Expose
+
 #include <xLib/Core/xCore.h>
 #include "../QtLib/Common.h"
 #include "../QtLib/CUtils.h"
 #include "../QtLib/CSqlNavigator.h"
 
-#include <QSystemTrayIcon>
 #include "ui_CMain.h"
 //------------------------------------------------------------------------------
 class CMain :
@@ -27,8 +46,8 @@ class CMain :
         virtual        ~CMain();
 
     protected:
-        virtual bool    eventFilter(QObject *obj, QEvent *ev);
-        virtual void    keyPressEvent(QKeyEvent *ev);
+        virtual bool    eventFilter(QObject *object, QEvent *event);
+        virtual void    keyPressEvent(QKeyEvent *event);
 
     private:
         Ui::CMainClass  ui;
@@ -107,6 +126,13 @@ class CMain :
         // settings
         void            _settingsLoad();
         void            _settingsSave();
+
+        // global hotkey
+    #if defined(Q_OS_UNIX)
+        int          iRv;
+        int          _keyCode;
+        Display     *_display;
+    #endif
 
         // utils
         QString         _exportfileNameBuild(cQString &fileExt);
