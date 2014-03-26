@@ -17,7 +17,7 @@ Q_OBJECT
 Q_DISABLE_COPY(CCheckBoxItemDelegate)
 
 public:
-    explicit CCheckBoxItemDelegate(QObject * parent = NULL);
+    explicit CCheckBoxItemDelegate(QObject * parent = Q_NULLPTR);
     virtual ~CCheckBoxItemDelegate();
 
     QWidget *createEditor(QWidget *parent, const QStyleOptionViewItem &option,

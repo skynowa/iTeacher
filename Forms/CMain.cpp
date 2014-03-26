@@ -81,8 +81,8 @@ CMain::CMain(
     _sTempDir      (),
     _trayIcon      (this),
     _snSqlNavigator(this),
-    _dbDatabase    (NULL),
-    _tmModel       (NULL)
+    _dbDatabase    (Q_NULLPTR),
+    _tmModel       (Q_NULLPTR)
 #if defined(Q_OS_UNIX) && 0
     // global hotkey
     ,
@@ -278,7 +278,7 @@ CMain::_initModel()
     {
         // tvInfo
         {
-            Q_ASSERT(_tmModel != NULL);
+            Q_ASSERT(_tmModel != Q_NULLPTR);
 
             ui.tvInfo->setModel(_tmModel);
             ui.tvInfo->viewport()->installEventFilter(this);
@@ -760,7 +760,7 @@ CMain::slot_OnPlayWordTranslation()
 void
 CMain::slot_OnSearch()
 {
-    qCHECK_DO(NULL == _tmModel, return);
+    qCHECK_DO(Q_NULLPTR == _tmModel, return);
 
     CWordFinder dlgWordFinder(this, _tmModel);
 
@@ -1015,7 +1015,7 @@ CMain::dbOpen(
 {
     // _dbDatabase
     {
-        Q_ASSERT(NULL == _dbDatabase);
+        Q_ASSERT(Q_NULLPTR == _dbDatabase);
         Q_ASSERT(true == QDir(_sDbDir).exists());
 
         bool bRv = QSqlDatabase::isDriverAvailable("QSQLITE");
@@ -1068,7 +1068,7 @@ CMain::dbOpen(
 
     // _tmModel
     {
-        Q_ASSERT(NULL == _tmModel);
+        Q_ASSERT(Q_NULLPTR == _tmModel);
 
         _tmModel = new QSqlTableModel(this, *_dbDatabase);
 
@@ -1118,7 +1118,7 @@ CMain::dbClose()
 
     // _dbDatabase
     {
-        if (NULL != _dbDatabase) {
+        if (Q_NULLPTR != _dbDatabase) {
             Q_ASSERT(true == _dbDatabase->isOpen());
 
             cQString csConnectionName = _dbDatabase->connectionName();
@@ -1164,7 +1164,7 @@ CMain::_googleSpeech(
         const QNetworkRequest cnrRequest(curUrl);
 
         QNetworkReply *nrReply = nmManager.get(cnrRequest);
-        Q_ASSERT(NULL != nrReply);
+        Q_ASSERT(Q_NULLPTR != nrReply);
 
         do {
             QCoreApplication::processEvents(QEventLoop::ExcludeUserInputEvents);
@@ -1182,7 +1182,7 @@ CMain::_googleSpeech(
         }
 
         nrReply->close();
-        delete nrReply; nrReply = NULL;
+        delete nrReply; nrReply = Q_NULLPTR;
     }
 
     // play audio file
@@ -1191,7 +1191,7 @@ CMain::_googleSpeech(
         Phonon::MediaObject *moPlayer = Phonon::createPlayer(
                                             Phonon::MusicCategory,
                                             Phonon::MediaSource(a_filePath));
-        Q_ASSERT(NULL != moPlayer);
+        Q_ASSERT(Q_NULLPTR != moPlayer);
 
         // for signal slot mechanism
         // connect(moPlayer, SIGNAL( finished() ),
@@ -1217,7 +1217,7 @@ CMain::_googleSpeech(
             QCoreApplication::processEvents(QEventLoop::ExcludeUserInputEvents);
         }
 
-        delete moPlayer;    moPlayer = NULL;
+        delete moPlayer;    moPlayer = Q_NULLPTR;
     #endif
     }
 }

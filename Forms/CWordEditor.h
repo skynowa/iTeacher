@@ -25,8 +25,7 @@ class CWordEditor :
         Ui::CWordEditor m_Ui;
 
                         CWordEditor(QWidget *parent, QSqlTableModel *tableModel,
-                            CSqlNavigator *sqlNavigator,
-                            cQString &newTerm = QString());
+                            CSqlNavigator *sqlNavigator, cQString &newTerm = QString());
         virtual        ~CWordEditor();
 
     private:

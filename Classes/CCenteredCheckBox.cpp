@@ -15,7 +15,7 @@ CCenteredCheckBox::CCenteredCheckBox(
     QWidget *a_parent
 ) :
     QWidget    (a_parent),
-    _m_checkBox(NULL)
+    _m_checkBox(Q_NULLPTR)
 {
     setContentsMargins(0, 0, 0, 0);
     setAutoFillBackground(true);

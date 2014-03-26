@@ -22,7 +22,7 @@ CWordFinder::CWordFinder(
     QDialog   (a_parent),
     _tmModel(a_tableModel)
 {
-    Q_ASSERT(NULL != _tmModel);
+    Q_ASSERT(Q_NULLPTR != _tmModel);
 
     _construct();
 }

@@ -20,7 +20,7 @@ namespace {
 }
 //-------------------------------------------------------------------------------------------------
 CCheckBoxItemDelegate::CCheckBoxItemDelegate(
-    QObject *a_parent /* = NULL */
+    QObject *a_parent /* = Q_NULLPTR */
 ) :
     QStyledItemDelegate(a_parent)
 {

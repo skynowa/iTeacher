@@ -17,9 +17,9 @@ class CCenteredCheckBox :
         Q_OBJECT
 
     public:
-        explicit   CCenteredCheckBox(QWidget *parent = 0);
+        explicit   CCenteredCheckBox(QWidget *parent = Q_NULLPTR);
 
-        QCheckBox *checkBox         () const;
+        QCheckBox *checkBox() const;
 
     private:
         QCheckBox *_m_checkBox;

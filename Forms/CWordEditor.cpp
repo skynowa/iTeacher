@@ -27,12 +27,12 @@ CWordEditor::CWordEditor(
     _snSqlNavigator(a_sqlNavigator),
     _ciCurrentRow  (a_sqlNavigator->view()->currentIndex().row()),
     _csNewTerm     (a_newTerm.trimmed()),
-    _sbInfo        (NULL),
+    _sbInfo        (Q_NULLPTR),
     _plInfoDefault ()
 {
-    Q_ASSERT(NULL != a_parent);
-    Q_ASSERT(NULL != a_tableModel);
-    Q_ASSERT(NULL != a_sqlNavigator);
+    Q_ASSERT(Q_NULLPTR != a_parent);
+    Q_ASSERT(Q_NULLPTR != a_tableModel);
+    Q_ASSERT(Q_NULLPTR != a_sqlNavigator);
     //// Q_ASSERT(- 1  <  _ciCurrentRow);
 
     _construct();

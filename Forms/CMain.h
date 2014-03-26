@@ -46,7 +46,7 @@ class CMain :
         Q_OBJECT
 
     public:
-                        CMain(QWidget *parent = 0, Qt::WindowFlags flags = 0);
+                        CMain(QWidget *parent = Q_NULLPTR, Qt::WindowFlags flags = 0);
         virtual        ~CMain();
 
     protected:
@@ -109,8 +109,7 @@ class CMain :
         void            slot_OnFaq();
         void            slot_OnAbout();
 
-        void            slot_cboDictPath_OnCurrentIndexChanged(
-                           const QString &arg);
+        void            slot_cboDictPath_OnCurrentIndexChanged(const QString &arg);
 
     private:
         void            cboDictPath_reload();
@@ -124,8 +123,7 @@ class CMain :
         void            dbClose();
 
         // audio
-        static void     _googleSpeech(cQString &text, cQString &lang,
-                            cQString &filePath);
+        static void     _googleSpeech(cQString &text, cQString &lang, cQString &filePath);
 
         // settings
         void            _settingsLoad();
