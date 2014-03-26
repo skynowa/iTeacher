@@ -22,7 +22,7 @@
 //-------------------------------------------------------------------------------------------------
 xNAMESPACE_ANONYM_BEGIN
 
-#if 1
+#if 0
 
 std::ctstring_t
 xlib_errorFormat
@@ -83,7 +83,7 @@ CMain::CMain(
     _snSqlNavigator(this),
     _dbDatabase    (NULL),
     _tmModel       (NULL)
-#if defined(Q_OS_UNIX)
+#if defined(Q_OS_UNIX) && 0
     // global hotkey
     ,
     _keyCode       (0),
@@ -92,7 +92,7 @@ CMain::CMain(
 {
     _construct();
 
-#if defined(Q_OS_UNIX)
+#if defined(Q_OS_UNIX) && 0
     qCApp->installEventFilter(this);
 
     // global hotkey
@@ -116,7 +116,7 @@ CMain::CMain(
 /*virtual*/
 CMain::~CMain()
 {
-#if defined(Q_OS_UNIX)
+#if defined(Q_OS_UNIX) && 0
     // global hotkey
     iRv = ::XUngrabKey(_display, _keyCode, ControlMask | ShiftMask, RootWindow(_display, 0));
     xTEST_DIFF(iRv, 0);
@@ -157,7 +157,7 @@ CMain::eventFilter(
         }
     }
 
-#if defined(Q_OS_UNIX)
+#if defined(Q_OS_UNIX) && 0
     // global hotkey
     if (a_event->type() == QEvent::KeyPress) {
         QKeyEvent *keyEvent = static_cast<QKeyEvent *>(a_event);

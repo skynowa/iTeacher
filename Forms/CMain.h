@@ -9,6 +9,8 @@
 //-------------------------------------------------------------------------------------------------
 #include "../Config.h"
 
+#if 0
+
 #include <X11/X.h>
 #include <X11/Xlib.h>
 #include <X11/keysym.h>
@@ -28,6 +30,8 @@
 #undef type
 #undef FontChange
 #undef Expose
+
+#endif
 
 #include <xLib/Core/xCore.h>
 #include "../QtLib/Common.h"
@@ -128,7 +132,7 @@ class CMain :
         void            _settingsSave();
 
         // global hotkey
-    #if defined(Q_OS_UNIX)
+    #if defined(Q_OS_UNIX) && 0
         int          iRv;
         int          _keyCode;
         Display     *_display;
