@@ -13,8 +13,8 @@
 class CCheckBoxItemDelegate :
     public QStyledItemDelegate
 {
-Q_OBJECT
-Q_DISABLE_COPY(CCheckBoxItemDelegate)
+    Q_OBJECT
+    Q_DISABLE_COPY(CCheckBoxItemDelegate)
 
 public:
     explicit CCheckBoxItemDelegate(QObject * parent = Q_NULLPTR);
@@ -23,12 +23,12 @@ public:
     QWidget *createEditor(QWidget *parent, const QStyleOptionViewItem &option,
                 const QModelIndex &index) const;
     void     setEditorData(QWidget *editor, const QModelIndex &index) const;
-    void     setModelData(QWidget *editor, QAbstractItemModel *model,
+    void     setModelData(QWidget *editor, QAbstractItemModel *model, const QModelIndex &index)
+                const;
+    void     updateEditorGeometry(QWidget *editor, const QStyleOptionViewItem &option,
                 const QModelIndex &index) const;
-    void     updateEditorGeometry(QWidget *editor,
-                const QStyleOptionViewItem &option, const QModelIndex &index) const;
-    void     paint(QPainter *painter, const QStyleOptionViewItem &option,
-                const QModelIndex &index) const;
+    void     paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index)
+                const;
 
 private Q_SLOTS:
     void     slot_OnToggled();
