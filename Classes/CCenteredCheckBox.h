@@ -22,7 +22,7 @@ class CCenteredCheckBox :
         QCheckBox *checkBox() const;
 
     private:
-        QCheckBox *_m_checkBox;
+        QCheckBox *_checkBox;
 };
 //-------------------------------------------------------------------------------------------------
 #endif // iTeacher_CCenteredCheckBox_H
