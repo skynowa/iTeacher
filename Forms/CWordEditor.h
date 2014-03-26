@@ -6,7 +6,7 @@
 
 #ifndef iTeacher_CWordEditorH
 #define iTeacher_CWordEditorH
-//---------------------------------------------------------------------------
+//-------------------------------------------------------------------------------------------------
 #include "ui_CWordEditor.h"
 
 #include <QStatusBar>
@@ -15,7 +15,7 @@
 #include "../QtLib/Common.h"
 
 #include "CMain.h"
-//---------------------------------------------------------------------------
+//-------------------------------------------------------------------------------------------------
 class CWordEditor :
     public QDialog
 {
@@ -55,5 +55,5 @@ class CWordEditor :
         void            slot_bbxButtons_OnClicked(QAbstractButton *button);
         void            slot_WordTermOrValue_OnTextChanged();
 };
-//---------------------------------------------------------------------------
+//-------------------------------------------------------------------------------------------------
 #endif // iTeacher_CWordEditorH

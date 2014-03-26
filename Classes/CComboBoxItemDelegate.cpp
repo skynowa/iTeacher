@@ -12,7 +12,7 @@
 #include <QDebug>
 
 
-//------------------------------------------------------------------------------
+//-------------------------------------------------------------------------------------------------
 CComboBoxItemDelegate::CComboBoxItemDelegate(
     QObject        *a_parent /* = NULL */,
     QSqlTableModel *a_sqlModel
@@ -21,11 +21,11 @@ CComboBoxItemDelegate::CComboBoxItemDelegate(
     _sqlModel          (a_sqlModel)
 {
 }
-//------------------------------------------------------------------------------
+//-------------------------------------------------------------------------------------------------
 CComboBoxItemDelegate::~CComboBoxItemDelegate()
 {
 }
-//------------------------------------------------------------------------------
+//-------------------------------------------------------------------------------------------------
 QWidget *
 CComboBoxItemDelegate::createEditor(
     QWidget                    *a_parent,
@@ -58,7 +58,7 @@ CComboBoxItemDelegate::createEditor(
 
     return comboBox;
 }
-//------------------------------------------------------------------------------
+//-------------------------------------------------------------------------------------------------
 void
 CComboBoxItemDelegate::setEditorData(
     QWidget           *a_editor,
@@ -77,7 +77,7 @@ CComboBoxItemDelegate::setEditorData(
         QStyledItemDelegate::setEditorData(a_editor, a_index);
     }
 }
-//------------------------------------------------------------------------------
+//-------------------------------------------------------------------------------------------------
 void
 CComboBoxItemDelegate::setModelData(
     QWidget            *a_editor,
@@ -92,7 +92,7 @@ CComboBoxItemDelegate::setModelData(
         QStyledItemDelegate::setModelData(a_editor, a_model, a_index);
     }
 }
-//------------------------------------------------------------------------------
+//-------------------------------------------------------------------------------------------------
 void
 CComboBoxItemDelegate::updateEditorGeometry(
     QWidget                    *a_editor,
@@ -110,7 +110,7 @@ CComboBoxItemDelegate::updateEditorGeometry(
     a_editor->setMinimumWidth(size.width());
     a_editor->setGeometry(a_option.rect);
 }
-//------------------------------------------------------------------------------
+//-------------------------------------------------------------------------------------------------
 void
 CComboBoxItemDelegate::paint(
     QPainter                   *a_painter,
@@ -125,4 +125,4 @@ CComboBoxItemDelegate::paint(
 
     QApplication::style()->drawControl(QStyle::CE_ItemViewItem, &myOption, a_painter);
 }
-//------------------------------------------------------------------------------
+//-------------------------------------------------------------------------------------------------

@@ -6,7 +6,7 @@
 
 #ifndef iTeacher_ConfigH
 #define iTeacher_ConfigH
-//------------------------------------------------------------------------------
+//-------------------------------------------------------------------------------------------------
 // main window
 #define APP_NAME                     "iTeacher"
 #define ORG_NAME                     ""
@@ -46,5 +46,5 @@
 #define TABLEVIEW_ROW_HEIGHT         20
 #define TRANSLATION_LANG_ENGLISH     "en"
 #define TRANSLATION_LANG_RUSSIAN     "ru"
-//------------------------------------------------------------------------------
+//-------------------------------------------------------------------------------------------------
 #endif // iTeacher_ConfigH

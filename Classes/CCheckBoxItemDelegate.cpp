@@ -14,22 +14,22 @@
 #include "CCenteredCheckBox.h"
 
 
-//------------------------------------------------------------------------------
+//-------------------------------------------------------------------------------------------------
 namespace {
     const bool defaultValue = false;
 }
-//------------------------------------------------------------------------------
+//-------------------------------------------------------------------------------------------------
 CCheckBoxItemDelegate::CCheckBoxItemDelegate(
     QObject *a_parent /* = NULL */
 ) :
     QStyledItemDelegate(a_parent)
 {
 }
-//------------------------------------------------------------------------------
+//-------------------------------------------------------------------------------------------------
 CCheckBoxItemDelegate::~CCheckBoxItemDelegate()
 {
 }
-//------------------------------------------------------------------------------
+//-------------------------------------------------------------------------------------------------
 QWidget *
 CCheckBoxItemDelegate::createEditor(
     QWidget                    *a_parent,
@@ -49,7 +49,7 @@ CCheckBoxItemDelegate::createEditor(
 
     return editor;
 }
-//------------------------------------------------------------------------------
+//-------------------------------------------------------------------------------------------------
 void
 CCheckBoxItemDelegate::setEditorData(
     QWidget           *a_editor,
@@ -69,7 +69,7 @@ CCheckBoxItemDelegate::setEditorData(
     CCenteredCheckBox *checkBoxWidget = static_cast<CCenteredCheckBox*>(a_editor);
     checkBoxWidget->checkBox()->setChecked(value);
 }
-//------------------------------------------------------------------------------
+//-------------------------------------------------------------------------------------------------
 void
 CCheckBoxItemDelegate::setModelData(
     QWidget            *a_editor,
@@ -82,7 +82,7 @@ CCheckBoxItemDelegate::setModelData(
 
     a_model->setData(a_index, value, Qt::EditRole);
 }
-//------------------------------------------------------------------------------
+//-------------------------------------------------------------------------------------------------
 void
 CCheckBoxItemDelegate::updateEditorGeometry(
     QWidget                    *a_editor,
@@ -100,7 +100,7 @@ CCheckBoxItemDelegate::updateEditorGeometry(
     a_editor->setMinimumWidth(size.width());
     a_editor->setGeometry(a_option.rect);
 }
-//------------------------------------------------------------------------------
+//-------------------------------------------------------------------------------------------------
 void
 CCheckBoxItemDelegate::paint(
     QPainter                   *a_painter,
@@ -135,10 +135,10 @@ CCheckBoxItemDelegate::paint(
         QStyledItemDelegate::paint(a_painter, a_option, a_index);
     }
 }
-//------------------------------------------------------------------------------
+//-------------------------------------------------------------------------------------------------
 void
 CCheckBoxItemDelegate::slot_OnToggled()
 {
     qDebug() << __FUNCTION__;
 }
-//------------------------------------------------------------------------------
+//-------------------------------------------------------------------------------------------------
