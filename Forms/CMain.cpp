@@ -20,9 +20,9 @@
 
 
 //-------------------------------------------------------------------------------------------------
-xNAMESPACE_ANONYM_BEGIN
-
 #if 0
+
+xNAMESPACE_ANONYM_BEGIN
 
 std::ctstring_t
 xlib_errorFormat
@@ -57,9 +57,9 @@ xlib_errorHandler(
     return 0;
 }
 
-#endif
-
 xNAMESPACE_ANONYM_END
+
+#endif
 //-------------------------------------------------------------------------------------------------
 
 

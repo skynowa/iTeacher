@@ -34,6 +34,6 @@ class CWordFinder :
 
     private Q_SLOTS:
         void            slot_bbxButtons_OnClicked(QAbstractButton *button);
-
+};
 //-------------------------------------------------------------------------------------------------
 #endif // iTeacher_CWordFinderH
