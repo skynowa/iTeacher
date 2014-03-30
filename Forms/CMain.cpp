@@ -13,6 +13,8 @@
 #include "../Forms/CWordEditor.h"
 #include "../Forms/CWordFinder.h"
 
+#include <QPrinter>
+
 #include <xLib/Core/CxConst.h>
 #include <xLib/Core/CxString.h>
 #include <xLib/Filesystem/CxPath.h>
