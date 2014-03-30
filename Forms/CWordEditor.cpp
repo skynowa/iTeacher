@@ -20,20 +20,20 @@ CWordEditor::CWordEditor(
     QWidget        *a_parent,
     QSqlTableModel *a_tableModel,
     CSqlNavigator  *a_sqlNavigator,
-    cQString        &a_newTerm /* = QString() */
+    cQString       &a_newTerm /* = QString() */
 ) :
-    QDialog        (a_parent),
-    _tmModel       (a_tableModel),
-    _snSqlNavigator(a_sqlNavigator),
-    _ciCurrentRow  (a_sqlNavigator->view()->currentIndex().row()),
-    _csNewTerm     (a_newTerm.trimmed()),
-    _sbInfo        (Q_NULLPTR),
-    _plInfoDefault ()
+    QDialog       (a_parent),
+    _model        (a_tableModel),
+    _sqlNavigator (a_sqlNavigator),
+    _currentRow   (a_sqlNavigator->view()->currentIndex().row()),
+    _termNew      (a_newTerm.trimmed()),
+    _sbInfo       (Q_NULLPTR),
+    _plInfoDefault()
 {
     qTEST_PTR(a_parent);
     qTEST_PTR(a_tableModel);
     qTEST_PTR(a_sqlNavigator);
-    //// qTEST(- 1  <  _ciCurrentRow);
+    //// qTEST(- 1  <  _currentRow);
 
     _construct();
 }
@@ -59,11 +59,11 @@ CWordEditor::_construct()
 
     // CMain
     {
-        QSqlRecord srRecord = _tmModel->record(_ciCurrentRow);
+        QSqlRecord record = _model->record(_currentRow);
 
         // term, value
-        m_Ui.tedtWordTerm->setText       ( srRecord.value(DB_F_MAIN_TERM).toString() );
-        m_Ui.tedtWordValue->setText      ( srRecord.value(DB_F_MAIN_VALUE).toString() );
+        m_Ui.tedtWordTerm->setText( record.value(DB_F_MAIN_TERM).toString() );
+        m_Ui.tedtWordValue->setText( record.value(DB_F_MAIN_VALUE).toString() );
 
         // tags
         {
@@ -76,13 +76,13 @@ CWordEditor::_construct()
                 m_Ui.cboTags->addItem( query.value(0).toString() );
             }
 
-            cint index = m_Ui.cboTags->findText( srRecord.value(DB_F_MAIN_TAG).toString() );
+            cint index = m_Ui.cboTags->findText( record.value(DB_F_MAIN_TAG).toString() );
             m_Ui.cboTags->setCurrentIndex(index);
         }
 
         // checkboxes
-        m_Ui.chkWordIsLearned->setChecked( srRecord.value(DB_F_MAIN_IS_LEARNED).toBool() );
-        m_Ui.chkWordIsMarked->setChecked ( srRecord.value(DB_F_MAIN_IS_MARKED).toBool() );
+        m_Ui.chkWordIsLearned->setChecked( record.value(DB_F_MAIN_IS_LEARNED).toBool() );
+        m_Ui.chkWordIsMarked->setChecked ( record.value(DB_F_MAIN_IS_MARKED).toBool() );
 
         // _sbInfo
         {
@@ -95,8 +95,8 @@ CWordEditor::_construct()
         }
 
         // check word term
-        if (!_csNewTerm.isEmpty()) {
-            m_Ui.tedtWordTerm->setText(_csNewTerm);
+        if (!_termNew.isEmpty()) {
+            m_Ui.tedtWordTerm->setText(_termNew);
             slot_termCheck();
             slot_termTranslate();
         }
@@ -152,7 +152,7 @@ CWordEditor::_resetAll()
 {
     m_Ui.tedtWordTerm->clear();
     m_Ui.tedtWordValue->clear();
-    m_Ui.cboTags->setCurrentText("");
+    m_Ui.cboTags->setCurrentText(tr(""));
     m_Ui.chkWordIsLearned->setChecked(false);
     m_Ui.chkWordIsMarked->setChecked(false);
 }
@@ -162,8 +162,8 @@ CWordEditor::_saveAll(
     QDialog::DialogCode *a_code
 )
 {
-    bool bRv         = false;
-    int  iCurrentRow = - 1;
+    bool bRv        = false;
+    int  currentRow = - 1;
 
     // normilize term, value
     {
@@ -182,41 +182,41 @@ CWordEditor::_saveAll(
         }
     }
 
-    if (_tmModel->rowCount() > 0) {
-        iCurrentRow = _ciCurrentRow;
+    if (_model->rowCount() > 0) {
+        currentRow = _currentRow;
     } else {
-        iCurrentRow = 0;
+        currentRow = 0;
 
-        bRv = _tmModel->insertRow(iCurrentRow);
-        qCHECK_PTR(bRv, _tmModel);
+        bRv = _model->insertRow(currentRow);
+        qCHECK_PTR(bRv, _model);
     }
 
-    QSqlRecord srRecord = _tmModel->record(iCurrentRow);
+    QSqlRecord record = _model->record(currentRow);
     {
-        srRecord.setValue(DB_F_MAIN_TERM,       m_Ui.tedtWordTerm->toPlainText());
-        srRecord.setValue(DB_F_MAIN_VALUE,      m_Ui.tedtWordValue->toPlainText());
-        srRecord.setValue(DB_F_MAIN_TAG,        m_Ui.cboTags->currentText() );
-        srRecord.setValue(DB_F_MAIN_IS_LEARNED, m_Ui.chkWordIsLearned->isChecked());
-        srRecord.setValue(DB_F_MAIN_IS_MARKED,  m_Ui.chkWordIsMarked->isChecked());
+        record.setValue(DB_F_MAIN_TERM,       m_Ui.tedtWordTerm->toPlainText());
+        record.setValue(DB_F_MAIN_VALUE,      m_Ui.tedtWordValue->toPlainText());
+        record.setValue(DB_F_MAIN_TAG,        m_Ui.cboTags->currentText() );
+        record.setValue(DB_F_MAIN_IS_LEARNED, m_Ui.chkWordIsLearned->isChecked());
+        record.setValue(DB_F_MAIN_IS_MARKED,  m_Ui.chkWordIsMarked->isChecked());
     }
 
-    bRv = _tmModel->setRecord(iCurrentRow, srRecord);
-    qCHECK_PTR(bRv, _tmModel);
+    bRv = _model->setRecord(currentRow, record);
+    qCHECK_PTR(bRv, _model);
 
-    bRv = _tmModel->submit();
+    bRv = _model->submit();
     if (!bRv) {
-        QString sMsg;
+        QString msg;
 
-        if (19 == _tmModel->lastError().number()) {
-            sMsg = QString(tr("Save fail: term is exists"));
+        if (19 == _model->lastError().number()) {
+            msg = QString(tr("Save fail: term is exists"));
         } else {
-            sMsg = QString(tr("Save fail: %1 - %2"))
-                                .arg(_tmModel->lastError().number())
-                                .arg(_tmModel->lastError().text());
+            msg = QString(tr("Save fail: %1 - %2"))
+                                .arg(_model->lastError().number())
+                                .arg(_model->lastError().text());
         }
 
-        QMessageBox::warning(this, qApp->applicationName(), sMsg);
-        _tmModel->revertAll();
+        QMessageBox::warning(this, qApp->applicationName(), msg);
+        _model->revertAll();
 
         *a_code = QDialog::Rejected;
     } else {
@@ -224,38 +224,37 @@ CWordEditor::_saveAll(
     }
 
     // set current index
-    _snSqlNavigator->goTo(iCurrentRow);
+    _sqlNavigator->goTo(currentRow);
 }
 //-------------------------------------------------------------------------------------------------
 void
 CWordEditor::_settingsLoad()
 {
-    QSize szSize;
-
+    QSize size;
     {
-        QSettings stSettings(CApplication::iniFilePath(), QSettings::IniFormat, this);
+        QSettings settings(CApplication::iniFilePath(), QSettings::IniFormat, this);
 
-        stSettings.beginGroup("word_editor");
-        szSize = stSettings.value("size", QSize(APP_WIDTH, APP_HEIGHT)).toSize();
-        stSettings.endGroup();
+        settings.beginGroup("word_editor");
+        size = settings.value("size", QSize(APP_WIDTH, APP_HEIGHT)).toSize();
+        settings.endGroup();
     }
 
     // apply settings
     {
         // main
-        resize(szSize);
+        resize(size);
     }
 }
 //-------------------------------------------------------------------------------------------------
 void
 CWordEditor::_settingsSave()
 {
-    QSettings stSettings(CApplication::iniFilePath(), QSettings::IniFormat, this);
+    QSettings settings(CApplication::iniFilePath(), QSettings::IniFormat, this);
 
     // main
-    stSettings.beginGroup("word_editor");
-    stSettings.setValue("size", size());
-    stSettings.endGroup();
+    settings.beginGroup("word_editor");
+    settings.setValue("size", size());
+    settings.endGroup();
 }
 //-------------------------------------------------------------------------------------------------
 bool
@@ -264,14 +263,14 @@ CWordEditor::_isTermExists(
 )
 {
     bool      bRv = false;
-    QSqlQuery qryQuery( _tmModel->database() );
+    QSqlQuery qryQuery( _model->database() );
 
-    cQString csSql =
+    cQString sql =
                 "SELECT COUNT(*) AS f_records_count "
                 "   FROM  " DB_T_MAIN " "
                 "   WHERE " DB_F_MAIN_TERM " LIKE '" + a_term.trimmed() + "';";
 
-    bRv = qryQuery.exec(csSql);
+    bRv = qryQuery.exec(sql);
     qCHECK_REF(bRv, qryQuery);
 
     bRv = qryQuery.next();
@@ -295,14 +294,14 @@ CWordEditor::slot_termTranslate()
 {
     m_Ui.tedtWordValue->clear();
 
-    qCHECK_DO(true == m_Ui.tedtWordTerm->toPlainText().isEmpty(), return);
+    qCHECK_DO(m_Ui.tedtWordTerm->toPlainText().isEmpty(), return);
 
-    cQString sTextFrom = m_Ui.tedtWordTerm->toPlainText().toUtf8();
-    cQString sLangFrom = QString("en").toUtf8();
-    cQString sLangTo   = QString("ru").toUtf8();
-    QString  sTextTo   = CUtils::googleTranslate(sTextFrom, sLangFrom, sLangTo);
+    cQString textFrom = m_Ui.tedtWordTerm->toPlainText().toUtf8();
+    cQString langFrom = QString("en").toUtf8();
+    cQString langTo   = QString("ru").toUtf8();
+    QString  textTo   = CUtils::googleTranslate(textFrom, langFrom, langTo);
 
-    m_Ui.tedtWordValue->setText(sTextTo);
+    m_Ui.tedtWordValue->setText(textTo);
 }
 //-------------------------------------------------------------------------------------------------
 bool
@@ -310,12 +309,12 @@ CWordEditor::slot_termCheck()
 {
     bool     bRv = false;
     QPalette plInfo;
-    QString  sMsg;
+    QString  msg;
 
     // is term empty
     bRv = m_Ui.tedtWordTerm->toPlainText().trimmed().isEmpty();
     if (bRv) {
-        sMsg = QString(tr("Termin is an empty"));
+        msg = QString(tr("Termin is an empty"));
 
         QPalette pallete = _sbInfo->palette();
         pallete.setColor(QPalette::WindowText, Qt::red);
@@ -323,7 +322,7 @@ CWordEditor::slot_termCheck()
         qSwap(plInfo, pallete);
 
         _sbInfo->setPalette(plInfo);
-        _sbInfo->showMessage(sMsg);
+        _sbInfo->showMessage(msg);
 
         return false;
     }
@@ -331,7 +330,7 @@ CWordEditor::slot_termCheck()
     // is term exists
     bRv = _isTermExists( m_Ui.tedtWordTerm->toPlainText() );
     if (bRv) {
-        sMsg = QString(tr("Termin '%1' already exists"))
+        msg = QString(tr("Termin '%1' already exists"))
                             .arg( m_Ui.tedtWordTerm->toPlainText() );
 
         QPalette pallete = _sbInfo->palette();
@@ -340,20 +339,20 @@ CWordEditor::slot_termCheck()
         qSwap(plInfo, pallete);
 
         _sbInfo->setPalette(plInfo);
-        _sbInfo->showMessage(sMsg);
+        _sbInfo->showMessage(msg);
 
         return false;
     }
 
     // ok, term is a new
     {
-        sMsg = QString(tr("Termin '%1' is a new"))
+        msg = QString(tr("Termin '%1' is a new"))
                             .arg( m_Ui.tedtWordTerm->toPlainText() );
 
         qSwap(plInfo, _plInfoDefault);
 
         _sbInfo->setPalette(plInfo);
-        _sbInfo->showMessage(sMsg);
+        _sbInfo->showMessage(msg);
     }
 
     return true;
@@ -370,7 +369,7 @@ CWordEditor::slot_bbxButtons_OnClicked(
     switch (type) {
         case QDialogButtonBox::Ok:
         case QDialogButtonBox::Apply:
-            // now use _tmModel->submitAll(), remove this check
+            // now use _model->submitAll(), remove this check
             qCHECK_DO(!slot_termCheck(), return);
             _saveAll(&code);
             if (QDialogButtonBox::Ok == type) {
@@ -397,9 +396,9 @@ CWordEditor::slot_WordTermOrValue_OnTextChanged()
     m_Ui.tedtWordTerm->document()->setModified(true);
     m_Ui.tedtWordValue->document()->setModified(true);
 
-    cbool cbFlag = m_Ui.tedtWordTerm->document()->isModified() ||
+    cbool flag = m_Ui.tedtWordTerm->document()->isModified() ||
                    m_Ui.tedtWordValue->document()->isModified();
 
-    setWindowModified(cbFlag);
+    setWindowModified(flag);
 }
 //-------------------------------------------------------------------------------------------------

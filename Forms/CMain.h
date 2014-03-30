@@ -56,13 +56,13 @@ protected:
 
 private:
     Ui::CMainClass  ui;
-    QString         _sAppName;
-    QString         _sAppDir;
-    QString         _sDbDir;
-    QString         _sDbBackupDir;
-    QString         _sTempDir;
+    QString         _appName;
+    QString         _appDir;
+    QString         _dbDir;
+    QString         _dbBackupDir;
+    QString         _tempDir;
     QSystemTrayIcon _trayIcon;
-    CSqlNavigator   _snSqlNavigator;
+    CSqlNavigator   _sqlNavigator;
 
     void            _construct();
     void            _destruct();
@@ -117,7 +117,7 @@ private:
 
     // DB
     QSqlDatabase   *_dbDatabase;
-    QSqlTableModel *_tmModel;
+    QSqlTableModel *_model;
 
     void            dbOpen(cQString &filePath);
     void            dbReopen(cQString &filePath);

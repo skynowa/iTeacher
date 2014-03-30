@@ -19,10 +19,10 @@ CWordFinder::CWordFinder(
     QWidget        *a_parent,
     QSqlTableModel *a_tableModel
 ) :
-    QDialog   (a_parent),
-    _tmModel(a_tableModel)
+    QDialog(a_parent),
+    _model (a_tableModel)
 {
-    qTEST_PTR(_tmModel);
+    qTEST_PTR(_model);
 
     _construct();
 }
@@ -88,8 +88,8 @@ CWordFinder::slot_bbxButtons_OnClicked(
     QAbstractButton *a_button
 )
 {
-    QDialogButtonBox::StandardButton sbType = m_Ui.bbxButtons->standardButton(a_button);
-    switch (sbType) {
+    QDialogButtonBox::StandardButton type = m_Ui.bbxButtons->standardButton(a_button);
+    switch (type) {
         case QDialogButtonBox::Reset:
             _resetAll();
             break;
@@ -134,66 +134,65 @@ CWordFinder::_saveAll()
 {
     CUtils::db_fields_t fields;
     {
-        fields.push_back( QPair<QString, QString>(DB_F_MAIN_TERM,  m_Ui.cboWordTerm->currentText())  );
+        fields.push_back( QPair<QString, QString>(DB_F_MAIN_TERM,  m_Ui.cboWordTerm->currentText()) );
         fields.push_back( QPair<QString, QString>(DB_F_MAIN_VALUE, m_Ui.cboWordValue->currentText()) );
         fields.push_back( QPair<QString, QString>(DB_F_MAIN_TAG,   m_Ui.cboTags->currentText()) );
     }
 
     QString sqlStrWhere;
     {
-        cQString csSeparator = "##";
+        cQString separator = "##";
 
-        bool bCond1 = m_Ui.chkWordNotLearned->isChecked();
-        bool bCond2 = m_Ui.chkWordNotMarked->isChecked();
-        bool bCond3 = m_Ui.chkWordLearned->isChecked();
-        bool bCond4 = m_Ui.chkWordMarked->isChecked();
+        bool cond1 = m_Ui.chkWordNotLearned->isChecked();
+        bool cond2 = m_Ui.chkWordNotMarked->isChecked();
+        bool cond3 = m_Ui.chkWordLearned->isChecked();
+        bool cond4 = m_Ui.chkWordMarked->isChecked();
 
-        QString sSql1;
-        if (bCond1) {
-            sSql1 = QString("%1=%2")
+        QString sql1;
+        if (cond1) {
+            sql1 = QString("%1=%2")
                         .arg(DB_F_MAIN_IS_LEARNED)
                         .arg(0);
-            sqlStrWhere += sSql1 + csSeparator;
+            sqlStrWhere += sql1 + separator;
         }
 
-        QString sSql2;
-        if (bCond2) {
-            sSql2 = QString("%1=%2")
+        QString sql2;
+        if (cond2) {
+            sql2 = QString("%1=%2")
                         .arg(DB_F_MAIN_IS_MARKED)
                         .arg(0);
-            sqlStrWhere += sSql2 + csSeparator;
+            sqlStrWhere += sql2 + separator;
         }
 
-        QString sSql3;
-        if (bCond3) {
-            sSql3 = QString("%1=%2")
+        QString sql3;
+        if (cond3) {
+            sql3 = QString("%1=%2")
                         .arg(DB_F_MAIN_IS_LEARNED)
                         .arg(1);
-            sqlStrWhere += sSql3 + csSeparator;
+            sqlStrWhere += sql3 + separator;
         }
 
-        QString sSql4;
-        if (bCond4) {
-            sSql4 = QString("%1=%2")
+        QString sql4;
+        if (cond4) {
+            sql4 = QString("%1=%2")
                         .arg(DB_F_MAIN_IS_MARKED)
                         .arg(1);
-            sqlStrWhere += sSql4 + csSeparator;
+            sqlStrWhere += sql4 + separator;
         }
 
-        // remove csSeparator from end
+        // remove separator from end
         {
-            if (csSeparator == sqlStrWhere.right( csSeparator.size() )) {
-                sqlStrWhere.truncate( sqlStrWhere.size() - csSeparator.size() );
+            if (separator == sqlStrWhere.right( separator.size() )) {
+                sqlStrWhere.truncate( sqlStrWhere.size() - separator.size() );
             }
         }
 
-        // replace csSeparator -> " OR "
+        // replace separator -> " OR "
         {
-            sqlStrWhere.replace(csSeparator, " OR ");
+            sqlStrWhere.replace(separator, " OR ");
         }
-
     }
 
-    CUtils::dbFilter(_tmModel, DB_T_MAIN, fields, "", sqlStrWhere, "");
+    CUtils::dbFilter(_model, DB_T_MAIN, fields, "", sqlStrWhere, "");
 }
 //-------------------------------------------------------------------------------------------------

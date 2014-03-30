@@ -25,7 +25,7 @@ public:
     virtual        ~CWordFinder();
 
 private:
-    QSqlTableModel *_tmModel;
+    QSqlTableModel *_model;
 
     void            _construct();
     void            _destruct();

@@ -30,10 +30,10 @@ public:
     virtual        ~CWordEditor();
 
 private:
-    QSqlTableModel *_tmModel;
-    CSqlNavigator  *_snSqlNavigator;
-    cint            _ciCurrentRow;
-    cQString        _csNewTerm;
+    QSqlTableModel *_model;
+    CSqlNavigator  *_sqlNavigator;
+    cint            _currentRow;
+    cQString        _termNew;
 
     QStatusBar     *_sbInfo;
     QPalette        _plInfoDefault;
