@@ -991,7 +991,7 @@ CMain::dbOpen(
 {
     // _dbDatabase
     {
-        qTEST_PTR(_dbDatabase);
+        qTEST(_dbDatabase == Q_NULLPTR);
         qTEST( QDir(_dbDir).exists() );
 
         bool bRv = QSqlDatabase::isDriverAvailable("QSQLITE");
@@ -1044,7 +1044,7 @@ CMain::dbOpen(
 
     // _model
     {
-        qTEST_PTR(_model);
+        qTEST(_model == Q_NULLPTR);
 
         _model = new QSqlTableModel(this, *_dbDatabase);
 
