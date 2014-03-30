@@ -1,8 +1,22 @@
 #!/usr/bin/env bash
 #
-# \file  rebuild_unix.sh
-# \brief full rebuild
+# \file  rebuild.sh
+# \brief rebuild project
 #
 
 
-make clean && qmake && make
+# vars
+
+echo "******************** Git ********************"
+git pull --rebase && git submodule foreach git pull
+echo ""
+
+echo "******************** xLib ********************"
+cd ./xLib/Build
+./makefile_gcc.sh
+cd ../..
+echo ""
+
+echo "******************** Project ********************"
+qmake && make clean && qmake && make
+echo ""
