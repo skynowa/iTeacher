@@ -14,15 +14,16 @@ class QCheckBox;
 class CCenteredCheckBox :
     public QWidget
 {
-        Q_OBJECT
+    Q_OBJECT
+    Q_DISABLE_COPY(CCenteredCheckBox)
 
-    public:
-        explicit   CCenteredCheckBox(QWidget *parent = Q_NULLPTR);
+public:
+    explicit   CCenteredCheckBox(QWidget *parent = Q_NULLPTR);
 
-        QCheckBox *checkBox() const;
+    QCheckBox *checkBox() const;
 
-    private:
-        QCheckBox *_checkBox;
+private:
+    QCheckBox *_checkBox;
 };
 //-------------------------------------------------------------------------------------------------
 #endif // iTeacher_CCenteredCheckBox_H

@@ -43,101 +43,102 @@
 class CMain :
     public QMainWindow
 {
-        Q_OBJECT
+    Q_OBJECT
+    Q_DISABLE_COPY(CMain)
 
-    public:
-                        CMain(QWidget *parent = Q_NULLPTR, Qt::WindowFlags flags = 0);
-        virtual        ~CMain();
+public:
+                    CMain(QWidget *parent = Q_NULLPTR, Qt::WindowFlags flags = 0);
+    virtual        ~CMain();
 
-    protected:
-        virtual bool    eventFilter(QObject *object, QEvent *event);
-        virtual void    keyPressEvent(QKeyEvent *event);
+protected:
+    virtual bool    eventFilter(QObject *object, QEvent *event);
+    virtual void    keyPressEvent(QKeyEvent *event);
 
-    private:
-        Ui::CMainClass  ui;
-        QString         _sAppName;
-        QString         _sAppDir;
-        QString         _sDbDir;
-        QString         _sDbBackupDir;
-        QString         _sTempDir;
-        QSystemTrayIcon _trayIcon;
-        CSqlNavigator   _snSqlNavigator;
+private:
+    Ui::CMainClass  ui;
+    QString         _sAppName;
+    QString         _sAppDir;
+    QString         _sDbDir;
+    QString         _sDbBackupDir;
+    QString         _sTempDir;
+    QSystemTrayIcon _trayIcon;
+    CSqlNavigator   _snSqlNavigator;
 
-        void            _construct();
-        void            _destruct();
-        void            _initMain();
-        void            _initModel();
-        void            _initActions();
+    void            _construct();
+    void            _destruct();
+    void            _initMain();
+    void            _initModel();
+    void            _initActions();
 
-    private Q_SLOTS:
-        // group "File"
-        void            slot_OnCreateDb();
-        void            slot_OnImportCsv();
-        void            slot_OnImportClipboard();
-        void            slot_OnExportCsv();
-        void            slot_OnExportPdf();
-        void            slot_OnExit();
+private Q_SLOTS:
+    // group "File"
+    void            slot_OnCreateDb();
+    void            slot_OnImportCsv();
+    void            slot_OnImportClipboard();
+    void            slot_OnExportCsv();
+    void            slot_OnExportPdf();
+    void            slot_OnExit();
 
-        // group "Edit"
-        void            slot_OnFirst();
-        void            slot_OnPrior();
-        void            slot_OnNext();
-        void            slot_OnLast();
-        void            slot_OnTo();
-        void            slot_OnInsert();
-        void            slot_OnRemove();
-        void            slot_OnEdit();
+    // group "Edit"
+    void            slot_OnFirst();
+    void            slot_OnPrior();
+    void            slot_OnNext();
+    void            slot_OnLast();
+    void            slot_OnTo();
+    void            slot_OnInsert();
+    void            slot_OnRemove();
+    void            slot_OnEdit();
 
-        // group "Audio"
-        void            slot_OnPlayWord();
-        void            slot_OnPlayTranslation();
-        void            slot_OnPlayWordTranslation();
+    // group "Audio"
+    void            slot_OnPlayWord();
+    void            slot_OnPlayTranslation();
+    void            slot_OnPlayWordTranslation();
 
-        // group "Find"
-        void            slot_OnSearch();
+    // group "Find"
+    void            slot_OnSearch();
 
-        // group "View"
-        void            slot_OnZoomIn();
-        void            slot_OnZoomOut();
-        void            slot_OnZoomDefault();
+    // group "View"
+    void            slot_OnZoomIn();
+    void            slot_OnZoomOut();
+    void            slot_OnZoomDefault();
 
 
-        // group "Options"
-        void            slot_OnSettings();
+    // group "Options"
+    void            slot_OnSettings();
 
-        // group "Help"
-        void            slot_OnFaq();
-        void            slot_OnAbout();
+    // group "Help"
+    void            slot_OnFaq();
+    void            slot_OnAbout();
 
-        void            slot_cboDictPath_OnCurrentIndexChanged(const QString &arg);
+    void            slot_cboDictPath_OnCurrentIndexChanged(const QString &arg);
 
-    private:
-        void            cboDictPath_reload();
+private:
+    void            cboDictPath_reload();
 
-        // DB
-        QSqlDatabase   *_dbDatabase;
-        QSqlTableModel *_tmModel;
+    // DB
+    QSqlDatabase   *_dbDatabase;
+    QSqlTableModel *_tmModel;
 
-        void            dbOpen(cQString &filePath);
-        void            dbReopen(cQString &filePath);
-        void            dbClose();
+    void            dbOpen(cQString &filePath);
+    void            dbReopen(cQString &filePath);
+    void            dbClose();
 
-        // audio
-        static void     _googleSpeech(cQString &text, cQString &lang, cQString &filePath);
+    // audio
+    static void     _googleSpeech(cQString &text, cQString &lang, cQString &filePath);
 
-        // settings
-        void            _settingsLoad();
-        void            _settingsSave();
+    // settings
+    void            _settingsLoad();
+    void            _settingsSave();
 
-        // global hotkey
-    #if defined(Q_OS_UNIX) && 0
-        int          iRv;
-        int          _keyCode;
-        Display     *_display;
-    #endif
+    // global hotkey
+#if defined(Q_OS_UNIX) && 0
+    int          iRv;
+    int          _keyCode;
+    Display     *_display;
+#endif
 
-        // utils
-        QString         _exportfileNameBuild(cQString &fileExt);
+    // utils
+    QString         _exportfileNameBuild(cQString &fileExt);
 };
 //-------------------------------------------------------------------------------------------------
 #endif // iTeacher_CMainH

@@ -15,25 +15,26 @@
 class CWordFinder :
     public QDialog
 {
-        Q_OBJECT
+    Q_OBJECT
+    Q_DISABLE_COPY(CWordFinder)
 
-    public:
-        Ui::CWordFinder m_Ui;
+public:
+    Ui::CWordFinder m_Ui;
 
-                        CWordFinder(QWidget *parent, QSqlTableModel *tableModel);
-        virtual        ~CWordFinder();
+                    CWordFinder(QWidget *parent, QSqlTableModel *tableModel);
+    virtual        ~CWordFinder();
 
-    private:
-        QSqlTableModel *_tmModel;
+private:
+    QSqlTableModel *_tmModel;
 
-        void            _construct();
-        void            _destruct();
+    void            _construct();
+    void            _destruct();
 
-        void            _resetAll();
-        void            _saveAll();
+    void            _resetAll();
+    void            _saveAll();
 
-    private Q_SLOTS:
-        void            slot_bbxButtons_OnClicked(QAbstractButton *button);
+private Q_SLOTS:
+    void            slot_bbxButtons_OnClicked(QAbstractButton *button);
 };
 //-------------------------------------------------------------------------------------------------
 #endif // iTeacher_CWordFinderH

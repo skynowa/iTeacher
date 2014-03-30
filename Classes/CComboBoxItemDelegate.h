@@ -14,8 +14,8 @@
 class CComboBoxItemDelegate :
     public QStyledItemDelegate
 {
-        Q_OBJECT
-        Q_DISABLE_COPY(CComboBoxItemDelegate)
+    Q_OBJECT
+    Q_DISABLE_COPY(CComboBoxItemDelegate)
 
 public:
     explicit CComboBoxItemDelegate(QObject * parent, QSqlTableModel *sqlModel);
