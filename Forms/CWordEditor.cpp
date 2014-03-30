@@ -30,10 +30,10 @@ CWordEditor::CWordEditor(
     _sbInfo        (Q_NULLPTR),
     _plInfoDefault ()
 {
-    Q_ASSERT(Q_NULLPTR != a_parent);
-    Q_ASSERT(Q_NULLPTR != a_tableModel);
-    Q_ASSERT(Q_NULLPTR != a_sqlNavigator);
-    //// Q_ASSERT(- 1  <  _ciCurrentRow);
+    qTEST_PTR(a_parent);
+    qTEST_PTR(a_tableModel);
+    qTEST_PTR(a_sqlNavigator);
+    //// qTEST(- 1  <  _ciCurrentRow);
 
     _construct();
 }
@@ -384,7 +384,7 @@ CWordEditor::slot_bbxButtons_OnClicked(
             close();
             break;
         default:
-            Q_ASSERT(false);
+            qTEST(false);
             break;
     }
 

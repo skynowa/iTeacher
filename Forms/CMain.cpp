@@ -278,7 +278,7 @@ CMain::_initModel()
     {
         // tvInfo
         {
-            Q_ASSERT(_tmModel != Q_NULLPTR);
+            qTEST_PTR(_tmModel);
 
             ui.tvInfo->setModel(_tmModel);
             ui.tvInfo->viewport()->installEventFilter(this);
@@ -1015,8 +1015,8 @@ CMain::dbOpen(
 {
     // _dbDatabase
     {
-        Q_ASSERT(Q_NULLPTR == _dbDatabase);
-        Q_ASSERT(true == QDir(_sDbDir).exists());
+        qTEST(_dbDatabase == Q_NULLPTR);
+        qTEST( QDir(_sDbDir).exists() );
 
         bool bRv = QSqlDatabase::isDriverAvailable("QSQLITE");
         qCHECK_DO(false == bRv, qMSG(QSqlDatabase().lastError().text()); return);
@@ -1068,7 +1068,7 @@ CMain::dbOpen(
 
     // _tmModel
     {
-        Q_ASSERT(Q_NULLPTR == _tmModel);
+        qTEST(_tmModel == Q_NULLPTR);
 
         _tmModel = new QSqlTableModel(this, *_dbDatabase);
 
@@ -1119,12 +1119,12 @@ CMain::dbClose()
     // _dbDatabase
     {
         if (Q_NULLPTR != _dbDatabase) {
-            Q_ASSERT(true == _dbDatabase->isOpen());
+            qTEST(_dbDatabase->isOpen());
 
             cQString csConnectionName = _dbDatabase->connectionName();
 
             _dbDatabase->close();
-            Q_ASSERT(false == _dbDatabase->isOpen());
+            qTEST(!_dbDatabase->isOpen());
 
             qPTR_DELETE(_dbDatabase);
 
@@ -1164,7 +1164,7 @@ CMain::_googleSpeech(
         const QNetworkRequest cnrRequest(curUrl);
 
         QNetworkReply *nrReply = nmManager.get(cnrRequest);
-        Q_ASSERT(Q_NULLPTR != nrReply);
+        qTEST_PTR(nrReply);
 
         do {
             QCoreApplication::processEvents(QEventLoop::ExcludeUserInputEvents);
@@ -1176,7 +1176,7 @@ CMain::_googleSpeech(
             QFile file(a_filePath);
 
             bool bRv = file.open(QIODevice::WriteOnly);
-            Q_ASSERT(bRv);
+            qTEST(bRv);
 
             file.write(nrReply->readAll());
         }
@@ -1191,7 +1191,7 @@ CMain::_googleSpeech(
         Phonon::MediaObject *moPlayer = Phonon::createPlayer(
                                             Phonon::MusicCategory,
                                             Phonon::MediaSource(a_filePath));
-        Q_ASSERT(Q_NULLPTR != moPlayer);
+        qTEST_PTR(moPlayer);
 
         // for signal slot mechanism
         // connect(moPlayer, SIGNAL( finished() ),
@@ -1207,7 +1207,7 @@ CMain::_googleSpeech(
             {
                 bRv = true;
             } else {
-                Q_ASSERT(Phonon::PausedState == stState || Phonon::StoppedState == stState);
+                qTEST(Phonon::PausedState == stState || Phonon::StoppedState == stState);
 
                 bRv = false;
             }

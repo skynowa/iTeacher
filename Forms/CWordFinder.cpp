@@ -22,7 +22,7 @@ CWordFinder::CWordFinder(
     QDialog   (a_parent),
     _tmModel(a_tableModel)
 {
-    Q_ASSERT(Q_NULLPTR != _tmModel);
+    qTEST_PTR(_tmModel);
 
     _construct();
 }
@@ -104,7 +104,7 @@ CWordFinder::slot_bbxButtons_OnClicked(
             _saveAll();
             break;
         default:
-            Q_ASSERT(false);
+            qTEST(false);
             break;
     }
 }
