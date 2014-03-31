@@ -8,7 +8,7 @@
 
 TARGET              = iTeacher
 TEMPLATE            = app
-QT                  = core gui widgets sql network xml printsupport
+QT                  = core gui widgets sql network xml printsupport multimedia
 CONFIG             += debug warn_on
 
 win32 {

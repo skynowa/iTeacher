@@ -14,6 +14,7 @@
 #include "../Forms/CWordFinder.h"
 
 #include <QPrinter>
+#include <QMediaPlayer>
 
 #include <xLib/Core/CxConst.h>
 #include <xLib/Core/CxString.h>
@@ -1196,6 +1197,14 @@ CMain::_googleSpeech(
         }
 
         qPTR_DELETE(player);
+    #else
+        QMediaPlayer player;
+        qCHECK_DO(!player.isAudioAvailable(),
+            qDebug() << "QMediaPlayer: audio is not available"; return);
+
+        player.setMedia(QUrl::fromLocalFile(a_filePath));
+        player.setVolume(35);
+        player.play();
     #endif
     }
 }
