@@ -283,12 +283,12 @@ CMain::_initModel()
             ui.tvInfo->viewport()->installEventFilter(this);
 
             ui.tvInfo->hideColumn(0); // don't show the DB_F_MAIN_ID
-            ui.tvInfo->setColumnWidth(0, 40);
-            ui.tvInfo->setColumnWidth(1, 120);
-            ui.tvInfo->setColumnWidth(2, 400);
-            ui.tvInfo->setColumnWidth(3, 60);
-            ui.tvInfo->setColumnWidth(4, 60);
-            ui.tvInfo->setColumnWidth(5, 80);
+            ui.tvInfo->setColumnWidth(0, TABLEVIEW_COLUMN_WIDTH_0);
+            ui.tvInfo->setColumnWidth(1, TABLEVIEW_COLUMN_WIDTH_1);
+            ui.tvInfo->setColumnWidth(2, TABLEVIEW_COLUMN_WIDTH_2);
+            ui.tvInfo->setColumnWidth(3, TABLEVIEW_COLUMN_WIDTH_3);
+            ui.tvInfo->setColumnWidth(4, TABLEVIEW_COLUMN_WIDTH_4);
+            ui.tvInfo->setColumnWidth(5, TABLEVIEW_COLUMN_WIDTH_5);
 
             ui.tvInfo->verticalHeader()->setVisible(true);
             ui.tvInfo->verticalHeader()->setDefaultSectionSize(TABLEVIEW_ROW_HEIGHT);

@@ -9,6 +9,7 @@
 //-------------------------------------------------------------------------------------------------
 // main window
 #define APP_NAME                     "iTeacher"
+#define APP_GUID                     APP_NAME"_simple_guid"
 #define ORG_NAME                     ""
 #define APP_COMMENT                  "learning english (or other) words"
 #define APP_WINDOW_CLASS             "QTool"
@@ -16,6 +17,16 @@
 #define APP_HEIGHT                   600
 #define APP_FONT_SIZE_DEFAULT        9
 #define DB_FILE_NAME__NEW            "db_new.db"
+
+// table view
+#define TABLEVIEW_ROW_HEIGHT         20
+
+#define TABLEVIEW_COLUMN_WIDTH_0     100
+#define TABLEVIEW_COLUMN_WIDTH_1     120
+#define TABLEVIEW_COLUMN_WIDTH_2     400
+#define TABLEVIEW_COLUMN_WIDTH_3     70
+#define TABLEVIEW_COLUMN_WIDTH_4     70
+#define TABLEVIEW_COLUMN_WIDTH_5     100
 
 // DB tables, fields
 #define DB_T_MAIN                    "t_main"
@@ -39,11 +50,9 @@
 
 // etc
 #define DB_DIR_NAME                  "Db"
+#define DB_FILE_EXT                  ".db"
 #define BACKUP_DIR_NAME              "Backup"
 #define TEMP_DIR_NAME                "Temp"
-#define DB_FILE_EXT                  ".db"
-#define APP_GUID                     APP_NAME"_simple_guid"
-#define TABLEVIEW_ROW_HEIGHT         20
 #define TRANSLATION_LANG_ENGLISH     "en"
 #define TRANSLATION_LANG_RUSSIAN     "ru"
 //-------------------------------------------------------------------------------------------------
