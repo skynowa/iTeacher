@@ -224,7 +224,6 @@ CMain::_initMain()
 {
     ui.setupUi(this);
 
-    //--------------------------------------------------
     // data
     {
         _appName     = QCoreApplication::applicationName();;
@@ -238,7 +237,6 @@ CMain::_initMain()
         QDir().mkpath(_tempDir);
     }
 
-    //--------------------------------------------------
     // CMain
     {
         setWindowIcon(QIcon(RES_MAIN_ICON));
@@ -260,7 +258,6 @@ CMain::_initMain()
 void
 CMain::_initModel()
 {
-    //--------------------------------------------------
     // open DB
     {
         if (ui.cboDictPath->currentText().isEmpty()) {
@@ -276,7 +273,6 @@ CMain::_initModel()
         }
     }
 
-    //--------------------------------------------------
     // _model, tvInfo
     {
         // tvInfo
@@ -314,7 +310,6 @@ CMain::_initModel()
         }
     }
 
-    //--------------------------------------------------
     // slots
     {
         connect(ui.tvInfo,      SIGNAL( doubleClicked(const QModelIndex &) ),
@@ -324,14 +319,12 @@ CMain::_initModel()
                 this,           SLOT  ( slot_cboDictPath_OnCurrentIndexChanged(const QString &) ));
     }
 
-    //--------------------------------------------------
     // fire cboDictPath
     {
         ui.cboDictPath->setCurrentIndex(- 1);
         ui.cboDictPath->setCurrentIndex(0);
     }
 
-    //--------------------------------------------------
     // _sqlNavigator
     {
         _sqlNavigator.construct(_model, ui.tvInfo);
