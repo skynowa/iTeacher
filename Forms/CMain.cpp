@@ -760,21 +760,19 @@ CMain::slot_OnZoomIn()
 {
     // table font
     {
-        int sizeOld = ui.tvInfo->font().pointSize();
-        ++ sizeOld;
+        cint sizeNew = ui.tvInfo->font().pointSize() + 1;
 
         QFont font = ui.tvInfo->font();
-        font.setPointSize(sizeOld);
+        font.setPointSize(sizeNew);
 
         ui.tvInfo->setFont(font);
     }
 
     // table row height
     {
-        int sizeOld = ui.tvInfo->verticalHeader()->defaultSectionSize();
-        ++ sizeOld;
+        cint sizeNew = ui.tvInfo->verticalHeader()->defaultSectionSize() + 1;
 
-        ui.tvInfo->verticalHeader()->setDefaultSectionSize(sizeOld);
+        ui.tvInfo->verticalHeader()->setDefaultSectionSize(sizeNew);
     }
 }
 //-------------------------------------------------------------------------------------------------
@@ -783,12 +781,12 @@ CMain::slot_OnZoomOut()
 {
     // table font
     {
-        int sizeOld = ui.tvInfo->font().pointSize();
-        if (sizeOld > APP_FONT_SIZE_DEFAULT) {
-            -- sizeOld;
+        int sizeNew = ui.tvInfo->font().pointSize();
+        if (sizeNew > APP_FONT_SIZE_DEFAULT) {
+            -- sizeNew;
 
             QFont font = ui.tvInfo->font();
-            font.setPointSize(sizeOld);
+            font.setPointSize(sizeNew);
 
             ui.tvInfo->setFont(font);
         }
@@ -796,11 +794,11 @@ CMain::slot_OnZoomOut()
 
     // table row height
     {
-        int sizeOld = ui.tvInfo->verticalHeader()->defaultSectionSize();
-        if (sizeOld > TABLEVIEW_ROW_HEIGHT) {
-            -- sizeOld;
+        int sizeNew = ui.tvInfo->verticalHeader()->defaultSectionSize();
+        if (sizeNew > TABLEVIEW_ROW_HEIGHT) {
+            -- sizeNew;
 
-            ui.tvInfo->verticalHeader()->setDefaultSectionSize(sizeOld);
+            ui.tvInfo->verticalHeader()->setDefaultSectionSize(sizeNew);
         }
     }
 }
@@ -822,6 +820,7 @@ CMain::slot_OnZoomDefault()
     }
 }
 //-------------------------------------------------------------------------------------------------
+
 
 /**************************************************************************************************
 *   group "Options"
