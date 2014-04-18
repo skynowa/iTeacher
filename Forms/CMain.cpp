@@ -273,41 +273,41 @@ CMain::_initModel()
         }
     }
 
-    // _model, tvInfo
+    // _model
     {
-        // tvInfo
-        {
-            qTEST_PTR(_model);
+        qTEST_PTR(_model);
+    }
 
-            ui.tvInfo->setModel(_model);
-            ui.tvInfo->viewport()->installEventFilter(this);
+    // tvInfo
+    {
+        ui.tvInfo->setModel(_model);
+        ui.tvInfo->viewport()->installEventFilter(this);
 
-            ui.tvInfo->hideColumn(0); // don't show the DB_F_MAIN_ID
-            ui.tvInfo->setColumnWidth(0, TABLEVIEW_COLUMN_WIDTH_0);
-            ui.tvInfo->setColumnWidth(1, TABLEVIEW_COLUMN_WIDTH_1);
-            ui.tvInfo->setColumnWidth(2, TABLEVIEW_COLUMN_WIDTH_2);
-            ui.tvInfo->setColumnWidth(3, TABLEVIEW_COLUMN_WIDTH_3);
-            ui.tvInfo->setColumnWidth(4, TABLEVIEW_COLUMN_WIDTH_4);
-            ui.tvInfo->setColumnWidth(5, TABLEVIEW_COLUMN_WIDTH_5);
+        ui.tvInfo->hideColumn(0); // don't show the DB_F_MAIN_ID
+        ui.tvInfo->setColumnWidth(0, TABLEVIEW_COLUMN_WIDTH_0);
+        ui.tvInfo->setColumnWidth(1, TABLEVIEW_COLUMN_WIDTH_1);
+        ui.tvInfo->setColumnWidth(2, TABLEVIEW_COLUMN_WIDTH_2);
+        ui.tvInfo->setColumnWidth(3, TABLEVIEW_COLUMN_WIDTH_3);
+        ui.tvInfo->setColumnWidth(4, TABLEVIEW_COLUMN_WIDTH_4);
+        ui.tvInfo->setColumnWidth(5, TABLEVIEW_COLUMN_WIDTH_5);
 
-            ui.tvInfo->verticalHeader()->setVisible(true);
-            ui.tvInfo->verticalHeader()->setDefaultSectionSize(TABLEVIEW_ROW_HEIGHT);
+        ui.tvInfo->verticalHeader()->setVisible(true);
+        ui.tvInfo->verticalHeader()->setDefaultSectionSize(TABLEVIEW_ROW_HEIGHT);
 
-            ui.tvInfo->setEditTriggers(QAbstractItemView::NoEditTriggers);
-            ui.tvInfo->setSelectionBehavior(QAbstractItemView::SelectRows);
-            ui.tvInfo->setSelectionMode(QAbstractItemView::ExtendedSelection);
-            ui.tvInfo->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
-            ui.tvInfo->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
-            ui.tvInfo->setAlternatingRowColors(true);
-            ui.tvInfo->setStyleSheet("alternate-background-color: white; background-color: gray;");
-            ui.tvInfo->setSortingEnabled(true);
-            ui.tvInfo->sortByColumn(0, Qt::AscendingOrder);
-            ui.tvInfo->setItemDelegateForColumn(3, new CCheckBoxItemDelegate(ui.tvInfo));
-            ui.tvInfo->setItemDelegateForColumn(4, new CCheckBoxItemDelegate(ui.tvInfo));
-            // ui.tvInfo->setItemDelegateForColumn(5, new CComboBoxItemDelegate(ui.tvInfo, _model));
+        ui.tvInfo->setEditTriggers(QAbstractItemView::NoEditTriggers);
+        ui.tvInfo->setSelectionBehavior(QAbstractItemView::SelectRows);
+        ui.tvInfo->setSelectionMode(QAbstractItemView::ExtendedSelection);
+        ui.tvInfo->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
+        ui.tvInfo->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
+        ui.tvInfo->setAlternatingRowColors(true);
+        ui.tvInfo->setStyleSheet("alternate-background-color: white; background-color: gray;");
+        ui.tvInfo->setSortingEnabled(true);
+        ui.tvInfo->sortByColumn(0, Qt::AscendingOrder);
+        ui.tvInfo->setItemDelegateForColumn(3, new CCheckBoxItemDelegate(ui.tvInfo));
+        ui.tvInfo->setItemDelegateForColumn(4, new CCheckBoxItemDelegate(ui.tvInfo));
+        // ui.tvInfo->setItemDelegateForColumn(5, new CComboBoxItemDelegate(ui.tvInfo, _model));
 
-            ui.tvInfo->show();
-        }
+        ui.tvInfo->show();
     }
 
     // slots
