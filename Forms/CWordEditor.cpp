@@ -232,7 +232,7 @@ CWordEditor::_settingsLoad()
 {
     QSize size;
     {
-        QSettings settings(CApplication::iniFilePath(), QSettings::IniFormat, this);
+        QSettings settings(CApplication::configFilePath(), QSettings::IniFormat, this);
 
         settings.beginGroup("word_editor");
         size = settings.value("size", QSize(APP_WIDTH, APP_HEIGHT)).toSize();
@@ -249,7 +249,7 @@ CWordEditor::_settingsLoad()
 void
 CWordEditor::_settingsSave()
 {
-    QSettings settings(CApplication::iniFilePath(), QSettings::IniFormat, this);
+    QSettings settings(CApplication::configFilePath(), QSettings::IniFormat, this);
 
     // main
     settings.beginGroup("word_editor");

@@ -1218,7 +1218,7 @@ CMain::_settingsLoad()
     int    tableCurrentRow = 0;
 
     {
-        QSettings settings(CApplication::iniFilePath(), QSettings::IniFormat, this);
+        QSettings settings(CApplication::configFilePath(), QSettings::IniFormat, this);
 
         settings.beginGroup("main");
         size           = settings.value("size",        QSize(APP_WIDTH, APP_HEIGHT)).toSize();
@@ -1246,7 +1246,7 @@ CMain::_settingsLoad()
 void
 CMain::_settingsSave()
 {
-    QSettings settings(CApplication::iniFilePath(), QSettings::IniFormat, this);
+    QSettings settings(CApplication::configFilePath(), QSettings::IniFormat, this);
 
     // main
     settings.beginGroup("main");
