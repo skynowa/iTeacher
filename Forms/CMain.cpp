@@ -541,7 +541,7 @@ CMain::slot_OnExportCsv()
 
     // report
     {
-        cQString msg = QString(tr("File: %1\nExport PDF finished."))
+        cQString msg = QString(tr("File: %1\nExport CSV finished."))
                             .arg(filePath);
 
         QMessageBox::information(this, qApp->applicationName(), msg);
