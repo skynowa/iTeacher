@@ -239,7 +239,7 @@ CMain::_initMain()
 
     // CMain
     {
-        setWindowIcon(QIcon(RES_MAIN_ICON));
+        setWindowIcon( QIcon(RES_MAIN_ICON) );
         setWindowTitle(APP_NAME);
         setGeometry(0, 0, APP_WIDTH, APP_HEIGHT);
         CUtils::widgetAlignCenter(this);
@@ -250,7 +250,7 @@ CMain::_initMain()
     {
         qDebug() << qDEBUG_VAR(QSystemTrayIcon::isSystemTrayAvailable());
 
-        _trayIcon.setIcon(windowIcon());
+        _trayIcon.setIcon( QIcon(RES_MAIN_ICON) );
         _trayIcon.setVisible(true);
     }
 }
