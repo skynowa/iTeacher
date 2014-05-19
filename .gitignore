@@ -17,4 +17,6 @@ todo.txt
 Makefile*
 *.pdb
 android-libiTeacher.so-deployment-settings.json
+app_process
+libc.so
 
