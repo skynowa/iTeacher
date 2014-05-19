@@ -16,10 +16,12 @@
 #include <QPrinter>
 #include <QMediaPlayer>
 
-#include <xLib/Core/CxConst.h>
-#include <xLib/Core/CxString.h>
-#include <xLib/Filesystem/CxPath.h>
-#include <xLib/Filesystem/CxFinder.h>
+#if HAVE_XLIB
+    #include <xLib/Core/CxConst.h>
+    #include <xLib/Core/CxString.h>
+    #include <xLib/Filesystem/CxPath.h>
+    #include <xLib/Filesystem/CxFinder.h>
+#endif
 
 
 //-------------------------------------------------------------------------------------------------
@@ -930,6 +932,7 @@ CMain::slot_cboDictPath_OnCurrentIndexChanged(
         }
 
         cQString dictInfo =
+    #if HAVE_XLIB
             QString(tr("&nbsp;&nbsp;&nbsp;<b>All</b>: %1 (%2)"
                        "&nbsp;&nbsp;&nbsp;<b>Learned</b>: %3 (%4)"
                        "&nbsp;&nbsp;&nbsp;<b>Not learned:</b> %5 (%6)"))
@@ -941,6 +944,12 @@ CMain::slot_cboDictPath_OnCurrentIndexChanged(
                         .arg( qS2QS(CxString::formatPercentage(wordsAll, wordsNotLearned)) );
 
         ui.lblDictInfo->setText(dictInfo);
+    #else
+        // TODO: CMain::slot_cboDictPath_OnCurrentIndexChanged()
+        "";
+
+        ui.lblDictInfo->setText(dictInfo);
+    #endif
     }
 }
 //-------------------------------------------------------------------------------------------------
@@ -955,6 +964,7 @@ CMain::slot_cboDictPath_OnCurrentIndexChanged(
 void
 CMain::cboDictPath_reload()
 {
+#if HAVE_XLIB
     qCHECK_DO(! QDir(_dbDir).exists(), return);
 
     std::vec_tstring_t dicts;
@@ -969,6 +979,9 @@ CMain::cboDictPath_reload()
 
         ui.cboDictPath->addItem(dict);
     }
+#else
+    // TODO: CMain::cboDictPath_reload()
+#endif
 }
 //-------------------------------------------------------------------------------------------------
 
@@ -984,10 +997,25 @@ CMain::dbOpen(
     cQString &a_filePath
 )
 {
+    bool bRv = false;
+
     // _dbDatabase
     {
+        // prepare DB directory
+        {
+            QDir dir;
+            dir.setPath(_dbDir);
+
+            bRv = dir.exists();
+            if (!bRv) {
+                bRv = dir.mkpath(_dbDir);
+                qTEST(bRv);
+            }
+
+            qTEST( dir.exists() );
+        }
+
         qTEST(_dbDatabase == Q_NULLPTR);
-        qTEST( QDir(_dbDir).exists() );
 
         bool bRv = QSqlDatabase::isDriverAvailable("QSQLITE");
         qCHECK_DO(!bRv, qMSG(QSqlDatabase().lastError().text()); return);

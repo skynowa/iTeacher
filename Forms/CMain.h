@@ -33,7 +33,10 @@
 
 #endif
 
-#include <xLib/Core/xCore.h>
+#if HAVE_XLIB
+    #include <xLib/Core/xCore.h>
+#endif
+
 #include "../QtLib/Common.h"
 #include "../QtLib/CUtils.h"
 #include "../QtLib/CSqlNavigator.h"

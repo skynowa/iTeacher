@@ -6,6 +6,10 @@
 #---------------------------------------------------------------------------
 
 
+# config
+HAVE_XLIB           = 0
+
+
 TARGET              = iTeacher
 TEMPLATE            = app
 QT                  = core gui widgets sql network xml printsupport multimedia
@@ -17,13 +21,18 @@ win32 {
     #QMAKE_CFLAGS   -= -Zc:wchar_t-
     #QMAKE_CFLAGS   += -Zc:wchar_t
 
-    INCLUDEPATH     =  xLib/Include
-    #LIBS           += User32.lib Ole32.lib Advapi32.lib shell32.lib
+    if (HAVE_XLIB) {
+        INCLUDEPATH  =  xLib/Include
+        LIBS        += User32.lib Ole32.lib Advapi32.lib shell32.lib
+    }
+
     LIBS            += -lpsapi -luuid -lole32 -lmpr
 }
 unix {
-    INCLUDEPATH     = xLib/Include
-    LIBS           += -ldl #-lc (FreeBSD)
+    if (HAVE_XLIB) {
+        INCLUDEPATH  = xLib/Include
+        LIBS        += -ldl #-lc (FreeBSD)
+    }
 }
 
 HEADERS             = Config.h \

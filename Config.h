@@ -49,6 +49,7 @@
 #define RES_MAIN_ICON                ":/App.ico"
 
 // etc
+#define HAVE_XLIB                    0
 #define DB_DIR_NAME                  "Db"
 #define DB_FILE_EXT                  ".db"
 #define BACKUP_DIR_NAME              "Backup"
