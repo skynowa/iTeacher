@@ -23,8 +23,10 @@ int main(int argc, char *argv[])
 
     // set application single inststance
     {
+    #if 0
         bool bRv = CUtils::setApplicationSingle(APP_GUID);
         qCHECK_RET(false == bRv, EXIT_SUCCESS);
+    #endif
     }
 
     // start application
