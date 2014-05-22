@@ -228,10 +228,14 @@ CMain::_initMain()
 
     // data
     {
-        _appName     = QCoreApplication::applicationName();;
+        _appName     = QCoreApplication::applicationName();
+    #if defined(Q_OS_ANDROID)
+        _appDir      = QDir::homePath();
+    #else
         _appDir      = QCoreApplication::applicationDirPath();
+    #endif
         _dbDir       = _appDir + QDir::separator() + DB_DIR_NAME;
-        _dbBackupDir = _dbDir  + QDir::separator() + BACKUP_DIR_NAME;
+        _dbBackupDir = _appDir + QDir::separator() + BACKUP_DIR_NAME;
         _tempDir     = _appDir + QDir::separator() + TEMP_DIR_NAME;
 
         QDir().mkpath(_dbDir);
@@ -268,8 +272,7 @@ CMain::_initModel()
             dbOpen(dictPath);
             cboDictPath_reload();
         } else {
-            cQString dictPath = _dbDir + QDir::separator() +
-                                  ui.cboDictPath->currentText();
+            cQString dictPath = _dbDir + QDir::separator() + ui.cboDictPath->currentText();
 
             dbOpen(dictPath);
         }
@@ -999,6 +1002,8 @@ CMain::dbOpen(
 {
     bool bRv = false;
 
+    QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
+
     // _dbDatabase
     {
         // prepare DB directory
@@ -1008,7 +1013,7 @@ CMain::dbOpen(
 
             bRv = dir.exists();
             if (!bRv) {
-                bRv = dir.mkpath(_dbDir);
+                bRv = QDir().mkpath(_dbDir);
                 qTEST(bRv);
             }
 
@@ -1088,6 +1093,8 @@ CMain::dbOpen(
         _sqlNavigator.construct(_model, ui.tvInfo);
         _sqlNavigator.last();
     }
+
+    QApplication::restoreOverrideCursor();
 }
 //-------------------------------------------------------------------------------------------------
 void
