@@ -7,6 +7,7 @@ Temp
 Ui
 xLib_makefile_gcc
 xLib_android_makefile_gcc
+xLib_android_eclipse_gcc
 android-build
 
 
