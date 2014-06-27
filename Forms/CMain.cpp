@@ -19,8 +19,8 @@
 #if HAVE_XLIB
     #include <xLib/Core/CxConst.h>
     #include <xLib/Core/CxString.h>
-    #include <xLib/Filesystem/CxPath.h>
-    #include <xLib/Filesystem/CxFinder.h>
+    #include <xLib/IO/CxPath.h>
+    #include <xLib/IO/CxFinder.h>
 #endif
 
 
