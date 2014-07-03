@@ -969,6 +969,8 @@ CMain::cboDictPath_reload()
 {
     qDebug() << "*************************";
 
+    ui.cboDictPath->clear();
+
 #if HAVE_XLIB
     qCHECK_DO(! QDir(_dbDir).exists(), return);
 
@@ -977,7 +979,7 @@ CMain::cboDictPath_reload()
     xlib::io::Finder::files(qQS2S(_dbDir), xlib::core::String::format(xT("*%s"), xT(DB_FILE_EXT) ), true, &dicts);
     qCHECK_DO(dicts.empty(), return);
 
-    ui.cboDictPath->clear();
+
 
     xFOREACH(std::vec_tstring_t, it, dicts) {
         QString dict = qS2QS( (*it).erase(0, (qQS2S(_dbDir) + xlib::core::Const::slash()).size()) );
