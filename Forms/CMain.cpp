@@ -977,12 +977,9 @@ CMain::cboDictPath_reload()
     std::vec_tstring_t dicts;
 
     xlib::io::Finder::files(qQS2S(_dbDir), xlib::core::String::format(xT("*%s"), xT(DB_FILE_EXT) ), true, &dicts);
-    qCHECK_DO(dicts.empty(), return);
-
-
 
     xFOREACH(std::vec_tstring_t, it, dicts) {
-        QString dict = qS2QS( (*it).erase(0, (qQS2S(_dbDir) + xlib::core::Const::slash()).size()) );
+        QString dict = qS2QS( it->erase(0, (qQS2S(_dbDir) + xlib::core::Const::slash()).size()) );
 
         ui.cboDictPath->addItem(dict);
     }
