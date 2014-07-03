@@ -34,7 +34,7 @@
 #endif
 
 #if HAVE_XLIB
-    #include <xLib/Core/xCore.h>
+    #include <xLib/Core/Core.h>
 #endif
 
 #include "../QtLib/Common.h"

@@ -17,10 +17,10 @@
 #include <QMediaPlayer>
 
 #if HAVE_XLIB
-    #include <xLib/Core/CxConst.h>
-    #include <xLib/Core/CxString.h>
-    #include <xLib/IO/CxPath.h>
-    #include <xLib/IO/CxFinder.h>
+    #include <xLib/Core/Const.h>
+    #include <xLib/Core/String.h>
+    #include <xLib/IO/Path.h>
+    #include <xLib/IO/Finder.h>
 #endif
 
 
@@ -940,11 +940,11 @@ CMain::slot_cboDictPath_OnCurrentIndexChanged(
                        "&nbsp;&nbsp;&nbsp;<b>Learned</b>: %3 (%4)"
                        "&nbsp;&nbsp;&nbsp;<b>Not learned:</b> %5 (%6)"))
                         .arg( wordsAll )
-                        .arg( qS2QS(CxString::formatPercentage(wordsAll, wordsAll)) )
+                        .arg( qS2QS(xlib::core::String::formatPercentage(wordsAll, wordsAll)) )
                         .arg( wordsLearned )
-                        .arg( qS2QS(CxString::formatPercentage(wordsAll, wordsLearned)) )
+                        .arg( qS2QS(xlib::core::String::formatPercentage(wordsAll, wordsLearned)) )
                         .arg( wordsNotLearned )
-                        .arg( qS2QS(CxString::formatPercentage(wordsAll, wordsNotLearned)) );
+                        .arg( qS2QS(xlib::core::String::formatPercentage(wordsAll, wordsNotLearned)) );
 
         ui.lblDictInfo->setText(dictInfo);
     #else
@@ -967,18 +967,20 @@ CMain::slot_cboDictPath_OnCurrentIndexChanged(
 void
 CMain::cboDictPath_reload()
 {
+    qDebug() << "*************************";
+
 #if HAVE_XLIB
     qCHECK_DO(! QDir(_dbDir).exists(), return);
 
     std::vec_tstring_t dicts;
 
-    CxFinder::files(qQS2S(_dbDir), CxString::format(xT("*%s"), xT(DB_FILE_EXT) ), true, &dicts);
+    xlib::io::Finder::files(qQS2S(_dbDir), xlib::core::String::format(xT("*%s"), xT(DB_FILE_EXT) ), true, &dicts);
     qCHECK_DO(dicts.empty(), return);
 
     ui.cboDictPath->clear();
 
     xFOREACH(std::vec_tstring_t, it, dicts) {
-        QString dict = qS2QS( (*it).erase(0, (qQS2S(_dbDir) + CxConst::slash()).size()) );
+        QString dict = qS2QS( (*it).erase(0, (qQS2S(_dbDir) + xlib::core::Const::slash()).size()) );
 
         ui.cboDictPath->addItem(dict);
     }

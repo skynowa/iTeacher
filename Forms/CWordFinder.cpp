@@ -193,6 +193,6 @@ CWordFinder::_saveAll()
         }
     }
 
-    CUtils::dbFilter(_model, DB_T_MAIN, fields, "", sqlStrWhere, "");
+    CUtils::dbFilter(_model, DB_T_MAIN, fields, "", sqlStrWhere, "ORDER BY Random()");
 }
 //-------------------------------------------------------------------------------------------------
