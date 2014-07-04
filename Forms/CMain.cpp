@@ -967,8 +967,6 @@ CMain::slot_cboDictPath_OnCurrentIndexChanged(
 void
 CMain::cboDictPath_reload()
 {
-    qDebug() << "*************************";
-
     ui.cboDictPath->clear();
 
 #if HAVE_XLIB
