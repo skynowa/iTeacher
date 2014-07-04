@@ -256,8 +256,10 @@ CMain::_initMain()
     {
         qDebug() << qDEBUG_VAR(QSystemTrayIcon::isSystemTrayAvailable());
 
-        _trayIcon.setIcon( QIcon(RES_MAIN_ICON) );
-        _trayIcon.setVisible(true);
+        if (QSystemTrayIcon::isSystemTrayAvailable()) {
+            _trayIcon.setIcon( QIcon(RES_MAIN_ICON) );
+            _trayIcon.setVisible(true);
+        }
     }
 }
 //-------------------------------------------------------------------------------------------------
