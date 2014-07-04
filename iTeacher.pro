@@ -28,37 +28,42 @@ CONFIG         += debug warn_on
     }
 }
 
-HEADERS         = Config.h \
-                  QtLib/Common.h \
-                  QtLib/CApplication.h \
-                  QtLib/CUtils.h \
-                  QtLib/CSqlNavigator.h \
-                  Classes/CCenteredCheckBox.h \
-                  Classes/CCheckBoxItemDelegate.h \
-                  Classes/CComboBoxItemDelegate.h \
-                  Forms/CMain.h \
-                  Forms/CWordEditor.h \
-                  Forms/CWordFinder.h
+HEADERS = \
+    Config.h \
+    QtLib/Common.h \
+    Forms/Main.h \
+    Forms/WordEditor.h \
+    Forms/WordFinder.h \
+    Classes/CenteredCheckBox.h \
+    Classes/CheckBoxItemDelegate.h \
+    Classes/ComboBoxItemDelegate.h \
+    QtLib/Application.h \
+    QtLib/SqlNavigator.h \
+    QtLib/Utils.h
 
-SOURCES         = main.cpp \
-                  QtLib/CApplication.cpp \
-                  QtLib/CUtils.cpp \
-                  QtLib/CSqlNavigator.cpp \
-                  Classes/CCenteredCheckBox.cpp \
-                  Classes/CCheckBoxItemDelegate.cpp \
-                  Classes/CComboBoxItemDelegate.cpp \
-                  Forms/CMain.cpp \
-                  Forms/CWordEditor.cpp \
-                  Forms/CWordFinder.cpp
+SOURCES = \
+    main.cpp \
+    Forms/Main.cpp \
+    Forms/WordEditor.cpp \
+    Forms/WordFinder.cpp \
+    Classes/CenteredCheckBox.cpp \
+    Classes/CheckBoxItemDelegate.cpp \
+    Classes/ComboBoxItemDelegate.cpp \
+    QtLib/Application.cpp \
+    QtLib/SqlNavigator.cpp \
+    QtLib/Utils.cpp
 
-FORMS           = Forms/CMain.ui \
-                  Forms/CWordEditor.ui \
-                  Forms/CWordFinder.ui
+FORMS = \
+    Forms/Editor.ui \
+    Forms/Main.ui \
+    Forms/WordFinder.ui
 
-RESOURCES       = Resources/App.qrc
+RESOURCES = \
+    Resources/App.qrc
 
 win32 {
-    RC_FILE     = Resources/App_win.rc
+    RC_FILE = \
+        Resources/App_win.rc
 }
 
 CONFIG(debug, debug | release) {

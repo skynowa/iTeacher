@@ -1,12 +1,12 @@
 /**
- * \file   CWordFinder.cpp
+ * \file   WordFinder.cpp
  * \brief
  */
 
 
-#include "CWordFinder.h"
+#include "WordFinder.h"
 
-#include "../QtLib/CUtils.h"
+#include "../QtLib/Utils.h"
 
 
 /**************************************************************************************************
@@ -15,7 +15,7 @@
 **************************************************************************************************/
 
 //-------------------------------------------------------------------------------------------------
-CWordFinder::CWordFinder(
+WordFinder::WordFinder(
     QWidget        *a_parent,
     QSqlTableModel *a_tableModel
 ) :
@@ -28,7 +28,7 @@ CWordFinder::CWordFinder(
 }
 //-------------------------------------------------------------------------------------------------
 /*virtual*/
-CWordFinder::~CWordFinder()
+WordFinder::~WordFinder()
 {
     _destruct();
 }
@@ -42,7 +42,7 @@ CWordFinder::~CWordFinder()
 
 //-------------------------------------------------------------------------------------------------
 void
-CWordFinder::_construct()
+WordFinder::_construct()
 {
     m_Ui.setupUi(this);
 
@@ -70,7 +70,7 @@ CWordFinder::_construct()
 }
 //-------------------------------------------------------------------------------------------------
 void
-CWordFinder::_destruct()
+WordFinder::_destruct()
 {
 
 }
@@ -84,7 +84,7 @@ CWordFinder::_destruct()
 
 //-------------------------------------------------------------------------------------------------
 void
-CWordFinder::slot_bbxButtons_OnClicked(
+WordFinder::slot_bbxButtons_OnClicked(
     QAbstractButton *a_button
 )
 {
@@ -118,7 +118,7 @@ CWordFinder::slot_bbxButtons_OnClicked(
 
 //-------------------------------------------------------------------------------------------------
 void
-CWordFinder::_resetAll()
+WordFinder::_resetAll()
 {
     m_Ui.cboWordTerm->clear();
     m_Ui.cboWordValue->clear();
@@ -130,9 +130,9 @@ CWordFinder::_resetAll()
 }
 //-------------------------------------------------------------------------------------------------
 void
-CWordFinder::_saveAll()
+WordFinder::_saveAll()
 {
-    CUtils::db_fields_t fields;
+    ::Utils::db_fields_t fields;
     {
         fields.push_back( QPair<QString, QString>(DB_F_MAIN_TERM,  m_Ui.cboWordTerm->currentText()) );
         fields.push_back( QPair<QString, QString>(DB_F_MAIN_VALUE, m_Ui.cboWordValue->currentText()) );
@@ -193,6 +193,6 @@ CWordFinder::_saveAll()
         }
     }
 
-    CUtils::dbFilter(_model, DB_T_MAIN, fields, "", sqlStrWhere, "ORDER BY Random()");
+    ::Utils::dbFilter(_model, DB_T_MAIN, fields, "", sqlStrWhere, "ORDER BY Random()");
 }
 //-------------------------------------------------------------------------------------------------

@@ -1,25 +1,25 @@
 /**
- * \file   CComboBoxItemDelegate.h
+ * \file   ComboBoxItemDelegate.h
  * \brief
  */
 
 
-#ifndef iTeacher_CComboBoxItemDelegate_H
-#define iTeacher_CComboBoxItemDelegate_H
+#ifndef iTeacher_ComboBoxItemDelegate_H
+#define iTeacher_ComboBoxItemDelegate_H
 //-------------------------------------------------------------------------------------------------
 #include <QStyledItemDelegate>
 #include "../QtLib/Common.h"
 #include "../Config.h"
 //-------------------------------------------------------------------------------------------------
-class CComboBoxItemDelegate :
+class ComboBoxItemDelegate :
     public QStyledItemDelegate
 {
     Q_OBJECT
-    Q_DISABLE_COPY(CComboBoxItemDelegate)
+    Q_DISABLE_COPY(ComboBoxItemDelegate)
 
 public:
-    explicit CComboBoxItemDelegate(QObject * parent, QSqlTableModel *sqlModel);
-    virtual ~CComboBoxItemDelegate();
+    explicit ComboBoxItemDelegate(QObject * parent, QSqlTableModel *sqlModel);
+    virtual ~ComboBoxItemDelegate();
 
     QWidget *createEditor(QWidget *parent, const QStyleOptionViewItem &option,
                 const QModelIndex &index) const;
@@ -38,4 +38,4 @@ private Q_SLOTS:
 
 };
 //-------------------------------------------------------------------------------------------------
-#endif // iTeacher_CComboBoxItemDelegate_H
+#endif // iTeacher_ComboBoxItemDelegate_H

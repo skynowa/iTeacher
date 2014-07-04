@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>CWordEditor</class>
- <widget class="QDialog" name="CWordEditor">
+ <class>WordEditorUi</class>
+ <widget class="QDialog" name="WordEditorUi">
   <property name="geometry">
    <rect>
     <x>0</x>

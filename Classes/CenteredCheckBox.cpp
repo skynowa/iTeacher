@@ -1,17 +1,17 @@
 /**
- * \file   CCenteredCheckBox.cpp
+ * \file   CenteredCheckBox.cpp
  * \brief
  */
 
 
-#include "CCenteredCheckBox.h"
+#include "CenteredCheckBox.h"
 
 #include <QtGui>
 #include <QCheckBox>
 #include <QHBoxLayout>
 
 //-------------------------------------------------------------------------------------------------
-CCenteredCheckBox::CCenteredCheckBox(
+CenteredCheckBox::CenteredCheckBox(
     QWidget *a_parent
 ) :
     QWidget  (a_parent),
@@ -33,7 +33,7 @@ CCenteredCheckBox::CCenteredCheckBox(
 }
 //-------------------------------------------------------------------------------------------------
 QCheckBox *
-CCenteredCheckBox::checkBox() const
+CenteredCheckBox::checkBox() const
 {
     return _checkBox;
 }

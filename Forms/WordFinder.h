@@ -1,5 +1,5 @@
 /**
- * \file   CWordFinder.h
+ * \file   WordFinder.h
  * \brief
  */
 
@@ -7,22 +7,22 @@
 #ifndef iTeacher_CWordFinderH
 #define iTeacher_CWordFinderH
 //-------------------------------------------------------------------------------------------------
-#include "ui_CWordFinder.h"
+#include "ui_WordFinder.h"
 
 #include "../Config.h"
 #include "../QtLib/Common.h"
 //-------------------------------------------------------------------------------------------------
-class CWordFinder :
+class WordFinder :
     public QDialog
 {
     Q_OBJECT
-    Q_DISABLE_COPY(CWordFinder)
+    Q_DISABLE_COPY(WordFinder)
 
 public:
-    Ui::CWordFinder m_Ui;
+    Ui::WordFinderUi m_Ui;
 
-                    CWordFinder(QWidget *parent, QSqlTableModel *tableModel);
-    virtual        ~CWordFinder();
+                    WordFinder(QWidget *parent, QSqlTableModel *tableModel);
+    virtual        ~WordFinder();
 
 private:
     QSqlTableModel *_model;

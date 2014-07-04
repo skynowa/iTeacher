@@ -1,10 +1,10 @@
 /**
- * \file   CComboBoxItemDelegate.cpp
+ * \file   ComboBoxItemDelegate.cpp
  * \brief
  */
 
 
-#include "CComboBoxItemDelegate.h"
+#include "ComboBoxItemDelegate.h"
 
 #include <QApplication>
 #include <QtGui/QMouseEvent>
@@ -13,7 +13,7 @@
 
 
 //-------------------------------------------------------------------------------------------------
-CComboBoxItemDelegate::CComboBoxItemDelegate(
+ComboBoxItemDelegate::ComboBoxItemDelegate(
     QObject        *a_parent /* = Q_NULLPTR */,
     QSqlTableModel *a_sqlModel
 ) :
@@ -22,12 +22,12 @@ CComboBoxItemDelegate::CComboBoxItemDelegate(
 {
 }
 //-------------------------------------------------------------------------------------------------
-CComboBoxItemDelegate::~CComboBoxItemDelegate()
+ComboBoxItemDelegate::~ComboBoxItemDelegate()
 {
 }
 //-------------------------------------------------------------------------------------------------
 QWidget *
-CComboBoxItemDelegate::createEditor(
+ComboBoxItemDelegate::createEditor(
     QWidget                    *a_parent,
     const QStyleOptionViewItem &a_option,
     const QModelIndex          &a_index
@@ -60,7 +60,7 @@ CComboBoxItemDelegate::createEditor(
 }
 //-------------------------------------------------------------------------------------------------
 void
-CComboBoxItemDelegate::setEditorData(
+ComboBoxItemDelegate::setEditorData(
     QWidget           *a_editor,
     const QModelIndex &a_index
 ) const
@@ -79,7 +79,7 @@ CComboBoxItemDelegate::setEditorData(
 }
 //-------------------------------------------------------------------------------------------------
 void
-CComboBoxItemDelegate::setModelData(
+ComboBoxItemDelegate::setModelData(
     QWidget            *a_editor,
     QAbstractItemModel *a_model,
     const QModelIndex  &a_index
@@ -94,7 +94,7 @@ CComboBoxItemDelegate::setModelData(
 }
 //-------------------------------------------------------------------------------------------------
 void
-CComboBoxItemDelegate::updateEditorGeometry(
+ComboBoxItemDelegate::updateEditorGeometry(
     QWidget                    *a_editor,
     const QStyleOptionViewItem &a_option,
     const QModelIndex          &a_index
@@ -112,7 +112,7 @@ CComboBoxItemDelegate::updateEditorGeometry(
 }
 //-------------------------------------------------------------------------------------------------
 void
-CComboBoxItemDelegate::paint(
+ComboBoxItemDelegate::paint(
     QPainter                   *a_painter,
     const QStyleOptionViewItem &a_option,
     const QModelIndex          &a_index

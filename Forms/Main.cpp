@@ -1,17 +1,17 @@
 /**
- * \file   CMain.cpp
+ * \file   Main.cpp
  * \brief  main widget
  */
 
 
-#include "CMain.h"
+#include "Main.h"
 
-#include "../QtLib/CUtils.h"
-#include "../QtLib/CApplication.h"
-#include "../Classes/CCheckBoxItemDelegate.h"
-#include "../Classes/CComboBoxItemDelegate.h"
-#include "../Forms/CWordEditor.h"
-#include "../Forms/CWordFinder.h"
+#include "../QtLib/Utils.h"
+#include "../QtLib/Application.h"
+#include "../Classes/CheckBoxItemDelegate.h"
+#include "../Classes/ComboBoxItemDelegate.h"
+#include "../Forms/WordEditor.h"
+#include "../Forms/WordFinder.h"
 
 #include <QPrinter>
 #include <QMediaPlayer>
@@ -74,7 +74,7 @@ xNAMESPACE_ANONYM_END
 **************************************************************************************************/
 
 //-------------------------------------------------------------------------------------------------
-CMain::CMain(
+Main::Main(
     QWidget         *a_parent,
     Qt::WindowFlags  a_flags
 ) :
@@ -119,7 +119,7 @@ CMain::CMain(
 }
 //-------------------------------------------------------------------------------------------------
 /*virtual*/
-CMain::~CMain()
+Main::~Main()
 {
 #if defined(Q_OS_UNIX) && 0
     // global hotkey
@@ -143,7 +143,7 @@ CMain::~CMain()
 //-------------------------------------------------------------------------------------------------
 /* virtual */
 bool
-CMain::eventFilter(
+Main::eventFilter(
     QObject *a_object,
     QEvent  *a_event
 )
@@ -180,7 +180,7 @@ CMain::eventFilter(
 //-------------------------------------------------------------------------------------------------
 /* virtual */
 void
-CMain::keyPressEvent(
+Main::keyPressEvent(
     QKeyEvent *a_event
 )
 {
@@ -204,7 +204,7 @@ CMain::keyPressEvent(
 
 //-------------------------------------------------------------------------------------------------
 void
-CMain::_construct()
+Main::_construct()
 {
     _initMain();
     _initModel();
@@ -214,7 +214,7 @@ CMain::_construct()
 }
 //-------------------------------------------------------------------------------------------------
 void
-CMain::_destruct()
+Main::_destruct()
 {
     _settingsSave();
 
@@ -222,7 +222,7 @@ CMain::_destruct()
 }
 //-------------------------------------------------------------------------------------------------
 void
-CMain::_initMain()
+Main::_initMain()
 {
     ui.setupUi(this);
 
@@ -243,12 +243,12 @@ CMain::_initMain()
         QDir().mkpath(_tempDir);
     }
 
-    // CMain
+    // Main
     {
         setWindowIcon( QIcon(RES_MAIN_ICON) );
         setWindowTitle(APP_NAME);
         setGeometry(0, 0, APP_WIDTH, APP_HEIGHT);
-        CUtils::widgetAlignCenter(this);
+        ::Utils::widgetAlignCenter(this);
         cboDictPath_reload();
     }
 
@@ -264,7 +264,7 @@ CMain::_initMain()
 }
 //-------------------------------------------------------------------------------------------------
 void
-CMain::_initModel()
+Main::_initModel()
 {
     // open DB
     {
@@ -310,9 +310,9 @@ CMain::_initModel()
         ui.tvInfo->setStyleSheet("alternate-background-color: white; background-color: gray;");
         ui.tvInfo->setSortingEnabled(true);
         ui.tvInfo->sortByColumn(0, Qt::AscendingOrder);
-        ui.tvInfo->setItemDelegateForColumn(3, new CCheckBoxItemDelegate(ui.tvInfo));
-        ui.tvInfo->setItemDelegateForColumn(4, new CCheckBoxItemDelegate(ui.tvInfo));
-        // ui.tvInfo->setItemDelegateForColumn(5, new CComboBoxItemDelegate(ui.tvInfo, _model));
+        ui.tvInfo->setItemDelegateForColumn(3, new CheckBoxItemDelegate(ui.tvInfo));
+        ui.tvInfo->setItemDelegateForColumn(4, new CheckBoxItemDelegate(ui.tvInfo));
+        // ui.tvInfo->setItemDelegateForColumn(5, new ComboBoxItemDelegate(ui.tvInfo, _model));
 
         ui.tvInfo->show();
     }
@@ -340,7 +340,7 @@ CMain::_initModel()
 }
 //-------------------------------------------------------------------------------------------------
 void
-CMain::_initActions()
+Main::_initActions()
 {
     // group "File"
     {
@@ -445,7 +445,7 @@ CMain::_initActions()
 
 //-------------------------------------------------------------------------------------------------
 void
-CMain::slot_OnCreateDb()
+Main::slot_OnCreateDb()
 {
     cQString dbName = QInputDialog::getText(this, _appName, tr("New DB file path:"),
         QLineEdit::Normal, DB_FILE_EXT);
@@ -468,7 +468,7 @@ CMain::slot_OnCreateDb()
 }
 //-------------------------------------------------------------------------------------------------
 void
-CMain::slot_OnImportCsv()
+Main::slot_OnImportCsv()
 {
     // choose file path
     cQString filePath = QFileDialog::getOpenFileName(this, tr("Open file"), tr(""),
@@ -485,7 +485,7 @@ CMain::slot_OnImportCsv()
     fieldNames.push_back(DB_F_MAIN_TAG);
 
     // import
-    CUtils::importCsv(filePath, _model, fieldNames, "\t");
+    ::Utils::importCsv(filePath, _model, fieldNames, "\t");
 
     // "fire" cboDictPath
     {
@@ -504,14 +504,14 @@ CMain::slot_OnImportCsv()
 }
 //-------------------------------------------------------------------------------------------------
 void
-CMain::slot_OnImportClipboard()
+Main::slot_OnImportClipboard()
 {
     qCHECK_DO(!_sqlNavigator.isValid(), return);
 
     _sqlNavigator.insert();
 
-    cQString    data = QApplication::clipboard()->text();
-    CWordEditor dlgWordEditor(this, _model, &_sqlNavigator, data);
+    cQString   data = QApplication::clipboard()->text();
+    WordEditor dlgWordEditor(this, _model, &_sqlNavigator, data);
 
     QDialog::DialogCode code = static_cast<QDialog::DialogCode>( dlgWordEditor.exec() );
     switch (code) {
@@ -524,7 +524,7 @@ CMain::slot_OnImportClipboard()
 }
 //-------------------------------------------------------------------------------------------------
 void
-CMain::slot_OnExportCsv()
+Main::slot_OnExportCsv()
 {
     // choose file path
     cQString filePath = QFileDialog::getSaveFileName(this, tr("Save file"),
@@ -543,7 +543,7 @@ CMain::slot_OnExportCsv()
         fieldNames.push_back(DB_F_MAIN_TAG);
 
         // import
-        CUtils::exportCsv(filePath, _model, fieldNames, "\t");
+        ::Utils::exportCsv(filePath, _model, fieldNames, "\t");
     }
 
     // report
@@ -556,7 +556,7 @@ CMain::slot_OnExportCsv()
 }
 //-------------------------------------------------------------------------------------------------
 void
-CMain::slot_OnExportPdf()
+Main::slot_OnExportPdf()
 {
     // choose file path
     cQString filePath = QFileDialog::getSaveFileName(this, tr("Save file"),
@@ -568,7 +568,7 @@ CMain::slot_OnExportPdf()
 
 
     // file -> DB
-    cint realRowCount = CUtils::sqlTableModelRowCount(_model);
+    cint realRowCount = ::Utils::sqlTableModelRowCount(_model);
 
     for (int i = 0; i < realRowCount; ++ i) {
         sHtml.push_back( _model->record(i).value(DB_F_MAIN_TERM).toString() );
@@ -599,7 +599,7 @@ CMain::slot_OnExportPdf()
 }
 //-------------------------------------------------------------------------------------------------
 void
-CMain::slot_OnExit()
+Main::slot_OnExit()
 {
     close();
 }
@@ -613,35 +613,35 @@ CMain::slot_OnExit()
 
 //-------------------------------------------------------------------------------------------------
 void
-CMain::slot_OnFirst()
+Main::slot_OnFirst()
 {
     _sqlNavigator.first();
 }
 //-------------------------------------------------------------------------------------------------
 void
-CMain::slot_OnPrior()
+Main::slot_OnPrior()
 {
     _sqlNavigator.prior();
 }
 //-------------------------------------------------------------------------------------------------
 void
-CMain::slot_OnNext()
+Main::slot_OnNext()
 {
     _sqlNavigator.next();
 }
 //-------------------------------------------------------------------------------------------------
 void
-CMain::slot_OnLast()
+Main::slot_OnLast()
 {
     _sqlNavigator.last();
 }
 //-------------------------------------------------------------------------------------------------
 void
-CMain::slot_OnTo()
+Main::slot_OnTo()
 {
     cint currentRow = _sqlNavigator.view()->currentIndex().row() + 1;
     cint minValue   = 1;
-    cint maxValue   = CUtils::sqlTableModelRowCount(_model);
+    cint maxValue   = ::Utils::sqlTableModelRowCount(_model);
 
     cint targetRow  = QInputDialog::getInt(this, APP_NAME, tr("Go to row:"), currentRow, minValue,
         maxValue) - 1;
@@ -650,13 +650,13 @@ CMain::slot_OnTo()
 }
 //-------------------------------------------------------------------------------------------------
 void
-CMain::slot_OnInsert()
+Main::slot_OnInsert()
 {
     qCHECK_DO(!_sqlNavigator.isValid(), return);
 
     _sqlNavigator.insert();
 
-    CWordEditor dlgWordEditor(this, _model, &_sqlNavigator);
+    WordEditor dlgWordEditor(this, _model, &_sqlNavigator);
 
     QDialog::DialogCode code = static_cast<QDialog::DialogCode>( dlgWordEditor.exec() );
     switch (code) {
@@ -669,16 +669,16 @@ CMain::slot_OnInsert()
 }
 //-------------------------------------------------------------------------------------------------
 void
-CMain::slot_OnRemove()
+Main::slot_OnRemove()
 {
     _sqlNavigator.remove();
 }
 //-------------------------------------------------------------------------------------------------
 void
-CMain::slot_OnEdit()
+Main::slot_OnEdit()
 {
     // show edit dialog
-    CWordEditor dlgWordEditor(this, _model, &_sqlNavigator);
+    WordEditor dlgWordEditor(this, _model, &_sqlNavigator);
 
     (int)dlgWordEditor.exec();
 }
@@ -692,7 +692,7 @@ CMain::slot_OnEdit()
 
 //-------------------------------------------------------------------------------------------------
 void
-CMain::slot_OnPlayWord()
+Main::slot_OnPlayWord()
 {
     QString text;
     {
@@ -711,7 +711,7 @@ CMain::slot_OnPlayWord()
 }
 //-------------------------------------------------------------------------------------------------
 void
-CMain::slot_OnPlayTranslation()
+Main::slot_OnPlayTranslation()
 {
     QString text;
     {
@@ -730,7 +730,7 @@ CMain::slot_OnPlayTranslation()
 }
 //-------------------------------------------------------------------------------------------------
 void
-CMain::slot_OnPlayWordTranslation()
+Main::slot_OnPlayWordTranslation()
 {
     slot_OnPlayWord();
     slot_OnPlayTranslation();
@@ -745,11 +745,11 @@ CMain::slot_OnPlayWordTranslation()
 
 //-------------------------------------------------------------------------------------------------
 void
-CMain::slot_OnSearch()
+Main::slot_OnSearch()
 {
     qCHECK_DO(_model == Q_NULLPTR, return);
 
-    CWordFinder dlgWordFinder(this, _model);
+    WordFinder dlgWordFinder(this, _model);
 
     dlgWordFinder.exec();
 }
@@ -763,7 +763,7 @@ CMain::slot_OnSearch()
 
 //-------------------------------------------------------------------------------------------------
 void
-CMain::slot_OnZoomIn()
+Main::slot_OnZoomIn()
 {
     // table font
     {
@@ -784,7 +784,7 @@ CMain::slot_OnZoomIn()
 }
 //-------------------------------------------------------------------------------------------------
 void
-CMain::slot_OnZoomOut()
+Main::slot_OnZoomOut()
 {
     // table font
     {
@@ -811,7 +811,7 @@ CMain::slot_OnZoomOut()
 }
 //-------------------------------------------------------------------------------------------------
 void
-CMain::slot_OnZoomDefault()
+Main::slot_OnZoomDefault()
 {
     // font
     {
@@ -836,7 +836,7 @@ CMain::slot_OnZoomDefault()
 
 //-------------------------------------------------------------------------------------------------
 void
-CMain::slot_OnSettings()
+Main::slot_OnSettings()
 {
     // TODO: slot_OnSettings
 }
@@ -850,13 +850,13 @@ CMain::slot_OnSettings()
 
 //-------------------------------------------------------------------------------------------------
 void
-CMain::slot_OnFaq()
+Main::slot_OnFaq()
 {
     // TODO: slot_OnFaq
 }
 //-------------------------------------------------------------------------------------------------
 void
-CMain::slot_OnAbout()
+Main::slot_OnAbout()
 {
     cQString msg = QString(tr(
         "<p>"
@@ -868,7 +868,7 @@ CMain::slot_OnAbout()
 }
 //-------------------------------------------------------------------------------------------------
 void
-CMain::slot_cboDictPath_OnCurrentIndexChanged(
+Main::slot_cboDictPath_OnCurrentIndexChanged(
     const QString &a_arg
 )
 {
@@ -950,7 +950,7 @@ CMain::slot_cboDictPath_OnCurrentIndexChanged(
 
         ui.lblDictInfo->setText(dictInfo);
     #else
-        // TODO: CMain::slot_cboDictPath_OnCurrentIndexChanged()
+        // TODO: Main::slot_cboDictPath_OnCurrentIndexChanged()
         "";
 
         ui.lblDictInfo->setText(dictInfo);
@@ -967,7 +967,7 @@ CMain::slot_cboDictPath_OnCurrentIndexChanged(
 
 //-------------------------------------------------------------------------------------------------
 void
-CMain::cboDictPath_reload()
+Main::cboDictPath_reload()
 {
     ui.cboDictPath->clear();
 
@@ -984,7 +984,7 @@ CMain::cboDictPath_reload()
         ui.cboDictPath->addItem(dict);
     }
 #else
-    // TODO: CMain::cboDictPath_reload()
+    // TODO: Main::cboDictPath_reload()
 #endif
 }
 //-------------------------------------------------------------------------------------------------
@@ -997,7 +997,7 @@ CMain::cboDictPath_reload()
 
 //-------------------------------------------------------------------------------------------------
 void
-CMain::dbOpen(
+Main::dbOpen(
     cQString &a_filePath
 )
 {
@@ -1099,7 +1099,7 @@ CMain::dbOpen(
 }
 //-------------------------------------------------------------------------------------------------
 void
-CMain::dbReopen(
+Main::dbReopen(
     cQString &a_filePath
 )
 {
@@ -1112,7 +1112,7 @@ CMain::dbReopen(
 }
 //-------------------------------------------------------------------------------------------------
 void
-CMain::dbClose()
+Main::dbClose()
 {
     // _model
     {
@@ -1155,7 +1155,7 @@ CMain::dbClose()
 //-------------------------------------------------------------------------------------------------
 /* static */
 void
-CMain::_googleSpeech(
+Main::_googleSpeech(
     cQString &a_text,
     cQString &a_lang,
     cQString &a_filePath
@@ -1219,7 +1219,7 @@ CMain::_googleSpeech(
                 bRv = false;
             }
 
-            CUtils::sleep(100);
+            ::Utils::sleep(100);
 
             QCoreApplication::processEvents(QEventLoop::ExcludeUserInputEvents);
         }
@@ -1246,7 +1246,7 @@ CMain::_googleSpeech(
 
 //-------------------------------------------------------------------------------------------------
 void
-CMain::_settingsLoad()
+Main::_settingsLoad()
 {
     QSize  size;
     QPoint position;
@@ -1254,7 +1254,7 @@ CMain::_settingsLoad()
     int    tableCurrentRow = 0;
 
     {
-        QSettings settings(CApplication::configFilePath(), QSettings::IniFormat, this);
+        QSettings settings(Application::configFilePath(), QSettings::IniFormat, this);
 
         settings.beginGroup("main");
         size           = settings.value("size",        QSize(APP_WIDTH, APP_HEIGHT)).toSize();
@@ -1280,9 +1280,9 @@ CMain::_settingsLoad()
 }
 //-------------------------------------------------------------------------------------------------
 void
-CMain::_settingsSave()
+Main::_settingsSave()
 {
-    QSettings settings(CApplication::configFilePath(), QSettings::IniFormat, this);
+    QSettings settings(Application::configFilePath(), QSettings::IniFormat, this);
 
     // main
     settings.beginGroup("main");
@@ -1298,7 +1298,7 @@ CMain::_settingsSave()
 }
 //-------------------------------------------------------------------------------------------------
 QString
-CMain::_exportfileNameBuild(
+Main::_exportfileNameBuild(
     cQString &a_fileExt
 )
 {

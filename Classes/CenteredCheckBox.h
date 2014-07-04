@@ -1,24 +1,24 @@
 /**
- * \file   CCenteredCheckBox.h
+ * \file   CenteredCheckBox.h
  * \brief
  */
 
 
-#ifndef iTeacher_CCenteredCheckBox_H
-#define iTeacher_CCenteredCheckBox_H
+#ifndef iTeacher_CenteredCheckBox_H
+#define iTeacher_CenteredCheckBox_H
 //-------------------------------------------------------------------------------------------------
 #include <QWidget>
 //-------------------------------------------------------------------------------------------------
 class QCheckBox;
 
-class CCenteredCheckBox :
+class CenteredCheckBox :
     public QWidget
 {
     Q_OBJECT
-    Q_DISABLE_COPY(CCenteredCheckBox)
+    Q_DISABLE_COPY(CenteredCheckBox)
 
 public:
-    explicit   CCenteredCheckBox(QWidget *parent = Q_NULLPTR);
+    explicit   CenteredCheckBox(QWidget *parent = Q_NULLPTR);
 
     QCheckBox *checkBox() const;
 
@@ -26,4 +26,4 @@ private:
     QCheckBox *_checkBox;
 };
 //-------------------------------------------------------------------------------------------------
-#endif // iTeacher_CCenteredCheckBox_H
+#endif // iTeacher_CenteredCheckBox_H

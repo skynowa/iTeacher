@@ -1,13 +1,13 @@
 /**
- * \file   CWordEditor.cpp
+ * \file   WordEditor.cpp
  * \brief
  */
 
 
-#include "CWordEditor.h"
+#include "WordEditor.h"
 
-#include "../QtLib/CUtils.h"
-#include "../QtLib/CApplication.h"
+#include "../QtLib/Utils.h"
+#include "../QtLib/Application.h"
 
 
 /**************************************************************************************************
@@ -16,10 +16,10 @@
 **************************************************************************************************/
 
 //-------------------------------------------------------------------------------------------------
-CWordEditor::CWordEditor(
+WordEditor::WordEditor(
     QWidget        *a_parent,
     QSqlTableModel *a_tableModel,
-    CSqlNavigator  *a_sqlNavigator,
+    SqlNavigator   *a_sqlNavigator,
     cQString       &a_newTerm /* = QString() */
 ) :
     QDialog       (a_parent),
@@ -39,7 +39,7 @@ CWordEditor::CWordEditor(
 }
 //-------------------------------------------------------------------------------------------------
 /*virtual*/
-CWordEditor::~CWordEditor()
+WordEditor::~WordEditor()
 {
     _destruct();
 }
@@ -53,7 +53,7 @@ CWordEditor::~CWordEditor()
 
 //-------------------------------------------------------------------------------------------------
 void
-CWordEditor::_construct()
+WordEditor::_construct()
 {
     m_Ui.setupUi(this);
 
@@ -134,7 +134,7 @@ CWordEditor::_construct()
 }
 //-------------------------------------------------------------------------------------------------
 void
-CWordEditor::_destruct()
+WordEditor::_destruct()
 {
     _settingsSave();
 }
@@ -148,7 +148,7 @@ CWordEditor::_destruct()
 
 //-------------------------------------------------------------------------------------------------
 void
-CWordEditor::_resetAll()
+WordEditor::_resetAll()
 {
     m_Ui.tedtWordTerm->clear();
     m_Ui.tedtWordValue->clear();
@@ -158,7 +158,7 @@ CWordEditor::_resetAll()
 }
 //-------------------------------------------------------------------------------------------------
 void
-CWordEditor::_saveAll(
+WordEditor::_saveAll(
     QDialog::DialogCode *a_code
 )
 {
@@ -228,11 +228,11 @@ CWordEditor::_saveAll(
 }
 //-------------------------------------------------------------------------------------------------
 void
-CWordEditor::_settingsLoad()
+WordEditor::_settingsLoad()
 {
     QSize size;
     {
-        QSettings settings(CApplication::configFilePath(), QSettings::IniFormat, this);
+        QSettings settings(Application::configFilePath(), QSettings::IniFormat, this);
 
         settings.beginGroup("word_editor");
         size = settings.value("size", QSize(APP_WIDTH, APP_HEIGHT)).toSize();
@@ -247,9 +247,9 @@ CWordEditor::_settingsLoad()
 }
 //-------------------------------------------------------------------------------------------------
 void
-CWordEditor::_settingsSave()
+WordEditor::_settingsSave()
 {
-    QSettings settings(CApplication::configFilePath(), QSettings::IniFormat, this);
+    QSettings settings(Application::configFilePath(), QSettings::IniFormat, this);
 
     // main
     settings.beginGroup("word_editor");
@@ -258,7 +258,7 @@ CWordEditor::_settingsSave()
 }
 //-------------------------------------------------------------------------------------------------
 bool
-CWordEditor::_isTermExists(
+WordEditor::_isTermExists(
     cQString &a_term
 )
 {
@@ -290,7 +290,7 @@ CWordEditor::_isTermExists(
 
 //-------------------------------------------------------------------------------------------------
 void
-CWordEditor::slot_termTranslate()
+WordEditor::slot_termTranslate()
 {
     m_Ui.tedtWordValue->clear();
 
@@ -299,13 +299,13 @@ CWordEditor::slot_termTranslate()
     cQString textFrom = m_Ui.tedtWordTerm->toPlainText().toUtf8();
     cQString langFrom = QString("en").toUtf8();
     cQString langTo   = QString("ru").toUtf8();
-    QString  textTo   = CUtils::googleTranslate(textFrom, langFrom, langTo);
+    QString  textTo   = ::Utils::googleTranslate(textFrom, langFrom, langTo);
 
     m_Ui.tedtWordValue->setText(textTo);
 }
 //-------------------------------------------------------------------------------------------------
 bool
-CWordEditor::slot_termCheck()
+WordEditor::slot_termCheck()
 {
     bool     bRv = false;
     QPalette plInfo;
@@ -359,7 +359,7 @@ CWordEditor::slot_termCheck()
 }
 //-------------------------------------------------------------------------------------------------
 void
-CWordEditor::slot_bbxButtons_OnClicked(
+WordEditor::slot_bbxButtons_OnClicked(
     QAbstractButton *a_button
 )
 {
@@ -391,7 +391,7 @@ CWordEditor::slot_bbxButtons_OnClicked(
 }
 //-------------------------------------------------------------------------------------------------
 void
-CWordEditor::slot_WordTermOrValue_OnTextChanged()
+WordEditor::slot_WordTermOrValue_OnTextChanged()
 {
     m_Ui.tedtWordTerm->document()->setModified(true);
     m_Ui.tedtWordValue->document()->setModified(true);

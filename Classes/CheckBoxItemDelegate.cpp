@@ -1,17 +1,17 @@
 /**
- * \file   CCheckBoxItemDelegate.cpp
+ * \file   CheckBoxItemDelegate.cpp
  * \brief
  */
 
 
-#include "CCheckBoxItemDelegate.h"
+#include "CheckBoxItemDelegate.h"
 
 #include <QApplication>
 #include <QtGui/QMouseEvent>
 #include <QCheckBox>
 #include <QDebug>
 
-#include "CCenteredCheckBox.h"
+#include "CenteredCheckBox.h"
 
 
 //-------------------------------------------------------------------------------------------------
@@ -19,19 +19,19 @@ namespace {
     const bool defaultValue = false;
 }
 //-------------------------------------------------------------------------------------------------
-CCheckBoxItemDelegate::CCheckBoxItemDelegate(
+CheckBoxItemDelegate::CheckBoxItemDelegate(
     QObject *a_parent /* = Q_NULLPTR */
 ) :
     QStyledItemDelegate(a_parent)
 {
 }
 //-------------------------------------------------------------------------------------------------
-CCheckBoxItemDelegate::~CCheckBoxItemDelegate()
+CheckBoxItemDelegate::~CheckBoxItemDelegate()
 {
 }
 //-------------------------------------------------------------------------------------------------
 QWidget *
-CCheckBoxItemDelegate::createEditor(
+CheckBoxItemDelegate::createEditor(
     QWidget                    *a_parent,
     const QStyleOptionViewItem &a_option,
     const QModelIndex          &a_index
@@ -40,7 +40,7 @@ CCheckBoxItemDelegate::createEditor(
     Q_UNUSED(a_option);
     Q_UNUSED(a_index);
 
-    CCenteredCheckBox *editor = new CCenteredCheckBox(a_parent);
+    CenteredCheckBox *editor = new CenteredCheckBox(a_parent);
     editor->checkBox()->setChecked(::defaultValue);
 
     QCheckBox *chkEditor = editor->checkBox();
@@ -51,7 +51,7 @@ CCheckBoxItemDelegate::createEditor(
 }
 //-------------------------------------------------------------------------------------------------
 void
-CCheckBoxItemDelegate::setEditorData(
+CheckBoxItemDelegate::setEditorData(
     QWidget           *a_editor,
     const QModelIndex &a_index
 ) const
@@ -66,25 +66,25 @@ CCheckBoxItemDelegate::setEditorData(
         value = defaultValue;
     }
 
-    CCenteredCheckBox *checkBoxWidget = static_cast<CCenteredCheckBox*>(a_editor);
+    CenteredCheckBox *checkBoxWidget = static_cast<CenteredCheckBox*>(a_editor);
     checkBoxWidget->checkBox()->setChecked(value);
 }
 //-------------------------------------------------------------------------------------------------
 void
-CCheckBoxItemDelegate::setModelData(
+CheckBoxItemDelegate::setModelData(
     QWidget            *a_editor,
     QAbstractItemModel *a_model,
     const QModelIndex  &a_index
 ) const
 {
-    CCenteredCheckBox *checkBoxWidget = static_cast<CCenteredCheckBox*>(a_editor);
+    CenteredCheckBox *checkBoxWidget = static_cast<CenteredCheckBox*>(a_editor);
     cbool value = checkBoxWidget->checkBox()->isChecked();
 
     a_model->setData(a_index, value, Qt::EditRole);
 }
 //-------------------------------------------------------------------------------------------------
 void
-CCheckBoxItemDelegate::updateEditorGeometry(
+CheckBoxItemDelegate::updateEditorGeometry(
     QWidget                    *a_editor,
     const QStyleOptionViewItem &a_option,
     const QModelIndex          &a_index
@@ -92,7 +92,7 @@ CCheckBoxItemDelegate::updateEditorGeometry(
 {
     Q_UNUSED(a_index);
 
-    CCenteredCheckBox *checkBoxWidget = static_cast<CCenteredCheckBox*>(a_editor);
+    CenteredCheckBox *checkBoxWidget = static_cast<CenteredCheckBox*>(a_editor);
 
     cQSize size = checkBoxWidget->sizeHint();
 
@@ -102,7 +102,7 @@ CCheckBoxItemDelegate::updateEditorGeometry(
 }
 //-------------------------------------------------------------------------------------------------
 void
-CCheckBoxItemDelegate::paint(
+CheckBoxItemDelegate::paint(
     QPainter                   *a_painter,
     const QStyleOptionViewItem &a_option,
     const QModelIndex          &a_index
@@ -137,7 +137,7 @@ CCheckBoxItemDelegate::paint(
 }
 //-------------------------------------------------------------------------------------------------
 void
-CCheckBoxItemDelegate::slot_OnToggled()
+CheckBoxItemDelegate::slot_OnToggled()
 {
     qDebug() << __FUNCTION__;
 }

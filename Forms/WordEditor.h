@@ -1,5 +1,5 @@
 /**
- * \file   CWordEditor.h
+ * \file   WordEditor.h
  * \brief
  */
 
@@ -7,31 +7,31 @@
 #ifndef iTeacher_CWordEditorH
 #define iTeacher_CWordEditorH
 //-------------------------------------------------------------------------------------------------
-#include "ui_CWordEditor.h"
+#include "ui_WordEditorUi.h"
 
 #include <QStatusBar>
 
 #include "../Config.h"
 #include "../QtLib/Common.h"
 
-#include "CMain.h"
+#include "Main.h"
 //-------------------------------------------------------------------------------------------------
-class CWordEditor :
+class WordEditor :
     public QDialog
 {
     Q_OBJECT
-    Q_DISABLE_COPY(CWordEditor)
+    Q_DISABLE_COPY(WordEditor)
 
 public:
-    Ui::CWordEditor m_Ui;
+    Ui::WordEditorUi m_Ui;
 
-                    CWordEditor(QWidget *parent, QSqlTableModel *tableModel,
-                        CSqlNavigator *sqlNavigator, cQString &newTerm = QString());
-    virtual        ~CWordEditor();
+                    WordEditor(QWidget *parent, QSqlTableModel *tableModel,
+                        SqlNavigator *sqlNavigator, cQString &newTerm = QString());
+    virtual        ~WordEditor();
 
 private:
     QSqlTableModel *_model;
-    CSqlNavigator  *_sqlNavigator;
+    SqlNavigator   *_sqlNavigator;
     cint            _currentRow;
     cQString        _termNew;
 

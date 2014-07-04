@@ -5,7 +5,7 @@
 
 
 #include <QApplication>
-#include "Forms/CMain.h"
+#include "Forms/Main.h"
 
 //-------------------------------------------------------------------------------------------------
 int main(int argc, char *argv[])
@@ -19,7 +19,7 @@ int main(int argc, char *argv[])
 #endif
 
     // activation application window
-    CUtils::applicationActivate(APP_WINDOW_CLASS, APP_NAME);
+    ::Utils::applicationActivate(APP_WINDOW_CLASS, APP_NAME);
 
     // set application single inststance
     {
@@ -36,7 +36,7 @@ int main(int argc, char *argv[])
         QCoreApplication::setOrganizationName(ORG_NAME);
         QCoreApplication::setApplicationName(APP_NAME);
 
-        CMain dlgMain;
+        Main dlgMain;
         dlgMain.show();
 
         iExitCode = apStart.exec();

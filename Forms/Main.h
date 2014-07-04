@@ -1,5 +1,5 @@
 /**
- * \file   CMain.h
+ * \file   Main.h
  * \brief  main widget
  */
 
@@ -38,34 +38,34 @@
 #endif
 
 #include "../QtLib/Common.h"
-#include "../QtLib/CUtils.h"
-#include "../QtLib/CSqlNavigator.h"
+#include "../QtLib/Utils.h"
+#include "../QtLib/SqlNavigator.h"
 
-#include "ui_CMain.h"
+#include "ui_Main.h"
 //-------------------------------------------------------------------------------------------------
-class CMain :
+class Main :
     public QMainWindow
 {
     Q_OBJECT
-    Q_DISABLE_COPY(CMain)
+    Q_DISABLE_COPY(Main)
 
 public:
-                    CMain(QWidget *parent = Q_NULLPTR, Qt::WindowFlags flags = 0);
-    virtual        ~CMain();
+                    Main(QWidget *parent = Q_NULLPTR, Qt::WindowFlags flags = 0);
+    virtual        ~Main();
 
 protected:
     virtual bool    eventFilter(QObject *object, QEvent *event);
     virtual void    keyPressEvent(QKeyEvent *event);
 
 private:
-    Ui::CMainClass  ui;
+    Ui::MainUi      ui;
     QString         _appName;
     QString         _appDir;
     QString         _dbDir;
     QString         _dbBackupDir;
     QString         _tempDir;
     QSystemTrayIcon _trayIcon;
-    CSqlNavigator   _sqlNavigator;
+    SqlNavigator    _sqlNavigator;
 
     void            _construct();
     void            _destruct();
