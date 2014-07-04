@@ -6,119 +6,106 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>402</width>
+    <width>400</width>
     <height>400</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Word editor[*]</string>
   </property>
-  <layout class="QGridLayout" name="gridLayout">
+  <layout class="QGridLayout" name="gridLayout_2">
    <item row="0" column="0">
-    <widget class="QLabel" name="label_2">
-     <property name="text">
-      <string>Termin</string>
-     </property>
-    </widget>
-   </item>
-   <item row="4" column="0">
-    <widget class="QLabel" name="label">
-     <property name="text">
-      <string>Tag</string>
-     </property>
-    </widget>
-   </item>
-   <item row="1" column="0">
-    <widget class="QTextEdit" name="tedtWordTerm">
-     <property name="minimumSize">
-      <size>
-       <width>0</width>
-       <height>54</height>
-      </size>
-     </property>
-     <property name="maximumSize">
-      <size>
-       <width>16777215</width>
-       <height>54</height>
-      </size>
-     </property>
-     <property name="frameShape">
-      <enum>QFrame::Box</enum>
-     </property>
-     <property name="frameShadow">
-      <enum>QFrame::Plain</enum>
-     </property>
-    </widget>
-   </item>
-   <item row="3" column="0">
-    <widget class="QTextEdit" name="tedtWordValue">
-     <property name="frameShape">
-      <enum>QFrame::Box</enum>
-     </property>
-     <property name="frameShadow">
-      <enum>QFrame::Plain</enum>
-     </property>
-    </widget>
-   </item>
-   <item row="6" column="0" colspan="2">
-    <widget class="QDialogButtonBox" name="bbxButtons">
-     <property name="standardButtons">
-      <set>QDialogButtonBox::Apply|QDialogButtonBox::Cancel|QDialogButtonBox::Ok|QDialogButtonBox::Reset</set>
-     </property>
-    </widget>
-   </item>
-   <item row="5" column="0">
-    <widget class="QComboBox" name="cboTags"/>
-   </item>
-   <item row="2" column="0">
-    <widget class="QLabel" name="label_3">
-     <property name="text">
-      <string>Value</string>
-     </property>
-    </widget>
-   </item>
-   <item row="0" column="1" rowspan="6">
-    <layout class="QVBoxLayout" name="verticalLayout">
-     <item>
+    <layout class="QGridLayout" name="gridLayout">
+     <item row="5" column="0" colspan="4">
+      <widget class="QLabel" name="label">
+       <property name="text">
+        <string>Tag</string>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="0" colspan="4">
+      <widget class="QTextEdit" name="tedtWordTerm">
+       <property name="minimumSize">
+        <size>
+         <width>0</width>
+         <height>54</height>
+        </size>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>16777215</width>
+         <height>54</height>
+        </size>
+       </property>
+       <property name="frameShape">
+        <enum>QFrame::Box</enum>
+       </property>
+       <property name="frameShadow">
+        <enum>QFrame::Plain</enum>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="0" colspan="4">
+      <widget class="QLabel" name="label_2">
+       <property name="text">
+        <string>Termin</string>
+       </property>
+      </widget>
+     </item>
+     <item row="13" column="0" colspan="4">
+      <widget class="QDialogButtonBox" name="bbxButtons">
+       <property name="standardButtons">
+        <set>QDialogButtonBox::Apply|QDialogButtonBox::Cancel|QDialogButtonBox::Ok|QDialogButtonBox::Reset</set>
+       </property>
+      </widget>
+     </item>
+     <item row="6" column="0" colspan="4">
+      <widget class="QComboBox" name="cboTags"/>
+     </item>
+     <item row="4" column="0" colspan="4">
+      <widget class="QTextEdit" name="tedtWordValue">
+       <property name="frameShape">
+        <enum>QFrame::Box</enum>
+       </property>
+       <property name="frameShadow">
+        <enum>QFrame::Plain</enum>
+       </property>
+      </widget>
+     </item>
+     <item row="3" column="0" colspan="4">
+      <widget class="QLabel" name="label_3">
+       <property name="text">
+        <string>Value</string>
+       </property>
+      </widget>
+     </item>
+     <item row="8" column="0">
       <widget class="QPushButton" name="pbtnTermTranslate">
        <property name="text">
         <string>Translate</string>
        </property>
       </widget>
      </item>
-     <item>
-      <widget class="QPushButton" name="pbtnTermCheck">
-       <property name="text">
-        <string>Check</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QCheckBox" name="chkWordIsLearned">
-       <property name="text">
-        <string>Learned</string>
-       </property>
-      </widget>
-     </item>
-     <item>
+     <item row="8" column="3">
       <widget class="QCheckBox" name="chkWordIsMarked">
        <property name="text">
         <string>Marked</string>
        </property>
       </widget>
      </item>
-     <item>
-      <spacer name="verticalSpacer">
-       <property name="orientation">
-        <enum>Qt::Vertical</enum>
+     <item row="8" column="2">
+      <widget class="QCheckBox" name="chkWordIsLearned">
+       <property name="text">
+        <string>Learned</string>
        </property>
-       <property name="sizeHint" stdset="0">
-        <size>
-         <width>20</width>
-         <height>40</height>
-        </size>
+      </widget>
+     </item>
+     <item row="8" column="1">
+      <widget class="QPushButton" name="pbtnTermCheck">
+       <property name="text">
+        <string>Check</string>
        </property>
-      </spacer>
+      </widget>
      </item>
     </layout>
    </item>
