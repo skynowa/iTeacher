@@ -44,9 +44,9 @@ WordFinder::~WordFinder()
 void
 WordFinder::_construct()
 {
-    m_Ui.setupUi(this);
+    ui.setupUi(this);
 
-    m_Ui.cboWordTerm->setFocus();
+    ui.cboWordTerm->setFocus();
 
     // tags
     {
@@ -56,15 +56,15 @@ WordFinder::_construct()
         qCHECK_REF(rv, query);
 
         for ( ; query.next(); ) {
-            m_Ui.cboTags->addItem( query.value(0).toString() );
+            ui.cboTags->addItem( query.value(0).toString() );
         }
 
-        m_Ui.cboTags->setCurrentText("");
+        ui.cboTags->setCurrentText("");
     }
 
     // signals
     {
-        connect(m_Ui.bbxButtons, SIGNAL( clicked(QAbstractButton *) ),
+        connect(ui.bbxButtons, SIGNAL( clicked(QAbstractButton *) ),
                 this,            SLOT  ( slot_bbxButtons_OnClicked(QAbstractButton *) ));
     }
 }
@@ -88,7 +88,7 @@ WordFinder::slot_bbxButtons_OnClicked(
     QAbstractButton *a_button
 )
 {
-    QDialogButtonBox::StandardButton type = m_Ui.bbxButtons->standardButton(a_button);
+    QDialogButtonBox::StandardButton type = ui.bbxButtons->standardButton(a_button);
     switch (type) {
         case QDialogButtonBox::Reset:
             _resetAll();
@@ -120,13 +120,13 @@ WordFinder::slot_bbxButtons_OnClicked(
 void
 WordFinder::_resetAll()
 {
-    m_Ui.cboWordTerm->clear();
-    m_Ui.cboWordValue->clear();
-    m_Ui.cboTags->setCurrentText("");
-    m_Ui.chkWordNotLearned->setChecked(false);
-    m_Ui.chkWordNotMarked->setChecked(false);
-    m_Ui.chkWordLearned->setChecked(false);
-    m_Ui.chkWordMarked->setChecked (false);
+    ui.cboWordTerm->clear();
+    ui.cboWordValue->clear();
+    ui.cboTags->setCurrentText("");
+    ui.chkWordNotLearned->setChecked(false);
+    ui.chkWordNotMarked->setChecked(false);
+    ui.chkWordLearned->setChecked(false);
+    ui.chkWordMarked->setChecked (false);
 }
 //-------------------------------------------------------------------------------------------------
 void
@@ -134,19 +134,19 @@ WordFinder::_saveAll()
 {
     ::Utils::db_fields_t fields;
     {
-        fields.push_back( QPair<QString, QString>(DB_F_MAIN_TERM,  m_Ui.cboWordTerm->currentText()) );
-        fields.push_back( QPair<QString, QString>(DB_F_MAIN_VALUE, m_Ui.cboWordValue->currentText()) );
-        fields.push_back( QPair<QString, QString>(DB_F_MAIN_TAG,   m_Ui.cboTags->currentText()) );
+        fields.push_back( QPair<QString, QString>(DB_F_MAIN_TERM,  ui.cboWordTerm->currentText()) );
+        fields.push_back( QPair<QString, QString>(DB_F_MAIN_VALUE, ui.cboWordValue->currentText()) );
+        fields.push_back( QPair<QString, QString>(DB_F_MAIN_TAG,   ui.cboTags->currentText()) );
     }
 
     QString sqlStrWhere;
     {
         cQString separator = "##";
 
-        bool cond1 = m_Ui.chkWordNotLearned->isChecked();
-        bool cond2 = m_Ui.chkWordNotMarked->isChecked();
-        bool cond3 = m_Ui.chkWordLearned->isChecked();
-        bool cond4 = m_Ui.chkWordMarked->isChecked();
+        bool cond1 = ui.chkWordNotLearned->isChecked();
+        bool cond2 = ui.chkWordNotMarked->isChecked();
+        bool cond3 = ui.chkWordLearned->isChecked();
+        bool cond4 = ui.chkWordMarked->isChecked();
 
         QString sql1;
         if (cond1) {

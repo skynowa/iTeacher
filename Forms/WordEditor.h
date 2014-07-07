@@ -23,7 +23,7 @@ class WordEditor :
     Q_DISABLE_COPY(WordEditor)
 
 public:
-    Ui::UiWordEditor m_Ui;
+    Ui::UiWordEditor ui;
 
                     WordEditor(QWidget *parent, QSqlTableModel *tableModel,
                         SqlNavigator *sqlNavigator, cQString &newTerm = QString());

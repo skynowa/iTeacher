@@ -55,15 +55,15 @@ WordEditor::~WordEditor()
 void
 WordEditor::_construct()
 {
-    m_Ui.setupUi(this);
+    ui.setupUi(this);
 
     // CMain
     {
         QSqlRecord record = _model->record(_currentRow);
 
         // term, value
-        m_Ui.tedtWordTerm->setText( record.value(DB_F_MAIN_TERM).toString() );
-        m_Ui.tedtWordValue->setText( record.value(DB_F_MAIN_VALUE).toString() );
+        ui.tedtWordTerm->setText( record.value(DB_F_MAIN_TERM).toString() );
+        ui.tedtWordValue->setText( record.value(DB_F_MAIN_VALUE).toString() );
 
         // tags
         {
@@ -73,30 +73,30 @@ WordEditor::_construct()
             qCHECK_REF(rv, query);
 
             for ( ; query.next(); ) {
-                m_Ui.cboTags->addItem( query.value(0).toString() );
+                ui.cboTags->addItem( query.value(0).toString() );
             }
 
-            cint index = m_Ui.cboTags->findText( record.value(DB_F_MAIN_TAG).toString() );
-            m_Ui.cboTags->setCurrentIndex(index);
+            cint index = ui.cboTags->findText( record.value(DB_F_MAIN_TAG).toString() );
+            ui.cboTags->setCurrentIndex(index);
         }
 
         // checkboxes
-        m_Ui.chkWordIsLearned->setChecked( record.value(DB_F_MAIN_IS_LEARNED).toBool() );
-        m_Ui.chkWordIsMarked->setChecked ( record.value(DB_F_MAIN_IS_MARKED).toBool() );
+        ui.chkWordIsLearned->setChecked( record.value(DB_F_MAIN_IS_LEARNED).toBool() );
+        ui.chkWordIsMarked->setChecked ( record.value(DB_F_MAIN_IS_MARKED).toBool() );
 
         // _sbInfo
         {
             _sbInfo = new QStatusBar(this);
             _sbInfo->setSizeGripEnabled(false);
 
-            m_Ui.gridLayout->addWidget(_sbInfo);
+            ui.gridLayout->addWidget(_sbInfo);
 
             _plInfoDefault = _sbInfo->palette();
         }
 
         // check word term
         if (!_termNew.isEmpty()) {
-            m_Ui.tedtWordTerm->setText(_termNew);
+            ui.tedtWordTerm->setText(_termNew);
             slot_termCheck();
             slot_termTranslate();
         }
@@ -104,19 +104,19 @@ WordEditor::_construct()
 
     // signals
     {
-        connect(m_Ui.pbtnTermTranslate, SIGNAL( clicked() ),
+        connect(ui.pbtnTermTranslate, SIGNAL( clicked() ),
                  this,                  SLOT  ( slot_termTranslate() ));
 
-        connect(m_Ui.pbtnTermCheck,     SIGNAL( clicked() ),
+        connect(ui.pbtnTermCheck,     SIGNAL( clicked() ),
                  this,                  SLOT  ( slot_termCheck() ));
 
-        connect(m_Ui.bbxButtons,        SIGNAL( clicked(QAbstractButton *) ),
+        connect(ui.bbxButtons,        SIGNAL( clicked(QAbstractButton *) ),
                 this,                   SLOT  ( slot_bbxButtons_OnClicked(QAbstractButton *) ));
 
-        connect(m_Ui.tedtWordTerm,      SIGNAL( textChanged() ),
+        connect(ui.tedtWordTerm,      SIGNAL( textChanged() ),
                 this,                   SLOT  ( slot_WordTermOrValue_OnTextChanged() ));
 
-        connect(m_Ui.tedtWordValue,     SIGNAL( textChanged() ),
+        connect(ui.tedtWordValue,     SIGNAL( textChanged() ),
                 this,                   SLOT  ( slot_WordTermOrValue_OnTextChanged() ));
     }
 
@@ -150,11 +150,11 @@ WordEditor::_destruct()
 void
 WordEditor::_resetAll()
 {
-    m_Ui.tedtWordTerm->clear();
-    m_Ui.tedtWordValue->clear();
-    m_Ui.cboTags->setCurrentText(tr(""));
-    m_Ui.chkWordIsLearned->setChecked(false);
-    m_Ui.chkWordIsMarked->setChecked(false);
+    ui.tedtWordTerm->clear();
+    ui.tedtWordValue->clear();
+    ui.cboTags->setCurrentText(tr(""));
+    ui.chkWordIsLearned->setChecked(false);
+    ui.chkWordIsMarked->setChecked(false);
 }
 //-------------------------------------------------------------------------------------------------
 void
@@ -167,16 +167,16 @@ WordEditor::_saveAll(
 
     // normilize term, value
     {
-        cQString termNorm = m_Ui.tedtWordTerm->toPlainText().trimmed();
-        m_Ui.tedtWordTerm->setPlainText(termNorm);
+        cQString termNorm = ui.tedtWordTerm->toPlainText().trimmed();
+        ui.tedtWordTerm->setPlainText(termNorm);
 
-        cQString valueNorm = m_Ui.tedtWordValue->toPlainText().trimmed();
-        m_Ui.tedtWordValue->setPlainText(valueNorm);
+        cQString valueNorm = ui.tedtWordValue->toPlainText().trimmed();
+        ui.tedtWordValue->setPlainText(valueNorm);
     }
 
     // checks
     {
-        if (m_Ui.tedtWordTerm->toPlainText().isEmpty()) {
+        if (ui.tedtWordTerm->toPlainText().isEmpty()) {
             *a_code = QDialog::Rejected;
             return;
         }
@@ -193,11 +193,11 @@ WordEditor::_saveAll(
 
     QSqlRecord record = _model->record(currentRow);
     {
-        record.setValue(DB_F_MAIN_TERM,       m_Ui.tedtWordTerm->toPlainText());
-        record.setValue(DB_F_MAIN_VALUE,      m_Ui.tedtWordValue->toPlainText());
-        record.setValue(DB_F_MAIN_TAG,        m_Ui.cboTags->currentText() );
-        record.setValue(DB_F_MAIN_IS_LEARNED, m_Ui.chkWordIsLearned->isChecked());
-        record.setValue(DB_F_MAIN_IS_MARKED,  m_Ui.chkWordIsMarked->isChecked());
+        record.setValue(DB_F_MAIN_TERM,       ui.tedtWordTerm->toPlainText());
+        record.setValue(DB_F_MAIN_VALUE,      ui.tedtWordValue->toPlainText());
+        record.setValue(DB_F_MAIN_TAG,        ui.cboTags->currentText() );
+        record.setValue(DB_F_MAIN_IS_LEARNED, ui.chkWordIsLearned->isChecked());
+        record.setValue(DB_F_MAIN_IS_MARKED,  ui.chkWordIsMarked->isChecked());
     }
 
     bRv = _model->setRecord(currentRow, record);
@@ -292,16 +292,16 @@ WordEditor::_isTermExists(
 void
 WordEditor::slot_termTranslate()
 {
-    m_Ui.tedtWordValue->clear();
+    ui.tedtWordValue->clear();
 
-    qCHECK_DO(m_Ui.tedtWordTerm->toPlainText().isEmpty(), return);
+    qCHECK_DO(ui.tedtWordTerm->toPlainText().isEmpty(), return);
 
-    cQString textFrom = m_Ui.tedtWordTerm->toPlainText().toUtf8();
+    cQString textFrom = ui.tedtWordTerm->toPlainText().toUtf8();
     cQString langFrom = QString("en").toUtf8();
     cQString langTo   = QString("ru").toUtf8();
     QString  textTo   = ::Utils::googleTranslate(textFrom, langFrom, langTo);
 
-    m_Ui.tedtWordValue->setText(textTo);
+    ui.tedtWordValue->setText(textTo);
 }
 //-------------------------------------------------------------------------------------------------
 bool
@@ -312,7 +312,7 @@ WordEditor::slot_termCheck()
     QString  msg;
 
     // is term empty
-    bRv = m_Ui.tedtWordTerm->toPlainText().trimmed().isEmpty();
+    bRv = ui.tedtWordTerm->toPlainText().trimmed().isEmpty();
     if (bRv) {
         msg = QString(tr("Termin is an empty"));
 
@@ -328,10 +328,10 @@ WordEditor::slot_termCheck()
     }
 
     // is term exists
-    bRv = _isTermExists( m_Ui.tedtWordTerm->toPlainText() );
+    bRv = _isTermExists( ui.tedtWordTerm->toPlainText() );
     if (bRv) {
         msg = QString(tr("Termin '%1' already exists"))
-                            .arg( m_Ui.tedtWordTerm->toPlainText() );
+                            .arg( ui.tedtWordTerm->toPlainText() );
 
         QPalette pallete = _sbInfo->palette();
         pallete.setColor(QPalette::WindowText, Qt::red);
@@ -347,7 +347,7 @@ WordEditor::slot_termCheck()
     // ok, term is a new
     {
         msg = QString(tr("Termin '%1' is a new"))
-                            .arg( m_Ui.tedtWordTerm->toPlainText() );
+                            .arg( ui.tedtWordTerm->toPlainText() );
 
         qSwap(plInfo, _plInfoDefault);
 
@@ -365,7 +365,7 @@ WordEditor::slot_bbxButtons_OnClicked(
 {
     QDialog::DialogCode code = QDialog::Rejected;
 
-    QDialogButtonBox::StandardButton type = m_Ui.bbxButtons->standardButton(a_button);
+    QDialogButtonBox::StandardButton type = ui.bbxButtons->standardButton(a_button);
     switch (type) {
         case QDialogButtonBox::Ok:
         case QDialogButtonBox::Apply:
@@ -393,11 +393,11 @@ WordEditor::slot_bbxButtons_OnClicked(
 void
 WordEditor::slot_WordTermOrValue_OnTextChanged()
 {
-    m_Ui.tedtWordTerm->document()->setModified(true);
-    m_Ui.tedtWordValue->document()->setModified(true);
+    ui.tedtWordTerm->document()->setModified(true);
+    ui.tedtWordValue->document()->setModified(true);
 
-    cbool flag = m_Ui.tedtWordTerm->document()->isModified() ||
-                   m_Ui.tedtWordValue->document()->isModified();
+    cbool flag = ui.tedtWordTerm->document()->isModified() ||
+                   ui.tedtWordValue->document()->isModified();
 
     setWindowModified(flag);
 }
