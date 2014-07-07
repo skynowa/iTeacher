@@ -19,7 +19,7 @@ class WordFinder :
     Q_DISABLE_COPY(WordFinder)
 
 public:
-    Ui::WordFinderUi m_Ui;
+    Ui::UiWordFinder m_Ui;
 
                     WordFinder(QWidget *parent, QSqlTableModel *tableModel);
     virtual        ~WordFinder();

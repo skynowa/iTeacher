@@ -7,7 +7,7 @@
 #ifndef iTeacher_CWordEditorH
 #define iTeacher_CWordEditorH
 //-------------------------------------------------------------------------------------------------
-#include "ui_WordEditorUi.h"
+#include "ui_WordEditor.h"
 
 #include <QStatusBar>
 
@@ -23,7 +23,7 @@ class WordEditor :
     Q_DISABLE_COPY(WordEditor)
 
 public:
-    Ui::WordEditorUi m_Ui;
+    Ui::UiWordEditor m_Ui;
 
                     WordEditor(QWidget *parent, QSqlTableModel *tableModel,
                         SqlNavigator *sqlNavigator, cQString &newTerm = QString());

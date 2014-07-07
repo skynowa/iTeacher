@@ -54,8 +54,8 @@ SOURCES = \
     QtLib/Utils.cpp
 
 FORMS = \
-    Forms/Editor.ui \
     Forms/Main.ui \
+    Forms/WordEditor.ui \
     Forms/WordFinder.ui
 
 RESOURCES = \

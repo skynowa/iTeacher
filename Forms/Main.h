@@ -58,7 +58,7 @@ protected:
     virtual void    keyPressEvent(QKeyEvent *event);
 
 private:
-    Ui::MainUi      ui;
+    Ui::UiMain      ui;
     QString         _appName;
     QString         _appDir;
     QString         _dbDir;
