@@ -269,7 +269,7 @@ Main::_initModel()
     // open DB
     {
         if (ui.cboDictPath->currentText().isEmpty()) {
-            cQString dictPath = _dbDir + QDir::separator() + DB_FILE_NAME__NEW;
+            cQString dictPath = _dbDir + QDir::separator() + DB_FILE_NAME_EMPTY;
 
             dbOpen(dictPath);
             cboDictPath_reload();
