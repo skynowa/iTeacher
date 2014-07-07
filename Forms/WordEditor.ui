@@ -16,10 +16,10 @@
   <layout class="QGridLayout" name="gridLayout_2">
    <item row="0" column="0">
     <layout class="QGridLayout" name="gridLayout">
-     <item row="5" column="0" colspan="4">
-      <widget class="QLabel" name="label">
+     <item row="1" column="0" colspan="4">
+      <widget class="QLabel" name="label_2">
        <property name="text">
-        <string>Tag</string>
+        <string>Termin</string>
        </property>
       </widget>
      </item>
@@ -45,10 +45,17 @@
        </property>
       </widget>
      </item>
-     <item row="1" column="0" colspan="4">
-      <widget class="QLabel" name="label_2">
+     <item row="8" column="1">
+      <widget class="QPushButton" name="pbtnTermCheck">
        <property name="text">
-        <string>Termin</string>
+        <string>Check</string>
+       </property>
+      </widget>
+     </item>
+     <item row="3" column="0" colspan="4">
+      <widget class="QLabel" name="label_3">
+       <property name="text">
+        <string>Value</string>
        </property>
       </widget>
      </item>
@@ -62,6 +69,13 @@
      <item row="6" column="0" colspan="4">
       <widget class="QComboBox" name="cboTags"/>
      </item>
+     <item row="8" column="2">
+      <widget class="QCheckBox" name="chkWordIsLearned">
+       <property name="text">
+        <string>Learned</string>
+       </property>
+      </widget>
+     </item>
      <item row="4" column="0" colspan="4">
       <widget class="QTextEdit" name="tedtWordValue">
        <property name="frameShape">
@@ -72,10 +86,10 @@
        </property>
       </widget>
      </item>
-     <item row="3" column="0" colspan="4">
-      <widget class="QLabel" name="label_3">
+     <item row="8" column="3">
+      <widget class="QCheckBox" name="chkWordIsMarked">
        <property name="text">
-        <string>Value</string>
+        <string>Marked</string>
        </property>
       </widget>
      </item>
@@ -86,28 +100,46 @@
        </property>
       </widget>
      </item>
-     <item row="8" column="3">
-      <widget class="QCheckBox" name="chkWordIsMarked">
+     <item row="5" column="0" colspan="4">
+      <widget class="QLabel" name="label">
        <property name="text">
-        <string>Marked</string>
+        <string>Tag</string>
        </property>
       </widget>
      </item>
-     <item row="8" column="2">
-      <widget class="QCheckBox" name="chkWordIsLearned">
-       <property name="text">
-        <string>Learned</string>
-       </property>
-      </widget>
-     </item>
-     <item row="8" column="1">
-      <widget class="QPushButton" name="pbtnTermCheck">
-       <property name="text">
-        <string>Check</string>
+     <item row="9" column="0" colspan="4">
+      <widget class="Line" name="line">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
        </property>
       </widget>
      </item>
     </layout>
+   </item>
+   <item row="1" column="0">
+    <widget class="QLabel" name="lblInfo">
+     <property name="minimumSize">
+      <size>
+       <width>0</width>
+       <height>25</height>
+      </size>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>16777215</width>
+       <height>25</height>
+      </size>
+     </property>
+     <property name="frameShape">
+      <enum>QFrame::StyledPanel</enum>
+     </property>
+     <property name="frameShadow">
+      <enum>QFrame::Sunken</enum>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
    </item>
   </layout>
  </widget>

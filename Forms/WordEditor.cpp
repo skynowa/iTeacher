@@ -27,7 +27,6 @@ WordEditor::WordEditor(
     _sqlNavigator (a_sqlNavigator),
     _currentRow   (a_sqlNavigator->view()->currentIndex().row()),
     _termNew      (a_newTerm.trimmed()),
-    _sbInfo       (Q_NULLPTR),
     _plInfoDefault()
 {
     qTEST_PTR(a_parent);
@@ -84,14 +83,11 @@ WordEditor::_construct()
         ui.chkWordIsLearned->setChecked( record.value(DB_F_MAIN_IS_LEARNED).toBool() );
         ui.chkWordIsMarked->setChecked ( record.value(DB_F_MAIN_IS_MARKED).toBool() );
 
-        // _sbInfo
+        // ui.lblInfo
         {
-            _sbInfo = new QStatusBar(this);
-            _sbInfo->setSizeGripEnabled(false);
+            // ui.gridLayout->addWidget(ui.lblInfo);
 
-            ui.gridLayout->addWidget(_sbInfo);
-
-            _plInfoDefault = _sbInfo->palette();
+            _plInfoDefault = ui.lblInfo->palette();
         }
 
         // check word term
@@ -316,13 +312,13 @@ WordEditor::slot_termCheck()
     if (bRv) {
         msg = QString(tr("Termin is an empty"));
 
-        QPalette pallete = _sbInfo->palette();
+        QPalette pallete = ui.lblInfo->palette();
         pallete.setColor(QPalette::WindowText, Qt::red);
 
         qSwap(plInfo, pallete);
 
-        _sbInfo->setPalette(plInfo);
-        _sbInfo->showMessage(msg);
+        ui.lblInfo->setPalette(plInfo);
+        ui.lblInfo->setText(msg);
 
         return false;
     }
@@ -333,13 +329,13 @@ WordEditor::slot_termCheck()
         msg = QString(tr("Termin '%1' already exists"))
                             .arg( ui.tedtWordTerm->toPlainText() );
 
-        QPalette pallete = _sbInfo->palette();
+        QPalette pallete = ui.lblInfo->palette();
         pallete.setColor(QPalette::WindowText, Qt::red);
 
         qSwap(plInfo, pallete);
 
-        _sbInfo->setPalette(plInfo);
-        _sbInfo->showMessage(msg);
+        ui.lblInfo->setPalette(plInfo);
+        ui.lblInfo->setText(msg);
 
         return false;
     }
@@ -351,8 +347,8 @@ WordEditor::slot_termCheck()
 
         qSwap(plInfo, _plInfoDefault);
 
-        _sbInfo->setPalette(plInfo);
-        _sbInfo->showMessage(msg);
+        ui.lblInfo->setPalette(plInfo);
+        ui.lblInfo->setText(msg);
     }
 
     return true;

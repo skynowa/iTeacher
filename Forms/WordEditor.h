@@ -35,7 +35,6 @@ private:
     cint            _currentRow;
     cQString        _termNew;
 
-    QStatusBar     *_sbInfo;
     QPalette        _plInfoDefault;
 
     void            _construct();
