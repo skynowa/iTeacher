@@ -20,12 +20,14 @@ WordEditor::WordEditor(
     QWidget        *a_parent,
     QSqlTableModel *a_tableModel,
     SqlNavigator   *a_sqlNavigator,
+    cbool          &a_insertMode,
     cQString       &a_newTerm /* = QString() */
 ) :
     QDialog       (a_parent),
     _model        (a_tableModel),
     _sqlNavigator (a_sqlNavigator),
     _currentRow   (a_sqlNavigator->view()->currentIndex().row()),
+    _insertMode   (a_insertMode),
     _termNew      (a_newTerm.trimmed()),
     _plInfoDefault()
 {
@@ -347,7 +349,8 @@ WordEditor::slot_termCheck()
     }
 
     bRv = _isTermExists( ui.tedtWordTerm->toPlainText() );
-    if (bRv) {
+    if (bRv && _insertMode) {
+        // insert: term already exists (false)
         msg = QString(tr("Termin '%1' already exists"))
                             .arg( ui.tedtWordTerm->toPlainText() );
 
@@ -361,9 +364,23 @@ WordEditor::slot_termCheck()
 
         return false;
     }
+    else if (bRv && !_insertMode) {
+        // edit: term already exists (true)
+        msg = QString(tr("Termin '%1' now editing"))
+                            .arg( ui.tedtWordTerm->toPlainText() );
 
-    // ok, term is a new
-    {
+        QPalette pallete = ui.lblInfo->palette();
+        pallete.setColor(QPalette::WindowText, Qt::blue);
+
+        qSwap(plInfo, pallete);
+
+        ui.lblInfo->setPalette(plInfo);
+        ui.lblInfo->setText(msg);
+
+        return true;
+    }
+    else {
+        // ok, term is a new
         msg = QString(tr("Termin '%1' is a new"))
                             .arg( ui.tedtWordTerm->toPlainText() );
 

@@ -511,7 +511,7 @@ Main::slot_OnImportClipboard()
     _sqlNavigator.insert();
 
     cQString   data = QApplication::clipboard()->text();
-    WordEditor dlgWordEditor(this, _model, &_sqlNavigator, data);
+    WordEditor dlgWordEditor(this, _model, &_sqlNavigator, true, data);
 
     QDialog::DialogCode code = static_cast<QDialog::DialogCode>( dlgWordEditor.exec() );
     switch (code) {
@@ -656,7 +656,7 @@ Main::slot_OnInsert()
 
     _sqlNavigator.insert();
 
-    WordEditor dlgWordEditor(this, _model, &_sqlNavigator);
+    WordEditor dlgWordEditor(this, _model, &_sqlNavigator, true);
 
     QDialog::DialogCode code = static_cast<QDialog::DialogCode>( dlgWordEditor.exec() );
     switch (code) {
@@ -678,7 +678,7 @@ void
 Main::slot_OnEdit()
 {
     // show edit dialog
-    WordEditor dlgWordEditor(this, _model, &_sqlNavigator);
+    WordEditor dlgWordEditor(this, _model, &_sqlNavigator, false);
 
     (int)dlgWordEditor.exec();
 }

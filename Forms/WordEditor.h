@@ -26,13 +26,15 @@ public:
     Ui::UiWordEditor ui;
 
                     WordEditor(QWidget *parent, QSqlTableModel *tableModel,
-                        SqlNavigator *sqlNavigator, cQString &newTerm = QString());
+                        SqlNavigator *sqlNavigator, cbool &inserMode,
+                        cQString &newTerm = QString());
     virtual        ~WordEditor();
 
 private:
     QSqlTableModel *_model;
     SqlNavigator   *_sqlNavigator;
     cint            _currentRow;
+    cbool           _insertMode;
     cQString        _termNew;
 
     QPalette        _plInfoDefault;
