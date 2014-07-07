@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>400</width>
+    <width>433</width>
     <height>400</height>
    </rect>
   </property>
@@ -15,108 +15,128 @@
   </property>
   <layout class="QGridLayout" name="gridLayout_2">
    <item row="0" column="0">
+    <widget class="QLabel" name="label_2">
+     <property name="text">
+      <string>Termin</string>
+     </property>
+    </widget>
+   </item>
+   <item row="0" column="1" rowspan="4">
     <layout class="QGridLayout" name="gridLayout">
-     <item row="1" column="0" colspan="4">
-      <widget class="QLabel" name="label_2">
-       <property name="text">
-        <string>Termin</string>
-       </property>
-      </widget>
-     </item>
-     <item row="2" column="0" colspan="4">
-      <widget class="QTextEdit" name="tedtWordTerm">
-       <property name="minimumSize">
-        <size>
-         <width>0</width>
-         <height>54</height>
-        </size>
-       </property>
-       <property name="maximumSize">
-        <size>
-         <width>16777215</width>
-         <height>54</height>
-        </size>
-       </property>
-       <property name="frameShape">
-        <enum>QFrame::Box</enum>
-       </property>
-       <property name="frameShadow">
-        <enum>QFrame::Plain</enum>
-       </property>
-      </widget>
-     </item>
-     <item row="8" column="1">
-      <widget class="QPushButton" name="pbtnTermCheck">
-       <property name="text">
-        <string>Check</string>
-       </property>
-      </widget>
-     </item>
-     <item row="3" column="0" colspan="4">
-      <widget class="QLabel" name="label_3">
-       <property name="text">
-        <string>Value</string>
-       </property>
-      </widget>
-     </item>
-     <item row="13" column="0" colspan="4">
-      <widget class="QDialogButtonBox" name="bbxButtons">
-       <property name="standardButtons">
-        <set>QDialogButtonBox::Apply|QDialogButtonBox::Cancel|QDialogButtonBox::Ok|QDialogButtonBox::Reset</set>
-       </property>
-      </widget>
-     </item>
-     <item row="6" column="0" colspan="4">
-      <widget class="QComboBox" name="cboTags"/>
-     </item>
-     <item row="8" column="2">
-      <widget class="QCheckBox" name="chkWordIsLearned">
-       <property name="text">
-        <string>Learned</string>
-       </property>
-      </widget>
-     </item>
-     <item row="4" column="0" colspan="4">
-      <widget class="QTextEdit" name="tedtWordValue">
-       <property name="frameShape">
-        <enum>QFrame::Box</enum>
-       </property>
-       <property name="frameShadow">
-        <enum>QFrame::Plain</enum>
-       </property>
-      </widget>
-     </item>
-     <item row="8" column="3">
-      <widget class="QCheckBox" name="chkWordIsMarked">
-       <property name="text">
-        <string>Marked</string>
-       </property>
-      </widget>
-     </item>
-     <item row="8" column="0">
+     <item row="0" column="0">
       <widget class="QPushButton" name="pbtnTermTranslate">
        <property name="text">
         <string>Translate</string>
        </property>
       </widget>
      </item>
-     <item row="5" column="0" colspan="4">
-      <widget class="QLabel" name="label">
+     <item row="2" column="0">
+      <widget class="QCheckBox" name="chkWordIsLearned">
        <property name="text">
-        <string>Tag</string>
+        <string>Learned</string>
        </property>
       </widget>
      </item>
-     <item row="9" column="0" colspan="4">
-      <widget class="Line" name="line">
+     <item row="1" column="0">
+      <widget class="QPushButton" name="pbtnTermCheck">
+       <property name="text">
+        <string>Check</string>
+       </property>
+      </widget>
+     </item>
+     <item row="5" column="0">
+      <spacer name="verticalSpacer">
        <property name="orientation">
-        <enum>Qt::Horizontal</enum>
+        <enum>Qt::Vertical</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>17</width>
+         <height>82</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item row="3" column="0">
+      <widget class="QCheckBox" name="chkWordIsMarked">
+       <property name="text">
+        <string>Marked</string>
+       </property>
+      </widget>
+     </item>
+     <item row="4" column="0">
+      <widget class="QCheckBox" name="chkTerminLowerCase">
+       <property name="text">
+        <string>Lower case</string>
        </property>
       </widget>
      </item>
     </layout>
    </item>
    <item row="1" column="0">
+    <widget class="QTextEdit" name="tedtWordTerm">
+     <property name="minimumSize">
+      <size>
+       <width>0</width>
+       <height>54</height>
+      </size>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>16777215</width>
+       <height>54</height>
+      </size>
+     </property>
+     <property name="frameShape">
+      <enum>QFrame::Box</enum>
+     </property>
+     <property name="frameShadow">
+      <enum>QFrame::Plain</enum>
+     </property>
+    </widget>
+   </item>
+   <item row="2" column="0">
+    <widget class="QLabel" name="label_3">
+     <property name="text">
+      <string>Value</string>
+     </property>
+    </widget>
+   </item>
+   <item row="3" column="0">
+    <widget class="QTextEdit" name="tedtWordValue">
+     <property name="frameShape">
+      <enum>QFrame::Box</enum>
+     </property>
+     <property name="frameShadow">
+      <enum>QFrame::Plain</enum>
+     </property>
+    </widget>
+   </item>
+   <item row="4" column="0">
+    <widget class="QLabel" name="label">
+     <property name="text">
+      <string>Tag</string>
+     </property>
+    </widget>
+   </item>
+   <item row="5" column="0">
+    <widget class="QComboBox" name="cboTags"/>
+   </item>
+   <item row="6" column="0">
+    <widget class="Line" name="line">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+    </widget>
+   </item>
+   <item row="7" column="0">
+    <widget class="QDialogButtonBox" name="bbxButtons">
+     <property name="standardButtons">
+      <set>QDialogButtonBox::Apply|QDialogButtonBox::Cancel|QDialogButtonBox::Ok|QDialogButtonBox::Reset</set>
+     </property>
+    </widget>
+   </item>
+   <item row="8" column="0">
     <widget class="QLabel" name="lblInfo">
      <property name="minimumSize">
       <size>

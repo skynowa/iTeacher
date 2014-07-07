@@ -292,6 +292,15 @@ WordEditor::slot_termTranslate()
 
     qCHECK_DO(ui.tedtWordTerm->toPlainText().isEmpty(), return);
 
+    if (ui.chkTerminLowerCase->isChecked()) {
+        cQString term      = ui.tedtWordTerm->toPlainText();
+        cQString termLower = ui.tedtWordTerm->toPlainText().toLower();
+
+        if (term != termLower) {
+            ui.tedtWordTerm->setText(termLower);
+        }
+    }
+
     cQString textFrom = ui.tedtWordTerm->toPlainText().toUtf8();
     cQString langFrom = QString("en").toUtf8();
     cQString langTo   = QString("ru").toUtf8();
@@ -324,6 +333,15 @@ WordEditor::slot_termCheck()
     }
 
     // is term exists
+    if (ui.chkTerminLowerCase->isChecked()) {
+        cQString term      = ui.tedtWordTerm->toPlainText();
+        cQString termLower = ui.tedtWordTerm->toPlainText().toLower();
+
+        if (term != termLower) {
+            ui.tedtWordTerm->setText(termLower);
+        }
+    }
+
     bRv = _isTermExists( ui.tedtWordTerm->toPlainText() );
     if (bRv) {
         msg = QString(tr("Termin '%1' already exists"))
