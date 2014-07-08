@@ -1250,20 +1250,24 @@ Main::_settingsLoad()
 {
     QSize  size;
     QPoint position;
-    int    dictionary = 0;
+    int    dictionaryNum   = 0;
+    int    tableFontSize   = 0;
+    int    tableRowHeight  = 0;
     int    tableCurrentRow = 0;
 
     {
         QSettings settings(Application::configFilePath(), QSettings::IniFormat, this);
 
         settings.beginGroup("main");
-        size           = settings.value("size",        QSize(APP_WIDTH, APP_HEIGHT)).toSize();
-        position       = settings.value("position",    QPoint(200, 200)).toPoint();
-        dictionary     = settings.value("dictionary",  0).toInt();
+        size           = settings.value("size",           QSize(APP_WIDTH, APP_HEIGHT)).toSize();
+        position       = settings.value("position",       QPoint(200, 200)).toPoint();
+        dictionaryNum  = settings.value("dictionary_num", 0).toInt();
         settings.endGroup();
 
         settings.beginGroup("table");
-        tableCurrentRow = settings.value("current_row", 0).toInt();
+        tableFontSize   = settings.value("font_size",     APP_FONT_SIZE_DEFAULT).toInt();
+        tableRowHeight  = settings.value("row_height",    TABLEVIEW_ROW_HEIGHT).toInt();
+        tableCurrentRow = settings.value("current_row",   0).toInt();
         settings.endGroup();
     }
 
@@ -1272,9 +1276,18 @@ Main::_settingsLoad()
         // main
         resize(size);
         move(position);
-        ui.cboDictPath->setCurrentIndex(dictionary);
+        ui.cboDictPath->setCurrentIndex(dictionaryNum);
 
         // table
+        {
+            QFont font = ui.tvInfo->font();
+            font.setPointSize(tableFontSize);
+
+            ui.tvInfo->setFont(font);
+        }
+        {
+            ui.tvInfo->verticalHeader()->setDefaultSectionSize(tableRowHeight);
+        }
         _sqlNavigator.goTo(tableCurrentRow);
     }
 }
@@ -1286,14 +1299,16 @@ Main::_settingsSave()
 
     // main
     settings.beginGroup("main");
-    settings.setValue("position",    pos());
-    settings.setValue("size",        size());
-    settings.setValue("dictionary",  ui.cboDictPath->currentIndex());
+    settings.setValue("position",       pos());
+    settings.setValue("size",           size());
+    settings.setValue("dictionary_num", ui.cboDictPath->currentIndex());
     settings.endGroup();
 
     // table
     settings.beginGroup("table");
-    settings.setValue("current_row", ui.tvInfo->currentIndex().row());
+    settings.setValue("font_size",      ui.tvInfo->font().pointSize());
+    settings.setValue("row_height",     ui.tvInfo->verticalHeader()->defaultSectionSize());
+    settings.setValue("current_row",    ui.tvInfo->currentIndex().row());
     settings.endGroup();
 }
 //-------------------------------------------------------------------------------------------------
