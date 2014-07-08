@@ -1302,20 +1302,32 @@ Main::_settingsLoad()
     int    tableFontSize   = 0;
     int    tableRowHeight  = 0;
     int    tableCurrentRow = 0;
+    int    columnWidth0    = 0;
+    int    columnWidth1    = 0;
+    int    columnWidth2    = 0;
+    int    columnWidth3    = 0;
+    int    columnWidth4    = 0;
+    int    columnWidth5    = 0;
 
     {
         QSettings settings(Application::configFilePath(), QSettings::IniFormat, this);
 
         settings.beginGroup("main");
-        size           = settings.value("size",           QSize(APP_WIDTH, APP_HEIGHT)).toSize();
-        position       = settings.value("position",       QPoint(200, 200)).toPoint();
-        dictionaryNum  = settings.value("dictionary_num", 0).toInt();
+        size           = settings.value("size",            QSize(APP_WIDTH, APP_HEIGHT)).toSize();
+        position       = settings.value("position",        QPoint(200, 200)).toPoint();
+        dictionaryNum  = settings.value("dictionary_num",  0).toInt();
         settings.endGroup();
 
         settings.beginGroup("table");
-        tableFontSize   = settings.value("font_size",     APP_FONT_SIZE_DEFAULT).toInt();
-        tableRowHeight  = settings.value("row_height",    TABLEVIEW_ROW_HEIGHT).toInt();
-        tableCurrentRow = settings.value("current_row",   0).toInt();
+        tableFontSize   = settings.value("font_size",      APP_FONT_SIZE_DEFAULT).toInt();
+        tableRowHeight  = settings.value("row_height",     TABLEVIEW_ROW_HEIGHT).toInt();
+        tableCurrentRow = settings.value("current_row",    0).toInt();
+        columnWidth0    = settings.value("column_width_0", TABLEVIEW_COLUMN_WIDTH_0).toInt();
+        columnWidth1    = settings.value("column_width_1", TABLEVIEW_COLUMN_WIDTH_1).toInt();
+        columnWidth2    = settings.value("column_width_2", TABLEVIEW_COLUMN_WIDTH_2).toInt();
+        columnWidth3    = settings.value("column_width_3", TABLEVIEW_COLUMN_WIDTH_3).toInt();
+        columnWidth4    = settings.value("column_width_4", TABLEVIEW_COLUMN_WIDTH_4).toInt();
+        columnWidth5    = settings.value("column_width_5", TABLEVIEW_COLUMN_WIDTH_5).toInt();
         settings.endGroup();
     }
 
@@ -1337,6 +1349,14 @@ Main::_settingsLoad()
             ui.tvInfo->verticalHeader()->setDefaultSectionSize(tableRowHeight);
         }
         _sqlNavigator.goTo(tableCurrentRow);
+        {
+            ui.tvInfo->setColumnWidth(0, columnWidth0);
+            ui.tvInfo->setColumnWidth(1, columnWidth1);
+            ui.tvInfo->setColumnWidth(2, columnWidth2);
+            ui.tvInfo->setColumnWidth(3, columnWidth3);
+            ui.tvInfo->setColumnWidth(4, columnWidth4);
+            ui.tvInfo->setColumnWidth(5, columnWidth5);
+        }
     }
 }
 //-------------------------------------------------------------------------------------------------
@@ -1357,6 +1377,12 @@ Main::_settingsSave()
     settings.setValue("font_size",      ui.tvInfo->font().pointSize());
     settings.setValue("row_height",     ui.tvInfo->verticalHeader()->defaultSectionSize());
     settings.setValue("current_row",    ui.tvInfo->currentIndex().row());
+    settings.setValue("column_width_0", ui.tvInfo->columnWidth(0));
+    settings.setValue("column_width_1", ui.tvInfo->columnWidth(1));
+    settings.setValue("column_width_2", ui.tvInfo->columnWidth(2));
+    settings.setValue("column_width_3", ui.tvInfo->columnWidth(3));
+    settings.setValue("column_width_4", ui.tvInfo->columnWidth(4));
+    settings.setValue("column_width_5", ui.tvInfo->columnWidth(5));
     settings.endGroup();
 }
 //-------------------------------------------------------------------------------------------------
