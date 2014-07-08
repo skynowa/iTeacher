@@ -206,6 +206,6 @@ WordFinder::_saveAll()
         }
     }
 
-    ::Utils::dbFilter(_model, DB_T_MAIN, fields, "", sqlStrWhere, "ORDER BY Random()");
+    ::Utils::dbFilter(_model, DB_T_MAIN, fields, "", sqlStrWhere, "" /* "ORDER BY Random()" */);
 }
 //-------------------------------------------------------------------------------------------------
