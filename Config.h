@@ -56,6 +56,6 @@
 #define TEMP_DIR_NAME                "Temp"
 #define TRANSLATION_LANG_ENGLISH     "en"
 #define TRANSLATION_LANG_RUSSIAN     "ru"
-#define BUTTON_BOX_WIDTH             50
+#define BUTTON_BOX_WIDTH             75
 //-------------------------------------------------------------------------------------------------
 #endif // iTeacher_ConfigH
