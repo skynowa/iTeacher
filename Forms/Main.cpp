@@ -87,7 +87,8 @@ Main::Main(
     _trayIcon    (this),
     _sqlNavigator(this),
     _dbDatabase  (Q_NULLPTR),
-    _model       (Q_NULLPTR)
+    _model       (Q_NULLPTR),
+    _exportOrder (eoUnknown)
 #if defined(Q_OS_UNIX) && 0
     // global hotkey
     ,
@@ -542,8 +543,18 @@ Main::slot_OnExportCsv()
         // DB field names
         QVector<QString> fieldNames;
 
-        fieldNames.push_back(DB_F_MAIN_TERM);
-        fieldNames.push_back(DB_F_MAIN_VALUE);
+        switch (_exportOrder) {
+        case eoTerminValue:
+        default:
+            fieldNames.push_back(DB_F_MAIN_TERM);
+            fieldNames.push_back(DB_F_MAIN_VALUE);
+            break;
+        case eoValueTermin:
+            fieldNames.push_back(DB_F_MAIN_VALUE);
+            fieldNames.push_back(DB_F_MAIN_TERM);
+            break;
+        }
+
         fieldNames.push_back(DB_F_MAIN_IS_LEARNED);
         fieldNames.push_back(DB_F_MAIN_IS_MARKED);
         fieldNames.push_back(DB_F_MAIN_TAG);
@@ -570,18 +581,28 @@ Main::slot_OnExportPdf()
     qCHECK_DO(filePath.isEmpty(), return);
 
     // DB -> text
-    QString sHtml;
+    QString html;
 
 
     // file -> DB
     cint realRowCount = ::Utils::sqlTableModelRowCount(_model);
 
     for (int i = 0; i < realRowCount; ++ i) {
-        sHtml.push_back( _model->record(i).value(DB_F_MAIN_TERM).toString() );
-        sHtml.push_back("\n");
-        sHtml.push_back(" - ");
-        sHtml.push_back( _model->record(i).value(DB_F_MAIN_VALUE).toString() );
-        sHtml.push_back("<br>");
+        switch (_exportOrder) {
+        case eoTerminValue:
+        default:
+            html.push_back( _model->record(i).value(DB_F_MAIN_TERM).toString() );
+            html.push_back("\n - ");
+            html.push_back( _model->record(i).value(DB_F_MAIN_VALUE).toString() );
+            html.push_back("<br>");
+            break;
+        case eoValueTermin:
+            html.push_back( _model->record(i).value(DB_F_MAIN_VALUE).toString() );
+            html.push_back("\n - ");
+            html.push_back( _model->record(i).value(DB_F_MAIN_TERM).toString() );
+            html.push_back("<br>");
+            break;
+        }
     }
 
     // export
@@ -591,7 +612,7 @@ Main::slot_OnExportPdf()
         printer.setOutputFileName(filePath);
 
         QTextDocument document;
-        document.setHtml(sHtml);
+        document.setHtml(html);
         document.print(&printer);
     }
 
@@ -1296,18 +1317,19 @@ Main::_googleSpeech(
 void
 Main::_settingsLoad()
 {
-    QSize  size;
-    QPoint position;
-    int    dictionaryNum   = 0;
-    int    tableFontSize   = 0;
-    int    tableRowHeight  = 0;
-    int    tableCurrentRow = 0;
-    int    columnWidth0    = 0;
-    int    columnWidth1    = 0;
-    int    columnWidth2    = 0;
-    int    columnWidth3    = 0;
-    int    columnWidth4    = 0;
-    int    columnWidth5    = 0;
+    QSize       size;
+    QPoint      position;
+    int         dictionaryNum   = 0;
+    int         tableFontSize   = 0;
+    int         tableRowHeight  = 0;
+    int         tableCurrentRow = 0;
+    int         columnWidth0    = 0;
+    int         columnWidth1    = 0;
+    int         columnWidth2    = 0;
+    int         columnWidth3    = 0;
+    int         columnWidth4    = 0;
+    int         columnWidth5    = 0;
+    ExportOrder exportOrder     = eoUnknown;
 
     {
         QSettings settings(Application::configFilePath(), QSettings::IniFormat, this);
@@ -1328,6 +1350,10 @@ Main::_settingsLoad()
         columnWidth3    = settings.value("column_width_3", TABLEVIEW_COLUMN_WIDTH_3).toInt();
         columnWidth4    = settings.value("column_width_4", TABLEVIEW_COLUMN_WIDTH_4).toInt();
         columnWidth5    = settings.value("column_width_5", TABLEVIEW_COLUMN_WIDTH_5).toInt();
+        settings.endGroup();
+
+        settings.beginGroup("file");
+        exportOrder     = static_cast<ExportOrder>( settings.value("export_order", eoTerminValue).toInt() );
         settings.endGroup();
     }
 
@@ -1357,6 +1383,9 @@ Main::_settingsLoad()
             ui.tvInfo->setColumnWidth(4, columnWidth4);
             ui.tvInfo->setColumnWidth(5, columnWidth5);
         }
+
+        // file
+        _exportOrder = exportOrder;
     }
 }
 //-------------------------------------------------------------------------------------------------
@@ -1383,6 +1412,11 @@ Main::_settingsSave()
     settings.setValue("column_width_3", ui.tvInfo->columnWidth(3));
     settings.setValue("column_width_4", ui.tvInfo->columnWidth(4));
     settings.setValue("column_width_5", ui.tvInfo->columnWidth(5));
+    settings.endGroup();
+
+    // file
+    settings.beginGroup("file");
+    settings.setValue("export_order",   _exportOrder);
     settings.endGroup();
 }
 //-------------------------------------------------------------------------------------------------

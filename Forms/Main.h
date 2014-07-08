@@ -58,6 +58,13 @@ protected:
     virtual void    keyPressEvent(QKeyEvent *event);
 
 private:
+    enum ExportOrder
+    {
+        eoUnknown     = 0,
+        eoTerminValue = 1,
+        eoValueTermin = 2
+    };
+
     Ui::UiMain      ui;
     QString         _appName;
     QString         _appDir;
@@ -132,6 +139,7 @@ private:
     static void     _googleSpeech(cQString &text, cQString &lang, cQString &filePath);
 
     // settings
+    ExportOrder     _exportOrder;
     void            _settingsLoad();
     void            _settingsSave();
 
