@@ -46,7 +46,21 @@ WordFinder::_construct()
 {
     ui.setupUi(this);
 
-    ui.cboWordTerm->setFocus();
+    // Main
+    {
+        // ui.bbxButtons
+        {
+            ui.bbxButtons->setMinimumWidth(BUTTON_BOX_WIDTH);
+
+            QList<QAbstractButton *> buttons = ui.bbxButtons->buttons();
+
+            while ( !buttons.empty() ) {
+                buttons.takeFirst()->setMinimumWidth( ui.bbxButtons->minimumWidth() );
+            }
+        }
+
+        ui.cboWordTerm->setFocus();
+    }
 
     // tags
     {

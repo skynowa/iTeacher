@@ -98,6 +98,17 @@ WordEditor::_construct()
             slot_termCheck();
             slot_termTranslate();
         }
+
+        // ui.bbxButtons
+        {
+            ui.bbxButtons->setMinimumWidth(BUTTON_BOX_WIDTH);
+
+            QList<QAbstractButton *> buttons = ui.bbxButtons->buttons();
+
+            while ( !buttons.empty() ) {
+                buttons.takeFirst()->setMinimumWidth( ui.bbxButtons->minimumWidth() );
+            }
+        }
     }
 
     // signals
