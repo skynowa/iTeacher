@@ -212,7 +212,7 @@ WordEditor::_saveAll(
     bRv = _model->setRecord(currentRow, record);
     qCHECK_PTR(bRv, _model);
 
-    bRv = _model->submit();
+    bRv = _model->submitAll();
     if (!bRv) {
         QString msg;
 

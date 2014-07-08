@@ -6,156 +6,103 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>401</width>
-    <height>184</height>
+    <width>359</width>
+    <height>201</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Word finder</string>
   </property>
-  <widget class="QDialogButtonBox" name="bbxButtons">
-   <property name="geometry">
-    <rect>
-     <x>8</x>
-     <y>152</y>
-     <width>389</width>
-     <height>23</height>
-    </rect>
-   </property>
-   <property name="standardButtons">
-    <set>QDialogButtonBox::Apply|QDialogButtonBox::Cancel|QDialogButtonBox::Ok|QDialogButtonBox::Reset</set>
-   </property>
-  </widget>
-  <widget class="QComboBox" name="cboWordTerm">
-   <property name="geometry">
-    <rect>
-     <x>64</x>
-     <y>8</y>
-     <width>329</width>
-     <height>22</height>
-    </rect>
-   </property>
-   <property name="editable">
-    <bool>true</bool>
-   </property>
-  </widget>
-  <widget class="QComboBox" name="cboWordValue">
-   <property name="geometry">
-    <rect>
-     <x>64</x>
-     <y>36</y>
-     <width>329</width>
-     <height>22</height>
-    </rect>
-   </property>
-   <property name="editable">
-    <bool>true</bool>
-   </property>
-  </widget>
-  <widget class="QCheckBox" name="chkWordLearned">
-   <property name="geometry">
-    <rect>
-     <x>192</x>
-     <y>96</y>
-     <width>112</width>
-     <height>17</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>Learned</string>
-   </property>
-  </widget>
-  <widget class="QCheckBox" name="chkWordMarked">
-   <property name="geometry">
-    <rect>
-     <x>192</x>
-     <y>120</y>
-     <width>112</width>
-     <height>17</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>Marked</string>
-   </property>
-  </widget>
-  <widget class="QLabel" name="label">
-   <property name="geometry">
-    <rect>
-     <x>8</x>
-     <y>12</y>
-     <width>46</width>
-     <height>13</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>Term:</string>
-   </property>
-  </widget>
-  <widget class="QLabel" name="label_2">
-   <property name="geometry">
-    <rect>
-     <x>8</x>
-     <y>40</y>
-     <width>46</width>
-     <height>13</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>Value:</string>
-   </property>
-  </widget>
-  <widget class="QCheckBox" name="chkWordNotLearned">
-   <property name="geometry">
-    <rect>
-     <x>68</x>
-     <y>96</y>
-     <width>112</width>
-     <height>17</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>Not learned</string>
-   </property>
-  </widget>
-  <widget class="QCheckBox" name="chkWordNotMarked">
-   <property name="geometry">
-    <rect>
-     <x>68</x>
-     <y>120</y>
-     <width>112</width>
-     <height>17</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>Not marked</string>
-   </property>
-  </widget>
-  <widget class="QLabel" name="label_3">
-   <property name="geometry">
-    <rect>
-     <x>8</x>
-     <y>68</y>
-     <width>46</width>
-     <height>13</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>Tag:</string>
-   </property>
-  </widget>
-  <widget class="QComboBox" name="cboTags">
-   <property name="geometry">
-    <rect>
-     <x>64</x>
-     <y>64</y>
-     <width>329</width>
-     <height>22</height>
-    </rect>
-   </property>
-   <property name="editable">
-    <bool>true</bool>
-   </property>
-  </widget>
+  <layout class="QGridLayout" name="gridLayout_3">
+   <item row="0" column="0">
+    <layout class="QGridLayout" name="gridLayout_2">
+     <item row="0" column="0">
+      <widget class="QLabel" name="label">
+       <property name="text">
+        <string>Term:</string>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="1" colspan="3">
+      <widget class="QComboBox" name="cboWordTerm">
+       <property name="editable">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="0">
+      <widget class="QLabel" name="label_2">
+       <property name="text">
+        <string>Value:</string>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="1" colspan="3">
+      <widget class="QComboBox" name="cboWordValue">
+       <property name="editable">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="0">
+      <widget class="QLabel" name="label_3">
+       <property name="text">
+        <string>Tag:</string>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="1" colspan="3">
+      <widget class="QComboBox" name="cboTags">
+       <property name="editable">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+     <item row="3" column="1">
+      <widget class="QCheckBox" name="chkWordNotLearned">
+       <property name="text">
+        <string>Not learned</string>
+       </property>
+      </widget>
+     </item>
+     <item row="3" column="2">
+      <widget class="QCheckBox" name="chkWordLearned">
+       <property name="text">
+        <string>Learned</string>
+       </property>
+      </widget>
+     </item>
+     <item row="3" column="3">
+      <widget class="QCheckBox" name="chkWordRandomized">
+       <property name="text">
+        <string>Randomized</string>
+       </property>
+      </widget>
+     </item>
+     <item row="4" column="1">
+      <widget class="QCheckBox" name="chkWordNotMarked">
+       <property name="text">
+        <string>Not marked</string>
+       </property>
+      </widget>
+     </item>
+     <item row="4" column="2" colspan="2">
+      <widget class="QCheckBox" name="chkWordMarked">
+       <property name="text">
+        <string>Marked</string>
+       </property>
+      </widget>
+     </item>
+     <item row="5" column="0" colspan="4">
+      <widget class="QDialogButtonBox" name="bbxButtons">
+       <property name="standardButtons">
+        <set>QDialogButtonBox::Apply|QDialogButtonBox::Cancel|QDialogButtonBox::Ok|QDialogButtonBox::Reset</set>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+  </layout>
  </widget>
  <resources/>
  <connections/>

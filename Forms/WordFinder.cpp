@@ -156,41 +156,37 @@ WordFinder::_saveAll()
     {
         cQString separator = "##";
 
-        bool cond1 = ui.chkWordNotLearned->isChecked();
-        bool cond2 = ui.chkWordNotMarked->isChecked();
-        bool cond3 = ui.chkWordLearned->isChecked();
-        bool cond4 = ui.chkWordMarked->isChecked();
+        cbool isWordNotLearned = ui.chkWordNotLearned->isChecked();
+        cbool isWordNotMarked  = ui.chkWordNotMarked->isChecked();
+        cbool isWordLearned    = ui.chkWordLearned->isChecked();
+        cbool isWordMarked     = ui.chkWordMarked->isChecked();
 
-        QString sql1;
-        if (cond1) {
-            sql1 = QString("%1=%2")
-                        .arg(DB_F_MAIN_IS_LEARNED)
-                        .arg(0);
-            sqlStrWhere += sql1 + separator;
+        if (isWordNotLearned) {
+            cQString sql = QString("%1=%2")
+                                .arg(DB_F_MAIN_IS_LEARNED)
+                                .arg(0);
+            sqlStrWhere += sql + separator;
         }
 
-        QString sql2;
-        if (cond2) {
-            sql2 = QString("%1=%2")
-                        .arg(DB_F_MAIN_IS_MARKED)
-                        .arg(0);
-            sqlStrWhere += sql2 + separator;
+        if (isWordNotMarked) {
+            cQString sql = QString("%1=%2")
+                                .arg(DB_F_MAIN_IS_MARKED)
+                                .arg(0);
+            sqlStrWhere += sql + separator;
         }
 
-        QString sql3;
-        if (cond3) {
-            sql3 = QString("%1=%2")
-                        .arg(DB_F_MAIN_IS_LEARNED)
-                        .arg(1);
-            sqlStrWhere += sql3 + separator;
+        if (isWordLearned) {
+            cQString sql = QString("%1=%2")
+                                .arg(DB_F_MAIN_IS_LEARNED)
+                                .arg(1);
+            sqlStrWhere += sql + separator;
         }
 
-        QString sql4;
-        if (cond4) {
-            sql4 = QString("%1=%2")
-                        .arg(DB_F_MAIN_IS_MARKED)
-                        .arg(1);
-            sqlStrWhere += sql4 + separator;
+        if (isWordMarked) {
+            cQString sql = QString("%1=%2")
+                                .arg(DB_F_MAIN_IS_MARKED)
+                                .arg(1);
+            sqlStrWhere += sql + separator;
         }
 
         // remove separator from end
@@ -206,6 +202,15 @@ WordFinder::_saveAll()
         }
     }
 
-    ::Utils::dbFilter(_model, DB_T_MAIN, fields, "", sqlStrWhere, "" /* "ORDER BY Random()" */);
+    QString sqlStrOrderBy;
+    {
+        cbool isWordRandomized = ui.chkWordRandomized->isChecked();
+
+        if (isWordRandomized) {
+            sqlStrOrderBy = "ORDER BY Random()";
+        }
+    }
+
+    ::Utils::dbFilter(_model, DB_T_MAIN, fields, "", sqlStrWhere, sqlStrOrderBy);
 }
 //-------------------------------------------------------------------------------------------------
