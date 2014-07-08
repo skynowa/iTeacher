@@ -10,13 +10,7 @@
 //-------------------------------------------------------------------------------------------------
 int main(int argc, char *argv[])
 {
-    int iExitCode = EXIT_FAILURE;
-
-#if defined(Q_WS_WIN)
-    cQByteArray codecName = "UTF-8";    // "Windows-1251";
-#else
-    cQByteArray codecName = "UTF-8";
-#endif
+    int exitCode = EXIT_FAILURE;
 
     // activation application window
     ::Utils::applicationActivate(APP_WINDOW_CLASS, APP_NAME);
@@ -39,9 +33,9 @@ int main(int argc, char *argv[])
         Main dlgMain;
         dlgMain.show();
 
-        iExitCode = apStart.exec();
+        exitCode = apStart.exec();
     }
 
-    return iExitCode;
+    return exitCode;
 }
 //-------------------------------------------------------------------------------------------------
