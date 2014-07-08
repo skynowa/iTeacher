@@ -201,7 +201,7 @@ WordEditor::_saveAll(
     bRv = _model->setRecord(currentRow, record);
     qCHECK_PTR(bRv, _model);
 
-    bRv = _model->submit();
+    bRv = _model->submitAll();
     if (!bRv) {
         QString msg;
 
@@ -366,6 +366,7 @@ WordEditor::slot_termCheck()
     }
     else if (bRv && !_insertMode) {
         // edit: term already exists (true)
+    #if 1
         msg = QString(tr("Termin '%1' now editing"))
                             .arg( ui.tedtWordTerm->toPlainText() );
 
@@ -376,6 +377,7 @@ WordEditor::slot_termCheck()
 
         ui.lblInfo->setPalette(plInfo);
         ui.lblInfo->setText(msg);
+    #endif
 
         return true;
     }
