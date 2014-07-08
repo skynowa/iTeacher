@@ -246,7 +246,7 @@ WordEditor::_settingsLoad()
 
         settings.beginGroup("word_editor");
         size              = settings.value("size", QSize(APP_WIDTH, APP_HEIGHT)).toSize();
-        isTerminLowerCase = settings.value("terminLowerCase", true).toBool();
+        isTerminLowerCase = settings.value("termin_lower_case", true).toBool();
         settings.endGroup();
     }
 
@@ -266,7 +266,7 @@ WordEditor::_settingsSave()
     // main
     settings.beginGroup("word_editor");
     settings.setValue("size", size());
-    settings.setValue("terminLowerCase", ui.chkTerminLowerCase->isChecked());
+    settings.setValue("termin_lower_case", ui.chkTerminLowerCase->isChecked());
     settings.endGroup();
 }
 //-------------------------------------------------------------------------------------------------
