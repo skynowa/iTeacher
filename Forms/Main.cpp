@@ -388,6 +388,12 @@ Main::_initActions()
 
         connect(ui.actEdit_Edit,                SIGNAL( triggered() ),
                 this,                           SLOT  ( slot_OnEdit() ));
+
+        connect(ui.actEdit_Learned,             SIGNAL( triggered() ),
+                this,                           SLOT  ( slot_OnLearned() ));
+
+        connect(ui.actEdit_Marked,              SIGNAL( triggered() ),
+                this,                           SLOT  ( slot_OnMarked() ));
     }
 
     // audio
@@ -681,6 +687,48 @@ Main::slot_OnEdit()
     WordEditor dlgWordEditor(this, _model, &_sqlNavigator, false);
 
     (int)dlgWordEditor.exec();
+}
+//-------------------------------------------------------------------------------------------------
+void
+Main::slot_OnLearned()
+{
+    bool bRv = false;
+
+    cint currentRow = _sqlNavigator.view()->currentIndex().row();
+
+    QSqlRecord record = _model->record(currentRow);
+    {
+        record.setValue(DB_F_MAIN_IS_LEARNED, !record.value(DB_F_MAIN_IS_LEARNED).toBool() );
+    }
+
+    bRv = _model->setRecord(currentRow, record);
+    qCHECK_PTR(bRv, _model);
+
+    bRv = _model->submitAll();
+    qTEST(bRv);
+
+    _sqlNavigator.goTo(currentRow);
+}
+//-------------------------------------------------------------------------------------------------
+void
+Main::slot_OnMarked()
+{
+    bool bRv = false;
+
+    cint currentRow = _sqlNavigator.view()->currentIndex().row();
+
+    QSqlRecord record = _model->record(currentRow);
+    {
+        record.setValue(DB_F_MAIN_IS_MARKED,  !record.value(DB_F_MAIN_IS_MARKED).toBool() );
+    }
+
+    bRv = _model->setRecord(currentRow, record);
+    qCHECK_PTR(bRv, _model);
+
+    bRv = _model->submitAll();
+    qTEST(bRv);
+
+    _sqlNavigator.goTo(currentRow);
 }
 //-------------------------------------------------------------------------------------------------
 

@@ -10,7 +10,6 @@
         <file>Menu/First.png</file>
         <file>Menu/Insert.png</file>
         <file>Menu/Last.png</file>
-        <file>Menu/Post.png</file>
         <file>Menu/Prior.png</file>
         <file>Menu/GoTo.png</file>
         <file>Menu/Options.png</file>
@@ -19,5 +18,7 @@
         <file>Menu/NewDB.png</file>
         <file>Menu/ImportClipboard.png</file>
         <file>Menu/PlaySound.png</file>
+        <file>Menu/Learned.png</file>
+        <file>Menu/Marked.png</file>
     </qresource>
 </RCC>

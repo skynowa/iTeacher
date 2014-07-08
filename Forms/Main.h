@@ -91,6 +91,8 @@ private Q_SLOTS:
     void            slot_OnInsert();
     void            slot_OnRemove();
     void            slot_OnEdit();
+    void            slot_OnLearned();
+    void            slot_OnMarked();
 
     // group "Audio"
     void            slot_OnPlayWord();

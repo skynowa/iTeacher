@@ -9,7 +9,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>649</width>
+    <width>691</width>
     <height>403</height>
    </rect>
   </property>
@@ -73,7 +73,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>649</width>
+     <width>691</width>
      <height>27</height>
     </rect>
    </property>
@@ -104,6 +104,8 @@
     <addaction name="actEdit_Insert"/>
     <addaction name="actEdit_Delete"/>
     <addaction name="actEdit_Edit"/>
+    <addaction name="actEdit_Learned"/>
+    <addaction name="actEdit_Marked"/>
     <addaction name="separator"/>
    </widget>
    <widget class="QMenu" name="menuView">
@@ -175,6 +177,8 @@
    <addaction name="actEdit_Insert"/>
    <addaction name="actEdit_Delete"/>
    <addaction name="actEdit_Edit"/>
+   <addaction name="actEdit_Learned"/>
+   <addaction name="actEdit_Marked"/>
    <addaction name="separator"/>
    <addaction name="actFind_Search"/>
   </widget>
@@ -415,6 +419,33 @@
    </property>
    <property name="shortcut">
     <string>Ctrl+P</string>
+   </property>
+  </action>
+  <action name="actEdit_Learned">
+   <property name="icon">
+    <iconset resource="../Resources/App.qrc">
+     <normaloff>:/Menu/Menu/Learned.png</normaloff>:/Menu/Menu/Learned.png</iconset>
+   </property>
+   <property name="text">
+    <string>Learned</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+L</string>
+   </property>
+  </action>
+  <action name="actEdit_Marked">
+   <property name="icon">
+    <iconset resource="../Resources/App.qrc">
+     <normaloff>:/Menu/Menu/Marked.png</normaloff>:/Menu/Menu/Marked.png</iconset>
+   </property>
+   <property name="text">
+    <string>Marked</string>
+   </property>
+   <property name="toolTip">
+    <string>Marked</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+M</string>
    </property>
   </action>
  </widget>
