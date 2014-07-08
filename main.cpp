@@ -25,7 +25,7 @@ int main(int argc, char *argv[])
 
     // start application
     {
-        QApplication apStart(argc, argv);
+        QApplication application(argc, argv);
 
         QCoreApplication::setOrganizationName(ORG_NAME);
         QCoreApplication::setApplicationName(APP_NAME);
@@ -33,7 +33,7 @@ int main(int argc, char *argv[])
         Main dlgMain;
         dlgMain.show();
 
-        exitCode = apStart.exec();
+        exitCode = application.exec();
     }
 
     return exitCode;
