@@ -79,14 +79,13 @@ WordFinder::_construct()
     // signals
     {
         connect(ui.bbxButtons, SIGNAL( clicked(QAbstractButton *) ),
-                this,            SLOT  ( slot_bbxButtons_OnClicked(QAbstractButton *) ));
+                this,          SLOT  ( slot_bbxButtons_OnClicked(QAbstractButton *) ));
     }
 }
 //-------------------------------------------------------------------------------------------------
 void
 WordFinder::_destruct()
 {
-
 }
 //-------------------------------------------------------------------------------------------------
 
