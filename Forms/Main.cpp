@@ -698,7 +698,25 @@ Main::slot_OnInsert()
 void
 Main::slot_OnRemove()
 {
-    _sqlNavigator.remove();
+    qCHECK_DO(_sqlNavigator.view()->currentIndex().row() < 0, return);
+
+    QMessageBox msgBox;
+
+    msgBox.setIcon(QMessageBox::Warning);
+    msgBox.setText(tr("Removing record."));
+    msgBox.setInformativeText(tr("Do you want to remove record?"));
+    msgBox.setStandardButtons(QMessageBox::Yes | QMessageBox::Cancel);
+    msgBox.setDefaultButton(QMessageBox::Cancel);
+
+    cint ciRv = msgBox.exec();
+    switch (ciRv) {
+        case QMessageBox::Yes:
+            _sqlNavigator.remove();
+            break;
+        case QMessageBox::Cancel:
+        default:
+            break;
+    }
 }
 //-------------------------------------------------------------------------------------------------
 void
