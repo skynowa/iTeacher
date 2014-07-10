@@ -17,11 +17,11 @@
 
 //-------------------------------------------------------------------------------------------------
 WordEditor::WordEditor(
-    QWidget        *a_parent,
-    QSqlTableModel *a_tableModel,
-    SqlNavigator   *a_sqlNavigator,
-    cbool          &a_insertMode,
-    cQString       &a_newTerm /* = QString() */
+    QWidget             *a_parent,
+    QSqlTableModel      *a_tableModel,
+    qtlib::SqlNavigator *a_sqlNavigator,
+    cbool               &a_insertMode,
+    cQString            &a_newTerm /* = QString() */
 ) :
     QDialog       (a_parent),
     _model        (a_tableModel),
@@ -242,7 +242,7 @@ WordEditor::_settingsLoad()
     QSize size;
     bool  isTerminLowerCase = false;
     {
-        QSettings settings(Application::configFilePath(), QSettings::IniFormat, this);
+        QSettings settings(qtlib::Application::configFilePath(), QSettings::IniFormat, this);
 
         settings.beginGroup("word_editor");
         size              = settings.value("size", QSize(APP_WIDTH, APP_HEIGHT)).toSize();
@@ -261,7 +261,7 @@ WordEditor::_settingsLoad()
 void
 WordEditor::_settingsSave()
 {
-    QSettings settings(Application::configFilePath(), QSettings::IniFormat, this);
+    QSettings settings(qtlib::Application::configFilePath(), QSettings::IniFormat, this);
 
     // main
     settings.beginGroup("word_editor");
@@ -321,7 +321,7 @@ WordEditor::slot_termTranslate()
     cQString textFrom = ui.tedtWordTerm->toPlainText().toUtf8();
     cQString langFrom = QString("en").toUtf8();
     cQString langTo   = QString("ru").toUtf8();
-    QString  textTo   = ::Utils::googleTranslate(textFrom, langFrom, langTo);
+    QString  textTo   = qtlib::Utils::googleTranslate(textFrom, langFrom, langTo);
 
     ui.tedtWordValue->setText(textTo);
 }

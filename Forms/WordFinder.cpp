@@ -145,7 +145,7 @@ WordFinder::_resetAll()
 void
 WordFinder::_saveAll()
 {
-    ::Utils::db_fields_t fields;
+    qtlib::Utils::db_fields_t fields;
     {
         fields.push_back( QPair<QString, QString>(DB_F_MAIN_TERM,  ui.cboWordTerm->currentText()) );
         fields.push_back( QPair<QString, QString>(DB_F_MAIN_VALUE, ui.cboWordValue->currentText()) );
@@ -211,6 +211,6 @@ WordFinder::_saveAll()
         }
     }
 
-    ::Utils::dbFilter(_model, DB_T_MAIN, fields, "", sqlStrWhere, sqlStrOrderBy);
+    qtlib::Utils::dbFilter(_model, DB_T_MAIN, fields, "", sqlStrWhere, sqlStrOrderBy);
 }
 //-------------------------------------------------------------------------------------------------

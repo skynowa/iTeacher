@@ -72,7 +72,7 @@ private:
     QString         _dbBackupDir;
     QString         _tempDir;
     QSystemTrayIcon _trayIcon;
-    SqlNavigator    _sqlNavigator;
+    qtlib::SqlNavigator _sqlNavigator;
 
     void            _construct();
     void            _destruct();

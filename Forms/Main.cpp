@@ -249,7 +249,7 @@ Main::_initMain()
         setWindowIcon( QIcon(RES_MAIN_ICON) );
         setWindowTitle(APP_NAME);
         setGeometry(0, 0, APP_WIDTH, APP_HEIGHT);
-        ::Utils::widgetAlignCenter(this);
+        qtlib::Utils::widgetAlignCenter(this);
         cboDictPath_reload();
     }
 
@@ -492,7 +492,7 @@ Main::slot_OnImportCsv()
     fieldNames.push_back(DB_F_MAIN_TAG);
 
     // import
-    ::Utils::importCsv(filePath, _model, fieldNames, "\t");
+    qtlib::Utils::importCsv(filePath, _model, fieldNames, "\t");
 
     // "fire" cboDictPath
     {
@@ -560,7 +560,7 @@ Main::slot_OnExportCsv()
         fieldNames.push_back(DB_F_MAIN_TAG);
 
         // import
-        ::Utils::exportCsv(filePath, _model, fieldNames, "\t");
+        qtlib::Utils::exportCsv(filePath, _model, fieldNames, "\t");
     }
 
     // report
@@ -585,7 +585,7 @@ Main::slot_OnExportPdf()
 
 
     // file -> DB
-    cint realRowCount = ::Utils::sqlTableModelRowCount(_model);
+    cint realRowCount = qtlib::Utils::sqlTableModelRowCount(_model);
 
     for (int i = 0; i < realRowCount; ++ i) {
         switch (_exportOrder) {
@@ -668,7 +668,7 @@ Main::slot_OnTo()
 {
     cint currentRow = _sqlNavigator.view()->currentIndex().row() + 1;
     cint minValue   = 1;
-    cint maxValue   = ::Utils::sqlTableModelRowCount(_model);
+    cint maxValue   = qtlib::Utils::sqlTableModelRowCount(_model);
 
     cint targetRow  = QInputDialog::getInt(this, APP_NAME, tr("Go to row:"), currentRow, minValue,
         maxValue) - 1;
@@ -1332,7 +1332,7 @@ Main::_settingsLoad()
     ExportOrder exportOrder     = eoUnknown;
 
     {
-        QSettings settings(Application::configFilePath(), QSettings::IniFormat, this);
+        QSettings settings(qtlib::Application::configFilePath(), QSettings::IniFormat, this);
 
         settings.beginGroup("main");
         size           = settings.value("size",            QSize(APP_WIDTH, APP_HEIGHT)).toSize();
@@ -1392,7 +1392,7 @@ Main::_settingsLoad()
 void
 Main::_settingsSave()
 {
-    QSettings settings(Application::configFilePath(), QSettings::IniFormat, this);
+    QSettings settings(qtlib::Application::configFilePath(), QSettings::IniFormat, this);
 
     // main
     settings.beginGroup("main");
