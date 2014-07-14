@@ -700,11 +700,27 @@ Main::slot_OnRemove()
 {
     qCHECK_DO(_sqlNavigator.view()->currentIndex().row() < 0, return);
 
+    QString text;
+    QString informativeText;
+    {
+        cint       currentRow = _sqlNavigator.view()->currentIndex().row();
+        QSqlRecord record     = _sqlNavigator.model()->record(currentRow);
+
+        cQString   wordTerm   = record.value(DB_F_MAIN_TERM).toString();
+        cQString   wordValue  = record.value(DB_F_MAIN_VALUE).toString();
+
+        text            = QString(tr("Remove record number %1?"))
+                            .arg(currentRow);
+        informativeText = QString(tr("%2 - %3"))
+                            .arg(wordTerm)
+                            .arg(wordValue);
+    }
+
     QMessageBox msgBox;
 
     msgBox.setIcon(QMessageBox::Warning);
-    msgBox.setText(tr("Removing record."));
-    msgBox.setInformativeText(tr("Do you want to remove record?"));
+    msgBox.setText(text);
+    msgBox.setInformativeText(informativeText);
     msgBox.setStandardButtons(QMessageBox::Yes | QMessageBox::Cancel);
     msgBox.setDefaultButton(QMessageBox::Cancel);
 
