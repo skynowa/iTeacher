@@ -103,22 +103,22 @@ WordFinder::slot_bbxButtons_OnClicked(
 {
     QDialogButtonBox::StandardButton type = ui.bbxButtons->standardButton(a_button);
     switch (type) {
-        case QDialogButtonBox::Reset:
-            _resetAll();
-            break;
-        case QDialogButtonBox::Ok:
-            _saveAll();
-            close();
-            break;
-        case QDialogButtonBox::Cancel:
-            close();
-            break;
-        case QDialogButtonBox::Apply:
-            _saveAll();
-            break;
-        default:
-            qTEST(false);
-            break;
+    case QDialogButtonBox::Reset:
+        _resetAll();
+        break;
+    case QDialogButtonBox::Ok:
+        _saveAll();
+        close();
+        break;
+    case QDialogButtonBox::Cancel:
+        close();
+        break;
+    case QDialogButtonBox::Apply:
+        _saveAll();
+        break;
+    default:
+        qTEST(false);
+        break;
     }
 }
 //-------------------------------------------------------------------------------------------------

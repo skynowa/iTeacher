@@ -186,13 +186,13 @@ Main::keyPressEvent(
 )
 {
     switch (a_event->key()) {
-        // minimize on pressing escape
-        case Qt::Key_Escape:
-            setWindowState(Qt::WindowMinimized);;
-            break;
-        default:
-            QMainWindow::keyPressEvent(a_event);
-            break;
+    // minimize on pressing escape
+    case Qt::Key_Escape:
+        setWindowState(Qt::WindowMinimized);;
+        break;
+    default:
+        QMainWindow::keyPressEvent(a_event);
+        break;
     }
 }
 //-------------------------------------------------------------------------------------------------
@@ -522,11 +522,11 @@ Main::slot_OnImportClipboard()
 
     QDialog::DialogCode code = static_cast<QDialog::DialogCode>( dlgWordEditor.exec() );
     switch (code) {
-        case QDialog::Rejected:
-            _sqlNavigator.remove();
-            break;
-        default:
-            break;
+    case QDialog::Rejected:
+        _sqlNavigator.remove();
+        break;
+    default:
+        break;
     }
 }
 //-------------------------------------------------------------------------------------------------
@@ -687,11 +687,11 @@ Main::slot_OnInsert()
 
     QDialog::DialogCode code = static_cast<QDialog::DialogCode>( dlgWordEditor.exec() );
     switch (code) {
-        case QDialog::Rejected:
-            _sqlNavigator.remove();
-            break;
-        default:
-            break;
+    case QDialog::Rejected:
+        _sqlNavigator.remove();
+        break;
+    default:
+        break;
     }
 }
 //-------------------------------------------------------------------------------------------------
@@ -726,12 +726,12 @@ Main::slot_OnRemove()
 
     cint ciRv = msgBox.exec();
     switch (ciRv) {
-        case QMessageBox::Yes:
-            _sqlNavigator.remove();
-            break;
-        case QMessageBox::Cancel:
-        default:
-            break;
+    case QMessageBox::Yes:
+        _sqlNavigator.remove();
+        break;
+    case QMessageBox::Cancel:
+    default:
+        break;
     }
 }
 //-------------------------------------------------------------------------------------------------
