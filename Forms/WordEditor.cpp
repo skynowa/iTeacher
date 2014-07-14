@@ -415,19 +415,19 @@ WordEditor::slot_bbxButtons_OnClicked(
 
     QDialogButtonBox::StandardButton type = ui.bbxButtons->standardButton(a_button);
     switch (type) {
+    case QDialogButtonBox::Reset:
+        _resetAll();
+        break;
     case QDialogButtonBox::Apply:
         qCHECK_DO(!slot_termCheck(), return);
         _saveAll(&code);
         break;
+    case QDialogButtonBox::Cancel:
+        close();
+        break;
     case QDialogButtonBox::Ok:
         qCHECK_DO(!slot_termCheck(), return);
         _saveAll(&code);
-        close();
-        break;
-    case QDialogButtonBox::Reset:
-        _resetAll();
-        break;
-    case QDialogButtonBox::Cancel:
         close();
         break;
     default:
