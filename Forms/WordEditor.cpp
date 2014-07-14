@@ -171,6 +171,8 @@ WordEditor::_saveAll(
     QDialog::DialogCode *a_code
 )
 {
+    qCHECK_DO(!slot_termCheck(), return);
+
     bool bRv        = false;
     int  currentRow = - 1;
 
@@ -419,14 +421,12 @@ WordEditor::slot_bbxButtons_OnClicked(
         _resetAll();
         break;
     case QDialogButtonBox::Apply:
-        qCHECK_DO(!slot_termCheck(), return);
         _saveAll(&code);
         break;
     case QDialogButtonBox::Cancel:
         close();
         break;
     case QDialogButtonBox::Ok:
-        qCHECK_DO(!slot_termCheck(), return);
         _saveAll(&code);
         close();
         break;
