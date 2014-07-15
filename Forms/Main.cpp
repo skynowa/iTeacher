@@ -212,6 +212,11 @@ Main::_construct()
     _initActions();
 
     _settingsLoad();
+
+    // set focus
+    {
+        ui.cboDictPath->setFocus();
+    }
 }
 //-------------------------------------------------------------------------------------------------
 void
