@@ -50,7 +50,7 @@ class Main :
     Q_DISABLE_COPY(Main)
 
 public:
-                    Main(QWidget *parent = Q_NULLPTR, Qt::WindowFlags flags = 0);
+                    Main(QWidget *parent = Q_NULLPTR, Qt::WindowFlags flags = Qt::Widget);
     virtual        ~Main();
 
 protected:
