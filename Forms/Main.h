@@ -9,7 +9,7 @@
 //-------------------------------------------------------------------------------------------------
 #include "../Config.h"
 
-#if 0
+#if HAVE_GLOBAL_HOTKEY
 
 #include <X11/X.h>
 #include <X11/Xlib.h>
@@ -144,7 +144,7 @@ private:
     void            _settingsSave();
 
     // global hotkey
-#if defined(Q_OS_UNIX) && 0
+#if defined(Q_OS_UNIX) && HAVE_GLOBAL_HOTKEY
     int          iRv;
     int          _keyCode;
     Display     *_display;

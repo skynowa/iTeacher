@@ -25,7 +25,7 @@
 
 
 //-------------------------------------------------------------------------------------------------
-#if 0
+#if HAVE_GLOBAL_HOTKEY
 
 xNAMESPACE_ANONYM_BEGIN
 
@@ -55,7 +55,7 @@ xlib_errorHandler(
 {
     std::ctstring_t errorStr = ::xlib_errorFormat(a_display, a_errorEvent->error_code);
 
-    CxTrace() << xT("xLib: XLIB error - ") << xTRACE_VAR7(a_errorEvent->type,
+    Trace() << xT("xLib: XLIB error - ") << xTRACE_VAR7(a_errorEvent->type,
         a_errorEvent->resourceid, a_errorEvent->serial, a_errorEvent->error_code, errorStr,
         a_errorEvent->request_code, a_errorEvent->minor_code);
 
@@ -89,7 +89,7 @@ Main::Main(
     _dbDatabase  (Q_NULLPTR),
     _model       (Q_NULLPTR),
     _exportOrder (eoUnknown)
-#if defined(Q_OS_UNIX) && 0
+#if defined(Q_OS_UNIX) && HAVE_GLOBAL_HOTKEY
     // global hotkey
     ,
     _keyCode       (0),
@@ -98,8 +98,8 @@ Main::Main(
 {
     _construct();
 
-#if defined(Q_OS_UNIX) && 0
-    qCApp->installEventFilter(this);
+#if defined(Q_OS_UNIX) && HAVE_GLOBAL_HOTKEY
+    qlApp->installEventFilter(this);
 
     // global hotkey
     _display = ::XOpenDisplay(Q_NULLPTR);
@@ -122,7 +122,7 @@ Main::Main(
 /*virtual*/
 Main::~Main()
 {
-#if defined(Q_OS_UNIX) && 0
+#if defined(Q_OS_UNIX) && HAVE_GLOBAL_HOTKEY
     // global hotkey
     iRv = ::XUngrabKey(_display, _keyCode, ControlMask | ShiftMask, RootWindow(_display, 0));
     xTEST_DIFF(iRv, 0);
@@ -163,7 +163,7 @@ Main::eventFilter(
         }
     }
 
-#if defined(Q_OS_UNIX) && 0
+#if defined(Q_OS_UNIX) && HAVE_GLOBAL_HOTKEY
     // global hotkey
     if (a_event->type() == QEvent::KeyPress) {
         QKeyEvent *keyEvent = static_cast<QKeyEvent *>(a_event);
@@ -511,7 +511,7 @@ Main::slot_OnImportCsv()
         cQString msg = QString(tr("File: %1\nImport CSV finished."))
                             .arg(filePath);
 
-        QMessageBox::information(this, qApp->applicationName(), msg);
+        QMessageBox::information(this, qlApp->applicationName(), msg);
     }
 }
 //-------------------------------------------------------------------------------------------------
@@ -573,7 +573,7 @@ Main::slot_OnExportCsv()
         cQString msg = QString(tr("File: %1\nExport CSV finished."))
                             .arg(filePath);
 
-        QMessageBox::information(this, qApp->applicationName(), msg);
+        QMessageBox::information(this, qlApp->applicationName(), msg);
     }
 }
 //-------------------------------------------------------------------------------------------------
@@ -626,7 +626,7 @@ Main::slot_OnExportPdf()
         cQString msg = QString(tr("File: %1\nExport PDF finished."))
                             .arg(filePath);
 
-        QMessageBox::information(this, qApp->applicationName(), msg);
+        QMessageBox::information(this, qlApp->applicationName(), msg);
     }
 }
 //-------------------------------------------------------------------------------------------------
