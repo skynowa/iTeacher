@@ -12,6 +12,7 @@
 #include "../Classes/ComboBoxItemDelegate.h"
 #include "../Forms/WordEditor.h"
 #include "../Forms/WordFinder.h"
+#include "Etc/QxtGlobalShortcut/QxtGlobalShortcut.h"
 
 #include <QPrinter>
 #include <QMediaPlayer>
@@ -22,7 +23,6 @@
     #include <xLib/IO/Path.h>
     #include <xLib/IO/Finder.h>
 #endif
-
 
 //-------------------------------------------------------------------------------------------------
 #if HAVE_GLOBAL_HOTKEY
@@ -176,6 +176,7 @@ Main::eventFilter(
         }
     }
 #endif
+
     return false;
 }
 //-------------------------------------------------------------------------------------------------
@@ -256,6 +257,10 @@ Main::_initMain()
         setGeometry(0, 0, APP_WIDTH, APP_HEIGHT);
         qtlib::Utils::widgetAlignCenter(this);
         cboDictPath_reload();
+
+        // global shortcut
+        QxtGlobalShortcut *shortcut = new QxtGlobalShortcut(QKeySequence("Ctrl+F12"), this);
+        connect(shortcut, SIGNAL( activated() ), this, SLOT( slot_OnImportClipboard() ));
     }
 
     // tray icon

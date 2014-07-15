@@ -53,6 +53,9 @@ SOURCES = \
     QtLib/SqlNavigator.cpp \
     QtLib/Utils.cpp
 
+# includes
+include(Etc/QxtGlobalShortcut/QxtGlobalShortcut.pri)
+
 FORMS = \
     Forms/Main.ui \
     Forms/WordEditor.ui \
