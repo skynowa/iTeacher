@@ -128,7 +128,7 @@ Main::~Main()
     xTEST_DIFF(iRv, 0);
 
     iRv = ::XCloseDisplay(_display);  _display = Q_NULLPTR;
-    xTEST_DIFF(iRv, 0);
+    xTEST_NA(iRv);
 #endif
 
     _destruct();
