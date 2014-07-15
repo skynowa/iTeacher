@@ -12,7 +12,6 @@
 #include "../Classes/ComboBoxItemDelegate.h"
 #include "../Forms/WordEditor.h"
 #include "../Forms/WordFinder.h"
-#include "Etc/QxtGlobalShortcut/QxtGlobalShortcut.h"
 
 #include <QPrinter>
 #include <QMediaPlayer>
@@ -86,6 +85,7 @@ Main::Main(
     _tempDir     (),
     _trayIcon    (this),
     _sqlNavigator(this),
+    _shortcut    (),
     _dbDatabase  (Q_NULLPTR),
     _model       (Q_NULLPTR),
     _exportOrder (eoUnknown)
@@ -259,8 +259,7 @@ Main::_initMain()
         cboDictPath_reload();
 
         // global shortcut
-        QxtGlobalShortcut *shortcut = new QxtGlobalShortcut(QKeySequence("Ctrl+F12"), this);
-        connect(shortcut, SIGNAL( activated() ), this, SLOT( slot_OnImportClipboard() ));
+        connect(&_shortcut, SIGNAL( activated() ), this, SLOT( slot_OnImportClipboard() ));
     }
 
     // tray icon
@@ -1364,6 +1363,7 @@ Main::_settingsLoad()
     QSize       size;
     QPoint      position;
     int         dictionaryNum   = 0;
+    QString     shortcut;
     int         tableFontSize   = 0;
     int         tableRowHeight  = 0;
     int         tableCurrentRow = 0;
@@ -1382,6 +1382,7 @@ Main::_settingsLoad()
         size           = settings.value("size",            QSize(APP_WIDTH, APP_HEIGHT)).toSize();
         position       = settings.value("position",        QPoint(200, 200)).toPoint();
         dictionaryNum  = settings.value("dictionary_num",  0).toInt();
+        shortcut       = settings.value("shortcut",        "F1").toString(); /*Ctrl+Shift+F12*/
         settings.endGroup();
 
         settings.beginGroup("table");
@@ -1407,6 +1408,7 @@ Main::_settingsLoad()
         resize(size);
         move(position);
         ui.cboDictPath->setCurrentIndex(dictionaryNum);
+        _shortcut.setShortcut( QKeySequence(shortcut) );
 
         // table
         {
@@ -1443,6 +1445,7 @@ Main::_settingsSave()
     settings.setValue("position",       pos());
     settings.setValue("size",           size());
     settings.setValue("dictionary_num", ui.cboDictPath->currentIndex());
+    settings.setValue("shortcut",       _shortcut.shortcut().toString());
     settings.endGroup();
 
     // table

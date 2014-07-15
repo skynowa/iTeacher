@@ -40,6 +40,7 @@
 #include "../QtLib/Common.h"
 #include "../QtLib/Utils.h"
 #include "../QtLib/SqlNavigator.h"
+#include "Etc/QxtGlobalShortcut/QxtGlobalShortcut.h"
 
 #include "ui_Main.h"
 //-------------------------------------------------------------------------------------------------
@@ -73,6 +74,7 @@ private:
     QString         _tempDir;
     QSystemTrayIcon _trayIcon;
     qtlib::SqlNavigator _sqlNavigator;
+    QxtGlobalShortcut _shortcut;
 
     void            _construct();
     void            _destruct();
