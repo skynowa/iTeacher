@@ -58,7 +58,35 @@ WordEditor::_construct()
 {
     ui.setupUi(this);
 
-    // CMain
+    // signals
+    {
+        connect(ui.pbtnTermTranslate, SIGNAL( clicked() ),
+                 this,                  SLOT  ( slot_termTranslate() ));
+
+        connect(ui.pbtnTermCheck,     SIGNAL( clicked() ),
+                 this,                  SLOT  ( slot_termCheck() ));
+
+        connect(ui.bbxButtons,        SIGNAL( clicked(QAbstractButton *) ),
+                this,                   SLOT  ( slot_bbxButtons_OnClicked(QAbstractButton *) ));
+
+        connect(ui.tedtWordTerm,      SIGNAL( textChanged() ),
+                this,                   SLOT  ( slot_WordTermOrValue_OnTextChanged() ));
+
+        connect(ui.tedtWordValue,     SIGNAL( textChanged() ),
+                this,                   SLOT  ( slot_WordTermOrValue_OnTextChanged() ));
+    }
+
+    // shortcuts
+    {
+        // term translate (Ctrl+Return)
+        QShortcut *shortcut = new QShortcut(this);
+        shortcut->setKey(QKeySequence(Qt::CTRL + Qt::Key_Return));
+
+        connect(shortcut, SIGNAL( activated() ),
+                this,     SLOT  ( slot_termTranslate() ));
+    }
+
+    // UI
     {
         QSqlRecord record = _model->record(_currentRow);
 
@@ -109,34 +137,12 @@ WordEditor::_construct()
                 buttons.takeFirst()->setMinimumWidth( ui.bbxButtons->minimumWidth() );
             }
         }
-    }
 
-    // signals
-    {
-        connect(ui.pbtnTermTranslate, SIGNAL( clicked() ),
-                 this,                  SLOT  ( slot_termTranslate() ));
-
-        connect(ui.pbtnTermCheck,     SIGNAL( clicked() ),
-                 this,                  SLOT  ( slot_termCheck() ));
-
-        connect(ui.bbxButtons,        SIGNAL( clicked(QAbstractButton *) ),
-                this,                   SLOT  ( slot_bbxButtons_OnClicked(QAbstractButton *) ));
-
-        connect(ui.tedtWordTerm,      SIGNAL( textChanged() ),
-                this,                   SLOT  ( slot_WordTermOrValue_OnTextChanged() ));
-
-        connect(ui.tedtWordValue,     SIGNAL( textChanged() ),
-                this,                   SLOT  ( slot_WordTermOrValue_OnTextChanged() ));
-    }
-
-    // shortcuts
-    {
-        // term translate (Ctrl+Return)
-        QShortcut *shortcut = new QShortcut(this);
-        shortcut->setKey(QKeySequence(Qt::CTRL + Qt::Key_Return));
-
-        connect(shortcut, SIGNAL( activated() ),
-                this,     SLOT  ( slot_termTranslate() ));
+        // set focus
+        {
+            ui.tedtWordTerm->selectAll();
+            ui.tedtWordTerm->setFocus();
+        }
     }
 
     _settingsLoad();
@@ -445,7 +451,7 @@ WordEditor::slot_WordTermOrValue_OnTextChanged()
     ui.tedtWordValue->document()->setModified(true);
 
     cbool flag = ui.tedtWordTerm->document()->isModified() ||
-                   ui.tedtWordValue->document()->isModified();
+                 ui.tedtWordValue->document()->isModified();
 
     setWindowModified(flag);
 }

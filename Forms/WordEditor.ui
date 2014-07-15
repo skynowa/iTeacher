@@ -163,6 +163,17 @@
    </item>
   </layout>
  </widget>
+ <tabstops>
+  <tabstop>tedtWordTerm</tabstop>
+  <tabstop>tedtWordValue</tabstop>
+  <tabstop>cboTags</tabstop>
+  <tabstop>bbxButtons</tabstop>
+  <tabstop>pbtnTermTranslate</tabstop>
+  <tabstop>pbtnTermCheck</tabstop>
+  <tabstop>chkWordIsLearned</tabstop>
+  <tabstop>chkWordIsMarked</tabstop>
+  <tabstop>chkTerminLowerCase</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>
