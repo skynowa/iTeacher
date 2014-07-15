@@ -47,6 +47,7 @@
 
 // resources
 #define RES_MAIN_ICON                ":/App.ico"
+#define RES_MAIN_PNG                 ":/App.png"
 
 // etc
 #define HAVE_XLIB                    1

@@ -1,6 +1,7 @@
 <RCC>
     <qresource prefix="/">
         <file>App.ico</file>
+        <file>App.png</file>
     </qresource>
     <qresource prefix="/Menu">
         <file>Menu/Delete.png</file>

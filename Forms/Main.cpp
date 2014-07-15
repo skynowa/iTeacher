@@ -267,7 +267,8 @@ Main::_initMain()
         qDebug() << qDEBUG_VAR(QSystemTrayIcon::isSystemTrayAvailable());
 
         if (QSystemTrayIcon::isSystemTrayAvailable()) {
-            _trayIcon.setIcon( QIcon(RES_MAIN_ICON) );
+            _trayIcon.setIcon( QIcon(RES_MAIN_PNG) );
+            // _trayIcon.setContextMenu(ui.menuEdit);
             _trayIcon.setVisible(true);
         }
     }
