@@ -85,7 +85,7 @@ Main::Main(
     _tempDir     (),
     _trayIcon    (this),
     _sqlNavigator(this),
-    _shortcut    (),
+    _shortcut    (this),
     _dbDatabase  (Q_NULLPTR),
     _model       (Q_NULLPTR),
     _exportOrder (eoUnknown)
