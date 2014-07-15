@@ -58,6 +58,6 @@
 #define TRANSLATION_LANG_RUSSIAN     "ru"
 #define BUTTON_BOX_WIDTH             75
 
-#define HAVE_GLOBAL_HOTKEY           1
+#define HAVE_GLOBAL_HOTKEY           0
 //-------------------------------------------------------------------------------------------------
 #endif // iTeacher_ConfigH
