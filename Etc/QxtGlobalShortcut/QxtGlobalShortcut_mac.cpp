@@ -1,60 +1,39 @@
+/**
+ * \file
+ * \brief
+ */
+
+
 #include <Carbon/Carbon.h>
-/****************************************************************************
-** Copyright (c) 2006 - 2011, the LibQxt project.
-** See the Qxt AUTHORS file for a list of authors and copyright holders.
-** All rights reserved.
-**
-** Redistribution and use in source and binary forms, with or without
-** modification, are permitted provided that the following conditions are met:
-**     * Redistributions of source code must retain the above copyright
-**       notice, this list of conditions and the following disclaimer.
-**     * Redistributions in binary form must reproduce the above copyright
-**       notice, this list of conditions and the following disclaimer in the
-**       documentation and/or other materials provided with the distribution.
-**     * Neither the name of the LibQxt project nor the
-**       names of its contributors may be used to endorse or promote products
-**       derived from this software without specific prior written permission.
-**
-** THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
-** ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
-** WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
-** DISCLAIMED. IN NO EVENT SHALL <COPYRIGHT HOLDER> BE LIABLE FOR ANY
-** DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
-** (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
-** LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
-** ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
-** (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
-** SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-**
-** <http://libqxt.org>  <foundation@libqxt.org>
-*****************************************************************************/
 
 #include "QxtGlobalShortcut_p.h"
 #include <QMap>
 #include <QHash>
 #include <QtDebug>
 #include <QApplication>
-
+//-------------------------------------------------------------------------------------------------
 typedef QPair<uint, uint> Identifier;
+
 static QMap<quint32, EventHotKeyRef> keyRefs;
 static QHash<Identifier, quint32> keyIDs;
 static quint32 hotKeySerial = 0;
 static bool qxt_mac_handler_installed = false;
-
+//-------------------------------------------------------------------------------------------------
 OSStatus qxt_mac_handle_hot_key(EventHandlerCallRef nextHandler, EventRef event, void* data)
 {
     Q_UNUSED(nextHandler);
     Q_UNUSED(data);
-    if (GetEventClass(event) == kEventClassKeyboard && GetEventKind(event) == kEventHotKeyPressed)
-    {
+
+    if (GetEventClass(event) == kEventClassKeyboard && GetEventKind(event) == kEventHotKeyPressed) {
         EventHotKeyID keyID;
         GetEventParameter(event, kEventParamDirectObject, typeEventHotKeyID, NULL, sizeof(keyID), NULL, &keyID);
         Identifier id = keyIDs.key(keyID.id);
         QxtGlobalShortcutPrivate::activateShortcut(id.second, id.first);
     }
+
     return noErr;
 }
-
+//-------------------------------------------------------------------------------------------------
 quint32 QxtGlobalShortcutPrivate::nativeModifiers(Qt::KeyboardModifiers modifiers)
 {
     quint32 native = 0;
@@ -68,12 +47,14 @@ quint32 QxtGlobalShortcutPrivate::nativeModifiers(Qt::KeyboardModifiers modifier
         native |= controlKey;
     if (modifiers & Qt::KeypadModifier)
         native |= kEventKeyModifierNumLockMask;
+
     return native;
 }
-
+//-------------------------------------------------------------------------------------------------
 quint32 QxtGlobalShortcutPrivate::nativeKeycode(Qt::Key key)
 {
     UTF16Char ch;
+
     // Constants found in NSEvent.h from AppKit.framework
     switch (key)
     {
@@ -174,59 +155,61 @@ quint32 QxtGlobalShortcutPrivate::nativeKeycode(Qt::Key key)
     CFDataRef currentLayoutData;
     TISInputSourceRef currentKeyboard = TISCopyCurrentKeyboardInputSource();
 
-    if (currentKeyboard == NULL)
+    if (currentKeyboard == NULL) {
         return 0;
+    }
 
     currentLayoutData = (CFDataRef)TISGetInputSourceProperty(currentKeyboard, kTISPropertyUnicodeKeyLayoutData);
     CFRelease(currentKeyboard);
-    if (currentLayoutData == NULL)
-        return 0;
 
-    UCKeyboardLayout* header = (UCKeyboardLayout*)CFDataGetBytePtr(currentLayoutData);
-    UCKeyboardTypeHeader* table = header->keyboardTypeList;
+    if (currentLayoutData == NULL) {
+        return 0;
+    }
+
+    UCKeyboardLayout*     header = (UCKeyboardLayout*)CFDataGetBytePtr(currentLayoutData);
+    UCKeyboardTypeHeader* table  = header->keyboardTypeList;
 
     uint8_t *data = (uint8_t*)header;
+
     // God, would a little documentation for this shit kill you...
-    for (quint32 i=0; i < header->keyboardTypeCount; i++)
-    {
+    for (quint32 i=0; i < header->keyboardTypeCount; ++ i) {
         UCKeyStateRecordsIndex* stateRec = 0;
-        if (table[i].keyStateRecordsIndexOffset != 0)
-        {
+        if (table[i].keyStateRecordsIndexOffset != 0) {
             stateRec = reinterpret_cast<UCKeyStateRecordsIndex*>(data + table[i].keyStateRecordsIndexOffset);
-            if (stateRec->keyStateRecordsIndexFormat != kUCKeyStateRecordsIndexFormat) stateRec = 0;
+            if (stateRec->keyStateRecordsIndexFormat != kUCKeyStateRecordsIndexFormat) {
+                stateRec = 0;
+            }
         }
 
         UCKeyToCharTableIndex* charTable = reinterpret_cast<UCKeyToCharTableIndex*>(data + table[i].keyToCharTableIndexOffset);
-        if (charTable->keyToCharTableIndexFormat != kUCKeyToCharTableIndexFormat) continue;
+        if (charTable->keyToCharTableIndexFormat != kUCKeyToCharTableIndexFormat) {
+            continue;
+        }
 
-        for (quint32 j=0; j < charTable->keyToCharTableCount; j++)
-        {
+        for (quint32 j=0; j < charTable->keyToCharTableCount; ++j) {
             UCKeyOutput* keyToChar = reinterpret_cast<UCKeyOutput*>(data + charTable->keyToCharTableOffsets[j]);
-            for (quint32 k=0; k < charTable->keyToCharTableSize; k++)
-            {
-                if (keyToChar[k] & kUCKeyOutputTestForIndexMask)
-                {
+            for (quint32 k=0; k < charTable->keyToCharTableSize; ++k) {
+                if (keyToChar[k] & kUCKeyOutputTestForIndexMask) {
                     long idx = keyToChar[k] & kUCKeyOutputGetIndexMask;
-                    if (stateRec && idx < stateRec->keyStateRecordCount)
-                    {
+                    if (stateRec && idx < stateRec->keyStateRecordCount) {
                         UCKeyStateRecord* rec = reinterpret_cast<UCKeyStateRecord*>(data + stateRec->keyStateRecordOffsets[idx]);
-                        if (rec->stateZeroCharData == ch) return k;
+                        if (rec->stateZeroCharData == ch) {
+                            return k;
+                        }
                     }
-                }
-                else if (!(keyToChar[k] & kUCKeyOutputSequenceIndexMask) && keyToChar[k] < 0xFFFE)
-                {
+                } else if (!(keyToChar[k] & kUCKeyOutputSequenceIndexMask) && keyToChar[k] < 0xFFFE) {
                     if (keyToChar[k] == ch) return k;
                 }
             } // for k
         } // for j
     } // for i
+
     return 0;
 }
-
+//-------------------------------------------------------------------------------------------------
 bool QxtGlobalShortcutPrivate::registerShortcut(quint32 nativeKey, quint32 nativeMods)
 {
-    if (!qxt_mac_handler_installed)
-    {
+    if (!qxt_mac_handler_installed) {
         EventTypeSpec t;
         t.eventClass = kEventClassKeyboard;
         t.eventKind = kEventHotKeyPressed;
@@ -239,20 +222,24 @@ bool QxtGlobalShortcutPrivate::registerShortcut(quint32 nativeKey, quint32 nativ
 
     EventHotKeyRef ref = 0;
     bool rv = !RegisterEventHotKey(nativeKey, nativeMods, keyID, GetApplicationEventTarget(), 0, &ref);
-    if (rv)
-    {
+    if (rv) {
         keyIDs.insert(Identifier(nativeMods, nativeKey), keyID.id);
         keyRefs.insert(keyID.id, ref);
     }
+
     return rv;
 }
-
+//-------------------------------------------------------------------------------------------------
 bool QxtGlobalShortcutPrivate::unregisterShortcut(quint32 nativeKey, quint32 nativeMods)
 {
     Identifier id(nativeMods, nativeKey);
-    if (!keyIDs.contains(id)) return false;
+
+    if (!keyIDs.contains(id)) {
+        return false;
+    }
 
     EventHotKeyRef ref = keyRefs.take(keyIDs[id]);
     keyIDs.remove(id);
     return !UnregisterEventHotKey(ref);
 }
+//-------------------------------------------------------------------------------------------------
