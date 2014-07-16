@@ -257,9 +257,6 @@ Main::_initMain()
         setGeometry(0, 0, APP_WIDTH, APP_HEIGHT);
         qtlib::Utils::widgetAlignCenter(this);
         cboDictPath_reload();
-
-        // global shortcut
-        connect(&_shortcut, SIGNAL( activated() ), this, SLOT( slot_OnImportClipboard() ));
     }
 
     // tray icon
@@ -267,9 +264,22 @@ Main::_initMain()
         qDebug() << qDEBUG_VAR(QSystemTrayIcon::isSystemTrayAvailable());
 
         if (QSystemTrayIcon::isSystemTrayAvailable()) {
+            // mnuTrayIcon
+            QMenu *mnuTrayIcon = new QMenu(this);
+            mnuTrayIcon->addMenu(ui.menuFile);
+            mnuTrayIcon->addMenu(ui.menuEdit);
+            mnuTrayIcon->addMenu(ui.menuAudio);
+            mnuTrayIcon->addMenu(ui.menuFind);
+            mnuTrayIcon->addMenu(ui.menuView);
+            mnuTrayIcon->addMenu(ui.menuOptions);
+            mnuTrayIcon->addMenu(ui.menuHelp);
+            mnuTrayIcon->addSeparator();
+
+            // _trayIcon
             _trayIcon.setIcon( QIcon(RES_MAIN_PNG) );
-            // _trayIcon.setContextMenu(ui.menuEdit);
-            _trayIcon.setVisible(true);
+            _trayIcon.setToolTip( qlApp->applicationName() );
+            _trayIcon.setContextMenu(mnuTrayIcon);
+            _trayIcon.show();
         }
     }
 }
@@ -450,6 +460,18 @@ Main::_initActions()
 
         connect(ui.actHelp_About,               SIGNAL( triggered() ),
                 this,                           SLOT  ( slot_OnAbout() ));
+    }
+
+    // tray
+    {
+        connect(&_trayIcon, SIGNAL( activated(QSystemTrayIcon::ActivationReason) ),
+                this,       SLOT  ( slot_OnTrayActivated(QSystemTrayIcon::ActivationReason) ));
+    }
+
+    // global shortcut
+    {
+        connect(&_shortcut, SIGNAL( activated() ),
+                this,       SLOT( slot_OnImportClipboard() ));
     }
 }
 //-------------------------------------------------------------------------------------------------
@@ -1068,6 +1090,32 @@ Main::slot_cboDictPath_OnCurrentIndexChanged(
 
         ui.lblDictInfo->setText(dictInfo);
     #endif
+    }
+}
+//-------------------------------------------------------------------------------------------------
+
+
+/**************************************************************************************************
+*   tray
+*
+**************************************************************************************************/
+
+//-------------------------------------------------------------------------------------------------
+void
+Main::slot_OnTrayActivated(
+    QSystemTrayIcon::ActivationReason a_reason
+)
+{
+    switch (a_reason) {
+    case QSystemTrayIcon::DoubleClick:
+    case QSystemTrayIcon::Trigger:
+        setVisible( !isVisible() );
+        break;
+    case QSystemTrayIcon::MiddleClick:
+        slot_OnImportClipboard();
+        break;
+    default:
+        break;
     }
 }
 //-------------------------------------------------------------------------------------------------

@@ -73,6 +73,7 @@ private:
     QString         _dbBackupDir;
     QString         _tempDir;
     QSystemTrayIcon _trayIcon;
+
     qtlib::SqlNavigator _sqlNavigator;
     QxtGlobalShortcut _shortcut;
 
@@ -116,7 +117,6 @@ private Q_SLOTS:
     void            slot_OnZoomOut();
     void            slot_OnZoomDefault();
 
-
     // group "Options"
     void            slot_OnSettings();
 
@@ -124,6 +124,10 @@ private Q_SLOTS:
     void            slot_OnFaq();
     void            slot_OnAbout();
 
+    // tray
+    void            slot_OnTrayActivated(QSystemTrayIcon::ActivationReason);
+
+    // etc
     void            slot_cboDictPath_OnCurrentIndexChanged(const QString &arg);
 
 private:
