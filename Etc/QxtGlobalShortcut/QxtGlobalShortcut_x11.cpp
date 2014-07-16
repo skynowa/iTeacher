@@ -35,6 +35,7 @@
 #   include <QX11Info>
 #else
 #   include <QApplication>
+#   include <QDebug>
 #   include <qpa/qplatformnativeinterface.h>
 #   include <X11/Xlib.h>
 #   include <xcb/xcb.h>
@@ -59,13 +60,17 @@ public:
             case BadAccess:
             case BadValue:
             case BadWindow:
+            // case BadMatch:
                 if (event->request_code == 33 /* X_GrabKey */ ||
                         event->request_code == 34 /* X_UngrabKey */)
                 {
                     error = true;
-                    //TODO:
-                    //char errstr[256];
-                    //XGetErrorText(dpy, err->error_code, errstr, 256);
+
+                    // TODO:
+                    char errorText[255 + 1] = {0};
+                    ::XGetErrorText(display, event->error_code, errorText, sizeof(errorText) - 1);
+
+                    qDebug() << "QxtX11ErrorHandler: " << errorText;
                 }
         }
         return 0;
