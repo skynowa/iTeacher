@@ -9,30 +9,6 @@
 //-------------------------------------------------------------------------------------------------
 #include "../Config.h"
 
-#if HAVE_GLOBAL_HOTKEY
-
-#include <X11/X.h>
-#include <X11/Xlib.h>
-#include <X11/keysym.h>
-
-#undef KeyPress
-#undef KeyRelease
-#undef Bool
-#undef Status
-#undef True
-#undef False
-#undef GrayScale
-#undef Unsorted
-#undef None
-#undef CursorShape
-#undef FocusIn
-#undef FocusOut
-#undef type
-#undef FontChange
-#undef Expose
-
-#endif
-
 #if HAVE_XLIB
     #include <xLib/Core/Core.h>
 #endif
@@ -148,13 +124,6 @@ private:
     ExportOrder     _exportOrder;
     void            _settingsLoad();
     void            _settingsSave();
-
-    // global hotkey
-#if defined(Q_OS_UNIX) && HAVE_GLOBAL_HOTKEY
-    int          iRv;
-    int          _keyCode;
-    Display     *_display;
-#endif
 
     // utils
     QString         _exportfileNameBuild(cQString &fileExt);

@@ -23,49 +23,6 @@
     #include <xLib/IO/Finder.h>
 #endif
 
-//-------------------------------------------------------------------------------------------------
-#if HAVE_GLOBAL_HOTKEY
-
-xNAMESPACE_ANONYM_BEGIN
-
-std::ctstring_t
-xlib_errorFormat
-(
-    Display *a_display,
-    cint_t  &a_code
-)
-{
-    std::tstring_t sRv;
-    tchar_t        buff[1024 + 1] = {0};
-
-    int_t iRv = ::XGetErrorText(a_display, a_code, buff, static_cast<int_t>( sizeof(buff) ) - 1);
-    xTEST_DIFF(iRv, 0);
-
-    sRv.assign(buff);
-
-    return sRv;
-}
-
-int
-xlib_errorHandler(
-    Display     *a_display,
-    XErrorEvent *a_errorEvent
-)
-{
-    std::ctstring_t errorStr = ::xlib_errorFormat(a_display, a_errorEvent->error_code);
-
-    Trace() << xT("xLib: XLIB error - ") << xTRACE_VAR7(a_errorEvent->type,
-        a_errorEvent->resourceid, a_errorEvent->serial, a_errorEvent->error_code, errorStr,
-        a_errorEvent->request_code, a_errorEvent->minor_code);
-
-    return 0;
-}
-
-xNAMESPACE_ANONYM_END
-
-#endif
-//-------------------------------------------------------------------------------------------------
-
 
 /**************************************************************************************************
 *   public
@@ -89,48 +46,13 @@ Main::Main(
     _dbDatabase  (Q_NULLPTR),
     _model       (Q_NULLPTR),
     _exportOrder (eoUnknown)
-#if defined(Q_OS_UNIX) && HAVE_GLOBAL_HOTKEY
-    // global hotkey
-    ,
-    _keyCode       (0),
-    _display       (Q_NULLPTR)
-#endif
 {
     _construct();
-
-#if defined(Q_OS_UNIX) && HAVE_GLOBAL_HOTKEY
-    qlApp->installEventFilter(this);
-
-    // global hotkey
-    _display = ::XOpenDisplay(Q_NULLPTR);
-    qTEST_PTR(_display);
-
-    // handle errors is on
-    ::XSynchronize(_display, 1 /*True*/);
-    ::XSetErrorHandler(::xlib_errorHandler);
-
-    _keyCode = ::XKeysymToKeycode(_display, XK_F1);
-    iRv = ::XGrabKey(_display, _keyCode, ControlMask | ShiftMask, RootWindow(_display, 0),
-        /*False*/1, GrabModeAsync, GrabModeAsync);
-    xTEST_DIFF(iRv, 0);
-
-    iRv = ::XFlush(_display);
-    xTEST_DIFF(iRv, 0);
-#endif
 }
 //-------------------------------------------------------------------------------------------------
 /*virtual*/
 Main::~Main()
 {
-#if defined(Q_OS_UNIX) && HAVE_GLOBAL_HOTKEY
-    // global hotkey
-    iRv = ::XUngrabKey(_display, _keyCode, ControlMask | ShiftMask, RootWindow(_display, 0));
-    xTEST_DIFF(iRv, 0);
-
-    iRv = ::XCloseDisplay(_display);  _display = Q_NULLPTR;
-    xTEST_NA(iRv);
-#endif
-
     _destruct();
 }
 //-------------------------------------------------------------------------------------------------
@@ -163,20 +85,6 @@ Main::eventFilter(
         }
     }
 
-#if defined(Q_OS_UNIX) && HAVE_GLOBAL_HOTKEY
-    // global hotkey
-    if (a_event->type() == QEvent::KeyPress) {
-        QKeyEvent *keyEvent = static_cast<QKeyEvent *>(a_event);
-
-        if (keyEvent->modifiers() == (Qt::ControlModifier | Qt::ShiftModifier) &&
-            keyEvent->key() == Qt::Key_F1)
-        {
-            qDebug() << "QxGlobalShortcut_x11 event";
-            return false;
-        }
-    }
-#endif
-
     return false;
 }
 //-------------------------------------------------------------------------------------------------
@@ -189,7 +97,7 @@ Main::keyPressEvent(
     switch (a_event->key()) {
     // minimize on pressing escape
     case Qt::Key_Escape:
-        setWindowState(Qt::WindowMinimized);;
+        setWindowState(Qt::WindowMinimized);
         break;
     default:
         QMainWindow::keyPressEvent(a_event);
