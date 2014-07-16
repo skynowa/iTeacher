@@ -29,6 +29,7 @@ int main(int argc, char *argv[])
 
         QCoreApplication::setOrganizationName(ORG_NAME);
         QCoreApplication::setApplicationName(APP_NAME);
+        QApplication::setQuitOnLastWindowClosed(false);
 
         Main dlgMain;
         dlgMain.show();
