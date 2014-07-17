@@ -16,7 +16,7 @@
 #include "../QtLib/Common.h"
 #include "../QtLib/Utils.h"
 #include "../QtLib/SqlNavigator.h"
-#include "../QtLib/QxtGlobalShortcut/QxtGlobalShortcut.h"
+#include "../QtLib/GlobalShortcut/GlobalShortcut.h"
 
 #include "ui_Main.h"
 //-------------------------------------------------------------------------------------------------
@@ -53,8 +53,8 @@ private:
     QSystemTrayIcon _trayIcon;
 
     qtlib::SqlNavigator _sqlNavigator;
-    QxtGlobalShortcut _scShowHide;
-    QxtGlobalShortcut _scImportClipboard;
+    qtlib::GlobalShortcut _scShowHide;
+    qtlib::GlobalShortcut _scImportClipboard;
 
     void            _construct();
     void            _destruct();

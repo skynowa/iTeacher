@@ -54,7 +54,7 @@ SOURCES = \
     QtLib/Utils.cpp
 
 # includes
-include(QtLib/QxtGlobalShortcut/QxtGlobalShortcut.pri)
+include(QtLib/GlobalShortcut/GlobalShortcut.pri)
 
 FORMS = \
     Forms/Main.ui \
