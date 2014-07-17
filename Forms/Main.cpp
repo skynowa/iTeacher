@@ -1345,8 +1345,6 @@ Main::_settingsLoad()
     QSize       size;
     QPoint      position;
     int         dictionaryNum   = 0;
-    QString     shortcutShowHide;
-    QString     shortcutImportClipboard;
     int         tableFontSize   = 0;
     int         tableRowHeight  = 0;
     int         tableCurrentRow = 0;
@@ -1357,7 +1355,8 @@ Main::_settingsLoad()
     int         columnWidth4    = 0;
     int         columnWidth5    = 0;
     ExportOrder exportOrder     = eoUnknown;
-
+    QString     shortcutShowHide;
+    QString     shortcutImportClipboard;
     {
         QSettings settings(qtlib::Application::configFilePath(), QSettings::IniFormat, this);
 
@@ -1365,8 +1364,6 @@ Main::_settingsLoad()
         size           = settings.value("size",            QSize(APP_WIDTH, APP_HEIGHT)).toSize();
         position       = settings.value("position",        QPoint(200, 200)).toPoint();
         dictionaryNum  = settings.value("dictionary_num",  0).toInt();
-        shortcutShowHide = settings.value("shortcut_show_hide", "Shift+F1").toString();
-        shortcutImportClipboard = settings.value("shortcut_import_clipboard", "F1").toString(); /*Ctrl+Shift+F12*/
         settings.endGroup();
 
         settings.beginGroup("table");
@@ -1384,6 +1381,12 @@ Main::_settingsLoad()
         settings.beginGroup("file");
         exportOrder     = static_cast<ExportOrder>( settings.value("export_order", eoTerminValue).toInt() );
         settings.endGroup();
+
+        settings.beginGroup("shortcuts");
+        // Sample: Ctrl+Shift+F12
+        shortcutShowHide = settings.value("show_hide", "Shift+F1").toString();
+        shortcutImportClipboard = settings.value("import_clipboard", "F1").toString();
+        settings.endGroup();
     }
 
     // apply settings
@@ -1392,8 +1395,6 @@ Main::_settingsLoad()
         resize(size);
         move(position);
         ui.cboDictPath->setCurrentIndex(dictionaryNum);
-        _scShowHide.setShortcut( QKeySequence(shortcutShowHide) );
-        _scImportClipboard.setShortcut( QKeySequence(shortcutImportClipboard) );
 
         // table
         {
@@ -1417,6 +1418,12 @@ Main::_settingsLoad()
 
         // file
         _exportOrder = exportOrder;
+
+        // shortcuts
+        {
+            _scShowHide.setShortcut( QKeySequence(shortcutShowHide) );
+            _scImportClipboard.setShortcut( QKeySequence(shortcutImportClipboard) );
+        }
     }
 }
 //-------------------------------------------------------------------------------------------------
@@ -1430,8 +1437,6 @@ Main::_settingsSave()
     settings.setValue("position",       pos());
     settings.setValue("size",           size());
     settings.setValue("dictionary_num", ui.cboDictPath->currentIndex());
-    settings.setValue("shortcut_show_hide", _scShowHide.shortcut().toString());
-    settings.setValue("shortcut_import_clipboard", _scImportClipboard.shortcut().toString());
     settings.endGroup();
 
     // table
@@ -1450,6 +1455,12 @@ Main::_settingsSave()
     // file
     settings.beginGroup("file");
     settings.setValue("export_order",   _exportOrder);
+    settings.endGroup();
+
+    // shortcuts
+    settings.beginGroup("shortcuts");
+    settings.setValue("show_hide",      _scShowHide.shortcut().toString());
+    settings.setValue("import_clipboard", _scImportClipboard.shortcut().toString());
     settings.endGroup();
 }
 //-------------------------------------------------------------------------------------------------
