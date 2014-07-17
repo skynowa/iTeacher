@@ -426,9 +426,6 @@ WordEditor::slot_bbxButtons_OnClicked(
     case QDialogButtonBox::Reset:
         _resetAll();
         break;
-    case QDialogButtonBox::Apply:
-        _saveAll(&code);
-        break;
     case QDialogButtonBox::Cancel:
         close();
         break;
