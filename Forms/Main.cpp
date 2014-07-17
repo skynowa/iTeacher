@@ -34,18 +34,19 @@ Main::Main(
     QWidget         *a_parent,
     Qt::WindowFlags  a_flags
 ) :
-    QMainWindow  (a_parent, a_flags),
-    _appName     (),
-    _appDir      (),
-    _dbDir       (),
-    _dbBackupDir (),
-    _tempDir     (),
-    _trayIcon    (this),
-    _sqlNavigator(this),
-    _shortcut    (this),
-    _dbDatabase  (Q_NULLPTR),
-    _model       (Q_NULLPTR),
-    _exportOrder (eoUnknown)
+    QMainWindow       (a_parent, a_flags),
+    _appName          (),
+    _appDir           (),
+    _dbDir            (),
+    _dbBackupDir      (),
+    _tempDir          (),
+    _trayIcon         (this),
+    _sqlNavigator     (this),
+    _scShowHide       (this),
+    _scImportClipboard(this),
+    _dbDatabase       (Q_NULLPTR),
+    _model            (Q_NULLPTR),
+    _exportOrder      (eoUnknown)
 {
     _construct();
 }
@@ -393,8 +394,11 @@ Main::_initActions()
 
     // global shortcut
     {
-        connect(&_shortcut, SIGNAL( activated() ),
-                this,       SLOT( slot_OnImportClipboard() ));
+        connect(&_scShowHide, SIGNAL( activated() ),
+                this,         SLOT  ( slot_OnShowHide() ));
+
+        connect(&_scImportClipboard, SIGNAL( activated() ),
+                this,                SLOT  ( slot_OnImportClipboard() ));
     }
 }
 //-------------------------------------------------------------------------------------------------
@@ -821,6 +825,12 @@ Main::slot_OnSearch()
 
 //-------------------------------------------------------------------------------------------------
 void
+Main::slot_OnShowHide()
+{
+    setVisible( !isVisible() );
+}
+//-------------------------------------------------------------------------------------------------
+void
 Main::slot_OnZoomIn()
 {
     // table font
@@ -1032,7 +1042,7 @@ Main::slot_OnTrayActivated(
     switch (a_reason) {
     case QSystemTrayIcon::DoubleClick:
     case QSystemTrayIcon::Trigger:
-        setVisible( !isVisible() );
+        slot_OnShowHide();
         break;
     case QSystemTrayIcon::MiddleClick:
         slot_OnImportClipboard();
@@ -1335,7 +1345,8 @@ Main::_settingsLoad()
     QSize       size;
     QPoint      position;
     int         dictionaryNum   = 0;
-    QString     shortcut;
+    QString     shortcutShowHide;
+    QString     shortcutImportClipboard;
     int         tableFontSize   = 0;
     int         tableRowHeight  = 0;
     int         tableCurrentRow = 0;
@@ -1354,7 +1365,8 @@ Main::_settingsLoad()
         size           = settings.value("size",            QSize(APP_WIDTH, APP_HEIGHT)).toSize();
         position       = settings.value("position",        QPoint(200, 200)).toPoint();
         dictionaryNum  = settings.value("dictionary_num",  0).toInt();
-        shortcut       = settings.value("shortcut",        "F1").toString(); /*Ctrl+Shift+F12*/
+        shortcutShowHide = settings.value("shortcut_show_hide", "Shift+F1").toString();
+        shortcutImportClipboard = settings.value("shortcut_import_clipboard", "F1").toString(); /*Ctrl+Shift+F12*/
         settings.endGroup();
 
         settings.beginGroup("table");
@@ -1380,7 +1392,8 @@ Main::_settingsLoad()
         resize(size);
         move(position);
         ui.cboDictPath->setCurrentIndex(dictionaryNum);
-        _shortcut.setShortcut( QKeySequence(shortcut) );
+        _scShowHide.setShortcut( QKeySequence(shortcutShowHide) );
+        _scImportClipboard.setShortcut( QKeySequence(shortcutImportClipboard) );
 
         // table
         {
@@ -1417,7 +1430,8 @@ Main::_settingsSave()
     settings.setValue("position",       pos());
     settings.setValue("size",           size());
     settings.setValue("dictionary_num", ui.cboDictPath->currentIndex());
-    settings.setValue("shortcut",       _shortcut.shortcut().toString());
+    settings.setValue("shortcut_show_hide", _scShowHide.shortcut().toString());
+    settings.setValue("shortcut_import_clipboard", _scImportClipboard.shortcut().toString());
     settings.endGroup();
 
     // table

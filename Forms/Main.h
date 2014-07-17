@@ -53,7 +53,8 @@ private:
     QSystemTrayIcon _trayIcon;
 
     qtlib::SqlNavigator _sqlNavigator;
-    QxtGlobalShortcut _shortcut;
+    QxtGlobalShortcut _scShowHide;
+    QxtGlobalShortcut _scImportClipboard;
 
     void            _construct();
     void            _destruct();
@@ -91,6 +92,7 @@ private Q_SLOTS:
     void            slot_OnSearch();
 
     // group "View"
+    void            slot_OnShowHide();
     void            slot_OnZoomIn();
     void            slot_OnZoomOut();
     void            slot_OnZoomDefault();
