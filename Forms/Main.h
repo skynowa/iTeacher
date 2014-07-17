@@ -16,7 +16,7 @@
 #include "../QtLib/Common.h"
 #include "../QtLib/Utils.h"
 #include "../QtLib/SqlNavigator.h"
-#include "Etc/QxtGlobalShortcut/QxtGlobalShortcut.h"
+#include "../QtLib/QxtGlobalShortcut/QxtGlobalShortcut.h"
 
 #include "ui_Main.h"
 //-------------------------------------------------------------------------------------------------
