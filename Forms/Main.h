@@ -33,6 +33,8 @@ public:
 protected:
     virtual bool    eventFilter(QObject *object, QEvent *event);
     virtual void    keyPressEvent(QKeyEvent *event);
+    virtual void    closeEvent(QCloseEvent *event);
+
 
 private:
     enum ExportOrder

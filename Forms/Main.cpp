@@ -104,6 +104,21 @@ Main::keyPressEvent(
         break;
     }
 }
+
+//-------------------------------------------------------------------------------------------------
+/* virtual */
+void
+Main::closeEvent(
+    QCloseEvent *a_event
+)
+{
+    if (true) {
+        QApplication::setQuitOnLastWindowClosed(true);
+        a_event->accept();
+    } else {
+        a_event->ignore();
+    }
+}
 //-------------------------------------------------------------------------------------------------
 
 
