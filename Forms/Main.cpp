@@ -672,7 +672,7 @@ Main::slot_OnRemove()
         cQString   wordValue  = record.value(DB_F_MAIN_VALUE).toString();
 
         text            = QString(tr("Remove record number %1?"))
-                            .arg(currentRow);
+                            .arg(currentRow + 1);
         informativeText = QString(tr("%2 - %3"))
                             .arg(wordTerm)
                             .arg(wordValue);
