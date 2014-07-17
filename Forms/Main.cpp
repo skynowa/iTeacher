@@ -361,6 +361,9 @@ Main::_initActions()
 
     // group "View"
     {
+        connect(ui.actView_ShowHide,            SIGNAL( triggered() ),
+                this,                           SLOT  ( slot_OnShowHide() ));
+
         connect(ui.actView_ZoomIn,              SIGNAL( triggered() ),
                 this,                           SLOT  ( slot_OnZoomIn() ));
 
