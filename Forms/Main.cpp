@@ -590,7 +590,17 @@ Main::slot_OnExportPdf()
 void
 Main::slot_OnExit()
 {
-    close();
+    // close();
+
+    cQString textFrom = QString("hotel").toUtf8();
+    cQString langFrom = QString("en").toUtf8();
+    cQString langTo   = QString("ru").toUtf8();
+    QString  textToBrief;
+    QString  textToDetail;
+
+    qtlib::Utils::googleTranslate(textFrom, langFrom, langTo, &textToBrief, &textToDetail);
+    qDebug() << qDEBUG_VAR(textToBrief);
+    qDebug() << qDEBUG_VAR(textToDetail);
 }
 //-------------------------------------------------------------------------------------------------
 

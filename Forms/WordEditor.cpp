@@ -329,9 +329,12 @@ WordEditor::slot_termTranslate()
     cQString textFrom = ui.tedtWordTerm->toPlainText().toUtf8();
     cQString langFrom = QString("en").toUtf8();
     cQString langTo   = QString("ru").toUtf8();
-    QString  textTo   = qtlib::Utils::googleTranslate(textFrom, langFrom, langTo);
+    QString  textToBrief;
+    QString  textToDetail;
 
-    ui.tedtWordValue->setText(textTo);
+    qtlib::Utils::googleTranslate(textFrom, langFrom, langTo, &textToBrief, &textToDetail);
+
+    ui.tedtWordValue->setText(textToBrief);
 }
 //-------------------------------------------------------------------------------------------------
 bool
