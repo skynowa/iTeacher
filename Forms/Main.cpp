@@ -592,7 +592,7 @@ Main::slot_OnExit()
 {
     // close();
 
-    cQString textFrom = QString("hotel").toUtf8();
+    cQString textFrom = QString("go").toUtf8();
     cQString langFrom = QString("en").toUtf8();
     cQString langTo   = QString("ru").toUtf8();
     QString  textToBrief;
