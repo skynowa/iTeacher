@@ -590,8 +590,9 @@ Main::slot_OnExportPdf()
 void
 Main::slot_OnExit()
 {
-    // close();
+    close();
 
+#if 0
     cQString textFrom = QString("go").toUtf8();
     cQString langFrom = QString("en").toUtf8();
     cQString langTo   = QString("ru").toUtf8();
@@ -601,6 +602,7 @@ Main::slot_OnExit()
     qtlib::Utils::googleTranslate(textFrom, langFrom, langTo, &textToBrief, &textToDetail);
     qDebug() << qDEBUG_VAR(textToBrief);
     qDebug() << qDEBUG_VAR(textToDetail);
+#endif
 }
 //-------------------------------------------------------------------------------------------------
 

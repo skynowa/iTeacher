@@ -335,6 +335,7 @@ WordEditor::slot_termTranslate()
     qtlib::Utils::googleTranslate(textFrom, langFrom, langTo, &textToBrief, &textToDetail);
 
     ui.tedtWordValue->setText(textToBrief);
+    ui.tedtWordDetailValue->setText(textToDetail);
 }
 //-------------------------------------------------------------------------------------------------
 bool
