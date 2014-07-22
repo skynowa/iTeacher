@@ -88,6 +88,17 @@ WordEditor::_construct()
 
     // UI
     {
+        // title
+        {
+            QFileInfo info( _sqlNavigator->model()->database().databaseName() );
+
+            cQString title = QString("%1 - %2")
+                                .arg( windowTitle() )
+                                .arg( info.fileName() );
+
+            setWindowTitle(title);
+        }
+
         QSqlRecord record = _model->record(_currentRow);
 
         // term, value
