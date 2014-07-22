@@ -103,7 +103,7 @@
     </widget>
    </item>
    <item row="3" column="0">
-    <widget class="QTextEdit" name="tedtWordValue">
+    <widget class="QTextEdit" name="tedtWordBriefValue">
      <property name="minimumSize">
       <size>
        <width>0</width>
@@ -194,7 +194,7 @@
  </widget>
  <tabstops>
   <tabstop>tedtWordTerm</tabstop>
-  <tabstop>tedtWordValue</tabstop>
+  <tabstop>tedtWordBriefValue</tabstop>
   <tabstop>cboTags</tabstop>
   <tabstop>bbxButtons</tabstop>
   <tabstop>pbtnTermTranslate</tabstop>
