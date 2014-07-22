@@ -335,11 +335,17 @@ WordEditor::slot_termTranslate()
     cQString langTo   = QString("ru").toUtf8();
     QString  textToBrief;
     QString  textToDetail;
+    QString  textToRaw;
 
-    qtlib::Utils::googleTranslate(textFrom, langFrom, langTo, &textToBrief, &textToDetail);
+    qtlib::Utils::googleTranslate(textFrom, langFrom, langTo, &textToBrief, &textToDetail,
+        &textToRaw);
 
     ui.tedtWordBriefValue->setText(textToBrief);
     ui.tedtWordDetailValue->setText(textToDetail);
+
+    qDebug() << qDEBUG_VAR(textFrom);
+    qDebug() << qDEBUG_VAR(textToBrief);
+    qDebug() << qDEBUG_VAR(textToRaw);
 }
 //-------------------------------------------------------------------------------------------------
 bool
