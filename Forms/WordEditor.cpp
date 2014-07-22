@@ -167,6 +167,7 @@ WordEditor::_resetAll()
 {
     ui.tedtWordTerm->clear();
     ui.tedtWordBriefValue->clear();
+    ui.tedtWordDetailValue->clear();
     ui.cboTags->setCurrentText(tr(""));
     ui.chkWordIsLearned->setChecked(false);
     ui.chkWordIsMarked->setChecked(false);
@@ -313,9 +314,12 @@ WordEditor::_isTermExists(
 void
 WordEditor::slot_termTranslate()
 {
-    ui.tedtWordBriefValue->clear();
+    if (ui.tedtWordTerm->toPlainText().isEmpty()) {
+        ui.tedtWordBriefValue->clear();
+        ui.tedtWordDetailValue->clear();
 
-    qCHECK_DO(ui.tedtWordTerm->toPlainText().isEmpty(), return);
+        return;
+    }
 
     if (ui.chkTerminLowerCase->isChecked()) {
         cQString term      = ui.tedtWordTerm->toPlainText();
