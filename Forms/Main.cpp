@@ -16,12 +16,10 @@
 #include <QPrinter>
 #include <QMediaPlayer>
 
-#if HAVE_XLIB
-    #include <xLib/Core/Const.h>
-    #include <xLib/Core/String.h>
-    #include <xLib/IO/Path.h>
-    #include <xLib/IO/Finder.h>
-#endif
+#include <xLib/Core/Const.h>
+#include <xLib/Core/String.h>
+#include <xLib/IO/Path.h>
+#include <xLib/IO/Finder.h>
 
 
 /**************************************************************************************************
@@ -1020,7 +1018,6 @@ Main::slot_cboDictPath_OnCurrentIndexChanged(
         }
 
         cQString dictInfo =
-    #if HAVE_XLIB
             QString(tr("&nbsp;&nbsp;&nbsp;<b>All</b>: %1 (%2)"
                        "&nbsp;&nbsp;&nbsp;<b>Learned</b>: %3 (%4)"
                        "&nbsp;&nbsp;&nbsp;<b>Not learned:</b> %5 (%6)"))
@@ -1032,12 +1029,6 @@ Main::slot_cboDictPath_OnCurrentIndexChanged(
                         .arg( qS2QS(xlib::core::String::formatPercentage(wordsAll, wordsNotLearned)) );
 
         ui.lblDictInfo->setText(dictInfo);
-    #else
-        // TODO: Main::slot_cboDictPath_OnCurrentIndexChanged()
-        "";
-
-        ui.lblDictInfo->setText(dictInfo);
-    #endif
     }
 }
 //-------------------------------------------------------------------------------------------------
@@ -1080,7 +1071,6 @@ Main::cboDictPath_reload()
 {
     ui.cboDictPath->clear();
 
-#if HAVE_XLIB
     qCHECK_DO(! QDir(_dbDir).exists(), return);
 
     std::vec_tstring_t dicts;
@@ -1092,9 +1082,6 @@ Main::cboDictPath_reload()
 
         ui.cboDictPath->addItem(dict);
     }
-#else
-    // TODO: Main::cboDictPath_reload()
-#endif
 }
 //-------------------------------------------------------------------------------------------------
 

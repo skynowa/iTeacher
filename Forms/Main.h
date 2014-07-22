@@ -9,9 +9,7 @@
 //-------------------------------------------------------------------------------------------------
 #include "../Config.h"
 
-#if HAVE_XLIB
-    #include <xLib/Core/Core.h>
-#endif
+#include <xLib/Core/Core.h>
 
 #include "../QtLib/Common.h"
 #include "../QtLib/Utils.h"

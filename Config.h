@@ -50,7 +50,6 @@
 #define RES_MAIN_PNG                 ":/App.png"
 
 // etc
-#define HAVE_XLIB                    1
 #define DB_DIR_NAME                  "Db"
 #define DB_FILE_EXT                  ".db"
 #define BACKUP_DIR_NAME              "Backup"

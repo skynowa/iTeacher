@@ -6,9 +6,6 @@
 #---------------------------------------------------------------------------
 
 
-# config
-HAVE_XLIB       = 1
-
 # project
 TARGET          = iTeacher
 TEMPLATE        = app
@@ -16,16 +13,18 @@ QT              = core gui widgets sql network xml printsupport multimedia
 CONFIG         += debug warn_on
 
 # xLib
-!isEmpty(HAVE_XLIB) {
-    INCLUDEPATH = xLib/Include
+INCLUDEPATH = \
+    xLib/Include
 
-    win32 {
-        LIBS   += User32.lib Ole32.lib Advapi32.lib shell32.lib
-        LIB    += -lpsapi -luuid -lole32 -lmpr
-    }
-    unix {
-        LIBS   += -ldl #-lc (FreeBSD)
-    }
+win32 {
+    LIBS += \
+        User32.lib Ole32.lib Advapi32.lib shell32.lib
+    LIBS += \
+        -lpsapi -luuid -lole32 -lmpr
+}
+unix {
+    LIBS += \
+         -ldl #-lc (FreeBSD)
 }
 
 HEADERS = \
