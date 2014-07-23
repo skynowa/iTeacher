@@ -93,7 +93,7 @@ WordEditor::_construct()
             QFileInfo info( _sqlNavigator->model()->database().databaseName() );
 
             cQString title = QString("%1 - %2")
-                                .arg( windowTitle() )
+                                .arg( APP_NAME )
                                 .arg( info.fileName() );
 
             setWindowTitle(title);
