@@ -50,10 +50,7 @@
 #define RES_MAIN_PNG                 ":/App.png"
 
 // etc
-#define DB_DIR_NAME                  "Db"
 #define DB_FILE_EXT                  ".db"
-#define BACKUP_DIR_NAME              "Backup"
-#define TEMP_DIR_NAME                "Temp"
 #define TRANSLATION_LANG_ENGLISH     "en"
 #define TRANSLATION_LANG_RUSSIAN     "ru"
 #define BUTTON_BOX_WIDTH             75

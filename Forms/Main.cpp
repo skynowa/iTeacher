@@ -162,11 +162,11 @@ Main::_initMain()
     #if defined(Q_OS_ANDROID)
         _appDir      = QDir::homePath();
     #else
-        _appDir      = QCoreApplication::applicationDirPath();
+        _appDir      = qS2QS(xlib::core::Application().dirPath());
     #endif
-        _dbDir       = _appDir + QDir::separator() + DB_DIR_NAME;
-        _dbBackupDir = _appDir + QDir::separator() + BACKUP_DIR_NAME;
-        _tempDir     = _appDir + QDir::separator() + TEMP_DIR_NAME;
+        _dbDir       = qS2QS(xlib::core::Application().dbDirPath());
+        _dbBackupDir = qS2QS(xlib::core::Application().backupDirPath());
+        _tempDir     = qS2QS(xlib::core::Application().tempDirPath());
 
         QDir().mkpath(_dbDir);
         QDir().mkpath(_dbBackupDir);
