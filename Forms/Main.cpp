@@ -168,9 +168,7 @@ Main::_initMain()
         _dbBackupDir = qS2QS(xlib::core::Application().backupDirPath());
         _tempDir     = qS2QS(xlib::core::Application().tempDirPath());
 
-        QDir().mkpath(_dbDir);
-        QDir().mkpath(_dbBackupDir);
-        QDir().mkpath(_tempDir);
+        xlib::core::Application().dirsCreate();
     }
 
     // Main
