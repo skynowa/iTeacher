@@ -7,7 +7,8 @@
 #include "WordEditor.h"
 
 #include "../QtLib/Utils.h"
-#include "../QtLib/Application.h"
+
+#include <xLib/Core/Application.h>
 
 
 /**************************************************************************************************
@@ -262,7 +263,7 @@ WordEditor::_settingsLoad()
     QSize size;
     bool  isTerminLowerCase = false;
     {
-        QSettings settings(qtlib::Application::configFilePath(), QSettings::IniFormat, this);
+        QSettings settings(qS2QS(xlib::core::Application().configPath()), QSettings::IniFormat, this);
 
         settings.beginGroup("word_editor");
         size              = settings.value("size", QSize(APP_WIDTH, APP_HEIGHT)).toSize();
@@ -281,7 +282,7 @@ WordEditor::_settingsLoad()
 void
 WordEditor::_settingsSave()
 {
-    QSettings settings(qtlib::Application::configFilePath(), QSettings::IniFormat, this);
+    QSettings settings(qS2QS(xlib::core::Application().configPath()), QSettings::IniFormat, this);
 
     // main
     settings.beginGroup("word_editor");

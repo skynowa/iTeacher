@@ -18,6 +18,7 @@
 
 #include <xLib/Core/Const.h>
 #include <xLib/Core/String.h>
+#include <xLib/Core/Application.h>
 #include <xLib/IO/Path.h>
 #include <xLib/IO/Finder.h>
 
@@ -1360,7 +1361,7 @@ Main::_settingsLoad()
     QString     shortcutShowHide;
     QString     shortcutImportClipboard;
     {
-        QSettings settings(qtlib::Application::configFilePath(), QSettings::IniFormat, this);
+        QSettings settings(qS2QS(xlib::core::Application().configPath()), QSettings::IniFormat, this);
 
         settings.beginGroup("main");
         size           = settings.value("size",            QSize(APP_WIDTH, APP_HEIGHT)).toSize();
@@ -1432,7 +1433,7 @@ Main::_settingsLoad()
 void
 Main::_settingsSave()
 {
-    QSettings settings(qtlib::Application::configFilePath(), QSettings::IniFormat, this);
+    QSettings settings(qS2QS(xlib::core::Application().configPath()), QSettings::IniFormat, this);
 
     // main
     settings.beginGroup("main");
