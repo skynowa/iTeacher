@@ -162,13 +162,11 @@ Main::_initMain()
     #if defined(Q_OS_ANDROID)
         _appDir      = QDir::homePath();
     #else
-        _appDir      = qS2QS(xlib::core::Application().dirPath());
+        _appDir      = qS2QS(xlib::core::Application::dirPath());
     #endif
-        _dbDir       = qS2QS(xlib::core::Application().dbDirPath());
-        _dbBackupDir = qS2QS(xlib::core::Application().backupDirPath());
-        _tempDir     = qS2QS(xlib::core::Application().tempDirPath());
-
-        xlib::core::Application().dirsCreate();
+        _dbDir       = qS2QS(xlib::core::Application::dbDirPath());
+        _dbBackupDir = qS2QS(xlib::core::Application::backupDirPath());
+        _tempDir     = qS2QS(xlib::core::Application::tempDirPath());
     }
 
     // Main
@@ -1359,7 +1357,7 @@ Main::_settingsLoad()
     QString     shortcutShowHide;
     QString     shortcutImportClipboard;
     {
-        QSettings settings(qS2QS(xlib::core::Application().configPath()), QSettings::IniFormat, this);
+        QSettings settings(qS2QS(xlib::core::Application::configPath()), QSettings::IniFormat, this);
 
         settings.beginGroup("main");
         size           = settings.value("size",            QSize(APP_WIDTH, APP_HEIGHT)).toSize();
@@ -1431,7 +1429,7 @@ Main::_settingsLoad()
 void
 Main::_settingsSave()
 {
-    QSettings settings(qS2QS(xlib::core::Application().configPath()), QSettings::IniFormat, this);
+    QSettings settings(qS2QS(xlib::core::Application::configPath()), QSettings::IniFormat, this);
 
     // main
     settings.beginGroup("main");

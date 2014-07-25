@@ -5,7 +5,9 @@
 
 
 #include <QApplication>
+#include <xLib/Core/Application.h>
 #include "Forms/Main.h"
+
 
 //-------------------------------------------------------------------------------------------------
 int main(int argc, char *argv[])
@@ -25,6 +27,11 @@ int main(int argc, char *argv[])
 
     // start application
     {
+        // xlib::core::Application
+        xlib::core::Application xapplication;
+        xapplication.dirsCreate();
+
+        // QApplication
         QApplication application(argc, argv);
 
         QCoreApplication::setOrganizationName(ORG_NAME);
