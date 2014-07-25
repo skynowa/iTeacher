@@ -470,6 +470,21 @@ Main::slot_OnImportCsv()
 void
 Main::slot_OnImportClipboard()
 {
+    // WordEditor - only one instance
+    QSharedMemory locker;
+    {
+        bool     bRv     = false;
+        cQString dlgGuid = APP_GUID"_dlgWordEditor";
+
+        locker.setKey(dlgGuid);
+
+        bRv = locker.attach();
+        qCHECK_DO(bRv, return);
+
+        bRv = locker.create(1);
+        qCHECK_DO(!bRv, return);
+    }
+
     qCHECK_DO(!_sqlNavigator.isValid(), return);
 
     _sqlNavigator.insert();
