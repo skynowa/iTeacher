@@ -51,6 +51,10 @@ private:
 
     bool             _isTermExists(cQString &term);
 
+    void             _googleTranslate(cQString &textFrom, cQString &langFrom, cQString &langTo,
+                         QString *textToBrief, QString *textToDetail, QString *textToRaw);
+        ///< translate text by Google API
+
 private Q_SLOTS:
     void             slot_termTranslate();
     bool             slot_termCheck();

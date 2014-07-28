@@ -9,6 +9,7 @@
 #include "../QtLib/Utils.h"
 
 #include <xLib/Core/Application.h>
+#include <QDomDocument>
 
 
 /**************************************************************************************************
@@ -331,6 +332,122 @@ WordEditor::_isTermExists(
     return bRv;
 }
 //-------------------------------------------------------------------------------------------------
+void
+WordEditor::_googleTranslate(
+    cQString &a_textFrom,       ///< source text
+    cQString &a_langFrom,       ///< source text language
+    cQString &a_langTo,         ///< target text language
+    QString  *a_textToBrief,    ///< [out] target brief translate
+    QString  *a_textToDetail,   ///< [out] target detail translate
+    QString  *a_textToRaw       ///< [out] target raw translate (HTML) (maybe Q_NULLPTR)
+)
+{
+    qTEST(!a_textFrom.isEmpty());
+    qTEST(!a_langFrom.isEmpty());
+    qTEST(!a_langTo.isEmpty());
+    qTEST(a_textToBrief  != Q_NULLPTR);
+    qTEST(a_textToDetail != Q_NULLPTR);
+    qTEST_NA(a_textToDetail);
+
+    QString textToBrief;
+    QString textToDetail;
+    QString textToRaw;
+
+    // request to Google
+    QString response;
+    bool    isDictionaryText = false;
+    {
+        cQString host = QString("https://translate.google.com");
+        cQString url  = QString("%1/m?text=%2&sl=%3&tl=%4")
+                            .arg(host)
+                            .arg(a_textFrom)
+                            .arg(a_langFrom)
+                            .arg(a_langTo);
+
+        QNetworkAccessManager manager;
+        manager.connectToHost(host, 80);
+
+        QNetworkRequest request(url);
+
+        QNetworkReply *reply = manager.get(request);
+        qTEST_PTR(reply);
+
+        if (reply->error() != QNetworkReply::NoError) {
+            reply->close();
+            qPTR_DELETE(reply);
+
+            *a_textToBrief  = QObject::tr("Connection error");
+            *a_textToDetail = QObject::tr("Connection error");
+
+            if (a_textToRaw != Q_NULLPTR) {
+                *a_textToRaw = QObject::tr("Connection error");
+            }
+
+            return;
+        }
+
+        for ( ; ; ) {
+            QCoreApplication::processEvents(QEventLoop::ExcludeUserInputEvents);
+
+            qCHECK_DO(reply->isFinished(), break);
+        }
+
+        response = QString::fromUtf8(reply->readAll());
+        qTEST(!response.isEmpty());
+
+        reply->close();
+        qPTR_DELETE(reply);
+
+        textToRaw = response;
+        isDictionaryText = response.contains("Dictionary:");
+
+        // qDebug() << qDEBUG_VAR(url);
+        // qDebug() << qDEBUG_VAR(response);
+    }
+
+    // proccess response
+
+    {
+        response.replace("Dictionary:", "\n");
+        response.replace("<br>", "\n");
+    }
+
+    // parse response
+    {
+        QDomDocument document;
+        document.setContent(response);
+
+        QDomNodeList docList = document.elementsByTagName("div");
+        qTEST(docList.count() >= 3);
+
+        // out - textToBrief
+        textToBrief = docList.at(2).toElement().text();
+        qTEST(!textToBrief.isEmpty());
+
+        // out - textToDetail
+        if (isDictionaryText) {
+            textToDetail = docList.at(5).toElement().text();
+            qTEST(!textToDetail.isEmpty());
+        } else {
+            textToDetail = QObject::tr("n/a");
+        }
+    }
+
+    // out
+    {
+        a_textToBrief->swap(textToBrief);
+        a_textToDetail->swap(textToDetail);
+
+        if (a_textToRaw != Q_NULLPTR) {
+            a_textToRaw->swap(textToRaw);
+        }
+
+        // qDebug() << qDEBUG_VAR(*a_textToBrief);
+        // qDebug() << qDEBUG_VAR(*a_textToDetail);
+        // qDebug() << qDEBUG_VAR(*a_textToRaw);
+    }
+}
+//-------------------------------------------------------------------------------------------------
 
 
 /**************************************************************************************************
@@ -378,8 +495,7 @@ WordEditor::slot_termTranslate()
     QString  textToDetail;
     QString  textToRaw;
 
-    qtlib::Utils::googleTranslate(textFrom, langFrom, langTo, &textToBrief, &textToDetail,
-        &textToRaw);
+    _googleTranslate(textFrom, langFrom, langTo, &textToBrief, &textToDetail, &textToRaw);
 
     ui.tedtWordBriefValue->setText(textToBrief);
     ui.tedtWordDetailValue->setText(textToDetail);
