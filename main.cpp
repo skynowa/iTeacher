@@ -19,8 +19,10 @@ int main(int argc, char *argv[])
 
     // set application single inststance
     {
-        bool bRv = qtlib::Application::setSingle(APP_GUID);
-        qCHECK_RET(!bRv, EXIT_SUCCESS);
+        bool isRunnig = false;
+
+        qtlib::Application::setSingle(APP_GUID, &isRunnig);
+        qCHECK_RET(isRunnig, EXIT_SUCCESS);
     }
 
     // start application
