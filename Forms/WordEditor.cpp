@@ -497,6 +497,8 @@ WordEditor::slot_termTranslate()
     if (ui.tedtWordTerm->toPlainText().isEmpty()) {
         ui.tedtWordBriefValue->clear();
         ui.tedtWordDetailValue->clear();
+        ui.tedtWordWebValue->clear();
+        ui.tedtWordRawValue->clear();
 
         return;
     }
@@ -534,12 +536,12 @@ WordEditor::slot_termTranslate()
         ui.tedtWordBriefValue->setText(textToBrief);
     }
 
-    // value details - n/a lowcase
+    // detail value, WEB value - n/a lowercase
     ui.tedtWordDetailValue->setText(textToDetail);
+    ui.tedtWordWebValue->setHtml(textToRaw);
 
-    qDebug() << qDEBUG_VAR(textFrom);
-    qDebug() << qDEBUG_VAR(textToBrief);
-    qDebug() << qDEBUG_VAR(textToRaw);
+    // raw value - n/a lowercase
+    ui.tedtWordRawValue->setPlainText(textToRaw);
 }
 //-------------------------------------------------------------------------------------------------
 bool
