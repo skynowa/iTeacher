@@ -317,9 +317,9 @@ WordEditor::_isTermExists(
     QSqlQuery qryQuery( _model->database() );
 
     cQString sql =
-                "SELECT COUNT(*) AS f_records_count "
-                "   FROM  " DB_T_MAIN " "
-                "   WHERE " DB_F_MAIN_TERM " LIKE '" + a_term.trimmed() + "';";
+        "SELECT COUNT(*) AS f_records_count "
+        "   FROM  " DB_T_MAIN " "
+        "   WHERE " DB_F_MAIN_TERM " LIKE '" + a_term.trimmed() + "';";
 
     bRv = qryQuery.exec(sql);
     qCHECK_REF(bRv, qryQuery);
