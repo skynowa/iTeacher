@@ -4,7 +4,6 @@
  */
 
 
-#include <QApplication>
 #include <xLib/Core/Application.h>
 #include <QtLib/Application.h>
 #include "Forms/Main.h"
@@ -30,12 +29,12 @@ int main(int argc, char *argv[])
         xlib::core::Application xapplication;
         xapplication.dirsCreate();
 
-        // QApplication
-        QApplication application(argc, argv);
+        // qtlib::Application
+        qtlib::Application application(argc, argv);
 
-        QCoreApplication::setOrganizationName(ORG_NAME);
-        QCoreApplication::setApplicationName(APP_NAME);
-        QApplication::setQuitOnLastWindowClosed(false);
+        qtlib::Application::setOrganizationName(ORG_NAME);
+        qtlib::Application::setApplicationName(APP_NAME);
+        qtlib::Application::setQuitOnLastWindowClosed(false);
 
         Main dlgMain;
         dlgMain.show();
