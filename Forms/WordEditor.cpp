@@ -343,7 +343,7 @@ WordEditor::_googleTranslate(
     QString  *a_textToBrief,    ///< [out] target brief translate
     QString  *a_textToDetail,   ///< [out] target detail translate
     QString  *a_textToRaw       ///< [out] target raw translate (HTML) (maybe Q_NULLPTR)
-)
+) const
 {
     qTEST(!a_textFrom.isEmpty());
     qTEST(!a_langFrom.isEmpty());
