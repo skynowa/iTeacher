@@ -350,11 +350,24 @@ WordEditor::slot_termTranslate()
     }
 
     if (ui.chkTerminLowerCase->isChecked()) {
-        cQString term      = ui.tedtWordTerm->toPlainText();
-        cQString termLower = ui.tedtWordTerm->toPlainText().toLower();
+        // term
+        {
+            cQString term      = ui.tedtWordTerm->toPlainText();
+            cQString termLower = ui.tedtWordTerm->toPlainText().toLower();
 
-        if (term != termLower) {
-            ui.tedtWordTerm->setText(termLower);
+            if (term != termLower) {
+                ui.tedtWordTerm->setText(termLower);
+            }
+        }
+
+        // value
+        {
+            cQString value      = ui.tedtWordBriefValue->toPlainText();
+            cQString valueLower = ui.tedtWordBriefValue->toPlainText().toLower();
+
+            if (value != valueLower) {
+                ui.tedtWordBriefValue->setText(valueLower);
+            }
         }
     }
 
