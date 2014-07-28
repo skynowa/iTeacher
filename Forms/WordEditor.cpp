@@ -477,28 +477,6 @@ WordEditor::slot_termTranslate()
         return;
     }
 
-    if (ui.chkTerminLowerCase->isChecked()) {
-        // term
-        {
-            cQString term      = ui.tedtWordTerm->toPlainText();
-            cQString termLower = ui.tedtWordTerm->toPlainText().toLower();
-
-            if (term != termLower) {
-                ui.tedtWordTerm->setText(termLower);
-            }
-        }
-
-        // value
-        {
-            cQString value      = ui.tedtWordBriefValue->toPlainText();
-            cQString valueLower = ui.tedtWordBriefValue->toPlainText().toLower();
-
-            if (value != valueLower) {
-                ui.tedtWordBriefValue->setText(valueLower);
-            }
-        }
-    }
-
     cQString textFrom = ui.tedtWordTerm->toPlainText().toUtf8();
     cQString langFrom = QString("en").toUtf8();
     cQString langTo   = QString("ru").toUtf8();
@@ -508,7 +486,31 @@ WordEditor::slot_termTranslate()
 
     _googleTranslate(textFrom, langFrom, langTo, &textToBrief, &textToDetail, &textToRaw);
 
-    ui.tedtWordBriefValue->setText(textToBrief);
+    // term - to lowercase
+    if (ui.chkTerminLowerCase->isChecked()) {
+        cQString term      = ui.tedtWordTerm->toPlainText();
+        cQString termLower = ui.tedtWordTerm->toPlainText().toLower();
+
+        if (term != termLower) {
+            ui.tedtWordTerm->setText(termLower);
+        }
+    } else {
+        // n/a
+    }
+
+    // value - to lowercase
+    if (ui.chkTerminLowerCase->isChecked()) {
+        cQString value      = ui.tedtWordBriefValue->toPlainText();
+        cQString valueLower = ui.tedtWordBriefValue->toPlainText().toLower();
+
+        if (value != valueLower) {
+            ui.tedtWordBriefValue->setText(valueLower);
+        }
+    } else {
+        ui.tedtWordBriefValue->setText(textToBrief);
+    }
+
+    // value details - n/a lowcase
     ui.tedtWordDetailValue->setText(textToDetail);
 
     qDebug() << qDEBUG_VAR(textFrom);
