@@ -372,16 +372,30 @@ WordEditor::_googleTranslate(
         QNetworkReply *reply = manager.get(request);
         qTEST_PTR(reply);
 
-        if (reply->error() != QNetworkReply::NoError) {
-            reply->close();
-            qPTR_DELETE(reply);
+    #if 0
+        cQVariant httpStatusCode = reply->attribute(QNetworkRequest::HttpStatusCodeAttribute);
+        if ( !httpStatusCode.isValid() ) {
+            qDebug() << qDEBUG_VAR(httpStatusCode);
+            return;
+        }
 
-            *a_textToBrief  = QObject::tr("Connection error");
-            *a_textToDetail = QObject::tr("Connection error");
+        int status = httpStatusCode.toInt();
+        if (status != 200) {
+            cQString reason = reply->attribute(QNetworkRequest::HttpReasonPhraseAttribute).toString();
+            qDebug() << qDEBUG_VAR(reason);
+        }
+    #endif
+
+        if (reply->error() != QNetworkReply::NoError) {
+            *a_textToBrief  = reply->errorString();
+            *a_textToDetail = reply->errorString();
 
             if (a_textToRaw != Q_NULLPTR) {
-                *a_textToRaw = QObject::tr("Connection error");
+                *a_textToRaw = reply->errorString();
             }
+
+            reply->close();
+            qPTR_DELETE(reply);
 
             return;
         }
@@ -402,7 +416,7 @@ WordEditor::_googleTranslate(
         isDictionaryText = response.contains("Dictionary:");
 
         // qDebug() << qDEBUG_VAR(url);
-        // qDebug() << qDEBUG_VAR(response);
+        qDebug() << qDEBUG_VAR(response);
     }
 
     // proccess response
