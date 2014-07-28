@@ -56,6 +56,7 @@ private:
         ///< translate text by Google API
 
 private Q_SLOTS:
+    void             slot_pbtnLangsSwap_OnClicked();
     void             slot_termTranslate();
     bool             slot_termCheck();
     void             slot_bbxButtons_OnClicked(QAbstractButton *button);

@@ -75,6 +75,9 @@ WordEditor::_construct()
 
     // signals
     {
+        connect(ui.pbtnLangsSwap,     SIGNAL( clicked() ),
+                this,                 SLOT  ( slot_pbtnLangsSwap_OnClicked() ));
+
         connect(ui.pbtnTermTranslate, SIGNAL( clicked() ),
                 this,                 SLOT  ( slot_termTranslate() ));
 
@@ -471,6 +474,24 @@ WordEditor::_googleTranslate(
 
 //-------------------------------------------------------------------------------------------------
 void
+WordEditor::slot_pbtnLangsSwap_OnClicked()
+{
+    cQString textFrom  = ui.cboLangFrom->currentText();
+    cQString textTo    = ui.cboLangTo->currentText();
+
+    int      indexFrom = ui.cboLangFrom->findText(textTo);
+    qTEST(indexFrom > - 1);
+
+    int      indexTo   = ui.cboLangTo->findText(textFrom);
+    qTEST(indexTo > - 1);
+
+    ::qSwap(indexFrom, indexTo);
+
+    ui.cboLangFrom->setCurrentIndex(indexFrom);
+    ui.cboLangTo->setCurrentIndex(indexTo);
+}
+//-------------------------------------------------------------------------------------------------
+void
 WordEditor::slot_termTranslate()
 {
     if (ui.tedtWordTerm->toPlainText().isEmpty()) {
@@ -480,9 +501,9 @@ WordEditor::slot_termTranslate()
         return;
     }
 
-    cQString textFrom = ui.tedtWordTerm->toPlainText().toUtf8();
-    cQString langFrom = QString("en").toUtf8();
-    cQString langTo   = QString("ru").toUtf8();
+    cQString textFrom = ui.tedtWordTerm->toPlainText();
+    cQString langFrom = ui.cboLangFrom->currentText();
+    cQString langTo   = ui.cboLangTo->currentText();
     QString  textToBrief;
     QString  textToDetail;
     QString  textToRaw;

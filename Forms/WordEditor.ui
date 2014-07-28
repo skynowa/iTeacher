@@ -6,14 +6,14 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>433</width>
-    <height>413</height>
+    <width>546</width>
+    <height>502</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Word editor[*]</string>
   </property>
-  <layout class="QGridLayout" name="gridLayout_2">
+  <layout class="QGridLayout" name="gridLayout_3">
    <item row="0" column="0">
     <widget class="QLabel" name="label_2">
      <property name="text">
@@ -22,56 +22,118 @@
     </widget>
    </item>
    <item row="0" column="1" rowspan="6">
-    <layout class="QGridLayout" name="gridLayout">
-     <item row="0" column="0">
-      <widget class="QPushButton" name="pbtnTermTranslate">
-       <property name="text">
-        <string>Translate</string>
-       </property>
-      </widget>
-     </item>
-     <item row="2" column="0">
-      <widget class="QCheckBox" name="chkWordIsLearned">
-       <property name="text">
-        <string>Learned</string>
-       </property>
-      </widget>
-     </item>
-     <item row="1" column="0">
-      <widget class="QPushButton" name="pbtnTermCheck">
-       <property name="text">
-        <string>Check</string>
-       </property>
-      </widget>
-     </item>
-     <item row="5" column="0">
-      <spacer name="verticalSpacer">
-       <property name="orientation">
-        <enum>Qt::Vertical</enum>
-       </property>
-       <property name="sizeHint" stdset="0">
-        <size>
-         <width>17</width>
-         <height>82</height>
-        </size>
-       </property>
-      </spacer>
-     </item>
-     <item row="3" column="0">
-      <widget class="QCheckBox" name="chkWordIsMarked">
-       <property name="text">
-        <string>Marked</string>
-       </property>
-      </widget>
-     </item>
-     <item row="4" column="0">
-      <widget class="QCheckBox" name="chkTerminLowerCase">
-       <property name="text">
-        <string>Lower case</string>
-       </property>
-      </widget>
-     </item>
-    </layout>
+    <widget class="QGroupBox" name="groupBox">
+     <property name="title">
+      <string/>
+     </property>
+     <layout class="QGridLayout" name="gridLayout_2">
+      <item row="0" column="0">
+       <layout class="QGridLayout" name="gridLayout">
+        <item row="0" column="2">
+         <widget class="QComboBox" name="cboLangTo">
+          <property name="maximumSize">
+           <size>
+            <width>68</width>
+            <height>16777215</height>
+           </size>
+          </property>
+          <item>
+           <property name="text">
+            <string>Ru</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>En</string>
+           </property>
+          </item>
+         </widget>
+        </item>
+        <item row="0" column="0">
+         <widget class="QComboBox" name="cboLangFrom">
+          <property name="maximumSize">
+           <size>
+            <width>68</width>
+            <height>16777215</height>
+           </size>
+          </property>
+          <item>
+           <property name="text">
+            <string>En</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Ru</string>
+           </property>
+          </item>
+         </widget>
+        </item>
+        <item row="0" column="1">
+         <widget class="QPushButton" name="pbtnLangsSwap">
+          <property name="maximumSize">
+           <size>
+            <width>36</width>
+            <height>16777215</height>
+           </size>
+          </property>
+          <property name="text">
+           <string>&lt;-&gt;</string>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="0" colspan="3">
+         <widget class="QPushButton" name="pbtnTermTranslate">
+          <property name="text">
+           <string>Translate</string>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="0" colspan="3">
+         <widget class="QPushButton" name="pbtnTermCheck">
+          <property name="text">
+           <string>Check</string>
+          </property>
+         </widget>
+        </item>
+        <item row="3" column="0" colspan="3">
+         <widget class="QCheckBox" name="chkWordIsLearned">
+          <property name="text">
+           <string>Learned</string>
+          </property>
+         </widget>
+        </item>
+        <item row="4" column="0" colspan="3">
+         <widget class="QCheckBox" name="chkWordIsMarked">
+          <property name="text">
+           <string>Marked</string>
+          </property>
+         </widget>
+        </item>
+        <item row="5" column="0" colspan="3">
+         <widget class="QCheckBox" name="chkTerminLowerCase">
+          <property name="text">
+           <string>Lower case</string>
+          </property>
+         </widget>
+        </item>
+        <item row="6" column="0" colspan="3">
+         <spacer name="verticalSpacer">
+          <property name="orientation">
+           <enum>Qt::Vertical</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>17</width>
+            <height>82</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+       </layout>
+      </item>
+     </layout>
+    </widget>
    </item>
    <item row="1" column="0">
     <widget class="QTextEdit" name="tedtWordTerm">
@@ -209,11 +271,6 @@
   <tabstop>tedtWordBriefValue</tabstop>
   <tabstop>cboTags</tabstop>
   <tabstop>bbxButtons</tabstop>
-  <tabstop>pbtnTermTranslate</tabstop>
-  <tabstop>pbtnTermCheck</tabstop>
-  <tabstop>chkWordIsLearned</tabstop>
-  <tabstop>chkWordIsMarked</tabstop>
-  <tabstop>chkTerminLowerCase</tabstop>
  </tabstops>
  <resources/>
  <connections/>
