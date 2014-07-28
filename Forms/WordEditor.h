@@ -4,8 +4,8 @@
  */
 
 
-#ifndef iTeacher_CWordEditorH
-#define iTeacher_CWordEditorH
+#ifndef iTeacher_WordEditorH
+#define iTeacher_WordEditorH
 //-------------------------------------------------------------------------------------------------
 #include "ui_WordEditor.h"
 
@@ -23,39 +23,39 @@ class WordEditor :
 public:
     Ui::UiWordEditor ui;
 
-                    WordEditor(QWidget *parent, QSqlTableModel *tableModel,
-                        qtlib::SqlNavigator *sqlNavigator, cbool &inserMode,
-                        cQString &newTerm = QString());
-    virtual        ~WordEditor();
+                     WordEditor(QWidget *parent, QSqlTableModel *tableModel,
+                         qtlib::SqlNavigator *sqlNavigator, cbool &inserMode,
+                         cQString &newTerm = QString());
+    virtual         ~WordEditor();
 
-    bool            isConstructed() const;
+    bool             isConstructed() const;
 
 private:
-    bool            _isConstructed;
-    QSqlTableModel *_model;
+    bool             _isConstructed;
+    QSqlTableModel  *_model;
     qtlib::SqlNavigator *_sqlNavigator;
-    cint            _currentRow;
-    cbool           _insertMode;
-    cQString        _termNew;
+    cint             _currentRow;
+    cbool            _insertMode;
+    cQString         _termNew;
 
-    QPalette        _plInfoDefault;
+    QPalette         _plInfoDefault;
 
-    void            _construct();
-    void            _destruct();
+    void             _construct();
+    void             _destruct();
 
-    void            _resetAll();
-    void            _saveAll(QDialog::DialogCode *code);
+    void             _resetAll();
+    void             _saveAll(QDialog::DialogCode *code);
 
-    void            _settingsLoad();
-    void            _settingsSave();
+    void             _settingsLoad();
+    void             _settingsSave();
 
-    bool            _isTermExists(cQString &term);
+    bool             _isTermExists(cQString &term);
 
 private Q_SLOTS:
-    void            slot_termTranslate();
-    bool            slot_termCheck();
-    void            slot_bbxButtons_OnClicked(QAbstractButton *button);
-    void            slot_WordTermOrValue_OnTextChanged();
+    void             slot_termTranslate();
+    bool             slot_termCheck();
+    void             slot_bbxButtons_OnClicked(QAbstractButton *button);
+    void             slot_WordTermOrValue_OnTextChanged();
 };
 //-------------------------------------------------------------------------------------------------
-#endif // iTeacher_CWordEditorH
+#endif // iTeacher_WordEditorH

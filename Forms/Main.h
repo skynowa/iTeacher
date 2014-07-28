@@ -4,8 +4,8 @@
  */
 
 
-#ifndef iTeacher_CMainH
-#define iTeacher_CMainH
+#ifndef iTeacher_MainH
+#define iTeacher_MainH
 //-------------------------------------------------------------------------------------------------
 #include "../Config.h"
 
@@ -131,4 +131,4 @@ private:
     QString         _exportfileNameBuild(cQString &fileExt);
 };
 //-------------------------------------------------------------------------------------------------
-#endif // iTeacher_CMainH
+#endif // iTeacher_MainH
