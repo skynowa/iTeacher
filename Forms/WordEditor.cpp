@@ -524,8 +524,8 @@ WordEditor::slot_termTranslate()
 
     // value - to lowercase
     if (ui.chkTerminLowerCase->isChecked()) {
-        cQString value      = ui.tedtWordBriefValue->toPlainText();
-        cQString valueLower = ui.tedtWordBriefValue->toPlainText().toLower();
+        cQString value      = textToBrief;
+        cQString valueLower = textToBrief.toLower();
 
         if (value != valueLower) {
             ui.tedtWordBriefValue->setText(valueLower);
