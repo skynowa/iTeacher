@@ -6,6 +6,7 @@
 
 #include <QApplication>
 #include <xLib/Core/Application.h>
+#include <QtLib/Application.h>
 #include "Forms/Main.h"
 
 
@@ -15,14 +16,12 @@ int main(int argc, char *argv[])
     int exitCode = EXIT_FAILURE;
 
     // activation application window
-    qtlib::Utils::applicationActivate(APP_WINDOW_CLASS, APP_NAME);
+    qtlib::Application::windowActivate(APP_WINDOW_CLASS, APP_NAME);
 
     // set application single inststance
     {
-    #if 0
-        bool bRv = qtlib::CUtils::setApplicationSingle(APP_GUID);
-        qCHECK_RET(false == bRv, EXIT_SUCCESS);
-    #endif
+        bool bRv = qtlib::Application::setSingle(APP_GUID);
+        qCHECK_RET(!bRv, EXIT_SUCCESS);
     }
 
     // start application
