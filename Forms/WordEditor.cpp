@@ -412,11 +412,8 @@ WordEditor::_googleTranslate(
         reply->close();
         qPTR_DELETE(reply);
 
-        textToRaw = response;
+        textToRaw        = response;
         isDictionaryText = response.contains("Dictionary:");
-
-        // qDebug() << qDEBUG_VAR(url);
-        qDebug() << qDEBUG_VAR(response);
     }
 
     // proccess response
