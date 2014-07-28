@@ -117,8 +117,11 @@ WordEditor::_construct()
         QSqlRecord record = _model->record(_currentRow);
 
         // term, value
-        ui.tedtWordTerm->setText( record.value(DB_F_MAIN_TERM).toString() );
-        ui.tedtWordBriefValue->setText( record.value(DB_F_MAIN_VALUE).toString() );
+        {
+            ui.tedtWordTerm->setText( record.value(DB_F_MAIN_TERM).toString() );
+            ui.tedtWordBriefValue->setText( record.value(DB_F_MAIN_VALUE).toString() );
+            ui.tedtWordDetailValue->setText("");
+        }
 
         // tags
         {
