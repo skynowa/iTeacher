@@ -28,7 +28,10 @@ public:
                         cQString &newTerm = QString());
     virtual        ~WordEditor();
 
+    bool            isConstructed() const;
+
 private:
+    bool            _isConstructed;
     QSqlTableModel *_model;
     qtlib::SqlNavigator *_sqlNavigator;
     cint            _currentRow;

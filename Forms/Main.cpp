@@ -492,6 +492,9 @@ Main::slot_OnImportClipboard()
     cQString   data = QApplication::clipboard()->text();
     WordEditor dlgWordEditor(this, _model, &_sqlNavigator, true, data);
 
+    bool bRv = dlgWordEditor.isConstructed();
+    qCHECK_DO(!bRv, return);
+
     QDialog::DialogCode code = static_cast<QDialog::DialogCode>( dlgWordEditor.exec() );
     switch (code) {
     case QDialog::Rejected:
@@ -669,6 +672,9 @@ Main::slot_OnInsert()
 
     WordEditor dlgWordEditor(this, _model, &_sqlNavigator, true);
 
+    bool bRv = dlgWordEditor.isConstructed();
+    qCHECK_DO(!bRv, return);
+
     QDialog::DialogCode code = static_cast<QDialog::DialogCode>( dlgWordEditor.exec() );
     switch (code) {
     case QDialog::Rejected:
@@ -724,6 +730,9 @@ Main::slot_OnEdit()
 {
     // show edit dialog
     WordEditor dlgWordEditor(this, _model, &_sqlNavigator, false);
+
+    bool bRv = dlgWordEditor.isConstructed();
+    qCHECK_DO(!bRv, return);
 
     (int)dlgWordEditor.exec();
 }

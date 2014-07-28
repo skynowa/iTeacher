@@ -25,6 +25,7 @@ WordEditor::WordEditor(
     cQString            &a_newTerm /* = QString() */
 ) :
     QDialog       (a_parent),
+    _isConstructed(false),
     _model        (a_tableModel),
     _sqlNavigator (a_sqlNavigator),
     _currentRow   (a_sqlNavigator->view()->currentIndex().row()),
@@ -35,7 +36,7 @@ WordEditor::WordEditor(
     qTEST_PTR(a_parent);
     qTEST_PTR(a_tableModel);
     qTEST_PTR(a_sqlNavigator);
-    //// qTEST(- 1  <  _currentRow);
+    qTEST_NA(_currentRow);
 
     _construct();
 }
@@ -44,6 +45,12 @@ WordEditor::WordEditor(
 WordEditor::~WordEditor()
 {
     _destruct();
+}
+//-------------------------------------------------------------------------------------------------
+bool
+WordEditor::isConstructed() const
+{
+    return _isConstructed;
 }
 //-------------------------------------------------------------------------------------------------
 
@@ -57,6 +64,12 @@ WordEditor::~WordEditor()
 void
 WordEditor::_construct()
 {
+    // _isConstructed
+    if (_currentRow < 0) {
+        _isConstructed = false;
+        return;
+    }
+
     ui.setupUi(this);
 
     // signals
@@ -158,6 +171,9 @@ WordEditor::_construct()
     }
 
     _settingsLoad();
+
+    // _isConstructed
+    _isConstructed = true;
 }
 //-------------------------------------------------------------------------------------------------
 void
