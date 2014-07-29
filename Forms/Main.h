@@ -120,7 +120,7 @@ private:
     void            dbClose();
 
     // audio
-    static void     _googleSpeech(cQString &text, cQString &lang, cQString &filePath);
+    void            _googleSpeech(cQString &text, cQString &lang, cQString &filePath);
 
     // settings
     ExportOrder     _exportOrder;
