@@ -961,7 +961,7 @@ Main::slot_OnFaq()
 void
 Main::slot_OnAbout()
 {
-    About wndAbout(this, QIcon(RES_MAIN_ICON));
+    About wndAbout(this, windowIcon());
 
     (int)wndAbout.exec();
 }
