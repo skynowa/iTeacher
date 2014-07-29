@@ -23,6 +23,13 @@
         <file>Menu/Marked.png</file>
         <file>Menu/ShowHide.png</file>
         <file>Menu/LangsSwap.png</file>
+        <file>Menu/ZoomDefault.png</file>
+        <file>Menu/ZoomIn.png</file>
+        <file>Menu/ZoomOut.png</file>
+        <file>Menu/exportCsv.png</file>
+        <file>Menu/exportPdf.png</file>
+        <file>Menu/ImportCsv.png</file>
+        <file>Menu/createDb.png</file>
     </qresource>
     <qresource prefix="/Flags">
         <file>Flags/ru.png</file>

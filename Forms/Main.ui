@@ -188,14 +188,18 @@
   </widget>
   <action name="actFile_CreateDb">
    <property name="icon">
-    <iconset>
-     <normaloff>:/Menu/Menu/NewDB.bmp</normaloff>:/Menu/Menu/NewDB.bmp</iconset>
+    <iconset resource="../Resources/App.qrc">
+     <normaloff>:/Menu/Menu/createDb.png</normaloff>:/Menu/Menu/createDb.png</iconset>
    </property>
    <property name="text">
     <string>Create Db...</string>
    </property>
   </action>
   <action name="actFile_ImportCsv">
+   <property name="icon">
+    <iconset resource="../Resources/App.qrc">
+     <normaloff>:/Menu/Menu/ImportCsv.png</normaloff>:/Menu/Menu/ImportCsv.png</iconset>
+   </property>
    <property name="text">
     <string>Import CSV...</string>
    </property>
@@ -204,11 +208,19 @@
    </property>
   </action>
   <action name="actFile_ExportCsv">
+   <property name="icon">
+    <iconset resource="../Resources/App.qrc">
+     <normaloff>:/Menu/Menu/exportCsv.png</normaloff>:/Menu/Menu/exportCsv.png</iconset>
+   </property>
    <property name="text">
     <string>Export CSV...</string>
    </property>
   </action>
   <action name="actFile_ExportPdf">
+   <property name="icon">
+    <iconset resource="../Resources/App.qrc">
+     <normaloff>:/Menu/Menu/exportPdf.png</normaloff>:/Menu/Menu/exportPdf.png</iconset>
+   </property>
    <property name="text">
     <string>Export PDF...</string>
    </property>
@@ -316,6 +328,10 @@
    </property>
   </action>
   <action name="actView_ZoomIn">
+   <property name="icon">
+    <iconset resource="../Resources/App.qrc">
+     <normaloff>:/Menu/Menu/ZoomIn.png</normaloff>:/Menu/Menu/ZoomIn.png</iconset>
+   </property>
    <property name="text">
     <string>Zoom In</string>
    </property>
@@ -324,6 +340,10 @@
    </property>
   </action>
   <action name="actView_ZoomOut">
+   <property name="icon">
+    <iconset resource="../Resources/App.qrc">
+     <normaloff>:/Menu/Menu/ZoomOut.png</normaloff>:/Menu/Menu/ZoomOut.png</iconset>
+   </property>
    <property name="text">
     <string>Zoom Out</string>
    </property>
@@ -332,6 +352,10 @@
    </property>
   </action>
   <action name="actView_ZoomDefault">
+   <property name="icon">
+    <iconset resource="../Resources/App.qrc">
+     <normaloff>:/Menu/Menu/ZoomDefault.png</normaloff>:/Menu/Menu/ZoomDefault.png</iconset>
+   </property>
    <property name="text">
     <string>Zoom Default</string>
    </property>
