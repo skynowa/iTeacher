@@ -21,7 +21,7 @@
 #define APP_VENDOR_NAME              "Skynowa Studio"
 #define APP_VENDOR_DOMAIN            ""
 #define APP_VENDOR_AUTHOR            "skynowa"
-#define APP_VENDOR_URL               ""
+#define APP_VENDOR_URL               "https://bitbucket.org/skynowa/iteacher"
 #define APP_VENDOR_EMAIL             "skynowa@gmail.com"
 #define APP_VENDOR_SKYPE             "skynowa777"
 
