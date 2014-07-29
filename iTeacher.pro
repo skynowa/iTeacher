@@ -33,7 +33,7 @@ HEADERS = \
     Forms/Main.h \
     Forms/WordEditor.h \
     Forms/WordFinder.h \
-    Forms/About.h \
+    QtLib/Forms/About.h \
     Classes/CenteredCheckBox.h \
     Classes/CheckBoxItemDelegate.h \
     Classes/ComboBoxItemDelegate.h \
@@ -46,7 +46,7 @@ SOURCES = \
     Forms/Main.cpp \
     Forms/WordEditor.cpp \
     Forms/WordFinder.cpp \
-    Forms/About.cpp \
+    QtLib/Forms/About.cpp \
     Classes/CenteredCheckBox.cpp \
     Classes/CheckBoxItemDelegate.cpp \
     Classes/ComboBoxItemDelegate.cpp \
@@ -61,7 +61,7 @@ FORMS = \
     Forms/Main.ui \
     Forms/WordEditor.ui \
     Forms/WordFinder.ui \
-    Forms/About.ui
+    QtLib/Forms/About.ui
 
 RESOURCES = \
     Resources/App.qrc
