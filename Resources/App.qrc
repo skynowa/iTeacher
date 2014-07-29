@@ -21,5 +21,11 @@
         <file>Menu/PlaySound.png</file>
         <file>Menu/Learned.png</file>
         <file>Menu/Marked.png</file>
+        <file>Menu/ShowHide.png</file>
+        <file>Menu/LangsSwap.png</file>
+    </qresource>
+    <qresource prefix="/Flags">
+        <file>Flags/ru.png</file>
+        <file>Flags/uk.png</file>
     </qresource>
 </RCC>

@@ -47,10 +47,20 @@
            <property name="text">
             <string>Ru</string>
            </property>
+           <property name="icon">
+            <iconset>
+             <normalon>:/Flags/Flags/ru.png</normalon>
+            </iconset>
+           </property>
           </item>
           <item>
            <property name="text">
             <string>En</string>
+           </property>
+           <property name="icon">
+            <iconset>
+             <normalon>:/Flags/Flags/uk.png</normalon>
+            </iconset>
            </property>
           </item>
          </widget>
@@ -67,10 +77,20 @@
            <property name="text">
             <string>En</string>
            </property>
+           <property name="icon">
+            <iconset>
+             <normalon>:/Flags/Flags/uk.png</normalon>
+            </iconset>
+           </property>
           </item>
           <item>
            <property name="text">
             <string>Ru</string>
+           </property>
+           <property name="icon">
+            <iconset>
+             <normalon>:/Flags/Flags/ru.png</normalon>
+            </iconset>
            </property>
           </item>
          </widget>
@@ -84,7 +104,12 @@
            </size>
           </property>
           <property name="text">
-           <string>&lt;-&gt;</string>
+           <string/>
+          </property>
+          <property name="icon">
+           <iconset>
+            <normalon>:/Menu/Menu/LangsSwap.png</normalon>
+           </iconset>
           </property>
          </widget>
         </item>

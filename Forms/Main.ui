@@ -453,6 +453,10 @@
    </property>
   </action>
   <action name="actView_ShowHide">
+   <property name="icon">
+    <iconset resource="../Resources/App.qrc">
+     <normaloff>:/Menu/Menu/ShowHide.png</normaloff>:/Menu/Menu/ShowHide.png</iconset>
+   </property>
    <property name="text">
     <string>Show/Hide</string>
    </property>
