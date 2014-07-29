@@ -9,9 +9,22 @@
 //-------------------------------------------------------------------------------------------------
 // main window
 #define APP_NAME                     "iTeacher"
-#define APP_GUID                     APP_NAME"_simple_guid"
-#define ORG_NAME                     ""
-#define APP_COMMENT                  "learning foreign words"
+#define APP_DESCRIPTION              "learning foreign words"
+#define APP_COPYRIGHT_YEARS          ""
+#define APP_USAGE                    ""
+#define APP_HELP                     ""
+#define APP_VERSION_MAJOR            ""
+#define APP_VERSION_MINOR            ""
+#define APP_VERSION_PATCH            ""
+#define APP_VERSION_TYPE             ""
+#define APP_VERSION_REVISION         ""
+#define APP_VENDOR_NAME              ""
+#define APP_VENDOR_DOMAIN            ""
+#define APP_VENDOR_AUTHOR            ""
+#define APP_VENDOR_URL               ""
+#define APP_VENDOR_EMAIL             ""
+#define APP_VENDOR_SKYPE             ""
+
 #define APP_WINDOW_CLASS             "QTool"
 #define APP_WIDTH                    700
 #define APP_HEIGHT                   600

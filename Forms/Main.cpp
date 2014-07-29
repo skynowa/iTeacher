@@ -12,6 +12,7 @@
 #include "../Classes/ComboBoxItemDelegate.h"
 #include "../Forms/WordEditor.h"
 #include "../Forms/WordFinder.h"
+#include "../Forms/About.h"
 
 #include <QPrinter>
 #include <QMediaPlayer>
@@ -474,7 +475,7 @@ Main::slot_OnImportClipboard()
     QSharedMemory locker;
     {
         bool     bRv     = false;
-        cQString dlgGuid = APP_GUID"_dlgWordEditor";
+        cQString dlgGuid = APP_NAME"_dlgWordEditor_guid";
 
         locker.setKey(dlgGuid);
 
@@ -960,13 +961,9 @@ Main::slot_OnFaq()
 void
 Main::slot_OnAbout()
 {
-    cQString msg = QString(tr(
-        "<p>"
-        "<b>%1</b> - " APP_COMMENT
-        "</p>"))
-            .arg(APP_NAME);
+    About wndAbout(this);
 
-    QMessageBox::about(this, tr("About ") + APP_NAME, msg);
+    (int)wndAbout.exec();
 }
 //-------------------------------------------------------------------------------------------------
 void
