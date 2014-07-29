@@ -4,8 +4,8 @@
  */
 
 
-#ifndef XXXDb_AboutH
-#define XXXDb_AboutH
+#ifndef QtLib_AboutH
+#define QtLib_AboutH
 //-------------------------------------------------------------------------------------------------
 #include "ui_About.h"
 //-------------------------------------------------------------------------------------------------
@@ -28,4 +28,4 @@ private:
     void        slot_bbxButtons_onClicked(QAbstractButton *button);
 };
 //-------------------------------------------------------------------------------------------------
-#endif // XXXDb_AboutH
+#endif // QtLib_AboutH
