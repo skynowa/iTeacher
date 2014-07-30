@@ -117,7 +117,9 @@ WordEditor::_construct()
         {
             ui.tedtWordTerm->setText( record.value(DB_F_MAIN_TERM).toString() );
             ui.tedtWordBriefValue->setText( record.value(DB_F_MAIN_VALUE).toString() );
-            ui.tedtWordDetailValue->setText("");
+            ui.tedtWordDetailValue->clear();
+            ui.tedtWordWebValue->clear();
+            ui.tedtWordRawValue->clear();
         }
 
         // tags
@@ -197,9 +199,12 @@ WordEditor::_resetAll()
     ui.tedtWordTerm->clear();
     ui.tedtWordBriefValue->clear();
     ui.tedtWordDetailValue->clear();
+    ui.tedtWordWebValue->clear();
+    ui.tedtWordRawValue->clear();
     ui.cboTags->setCurrentText(tr(""));
     ui.chkWordIsLearned->setChecked(false);
     ui.chkWordIsMarked->setChecked(false);
+    ui.chkTerminLowerCase->setChecked(false);
 }
 //-------------------------------------------------------------------------------------------------
 void
