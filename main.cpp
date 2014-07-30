@@ -15,7 +15,7 @@ int main(int argc, char *argv[])
     bool bRv = false;
 
     // xlib::core::Application
-    xlib::core::Application xapplication;
+    xlib::core::Application xapplication(xT(APP_GUID));
     xapplication.dirsCreate();
 
     xlib::core::Application::setName(APP_NAME);
