@@ -36,11 +36,12 @@ int main(int argc, char *argv[])
     xlib::core::Application::setVendorSkype(APP_VENDOR_SKYPE);
 
     // qtlib::Application
-    qtlib::Application application(argc, argv, cQString(APP_NAME"_simple_guid"));
+    qtlib::Application application(argc, argv, APP_GUID);
     bRv = application.isRunnig();
     if (bRv) {
-        qtlib::Application::windowActivate(APP_WINDOW_CLASS, APP_NAME);
-        EXIT_SUCCESS;
+        application.windowActivate(APP_WINDOW_CLASS, APP_NAME);
+
+        return EXIT_SUCCESS;
     }
 
     qtlib::Application::setQuitOnLastWindowClosed(false);

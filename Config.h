@@ -25,6 +25,7 @@
 #define APP_VENDOR_EMAIL             "skynowa@gmail.com"
 #define APP_VENDOR_SKYPE             "skynowa777"
 
+#define APP_GUID                     APP_NAME"_simple_guid"
 #define APP_WINDOW_CLASS             "QTool"
 #define APP_WIDTH                    700
 #define APP_HEIGHT                   600
