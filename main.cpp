@@ -12,14 +12,7 @@
 //-------------------------------------------------------------------------------------------------
 int main(int argc, char *argv[])
 {
-    // set application single inststance
-    bool isRunnig = false;
-
-    qtlib::Application::setSingle(APP_NAME"_simple_guid", &isRunnig);
-    if (isRunnig) {
-        qtlib::Application::windowActivate(APP_WINDOW_CLASS, APP_NAME);
-        EXIT_SUCCESS;
-    }
+    bool bRv = false;
 
     // xlib::core::Application
     xlib::core::Application xapplication;
@@ -43,7 +36,13 @@ int main(int argc, char *argv[])
     xlib::core::Application::setVendorSkype(APP_VENDOR_SKYPE);
 
     // qtlib::Application
-    qtlib::Application application(argc, argv);
+    qtlib::Application application(argc, argv, cQString(APP_NAME"_simple_guid"));
+    bRv = application.isRunnig();
+    if (bRv) {
+        qtlib::Application::windowActivate(APP_WINDOW_CLASS, APP_NAME);
+        EXIT_SUCCESS;
+    }
+
     qtlib::Application::setQuitOnLastWindowClosed(false);
 
     Main dlgMain;
