@@ -14,15 +14,15 @@ int main(int argc, char *argv[])
 {
     int exitCode = EXIT_FAILURE;
 
-    // activation application window
-    qtlib::Application::windowActivate(APP_WINDOW_CLASS, APP_NAME);
-
     // set application single inststance
     {
         bool isRunnig = false;
 
         qtlib::Application::setSingle(APP_NAME"_simple_guid", &isRunnig);
-        qCHECK_RET(isRunnig, EXIT_SUCCESS);
+        if (isRunnig) {
+            qtlib::Application::windowActivate(APP_WINDOW_CLASS, APP_NAME);
+            EXIT_SUCCESS;
+        }
     }
 
     // start application
