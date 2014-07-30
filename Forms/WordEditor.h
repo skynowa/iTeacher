@@ -60,7 +60,6 @@ private Q_SLOTS:
     void             slot_termTranslate();
     bool             slot_termCheck();
     void             slot_bbxButtons_OnClicked(QAbstractButton *button);
-    void             slot_WordTermOrValue_OnTextChanged();
 };
 //-------------------------------------------------------------------------------------------------
 #endif // iTeacher_WordEditorH

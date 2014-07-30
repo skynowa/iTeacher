@@ -86,12 +86,6 @@ WordEditor::_construct()
 
         connect(ui.bbxButtons,        SIGNAL( clicked(QAbstractButton *) ),
                 this,                 SLOT  ( slot_bbxButtons_OnClicked(QAbstractButton *) ));
-
-        connect(ui.tedtWordTerm,      SIGNAL( textChanged() ),
-                this,                 SLOT  ( slot_WordTermOrValue_OnTextChanged() ));
-
-        connect(ui.tedtWordBriefValue, SIGNAL( textChanged() ),
-                this,                  SLOT  ( slot_WordTermOrValue_OnTextChanged() ));
     }
 
     // shortcuts
@@ -649,17 +643,5 @@ WordEditor::slot_bbxButtons_OnClicked(
     }
 
     setResult(code);
-}
-//-------------------------------------------------------------------------------------------------
-void
-WordEditor::slot_WordTermOrValue_OnTextChanged()
-{
-    ui.tedtWordTerm->document()->setModified(true);
-    ui.tedtWordBriefValue->document()->setModified(true);
-
-    cbool flag = ui.tedtWordTerm->document()->isModified() ||
-                 ui.tedtWordBriefValue->document()->isModified();
-
-    setWindowModified(flag);
 }
 //-------------------------------------------------------------------------------------------------
