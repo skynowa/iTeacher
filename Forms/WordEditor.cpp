@@ -152,26 +152,8 @@ WordEditor::_construct()
         if (!_termNew.isEmpty()) {
             ui.tedtWordTerm->setText(_termNew);
 
-            // auto detect translating languages
-            {
-                WordEditor::Language langFrom;
-                WordEditor::Language langTo;
-                QString              langCodeFrom;
-                QString              langCodeTo;
-                _googleLanguagesDetect(_termNew, &langFrom, &langTo, &langCodeFrom, &langCodeTo);
-
-                // TODO: QComboBox::findText: case-insensitive
-                int      indexFrom = ui.cboLangFrom->findText(langCodeFrom);
-                qTEST(indexFrom > - 1);
-
-                int      indexTo   = ui.cboLangTo->findText(langCodeTo);
-                qTEST(indexTo > - 1);
-
-                ui.cboLangFrom->setCurrentIndex(indexFrom);
-                ui.cboLangTo->setCurrentIndex(indexTo);
-            }
-
             slot_termCheck();
+            _languagesAutoDetect(_termNew);
             slot_termTranslate();
         }
 
@@ -359,6 +341,28 @@ WordEditor::_isTermExists(
     bRv = qryQuery.value(0).toBool();
 
     return bRv;
+}
+//-------------------------------------------------------------------------------------------------
+void
+WordEditor::_languagesAutoDetect(
+    cQString &a_term
+)
+{
+    WordEditor::Language langFrom;
+    WordEditor::Language langTo;
+    QString              langCodeFrom;
+    QString              langCodeTo;
+    _googleLanguagesDetect(a_term, &langFrom, &langTo, &langCodeFrom, &langCodeTo);
+
+    // TODO: QComboBox::findText: case-insensitive
+    int      indexFrom = ui.cboLangFrom->findText(langCodeFrom);
+    qTEST(indexFrom > - 1);
+
+    int      indexTo   = ui.cboLangTo->findText(langCodeTo);
+    qTEST(indexTo > - 1);
+
+    ui.cboLangFrom->setCurrentIndex(indexFrom);
+    ui.cboLangTo->setCurrentIndex(indexTo);
 }
 //-------------------------------------------------------------------------------------------------
 void

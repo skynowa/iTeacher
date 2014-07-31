@@ -50,7 +50,8 @@ private:
     void             _settingsSave();
 
     bool             _isTermExists(cQString &term);
-
+    void             _languagesAutoDetect(cQString &term);
+        ///< auto detect translating languages
 
     enum Language
         ///< detected language
