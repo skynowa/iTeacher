@@ -62,7 +62,8 @@ private:
     };
 
     void             _languagesDetect(cQString &text, WordEditor::Language *langFrom,
-                        WordEditor::Language *langTo) const;
+                        WordEditor::Language *langTo, QString *langCodeFrom,
+                        QString *langCodeTo) const;
         ///< detect languages
     void             _googleTranslate(cQString &textFrom, cQString &langFrom, cQString &langTo,
                          QString *textToBrief, QString *textToDetail, QString *textToRaw) const;

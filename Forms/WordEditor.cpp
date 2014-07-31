@@ -152,9 +152,24 @@ WordEditor::_construct()
         if (!_termNew.isEmpty()) {
             ui.tedtWordTerm->setText(_termNew);
 
-            WordEditor::Language langFrom;
-            WordEditor::Language langTo;
-            _languagesDetect(_termNew, &langFrom, &langTo);
+            // auto detect translating languages
+            {
+                WordEditor::Language langFrom;
+                WordEditor::Language langTo;
+                QString              langCodeFrom;
+                QString              langCodeTo;
+                _languagesDetect(_termNew, &langFrom, &langTo, &langCodeFrom, &langCodeTo);
+
+                // TODO: QComboBox::findText: case-insensitive
+                int      indexFrom = ui.cboLangFrom->findText(langCodeFrom);
+                qTEST(indexFrom > - 1);
+
+                int      indexTo   = ui.cboLangTo->findText(langCodeTo);
+                qTEST(indexTo > - 1);
+
+                ui.cboLangFrom->setCurrentIndex(indexFrom);
+                ui.cboLangTo->setCurrentIndex(indexTo);
+            }
 
             slot_termCheck();
             slot_termTranslate();
@@ -350,12 +365,16 @@ void
 WordEditor::_languagesDetect(
     cQString             &a_text,
     WordEditor::Language *a_langFrom,
-    WordEditor::Language *a_langTo
+    WordEditor::Language *a_langTo,
+    QString              *a_langCodeFrom,
+    QString              *a_langCodeTo
 ) const
 {
     qTEST(!a_text.isEmpty());
-    qTEST(a_langFrom != Q_NULLPTR);
-    qTEST(a_langTo   != Q_NULLPTR);
+    qTEST(a_langFrom     != Q_NULLPTR);
+    qTEST(a_langTo       != Q_NULLPTR);
+    qTEST(a_langCodeFrom != Q_NULLPTR);
+    qTEST(a_langCodeTo   != Q_NULLPTR);
 
     cQString lettersEn = QString::fromUtf8("abcdefghijklmnopqrstuvwxyz");
     cQString lettersRu = QString::fromUtf8("абвгдеёжзийклмнопрстуфхцчшщъыьэюя");
@@ -377,34 +396,48 @@ WordEditor::_languagesDetect(
     cbool isUnknown = (countEn == 0 && countRu == 0);
 
     if      (isEn) {
-        *a_langFrom = WordEditor::lgEn;
-        *a_langTo   = WordEditor::lgRu;
-        qDebug() << "lang - en\n";
+        *a_langFrom     = WordEditor::lgEn;
+        *a_langTo       = WordEditor::lgRu;
+
+        *a_langCodeFrom = "en";
+        *a_langCodeTo   = "ru";
     }
     else if (isRu) {
-        *a_langFrom = WordEditor::lgRu;
-        *a_langTo   = WordEditor::lgEn;
-        qDebug() << "lang - ru\n";
+        *a_langFrom     = WordEditor::lgRu;
+        *a_langTo       = WordEditor::lgEn;
+
+        *a_langCodeFrom = "ru";
+        *a_langCodeTo   = "en";
     }
     else if (isMixed) {
-        *a_langFrom = WordEditor::lgMixed;
-        *a_langTo   = WordEditor::lgMixed;
-        qDebug() << "lang - mixed\n";
+        *a_langFrom     = WordEditor::lgMixed;
+        *a_langTo       = WordEditor::lgMixed;
+
+        *a_langCodeFrom = "";
+        *a_langCodeTo   = "";
     }
     else if (isUnknown) {
-        *a_langFrom = WordEditor::lgUnknown;
-        *a_langTo   = WordEditor::lgUnknown;
-        qDebug() << "lang - unknown\n";
+        *a_langFrom     = WordEditor::lgUnknown;
+        *a_langTo       = WordEditor::lgUnknown;
+
+        *a_langCodeFrom = "";
+        *a_langCodeTo   = "";
     }
     else {
-        *a_langFrom = WordEditor::lgUnknown;
-        *a_langTo   = WordEditor::lgUnknown;
+        *a_langFrom     = WordEditor::lgUnknown;
+        *a_langTo       = WordEditor::lgUnknown;
+
+        *a_langCodeFrom = "";
+        *a_langCodeTo   = "";
 
         qDebug() << qDEBUG_VAR(countEn);
         qDebug() << qDEBUG_VAR(countRu);
 
         qTEST(false);
     }
+
+    qDebug() << qDEBUG_VAR(*a_langCodeFrom);
+    qDebug() << qDEBUG_VAR(*a_langCodeTo) << "\n";
 }
 //-------------------------------------------------------------------------------------------------
 void

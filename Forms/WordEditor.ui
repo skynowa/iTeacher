@@ -45,7 +45,7 @@
           </property>
           <item>
            <property name="text">
-            <string>Ru</string>
+            <string>ru</string>
            </property>
            <property name="icon">
             <iconset>
@@ -55,7 +55,7 @@
           </item>
           <item>
            <property name="text">
-            <string>En</string>
+            <string>en</string>
            </property>
            <property name="icon">
             <iconset>
@@ -75,7 +75,7 @@
           </property>
           <item>
            <property name="text">
-            <string>En</string>
+            <string>en</string>
            </property>
            <property name="icon">
             <iconset>
@@ -85,7 +85,7 @@
           </item>
           <item>
            <property name="text">
-            <string>Ru</string>
+            <string>ru</string>
            </property>
            <property name="icon">
             <iconset>
