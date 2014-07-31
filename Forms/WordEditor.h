@@ -57,7 +57,6 @@ private:
         ///< detected language
     {
         lgUnknown,
-        lgMixed,
         lgEn,
         lgRu
     };

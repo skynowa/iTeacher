@@ -418,13 +418,32 @@ WordEditor::_googleLanguagesDetect(
         qDebug() << "Langs: ru-en\n";
     }
     else if (isMixed) {
-        *a_langFrom     = WordEditor::lgMixed;
-        *a_langTo       = WordEditor::lgMixed;
-
-        *a_langCodeFrom = "";
-        *a_langCodeTo   = "";
-
         qDebug() << "Langs: mixed-mixed\n";
+
+        cbool isPreferEn = (countEn >= countRu);
+        cbool isPreferRu = (countRu >  countEn);
+
+        if      (isPreferEn) {
+            *a_langFrom     = WordEditor::lgEn;
+            *a_langTo       = WordEditor::lgRu;
+
+            *a_langCodeFrom = "en";
+            *a_langCodeTo   = "ru";
+
+            qDebug() << "Langs (prefer): en-ru\n";
+        }
+        else if (isPreferRu) {
+            *a_langFrom     = WordEditor::lgRu;
+            *a_langTo       = WordEditor::lgEn;
+
+            *a_langCodeFrom = "ru";
+            *a_langCodeTo   = "en";
+
+            qDebug() << "Langs (prefer): ru-en\n";
+        }
+        else {
+            qTEST(false);
+        }
     }
     else if (isUnknown) {
         *a_langFrom     = WordEditor::lgUnknown;
