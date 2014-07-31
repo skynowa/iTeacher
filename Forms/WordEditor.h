@@ -61,7 +61,7 @@ private:
         lgRu
     };
 
-    void             _languagesDetect(cQString &text, WordEditor::Language *langFrom,
+    void             _googleLanguagesDetect(cQString &text, WordEditor::Language *langFrom,
                         WordEditor::Language *langTo, QString *langCodeFrom,
                         QString *langCodeTo) const;
         ///< detect languages

@@ -158,7 +158,7 @@ WordEditor::_construct()
                 WordEditor::Language langTo;
                 QString              langCodeFrom;
                 QString              langCodeTo;
-                _languagesDetect(_termNew, &langFrom, &langTo, &langCodeFrom, &langCodeTo);
+                _googleLanguagesDetect(_termNew, &langFrom, &langTo, &langCodeFrom, &langCodeTo);
 
                 // TODO: QComboBox::findText: case-insensitive
                 int      indexFrom = ui.cboLangFrom->findText(langCodeFrom);
@@ -362,7 +362,7 @@ WordEditor::_isTermExists(
 }
 //-------------------------------------------------------------------------------------------------
 void
-WordEditor::_languagesDetect(
+WordEditor::_googleLanguagesDetect(
     cQString             &a_text,
     WordEditor::Language *a_langFrom,
     WordEditor::Language *a_langTo,
