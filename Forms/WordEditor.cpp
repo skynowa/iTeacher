@@ -151,6 +151,11 @@ WordEditor::_construct()
         // check word term
         if (!_termNew.isEmpty()) {
             ui.tedtWordTerm->setText(_termNew);
+
+            WordEditor::Language langFrom;
+            WordEditor::Language langTo;
+            _languagesDetect(_termNew, &langFrom, &langTo);
+
             slot_termCheck();
             slot_termTranslate();
         }
@@ -339,6 +344,67 @@ WordEditor::_isTermExists(
     bRv = qryQuery.value(0).toBool();
 
     return bRv;
+}
+//-------------------------------------------------------------------------------------------------
+void
+WordEditor::_languagesDetect(
+    cQString             &a_text,
+    WordEditor::Language *a_langFrom,
+    WordEditor::Language *a_langTo
+) const
+{
+    qTEST(!a_text.isEmpty());
+    qTEST(a_langFrom != Q_NULLPTR);
+    qTEST(a_langTo   != Q_NULLPTR);
+
+    cQString lettersEn = QString::fromUtf8("abcdefghijklmnopqrstuvwxyz");
+    cQString lettersRu = QString::fromUtf8("абвгдеёжзийклмнопрстуфхцчшщъыьэюя");
+
+    uint     countEn = 0;
+    uint     countRu = 0;
+
+    for (int i = 0; i < a_text.size(); ++ i) {
+        cQChar letter = a_text.at(i).toLower();
+        qCHECK_DO(!letter.isLetter(), continue);
+
+        qCHECK_DO(lettersEn.contains(letter), ++ countEn);
+        qCHECK_DO(lettersRu.contains(letter), ++ countRu);
+    }
+
+    cbool isEn      = (countEn != 0 && countRu == 0);
+    cbool isRu      = (countEn == 0 && countRu != 0);
+    cbool isMixed   = (countEn != 0 && countRu != 0);
+    cbool isUnknown = (countEn == 0 && countRu == 0);
+
+    if      (isEn) {
+        *a_langFrom = WordEditor::lgEn;
+        *a_langTo   = WordEditor::lgRu;
+        qDebug() << "lang - en\n";
+    }
+    else if (isRu) {
+        *a_langFrom = WordEditor::lgRu;
+        *a_langTo   = WordEditor::lgEn;
+        qDebug() << "lang - ru\n";
+    }
+    else if (isMixed) {
+        *a_langFrom = WordEditor::lgMixed;
+        *a_langTo   = WordEditor::lgMixed;
+        qDebug() << "lang - mixed\n";
+    }
+    else if (isUnknown) {
+        *a_langFrom = WordEditor::lgUnknown;
+        *a_langTo   = WordEditor::lgUnknown;
+        qDebug() << "lang - unknown\n";
+    }
+    else {
+        *a_langFrom = WordEditor::lgUnknown;
+        *a_langTo   = WordEditor::lgUnknown;
+
+        qDebug() << qDEBUG_VAR(countEn);
+        qDebug() << qDEBUG_VAR(countRu);
+
+        qTEST(false);
+    }
 }
 //-------------------------------------------------------------------------------------------------
 void

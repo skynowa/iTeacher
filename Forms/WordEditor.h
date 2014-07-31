@@ -51,6 +51,19 @@ private:
 
     bool             _isTermExists(cQString &term);
 
+
+    enum Language
+        ///< detected language
+    {
+        lgUnknown,
+        lgMixed,
+        lgEn,
+        lgRu
+    };
+
+    void             _languagesDetect(cQString &text, WordEditor::Language *langFrom,
+                        WordEditor::Language *langTo) const;
+        ///< detect languages
     void             _googleTranslate(cQString &textFrom, cQString &langFrom, cQString &langTo,
                          QString *textToBrief, QString *textToDetail, QString *textToRaw) const;
         ///< translate text by Google API
