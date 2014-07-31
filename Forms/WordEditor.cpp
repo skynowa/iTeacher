@@ -282,13 +282,15 @@ WordEditor::_saveAll(
 void
 WordEditor::_settingsLoad()
 {
-    QSize size;
-    bool  isTerminLowerCase = false;
+    QSize  size;
+    QPoint position;
+    bool   isTerminLowerCase = false;
     {
         QSettings settings(qS2QS(xlib::core::Application::configPath()), QSettings::IniFormat, this);
 
         settings.beginGroup("word_editor");
         size              = settings.value("size", QSize(APP_WIDTH, APP_HEIGHT)).toSize();
+        position          = settings.value("position", QPoint(200, 200)).toPoint();
         isTerminLowerCase = settings.value("termin_lower_case", true).toBool();
         settings.endGroup();
     }
@@ -297,6 +299,7 @@ WordEditor::_settingsLoad()
     {
         // main
         resize(size);
+        move(position);
         ui.chkTerminLowerCase->setChecked(isTerminLowerCase);
     }
 }
@@ -309,6 +312,7 @@ WordEditor::_settingsSave()
     // main
     settings.beginGroup("word_editor");
     settings.setValue("size", size());
+    settings.setValue("position", pos());
     settings.setValue("termin_lower_case", ui.chkTerminLowerCase->isChecked());
     settings.endGroup();
 }
