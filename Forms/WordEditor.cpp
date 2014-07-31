@@ -405,6 +405,8 @@ WordEditor::_googleLanguagesDetect(
 
         *a_langCodeFrom = "en";
         *a_langCodeTo   = "ru";
+
+        qDebug() << "en-ru\n";
     }
     else if (isRu) {
         *a_langFrom     = WordEditor::lgRu;
@@ -412,6 +414,8 @@ WordEditor::_googleLanguagesDetect(
 
         *a_langCodeFrom = "ru";
         *a_langCodeTo   = "en";
+
+        qDebug() << "ru-en\n";
     }
     else if (isMixed) {
         *a_langFrom     = WordEditor::lgMixed;
@@ -419,6 +423,8 @@ WordEditor::_googleLanguagesDetect(
 
         *a_langCodeFrom = "";
         *a_langCodeTo   = "";
+
+        qDebug() << "mixed-mixed\n";
     }
     else if (isUnknown) {
         *a_langFrom     = WordEditor::lgUnknown;
@@ -426,6 +432,8 @@ WordEditor::_googleLanguagesDetect(
 
         *a_langCodeFrom = "";
         *a_langCodeTo   = "";
+
+        qDebug() << "unknown-unknown\n";
     }
     else {
         *a_langFrom     = WordEditor::lgUnknown;
@@ -439,9 +447,6 @@ WordEditor::_googleLanguagesDetect(
 
         qTEST(false);
     }
-
-    qDebug() << qDEBUG_VAR(*a_langCodeFrom);
-    qDebug() << qDEBUG_VAR(*a_langCodeTo) << "\n";
 }
 //-------------------------------------------------------------------------------------------------
 void
