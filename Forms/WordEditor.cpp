@@ -153,7 +153,7 @@ WordEditor::_construct()
             ui.tedtWordTerm->setText(_termNew);
 
             slot_termCheck();
-            _languagesAutoDetect(_termNew);
+            _languagesAutoDetect();
             slot_termTranslate();
         }
 
@@ -344,21 +344,21 @@ WordEditor::_isTermExists(
 }
 //-------------------------------------------------------------------------------------------------
 void
-WordEditor::_languagesAutoDetect(
-    cQString &a_term
-)
+WordEditor::_languagesAutoDetect()
 {
+    qCHECK_DO(_termNew.isEmpty(), return);
+
     WordEditor::Language langFrom;
     WordEditor::Language langTo;
     QString              langCodeFrom;
     QString              langCodeTo;
-    _googleLanguagesDetect(a_term, &langFrom, &langTo, &langCodeFrom, &langCodeTo);
+    _googleLanguagesDetect(_termNew, &langFrom, &langTo, &langCodeFrom, &langCodeTo);
 
     // TODO: QComboBox::findText: case-insensitive
-    int      indexFrom = ui.cboLangFrom->findText(langCodeFrom);
+    cint indexFrom = ui.cboLangFrom->findText(langCodeFrom);
     qTEST(indexFrom > - 1);
 
-    int      indexTo   = ui.cboLangTo->findText(langCodeTo);
+    cint indexTo   = ui.cboLangTo->findText(langCodeTo);
     qTEST(indexTo > - 1);
 
     ui.cboLangFrom->setCurrentIndex(indexFrom);
