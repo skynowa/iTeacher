@@ -71,8 +71,8 @@ private:
 
 private Q_SLOTS:
     void             slot_pbtnLangsSwap_OnClicked();
-    void             slot_terminTranslate();
-    bool             slot_terminCheck();
+    void             slot_translate();
+    bool             slot_check();
     void             slot_bbxButtons_OnClicked(QAbstractButton *button);
 };
 //-------------------------------------------------------------------------------------------------

@@ -75,17 +75,17 @@ WordEditor::_construct()
 
     // signals
     {
-        connect(ui.pbtnLangsSwap,     SIGNAL( clicked() ),
-                this,                 SLOT  ( slot_pbtnLangsSwap_OnClicked() ));
+        connect(ui.pbtnLangsSwap, SIGNAL( clicked() ),
+                this,             SLOT  ( slot_pbtnLangsSwap_OnClicked() ));
 
-        connect(ui.pbtnTermTranslate, SIGNAL( clicked() ),
-                this,                 SLOT  ( slot_terminTranslate() ));
+        connect(ui.pbtnTranslate, SIGNAL( clicked() ),
+                this,             SLOT  ( slot_translate() ));
 
-        connect(ui.pbtnTermCheck,     SIGNAL( clicked() ),
-                this,                 SLOT  ( slot_terminCheck() ));
+        connect(ui.pbtnCheck,     SIGNAL( clicked() ),
+                this,             SLOT  ( slot_check() ));
 
-        connect(ui.bbxButtons,        SIGNAL( clicked(QAbstractButton *) ),
-                this,                 SLOT  ( slot_bbxButtons_OnClicked(QAbstractButton *) ));
+        connect(ui.bbxButtons,    SIGNAL( clicked(QAbstractButton *) ),
+                this,             SLOT  ( slot_bbxButtons_OnClicked(QAbstractButton *) ));
     }
 
     // shortcuts
@@ -95,7 +95,7 @@ WordEditor::_construct()
         shortcut->setKey(QKeySequence(Qt::CTRL + Qt::Key_Return));
 
         connect(shortcut, SIGNAL( activated() ),
-                this,     SLOT  ( slot_terminTranslate() ));
+                this,     SLOT  ( slot_translate() ));
     }
 
     // UI
@@ -115,11 +115,11 @@ WordEditor::_construct()
 
         // termin, value
         {
-            ui.tedtWordTerm->setText( record.value(DB_F_MAIN_TERM).toString() );
-            ui.tedtWordBriefValue->setText( record.value(DB_F_MAIN_VALUE).toString() );
-            ui.tedtWordDetailValue->clear();
-            ui.tedtWordWebValue->clear();
-            ui.tedtWordRawValue->clear();
+            ui.tedtTermin->setText( record.value(DB_F_MAIN_TERM).toString() );
+            ui.tedtValueBrief->setText( record.value(DB_F_MAIN_VALUE).toString() );
+            ui.tedtValueDetail->clear();
+            ui.tedtValueWeb->clear();
+            ui.tedtValueRaw->clear();
         }
 
         // tags
@@ -138,8 +138,8 @@ WordEditor::_construct()
         }
 
         // checkboxes
-        ui.chkWordIsLearned->setChecked( record.value(DB_F_MAIN_IS_LEARNED).toBool() );
-        ui.chkWordIsMarked->setChecked ( record.value(DB_F_MAIN_IS_MARKED).toBool() );
+        ui.chkIsLearned->setChecked( record.value(DB_F_MAIN_IS_LEARNED).toBool() );
+        ui.chkIsMarked->setChecked ( record.value(DB_F_MAIN_IS_MARKED).toBool() );
 
         // ui.lblInfo
         {
@@ -150,11 +150,11 @@ WordEditor::_construct()
 
         // check termin
         if (!_terminNew.isEmpty()) {
-            ui.tedtWordTerm->setText(_terminNew);
+            ui.tedtTermin->setText(_terminNew);
 
-            slot_terminCheck();
+            slot_check();
             _languagesAutoDetect();
-            slot_terminTranslate();
+            slot_translate();
         }
 
         // ui.bbxButtons
@@ -170,8 +170,8 @@ WordEditor::_construct()
 
         // set focus
         {
-            ui.tedtWordTerm->selectAll();
-            ui.tedtWordTerm->setFocus();
+            ui.tedtTermin->selectAll();
+            ui.tedtTermin->setFocus();
         }
     }
 
@@ -198,15 +198,15 @@ WordEditor::_destruct()
 void
 WordEditor::_resetAll()
 {
-    ui.tedtWordTerm->clear();
-    ui.tedtWordBriefValue->clear();
-    ui.tedtWordDetailValue->clear();
-    ui.tedtWordWebValue->clear();
-    ui.tedtWordRawValue->clear();
+    ui.tedtTermin->clear();
+    ui.tedtValueBrief->clear();
+    ui.tedtValueDetail->clear();
+    ui.tedtValueWeb->clear();
+    ui.tedtValueRaw->clear();
     ui.cboTags->setCurrentText(tr(""));
-    ui.chkWordIsLearned->setChecked(false);
-    ui.chkWordIsMarked->setChecked(false);
-    ui.chkTerminLowerCase->setChecked(false);
+    ui.chkIsLearned->setChecked(false);
+    ui.chkIsMarked->setChecked(false);
+    ui.chkLowerCase->setChecked(false);
 }
 //-------------------------------------------------------------------------------------------------
 void
@@ -214,23 +214,23 @@ WordEditor::_saveAll(
     QDialog::DialogCode *a_code
 )
 {
-    qCHECK_DO(!slot_terminCheck(), return);
+    qCHECK_DO(!slot_check(), return);
 
     bool bRv        = false;
     int  currentRow = - 1;
 
     // normilize termin, value
     {
-        cQString termNorm = ui.tedtWordTerm->toPlainText().trimmed();
-        ui.tedtWordTerm->setPlainText(termNorm);
+        cQString termNorm = ui.tedtTermin->toPlainText().trimmed();
+        ui.tedtTermin->setPlainText(termNorm);
 
-        cQString valueNorm = ui.tedtWordBriefValue->toPlainText().trimmed();
-        ui.tedtWordBriefValue->setPlainText(valueNorm);
+        cQString valueNorm = ui.tedtValueBrief->toPlainText().trimmed();
+        ui.tedtValueBrief->setPlainText(valueNorm);
     }
 
     // checks
     {
-        if (ui.tedtWordTerm->toPlainText().isEmpty()) {
+        if (ui.tedtTermin->toPlainText().isEmpty()) {
             *a_code = QDialog::Rejected;
             return;
         }
@@ -247,11 +247,11 @@ WordEditor::_saveAll(
 
     QSqlRecord record = _model->record(currentRow);
     {
-        record.setValue(DB_F_MAIN_TERM,       ui.tedtWordTerm->toPlainText());
-        record.setValue(DB_F_MAIN_VALUE,      ui.tedtWordBriefValue->toPlainText());
+        record.setValue(DB_F_MAIN_TERM,       ui.tedtTermin->toPlainText());
+        record.setValue(DB_F_MAIN_VALUE,      ui.tedtValueBrief->toPlainText());
         record.setValue(DB_F_MAIN_TAG,        ui.cboTags->currentText() );
-        record.setValue(DB_F_MAIN_IS_LEARNED, ui.chkWordIsLearned->isChecked());
-        record.setValue(DB_F_MAIN_IS_MARKED,  ui.chkWordIsMarked->isChecked());
+        record.setValue(DB_F_MAIN_IS_LEARNED, ui.chkIsLearned->isChecked());
+        record.setValue(DB_F_MAIN_IS_MARKED,  ui.chkIsMarked->isChecked());
     }
 
     bRv = _model->setRecord(currentRow, record);
@@ -302,7 +302,7 @@ WordEditor::_settingsLoad()
         // main
         resize(size);
         move(position);
-        ui.chkTerminLowerCase->setChecked(isTerminLowerCase);
+        ui.chkLowerCase->setChecked(isTerminLowerCase);
     }
 }
 //-------------------------------------------------------------------------------------------------
@@ -315,7 +315,7 @@ WordEditor::_settingsSave()
     settings.beginGroup("word_editor");
     settings.setValue("size", size());
     settings.setValue("position", pos());
-    settings.setValue("termin_lower_case", ui.chkTerminLowerCase->isChecked());
+    settings.setValue("termin_lower_case", ui.chkLowerCase->isChecked());
     settings.endGroup();
 }
 //-------------------------------------------------------------------------------------------------
@@ -622,18 +622,18 @@ WordEditor::slot_pbtnLangsSwap_OnClicked()
 }
 //-------------------------------------------------------------------------------------------------
 void
-WordEditor::slot_terminTranslate()
+WordEditor::slot_translate()
 {
-    if (ui.tedtWordTerm->toPlainText().isEmpty()) {
-        ui.tedtWordBriefValue->clear();
-        ui.tedtWordDetailValue->clear();
-        ui.tedtWordWebValue->clear();
-        ui.tedtWordRawValue->clear();
+    if (ui.tedtTermin->toPlainText().isEmpty()) {
+        ui.tedtValueBrief->clear();
+        ui.tedtValueDetail->clear();
+        ui.tedtValueWeb->clear();
+        ui.tedtValueRaw->clear();
 
         return;
     }
 
-    QString  textFrom = ui.tedtWordTerm->toPlainText();
+    QString  textFrom = ui.tedtTermin->toPlainText();
     cQString langFrom = ui.cboLangFrom->currentText();
     cQString langTo   = ui.cboLangTo->currentText();
     QString  textToBrief;
@@ -641,21 +641,21 @@ WordEditor::slot_terminTranslate()
     QString  textToRaw;
 
     // lowercase
-    if (ui.chkTerminLowerCase->isChecked()) {
+    if (ui.chkLowerCase->isChecked()) {
         textFrom = textFrom.toLower();
     }
 
     _googleTranslate(textFrom, langFrom, langTo, &textToBrief, &textToDetail, &textToRaw);
 
-    ui.tedtWordTerm->setText(textFrom);
-    ui.tedtWordBriefValue->setText(textToBrief);
-    ui.tedtWordDetailValue->setText(textToDetail);
-    ui.tedtWordWebValue->setHtml(textToRaw);
-    ui.tedtWordRawValue->setPlainText(textToRaw);
+    ui.tedtTermin->setText(textFrom);
+    ui.tedtValueBrief->setText(textToBrief);
+    ui.tedtValueDetail->setText(textToDetail);
+    ui.tedtValueWeb->setHtml(textToRaw);
+    ui.tedtValueRaw->setPlainText(textToRaw);
 }
 //-------------------------------------------------------------------------------------------------
 bool
-WordEditor::slot_terminCheck()
+WordEditor::slot_check()
 {
     bool     bRv = false;
     QPalette plInfo;
@@ -663,13 +663,13 @@ WordEditor::slot_terminCheck()
 
     QString termMinimized;
     {
-        termMinimized = ui.tedtWordTerm->toPlainText().trimmed();
+        termMinimized = ui.tedtTermin->toPlainText().trimmed();
         termMinimized = qS2QS(xlib::core::String::minimize(qQS2S(termMinimized),
             TERMIN_MINIMIZED_SIZE_MAX));
     }
 
     // is termin empty
-    bRv = ui.tedtWordTerm->toPlainText().trimmed().isEmpty();
+    bRv = ui.tedtTermin->toPlainText().trimmed().isEmpty();
     if (bRv) {
         msg = QString(tr("Termin is an empty"));
 
@@ -685,7 +685,7 @@ WordEditor::slot_terminCheck()
     }
 
     // is termin exists
-    bRv = _isTerminExists( ui.tedtWordTerm->toPlainText() );
+    bRv = _isTerminExists( ui.tedtTermin->toPlainText() );
     if (bRv && _insertMode) {
         // insert: termin already exists (false)
         msg = QString(tr("Termin '%1' already exists")).arg(termMinimized);

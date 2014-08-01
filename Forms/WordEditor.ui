@@ -114,35 +114,35 @@
          </widget>
         </item>
         <item row="1" column="0" colspan="3">
-         <widget class="QPushButton" name="pbtnTermTranslate">
+         <widget class="QPushButton" name="pbtnTranslate">
           <property name="text">
            <string>Translate</string>
           </property>
          </widget>
         </item>
         <item row="2" column="0" colspan="3">
-         <widget class="QPushButton" name="pbtnTermCheck">
+         <widget class="QPushButton" name="pbtnCheck">
           <property name="text">
            <string>Check</string>
           </property>
          </widget>
         </item>
         <item row="3" column="0" colspan="3">
-         <widget class="QCheckBox" name="chkWordIsLearned">
+         <widget class="QCheckBox" name="chkIsLearned">
           <property name="text">
            <string>Learned</string>
           </property>
          </widget>
         </item>
         <item row="4" column="0" colspan="3">
-         <widget class="QCheckBox" name="chkWordIsMarked">
+         <widget class="QCheckBox" name="chkIsMarked">
           <property name="text">
            <string>Marked</string>
           </property>
          </widget>
         </item>
         <item row="5" column="0" colspan="3">
-         <widget class="QCheckBox" name="chkTerminLowerCase">
+         <widget class="QCheckBox" name="chkLowerCase">
           <property name="text">
            <string>Lower case</string>
           </property>
@@ -167,7 +167,7 @@
     </widget>
    </item>
    <item row="1" column="0">
-    <widget class="QTextEdit" name="tedtWordTerm">
+    <widget class="QTextEdit" name="tedtTermin">
      <property name="minimumSize">
       <size>
        <width>0</width>
@@ -199,7 +199,7 @@
     </widget>
    </item>
    <item row="3" column="0">
-    <widget class="QTextEdit" name="tedtWordBriefValue">
+    <widget class="QTextEdit" name="tedtValueBrief">
      <property name="minimumSize">
       <size>
        <width>0</width>
@@ -234,7 +234,7 @@
       </attribute>
       <layout class="QGridLayout" name="gridLayout_4">
        <item row="0" column="0">
-        <widget class="QTextEdit" name="tedtWordDetailValue">
+        <widget class="QTextEdit" name="tedtValueDetail">
          <property name="frameShape">
           <enum>QFrame::Box</enum>
          </property>
@@ -257,7 +257,7 @@
       </attribute>
       <layout class="QGridLayout" name="gridLayout_6">
        <item row="0" column="0">
-        <widget class="QTextEdit" name="tedtWordWebValue">
+        <widget class="QTextEdit" name="tedtValueWeb">
          <property name="frameShape">
           <enum>QFrame::Box</enum>
          </property>
@@ -280,7 +280,7 @@
       </attribute>
       <layout class="QGridLayout" name="gridLayout_5">
        <item row="0" column="0">
-        <widget class="QPlainTextEdit" name="tedtWordRawValue">
+        <widget class="QPlainTextEdit" name="tedtValueRaw">
          <property name="frameShape">
           <enum>QFrame::Box</enum>
          </property>
@@ -351,8 +351,8 @@
   </layout>
  </widget>
  <tabstops>
-  <tabstop>tedtWordTerm</tabstop>
-  <tabstop>tedtWordBriefValue</tabstop>
+  <tabstop>tedtTermin</tabstop>
+  <tabstop>tedtValueBrief</tabstop>
   <tabstop>cboTags</tabstop>
   <tabstop>bbxButtons</tabstop>
  </tabstops>
