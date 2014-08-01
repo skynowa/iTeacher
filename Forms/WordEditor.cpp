@@ -214,6 +214,9 @@ WordEditor::_saveAll(
     QDialog::DialogCode *a_code
 )
 {
+    qTEST(!ui.cboLangFrom->currentText().isEmpty());
+    qTEST(ui.cboLangFrom->currentText() == LANG_EN || ui.cboLangFrom->currentText() == LANG_RU);
+
     qCHECK_DO(!slot_check(), return);
 
     bool bRv        = false;
@@ -247,9 +250,18 @@ WordEditor::_saveAll(
 
     QSqlRecord record = _model->record(currentRow);
     {
-        record.setValue(DB_F_MAIN_TERM,       ui.tedtTermin->toPlainText());
-        record.setValue(DB_F_MAIN_VALUE,      ui.tedtValueBrief->toPlainText());
-        record.setValue(DB_F_MAIN_TAG,        ui.cboTags->currentText() );
+        int iRv = ui.cboLangFrom->currentText().compare(LANG_EN, Qt::CaseInsensitive);
+        if (iRv == 0) {
+            // en-ru
+            record.setValue(DB_F_MAIN_TERM,  ui.tedtTermin->toPlainText());
+            record.setValue(DB_F_MAIN_VALUE, ui.tedtValueBrief->toPlainText());
+        } else {
+            // ru-en
+            record.setValue(DB_F_MAIN_TERM,  ui.tedtValueBrief->toPlainText());
+            record.setValue(DB_F_MAIN_VALUE, ui.tedtTermin->toPlainText());
+        }
+
+        record.setValue(DB_F_MAIN_TAG,        ui.cboTags->currentText());
         record.setValue(DB_F_MAIN_IS_LEARNED, ui.chkIsLearned->isChecked());
         record.setValue(DB_F_MAIN_IS_MARKED,  ui.chkIsMarked->isChecked());
     }
@@ -403,8 +415,8 @@ WordEditor::_googleLanguagesDetect(
         *a_langFrom     = WordEditor::lgEn;
         *a_langTo       = WordEditor::lgRu;
 
-        *a_langCodeFrom = "en";
-        *a_langCodeTo   = "ru";
+        *a_langCodeFrom = LANG_EN;
+        *a_langCodeTo   = LANG_RU;
 
         qDebug() << "Langs: en-ru\n";
     }
@@ -412,8 +424,8 @@ WordEditor::_googleLanguagesDetect(
         *a_langFrom     = WordEditor::lgRu;
         *a_langTo       = WordEditor::lgEn;
 
-        *a_langCodeFrom = "ru";
-        *a_langCodeTo   = "en";
+        *a_langCodeFrom = LANG_RU;
+        *a_langCodeTo   = LANG_EN;
 
         qDebug() << "Langs: ru-en\n";
     }
@@ -427,8 +439,8 @@ WordEditor::_googleLanguagesDetect(
             *a_langFrom     = WordEditor::lgEn;
             *a_langTo       = WordEditor::lgRu;
 
-            *a_langCodeFrom = "en";
-            *a_langCodeTo   = "ru";
+            *a_langCodeFrom = LANG_EN;
+            *a_langCodeTo   = LANG_RU;
 
             qDebug() << "Langs (prefer): en-ru\n";
         }
@@ -436,8 +448,8 @@ WordEditor::_googleLanguagesDetect(
             *a_langFrom     = WordEditor::lgRu;
             *a_langTo       = WordEditor::lgEn;
 
-            *a_langCodeFrom = "ru";
-            *a_langCodeTo   = "en";
+            *a_langCodeFrom = LANG_RU;
+            *a_langCodeTo   = LANG_EN;
 
             qDebug() << "Langs (prefer): ru-en\n";
         }

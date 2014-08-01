@@ -605,18 +605,6 @@ void
 Main::slot_OnExit()
 {
     close();
-
-#if 0
-    cQString textFrom = QString("go").toUtf8();
-    cQString langFrom = QString("en").toUtf8();
-    cQString langTo   = QString("ru").toUtf8();
-    QString  textToBrief;
-    QString  textToDetail;
-
-    qtlib::Utils::googleTranslate(textFrom, langFrom, langTo, &textToBrief, &textToDetail);
-    qDebug() << qDEBUG_VAR(textToBrief);
-    qDebug() << qDEBUG_VAR(textToDetail);
-#endif
 }
 //-------------------------------------------------------------------------------------------------
 
@@ -804,7 +792,7 @@ Main::slot_OnPlayWord()
         audioFilePath = _tempDir + QDir::separator() + AUDIO_WORD_FILE_NAME;
     }
 
-    _googleSpeech(text, TRANSLATION_LANG_ENGLISH, audioFilePath);
+    _googleSpeech(text, LANG_EN, audioFilePath);
 }
 //-------------------------------------------------------------------------------------------------
 void
@@ -823,7 +811,7 @@ Main::slot_OnPlayTranslation()
         audioFilePath = _tempDir + QDir::separator() + AUDIO_TRANSLATION_FILE_NAME;
     }
 
-    _googleSpeech(text, TRANSLATION_LANG_RUSSIAN, audioFilePath);
+    _googleSpeech(text, LANG_RU, audioFilePath);
 }
 //-------------------------------------------------------------------------------------------------
 void

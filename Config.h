@@ -65,8 +65,8 @@
 
 // etc
 #define DB_FILE_EXT                  ".db"
-#define TRANSLATION_LANG_ENGLISH     "en"
-#define TRANSLATION_LANG_RUSSIAN     "ru"
+#define LANG_EN                      "en"
+#define LANG_RU                      "ru"
 #define BUTTON_BOX_WIDTH             75
 #define TERMIN_MINIMIZED_SIZE_MAX    30
 //-------------------------------------------------------------------------------------------------
