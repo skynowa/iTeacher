@@ -115,7 +115,7 @@ WordEditor::_construct()
 
         // termin, value
         {
-            ui.tedtTermin->setText( record.value(DB_F_MAIN_TERM).toString() );
+            ui.tedtTermin->setText( record.value(DB_F_MAIN_TERMIN).toString() );
             ui.tedtValueBrief->setText( record.value(DB_F_MAIN_VALUE).toString() );
             ui.tedtValueDetail->clear();
             ui.tedtValueWeb->clear();
@@ -253,12 +253,12 @@ WordEditor::_saveAll(
         int iRv = ui.cboLangFrom->currentText().compare(LANG_EN, Qt::CaseInsensitive);
         if (iRv == 0) {
             // en-ru
-            record.setValue(DB_F_MAIN_TERM,  ui.tedtTermin->toPlainText());
-            record.setValue(DB_F_MAIN_VALUE, ui.tedtValueBrief->toPlainText());
+            record.setValue(DB_F_MAIN_TERMIN, ui.tedtTermin->toPlainText());
+            record.setValue(DB_F_MAIN_VALUE,  ui.tedtValueBrief->toPlainText());
         } else {
             // ru-en
-            record.setValue(DB_F_MAIN_TERM,  ui.tedtValueBrief->toPlainText());
-            record.setValue(DB_F_MAIN_VALUE, ui.tedtTermin->toPlainText());
+            record.setValue(DB_F_MAIN_TERMIN, ui.tedtValueBrief->toPlainText());
+            record.setValue(DB_F_MAIN_VALUE,  ui.tedtTermin->toPlainText());
         }
 
         record.setValue(DB_F_MAIN_TAG,        ui.cboTags->currentText());
@@ -342,7 +342,7 @@ WordEditor::_isTerminExists(
     cQString sql =
         "SELECT COUNT(*) AS f_records_count "
         "   FROM  " DB_T_MAIN " "
-        "   WHERE " DB_F_MAIN_TERM " LIKE '" + a_termin.trimmed() + "';";
+        "   WHERE " DB_F_MAIN_TERMIN " LIKE '" + a_termin.trimmed() + "';";
 
     bRv = qryQuery.exec(sql);
     qCHECK_REF(bRv, qryQuery);

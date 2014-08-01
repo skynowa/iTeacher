@@ -45,7 +45,7 @@
 // DB tables, fields
 #define DB_T_MAIN                    "t_main"
 #define DB_F_MAIN_ID                 "f_main_id"
-#define DB_F_MAIN_TERM               "f_main_term"
+#define DB_F_MAIN_TERMIN             "f_main_term"  // TODO: DB_F_MAIN_TERMIN - "f_main_term" -> "f_main_termin"
 #define DB_F_MAIN_VALUE              "f_main_value"
 #define DB_F_MAIN_IS_LEARNED         "f_main_is_learned"
 #define DB_F_MAIN_IS_MARKED          "f_main_is_marked"

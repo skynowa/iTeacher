@@ -147,9 +147,9 @@ WordFinder::_saveAll()
 {
     qtlib::Utils::db_fields_t fields;
     {
-        fields.push_back( QPair<QString, QString>(DB_F_MAIN_TERM,  ui.cboTermin->currentText()) );
-        fields.push_back( QPair<QString, QString>(DB_F_MAIN_VALUE, ui.cboValue->currentText()) );
-        fields.push_back( QPair<QString, QString>(DB_F_MAIN_TAG,   ui.cboTags->currentText()) );
+        fields.push_back( QPair<QString, QString>(DB_F_MAIN_TERMIN, ui.cboTermin->currentText()) );
+        fields.push_back( QPair<QString, QString>(DB_F_MAIN_VALUE,  ui.cboValue->currentText()) );
+        fields.push_back( QPair<QString, QString>(DB_F_MAIN_TAG,    ui.cboTags->currentText()) );
     }
 
     QString sqlStrWhere;
