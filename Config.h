@@ -68,5 +68,6 @@
 #define TRANSLATION_LANG_ENGLISH     "en"
 #define TRANSLATION_LANG_RUSSIAN     "ru"
 #define BUTTON_BOX_WIDTH             75
+#define TERMIN_MINIMIZED_SIZE_MAX    30
 //-------------------------------------------------------------------------------------------------
 #endif // iTeacher_ConfigH

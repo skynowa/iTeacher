@@ -681,6 +681,13 @@ WordEditor::slot_termCheck()
     QPalette plInfo;
     QString  msg;
 
+    QString termMinimized;
+    {
+        termMinimized = ui.tedtWordTerm->toPlainText().trimmed();
+        termMinimized = qS2QS(xlib::core::String::minimize(qQS2S(termMinimized),
+            TERMIN_MINIMIZED_SIZE_MAX));
+    }
+
     // is term empty
     bRv = ui.tedtWordTerm->toPlainText().trimmed().isEmpty();
     if (bRv) {
@@ -701,8 +708,7 @@ WordEditor::slot_termCheck()
     bRv = _isTermExists( ui.tedtWordTerm->toPlainText() );
     if (bRv && _insertMode) {
         // insert: term already exists (false)
-        msg = QString(tr("Termin '%1' already exists"))
-                            .arg( ui.tedtWordTerm->toPlainText() );
+        msg = QString(tr("Termin '%1' already exists")).arg(termMinimized);
 
         QPalette pallete = ui.lblInfo->palette();
         pallete.setColor(QPalette::WindowText, Qt::red);
@@ -717,8 +723,7 @@ WordEditor::slot_termCheck()
     else if (bRv && !_insertMode) {
         // edit: term already exists (true)
     #if 1
-        msg = QString(tr("Termin '%1' now editing"))
-                            .arg( ui.tedtWordTerm->toPlainText() );
+        msg = QString(tr("Termin '%1' now editing")).arg(termMinimized);
 
         QPalette pallete = ui.lblInfo->palette();
         pallete.setColor(QPalette::WindowText, Qt::blue);
@@ -733,8 +738,7 @@ WordEditor::slot_termCheck()
     }
     else {
         // ok, term is a new
-        msg = QString(tr("Termin '%1' is a new"))
-                            .arg( ui.tedtWordTerm->toPlainText() );
+        msg = QString(tr("Termin '%1' is a new")).arg(termMinimized);
 
         ::qSwap(plInfo, _plInfoDefault);
 
