@@ -698,15 +698,6 @@ WordEditor::slot_termCheck()
     }
 
     // is term exists
-    if (ui.chkTerminLowerCase->isChecked()) {
-        cQString term      = ui.tedtWordTerm->toPlainText();
-        cQString termLower = ui.tedtWordTerm->toPlainText().toLower();
-
-        if (term != termLower) {
-            ui.tedtWordTerm->setText(termLower);
-        }
-    }
-
     bRv = _isTermExists( ui.tedtWordTerm->toPlainText() );
     if (bRv && _insertMode) {
         // insert: term already exists (false)
