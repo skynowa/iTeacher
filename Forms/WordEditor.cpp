@@ -689,7 +689,7 @@ WordEditor::slot_termCheck()
         QPalette pallete = ui.lblInfo->palette();
         pallete.setColor(QPalette::WindowText, Qt::red);
 
-        qSwap(plInfo, pallete);
+        ::qSwap(plInfo, pallete);
 
         ui.lblInfo->setPalette(plInfo);
         ui.lblInfo->setText(msg);
@@ -707,7 +707,7 @@ WordEditor::slot_termCheck()
         QPalette pallete = ui.lblInfo->palette();
         pallete.setColor(QPalette::WindowText, Qt::red);
 
-        qSwap(plInfo, pallete);
+        ::qSwap(plInfo, pallete);
 
         ui.lblInfo->setPalette(plInfo);
         ui.lblInfo->setText(msg);
@@ -723,7 +723,7 @@ WordEditor::slot_termCheck()
         QPalette pallete = ui.lblInfo->palette();
         pallete.setColor(QPalette::WindowText, Qt::blue);
 
-        qSwap(plInfo, pallete);
+        ::qSwap(plInfo, pallete);
 
         ui.lblInfo->setPalette(plInfo);
         ui.lblInfo->setText(msg);
@@ -736,7 +736,7 @@ WordEditor::slot_termCheck()
         msg = QString(tr("Termin '%1' is a new"))
                             .arg( ui.tedtWordTerm->toPlainText() );
 
-        qSwap(plInfo, _plInfoDefault);
+        ::qSwap(plInfo, _plInfoDefault);
 
         ui.lblInfo->setPalette(plInfo);
         ui.lblInfo->setText(msg);
