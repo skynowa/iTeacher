@@ -748,7 +748,7 @@ WordEditor::slot_check()
 void
 WordEditor::slot_pbtnTagsEdit_OnClicked()
 {
-    TagsEditor dlgTagsEditor(this);
+    TagsEditor dlgTagsEditor(this, _model->database());
     (int)dlgTagsEditor.exec();
 }
 //-------------------------------------------------------------------------------------------------

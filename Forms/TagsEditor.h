@@ -23,10 +23,11 @@ class TagsEditor :
 public:
     Ui::UiTagsEditor ui;
 
-                     TagsEditor(QWidget *parent);
+                     TagsEditor(QWidget *parent, const QSqlDatabase &db);
     virtual         ~TagsEditor();
 
 private:
+    const QSqlDatabase &_db;
     QSqlTableModel  *_model;
 
     void             _construct();
