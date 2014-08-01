@@ -633,44 +633,24 @@ WordEditor::slot_termTranslate()
         return;
     }
 
-    cQString textFrom = ui.tedtWordTerm->toPlainText();
+    QString  textFrom = ui.tedtWordTerm->toPlainText();
     cQString langFrom = ui.cboLangFrom->currentText();
     cQString langTo   = ui.cboLangTo->currentText();
     QString  textToBrief;
     QString  textToDetail;
     QString  textToRaw;
 
+    // lowercase
+    if (ui.chkTerminLowerCase->isChecked()) {
+        textFrom = textFrom.toLower();
+    }
+
     _googleTranslate(textFrom, langFrom, langTo, &textToBrief, &textToDetail, &textToRaw);
 
-    // term - to lowercase
-    if (ui.chkTerminLowerCase->isChecked()) {
-        cQString term      = ui.tedtWordTerm->toPlainText();
-        cQString termLower = ui.tedtWordTerm->toPlainText().toLower();
-
-        if (term != termLower) {
-            ui.tedtWordTerm->setText(termLower);
-        }
-    } else {
-        // n/a
-    }
-
-    // value - to lowercase
-    if (ui.chkTerminLowerCase->isChecked()) {
-        cQString value      = textToBrief;
-        cQString valueLower = textToBrief.toLower();
-
-        if (value != valueLower) {
-            ui.tedtWordBriefValue->setText(valueLower);
-        }
-    } else {
-        ui.tedtWordBriefValue->setText(textToBrief);
-    }
-
-    // detail value, WEB value - n/a lowercase
+    ui.tedtWordTerm->setText(textFrom);
+    ui.tedtWordBriefValue->setText(textToBrief);
     ui.tedtWordDetailValue->setText(textToDetail);
     ui.tedtWordWebValue->setHtml(textToRaw);
-
-    // raw value - n/a lowercase
     ui.tedtWordRawValue->setPlainText(textToRaw);
 }
 //-------------------------------------------------------------------------------------------------
