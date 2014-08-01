@@ -59,15 +59,15 @@ WordFinder::_construct()
             }
         }
 
-        ui.cboWordTerm->setFocus();
+        ui.cboTermin->setFocus();
     }
 
     // tags
     {
         QSqlQuery query;
         query.prepare("SELECT " DB_F_TAGS_NAME " FROM " DB_T_TAGS ";");
-        bool rv = query.exec();
-        qCHECK_REF(rv, query);
+        bool bRv = query.exec();
+        qCHECK_REF(bRv, query);
 
         for ( ; query.next(); ) {
             ui.cboTags->addItem( query.value(0).toString() );
@@ -133,13 +133,13 @@ WordFinder::slot_bbxButtons_OnClicked(
 void
 WordFinder::_resetAll()
 {
-    ui.cboWordTerm->clear();
-    ui.cboWordValue->clear();
+    ui.cboTermin->clear();
+    ui.cboValue->clear();
     ui.cboTags->setCurrentText("");
-    ui.chkWordNotLearned->setChecked(false);
-    ui.chkWordNotMarked->setChecked(false);
-    ui.chkWordLearned->setChecked(false);
-    ui.chkWordMarked->setChecked (false);
+    ui.chkNotLearned->setChecked(false);
+    ui.chkNotMarked->setChecked(false);
+    ui.chkLearned->setChecked(false);
+    ui.chkMarked->setChecked (false);
 }
 //-------------------------------------------------------------------------------------------------
 void
@@ -147,8 +147,8 @@ WordFinder::_saveAll()
 {
     qtlib::Utils::db_fields_t fields;
     {
-        fields.push_back( QPair<QString, QString>(DB_F_MAIN_TERM,  ui.cboWordTerm->currentText()) );
-        fields.push_back( QPair<QString, QString>(DB_F_MAIN_VALUE, ui.cboWordValue->currentText()) );
+        fields.push_back( QPair<QString, QString>(DB_F_MAIN_TERM,  ui.cboTermin->currentText()) );
+        fields.push_back( QPair<QString, QString>(DB_F_MAIN_VALUE, ui.cboValue->currentText()) );
         fields.push_back( QPair<QString, QString>(DB_F_MAIN_TAG,   ui.cboTags->currentText()) );
     }
 
@@ -156,33 +156,33 @@ WordFinder::_saveAll()
     {
         cQString separator = "##";
 
-        cbool isWordNotLearned = ui.chkWordNotLearned->isChecked();
-        cbool isWordNotMarked  = ui.chkWordNotMarked->isChecked();
-        cbool isWordLearned    = ui.chkWordLearned->isChecked();
-        cbool isWordMarked     = ui.chkWordMarked->isChecked();
+        cbool isNotLearned = ui.chkNotLearned->isChecked();
+        cbool isNotMarked  = ui.chkNotMarked->isChecked();
+        cbool isLearned    = ui.chkLearned->isChecked();
+        cbool isMarked     = ui.chkMarked->isChecked();
 
-        if (isWordNotLearned) {
+        if (isNotLearned) {
             cQString sql = QString("%1=%2")
                                 .arg(DB_F_MAIN_IS_LEARNED)
                                 .arg(0);
             sqlStrWhere += sql + separator;
         }
 
-        if (isWordNotMarked) {
+        if (isNotMarked) {
             cQString sql = QString("%1=%2")
                                 .arg(DB_F_MAIN_IS_MARKED)
                                 .arg(0);
             sqlStrWhere += sql + separator;
         }
 
-        if (isWordLearned) {
+        if (isLearned) {
             cQString sql = QString("%1=%2")
                                 .arg(DB_F_MAIN_IS_LEARNED)
                                 .arg(1);
             sqlStrWhere += sql + separator;
         }
 
-        if (isWordMarked) {
+        if (isMarked) {
             cQString sql = QString("%1=%2")
                                 .arg(DB_F_MAIN_IS_MARKED)
                                 .arg(1);
@@ -204,9 +204,9 @@ WordFinder::_saveAll()
 
     QString sqlStrOrderBy;
     {
-        cbool isWordRandomized = ui.chkWordRandomized->isChecked();
+        cbool isRandomized = ui.chkRandomized->isChecked();
 
-        if (isWordRandomized) {
+        if (isRandomized) {
             sqlStrOrderBy = "ORDER BY Random()";
         }
     }
