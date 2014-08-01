@@ -8,6 +8,7 @@
 
 #include "../QtLib/Utils.h"
 
+#include "TagsEditor.h"
 #include <xLib/Core/Application.h>
 #include <QDomDocument>
 
@@ -83,6 +84,9 @@ WordEditor::_construct()
 
         connect(ui.pbtnCheck,     SIGNAL( clicked() ),
                 this,             SLOT  ( slot_check() ));
+
+        connect(ui.pbtnTagsEdit,  SIGNAL( clicked() ),
+                this,             SLOT  ( slot_pbtnTagsEdit_OnClicked() ));
 
         connect(ui.bbxButtons,    SIGNAL( clicked(QAbstractButton *) ),
                 this,             SLOT  ( slot_bbxButtons_OnClicked(QAbstractButton *) ));
@@ -739,6 +743,13 @@ WordEditor::slot_check()
     }
 
     return true;
+}
+//-------------------------------------------------------------------------------------------------
+void
+WordEditor::slot_pbtnTagsEdit_OnClicked()
+{
+    TagsEditor dlgTagsEditor(this);
+    (int)dlgTagsEditor.exec();
 }
 //-------------------------------------------------------------------------------------------------
 void
