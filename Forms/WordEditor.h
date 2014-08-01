@@ -25,7 +25,7 @@ public:
 
                      WordEditor(QWidget *parent, QSqlTableModel *tableModel,
                          qtlib::SqlNavigator *sqlNavigator, cbool &inserMode,
-                         cQString &newTermim = QString());
+                         cQString &terminNew = QString());
     virtual         ~WordEditor();
 
     bool             isConstructed() const;

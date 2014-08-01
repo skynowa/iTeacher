@@ -23,7 +23,7 @@ WordEditor::WordEditor(
     QSqlTableModel      *a_tableModel,
     qtlib::SqlNavigator *a_sqlNavigator,
     cbool               &a_insertMode,
-    cQString            &a_newTermin /* = QString() */
+    cQString            &a_terminNew /* = QString() */
 ) :
     QDialog       (a_parent),
     _isConstructed(false),
@@ -31,7 +31,7 @@ WordEditor::WordEditor(
     _sqlNavigator (a_sqlNavigator),
     _currentRow   (a_sqlNavigator->view()->currentIndex().row()),
     _insertMode   (a_insertMode),
-    _terminNew    (a_newTermin.trimmed()),
+    _terminNew    (a_terminNew.trimmed()),
     _plInfoDefault()
 {
     qTEST_PTR(a_parent);
@@ -148,7 +148,7 @@ WordEditor::_construct()
             _plInfoDefault = ui.lblInfo->palette();
         }
 
-        // check word termin
+        // check termin
         if (!_terminNew.isEmpty()) {
             ui.tedtWordTerm->setText(_terminNew);
 
