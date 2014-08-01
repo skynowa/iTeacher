@@ -25,7 +25,7 @@ public:
 
                      WordEditor(QWidget *parent, QSqlTableModel *tableModel,
                          qtlib::SqlNavigator *sqlNavigator, cbool &inserMode,
-                         cQString &newTerm = QString());
+                         cQString &newTermim = QString());
     virtual         ~WordEditor();
 
     bool             isConstructed() const;
@@ -36,7 +36,7 @@ private:
     qtlib::SqlNavigator *_sqlNavigator;
     cint             _currentRow;
     cbool            _insertMode;
-    cQString         _termNew;
+    cQString         _terminNew;
 
     QPalette         _plInfoDefault;
 
@@ -49,7 +49,7 @@ private:
     void             _settingsLoad();
     void             _settingsSave();
 
-    bool             _isTermExists(cQString &term);
+    bool             _isTerminExists(cQString &termin);
     void             _languagesAutoDetect();
         ///< auto detect translating languages
 
@@ -71,8 +71,8 @@ private:
 
 private Q_SLOTS:
     void             slot_pbtnLangsSwap_OnClicked();
-    void             slot_termTranslate();
-    bool             slot_termCheck();
+    void             slot_terminTranslate();
+    bool             slot_terminCheck();
     void             slot_bbxButtons_OnClicked(QAbstractButton *button);
 };
 //-------------------------------------------------------------------------------------------------
