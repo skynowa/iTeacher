@@ -232,12 +232,12 @@ Main::_initModel()
         ui.tvInfo->viewport()->installEventFilter(this);
 
         ui.tvInfo->hideColumn(0); // don't show the DB_F_MAIN_ID
-        ui.tvInfo->setColumnWidth(0, TABLEVIEW_COLUMN_WIDTH_0);
-        ui.tvInfo->setColumnWidth(1, TABLEVIEW_COLUMN_WIDTH_1);
-        ui.tvInfo->setColumnWidth(2, TABLEVIEW_COLUMN_WIDTH_2);
-        ui.tvInfo->setColumnWidth(3, TABLEVIEW_COLUMN_WIDTH_3);
-        ui.tvInfo->setColumnWidth(4, TABLEVIEW_COLUMN_WIDTH_4);
-        ui.tvInfo->setColumnWidth(5, TABLEVIEW_COLUMN_WIDTH_5);
+        ui.tvInfo->setColumnWidth(0, TVMAIN_COLUMN_WIDTH_0);
+        ui.tvInfo->setColumnWidth(1, TVMAIN_COLUMN_WIDTH_1);
+        ui.tvInfo->setColumnWidth(2, TVMAIN_COLUMN_WIDTH_2);
+        ui.tvInfo->setColumnWidth(3, TVMAIN_COLUMN_WIDTH_3);
+        ui.tvInfo->setColumnWidth(4, TVMAIN_COLUMN_WIDTH_4);
+        ui.tvInfo->setColumnWidth(5, TVMAIN_COLUMN_WIDTH_5);
 
         ui.tvInfo->verticalHeader()->setVisible(true);
         ui.tvInfo->verticalHeader()->setDefaultSectionSize(TABLEVIEW_ROW_HEIGHT);
@@ -1377,12 +1377,12 @@ Main::_settingsLoad()
         tableFontSize   = settings.value("font_size",      APP_FONT_SIZE_DEFAULT).toInt();
         tableRowHeight  = settings.value("row_height",     TABLEVIEW_ROW_HEIGHT).toInt();
         tableCurrentRow = settings.value("current_row",    0).toInt();
-        columnWidth0    = settings.value("column_width_0", TABLEVIEW_COLUMN_WIDTH_0).toInt();
-        columnWidth1    = settings.value("column_width_1", TABLEVIEW_COLUMN_WIDTH_1).toInt();
-        columnWidth2    = settings.value("column_width_2", TABLEVIEW_COLUMN_WIDTH_2).toInt();
-        columnWidth3    = settings.value("column_width_3", TABLEVIEW_COLUMN_WIDTH_3).toInt();
-        columnWidth4    = settings.value("column_width_4", TABLEVIEW_COLUMN_WIDTH_4).toInt();
-        columnWidth5    = settings.value("column_width_5", TABLEVIEW_COLUMN_WIDTH_5).toInt();
+        columnWidth0    = settings.value("column_width_0", TVMAIN_COLUMN_WIDTH_0).toInt();
+        columnWidth1    = settings.value("column_width_1", TVMAIN_COLUMN_WIDTH_1).toInt();
+        columnWidth2    = settings.value("column_width_2", TVMAIN_COLUMN_WIDTH_2).toInt();
+        columnWidth3    = settings.value("column_width_3", TVMAIN_COLUMN_WIDTH_3).toInt();
+        columnWidth4    = settings.value("column_width_4", TVMAIN_COLUMN_WIDTH_4).toInt();
+        columnWidth5    = settings.value("column_width_5", TVMAIN_COLUMN_WIDTH_5).toInt();
         settings.endGroup();
 
         settings.beginGroup("file");

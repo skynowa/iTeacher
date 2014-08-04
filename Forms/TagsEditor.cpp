@@ -23,7 +23,7 @@ TagsEditor::TagsEditor(
 ) :
     QDialog(a_parent),
     _db    (a_db),
-    _model (Q_NULLPTR)
+    _model (this, a_db)
 {
     qTEST_PTR(a_parent);
     qTEST_NA(a_db);
@@ -52,26 +52,21 @@ TagsEditor::_construct()
 
     // _model
     {
-        qTEST(_model == Q_NULLPTR);
+        _model.setTable(DB_T_TAGS);
+        _model.setHeaderData(0, Qt::Horizontal, tr("Id"),   Qt::DisplayRole);
+        _model.setHeaderData(1, Qt::Horizontal, tr("Name"), Qt::DisplayRole);
+        _model.setEditStrategy(QSqlTableModel::OnFieldChange);
 
-        _model = new QSqlTableModel(this, _db);
-
-        _model->setTable(DB_T_TAGS);
-        _model->setHeaderData(0, Qt::Horizontal, tr("Id"),   Qt::DisplayRole);
-        _model->setHeaderData(1, Qt::Horizontal, tr("Name"), Qt::DisplayRole);
-        _model->setEditStrategy(QSqlTableModel::OnManualSubmit);
-
-        _model->select();
+        _model.select();
     }
 
     // tvTags
     {
-        ui.tvTags->setModel(_model);
+        ui.tvTags->setModel(&_model);
         ui.tvTags->viewport()->installEventFilter(this);
 
-//        ui.tvTags->setColumnWidth(0, TABLEVIEW_COLUMN_WIDTH_0);
-//        ui.tvTags->setColumnWidth(1, TABLEVIEW_COLUMN_WIDTH_1);
-
+        ui.tvTags->setColumnWidth(0, TVTAGS_COLUMN_WIDTH_0);
+        ui.tvTags->setColumnWidth(1, TVTAGS_COLUMN_WIDTH_1);
         ui.tvTags->verticalHeader()->setVisible(true);
         ui.tvTags->verticalHeader()->setDefaultSectionSize(TABLEVIEW_ROW_HEIGHT);
 

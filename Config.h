@@ -32,17 +32,7 @@
 #define APP_FONT_SIZE_DEFAULT        9
 #define DB_FILE_NAME_EMPTY           "db_empty.db"
 
-// table view
-#define TABLEVIEW_ROW_HEIGHT         20
-
-#define TABLEVIEW_COLUMN_WIDTH_0     100
-#define TABLEVIEW_COLUMN_WIDTH_1     120
-#define TABLEVIEW_COLUMN_WIDTH_2     400
-#define TABLEVIEW_COLUMN_WIDTH_3     70
-#define TABLEVIEW_COLUMN_WIDTH_4     70
-#define TABLEVIEW_COLUMN_WIDTH_5     100
-
-// DB tables, fields
+// DB table - t_main
 #define DB_T_MAIN                    "t_main"
 #define DB_F_MAIN_ID                 "f_main_id"
 #define DB_F_MAIN_TERMIN             "f_main_term"  // TODO: DB_F_MAIN_TERMIN - "f_main_term" -> "f_main_termin"
@@ -51,9 +41,20 @@
 #define DB_F_MAIN_IS_MARKED          "f_main_is_marked"
 #define DB_F_MAIN_TAG                "f_main_tag"
 
+#define TVMAIN_COLUMN_WIDTH_0        100
+#define TVMAIN_COLUMN_WIDTH_1        120
+#define TVMAIN_COLUMN_WIDTH_2        400
+#define TVMAIN_COLUMN_WIDTH_3        70
+#define TVMAIN_COLUMN_WIDTH_4        70
+#define TVMAIN_COLUMN_WIDTH_5        100
+
+// DB table - t_tags
 #define DB_T_TAGS                    "t_tags"
 #define DB_F_TAGS_ID                 "f_tags_id"
 #define DB_F_TAGS_NAME               "f_tags_name"
+
+#define TVTAGS_COLUMN_WIDTH_0        20
+#define TVTAGS_COLUMN_WIDTH_1        160
 
 // audio
 #define AUDIO_WORD_FILE_NAME         "word.mp3"
@@ -67,6 +68,7 @@
 #define DB_FILE_EXT                  ".db"
 #define LANG_EN                      "en"
 #define LANG_RU                      "ru"
+#define TABLEVIEW_ROW_HEIGHT         20
 #define BUTTON_BOX_WIDTH             75
 #define TERMIN_MINIMIZED_SIZE_MAX    30
 //-------------------------------------------------------------------------------------------------

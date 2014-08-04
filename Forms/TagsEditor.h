@@ -28,7 +28,7 @@ public:
 
 private:
     const QSqlDatabase &_db;
-    QSqlTableModel  *_model;
+    QSqlTableModel   _model;
 
     void             _construct();
     void             _destruct();
