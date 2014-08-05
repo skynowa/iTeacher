@@ -41,7 +41,6 @@ private:
     Ui::UiMain      ui;
     QSystemTrayIcon _trayIcon;
 
-    qtlib::SqlNavigator _sqlNavigator;
     qtlib::GlobalShortcut _scShowHide;
     qtlib::GlobalShortcut _scImportClipboard;
 
@@ -55,6 +54,7 @@ private:
     // DB
     QSqlDatabase   *_dbDatabase;
     QSqlTableModel *_model;
+    qtlib::SqlNavigator _sqlNavigator;
 
     void            _dbOpen(cQString &filePath);
     void            _dbReopen(cQString &filePath);

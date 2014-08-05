@@ -36,11 +36,11 @@ Main::Main(
 ) :
     QMainWindow       (a_parent, a_flags),
     _trayIcon         (this),
-    _sqlNavigator     (this),
     _scShowHide       (this),
     _scImportClipboard(this),
     _dbDatabase       (Q_NULLPTR),
     _model            (Q_NULLPTR),
+    _sqlNavigator     (this),
     _exportOrder      (eoUnknown)
 {
     _construct();
@@ -1153,7 +1153,7 @@ Main::_dbOpen(
                 "    " DB_T_MAIN
                 "( "
                 "    " DB_F_MAIN_ID         " integer PRIMARY KEY AUTOINCREMENT UNIQUE, "
-                "    " DB_F_MAIN_TERM     " varchar(255) UNIQUE, "
+                "    " DB_F_MAIN_TERM       " varchar(255) UNIQUE, "
                 "    " DB_F_MAIN_VALUE      " varchar(255) DEFAULT '', "
                 "    " DB_F_MAIN_IS_LEARNED " integer      DEFAULT 0, "
                 "    " DB_F_MAIN_IS_MARKED  " integer      DEFAULT 0, "
