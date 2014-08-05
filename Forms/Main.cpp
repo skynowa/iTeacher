@@ -700,8 +700,8 @@ Main::slot_OnRemove()
     msgBox.setStandardButtons(QMessageBox::Yes | QMessageBox::Cancel);
     msgBox.setDefaultButton(QMessageBox::Cancel);
 
-    cint ciRv = msgBox.exec();
-    switch (ciRv) {
+    int iRv = msgBox.exec();
+    switch (iRv) {
     case QMessageBox::Yes:
         _sqlNavigator.remove();
         break;
