@@ -467,10 +467,11 @@ Main::slot_OnImportCsv()
 void
 Main::slot_OnImportClipboard()
 {
+    bool bRv = false;
+
     // WordEditor - only one instance
     QSharedMemory locker;
     {
-        bool     bRv     = false;
         cQString dlgGuid = APP_NAME"_dlgWordEditor_guid";
 
         locker.setKey(dlgGuid);
@@ -489,7 +490,7 @@ Main::slot_OnImportClipboard()
     cQString   data = QApplication::clipboard()->text();
     WordEditor dlgWordEditor(this, _model, &_sqlNavigator, true, data);
 
-    bool bRv = dlgWordEditor.isConstructed();
+    bRv = dlgWordEditor.isConstructed();
     qCHECK_DO(!bRv, return);
 
     QDialog::DialogCode code = static_cast<QDialog::DialogCode>( dlgWordEditor.exec() );
