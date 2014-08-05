@@ -17,9 +17,6 @@
 class TagsEditor :
     public QDialog
 {
-    Q_OBJECT
-    Q_DISABLE_COPY(TagsEditor)
-
 public:
     Ui::UiTagsEditor ui;
 
@@ -32,6 +29,9 @@ private:
 
     void             _construct();
     void             _destruct();
+
+    Q_OBJECT
+    Q_DISABLE_COPY(TagsEditor)
 
 private Q_SLOTS:
 

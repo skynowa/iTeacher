@@ -21,9 +21,6 @@
 class Main :
     public QMainWindow
 {
-    Q_OBJECT
-    Q_DISABLE_COPY(Main)
-
 public:
                     Main(QWidget *parent = Q_NULLPTR, Qt::WindowFlags flags = Qt::Widget);
     virtual        ~Main();
@@ -59,6 +56,29 @@ private:
     void            _initMain();
     void            _initModel();
     void            _initActions();
+    void            _cboDictPath_reload();
+
+    // DB
+    QSqlDatabase   *_dbDatabase;
+    QSqlTableModel *_model;
+
+    void            _dbOpen(cQString &filePath);
+    void            _dbReopen(cQString &filePath);
+    void            _dbClose();
+
+    // audio
+    void            _googleSpeech(cQString &text, cQString &lang, cQString &filePath);
+
+    // settings
+    ExportOrder     _exportOrder;
+    void            _settingsLoad();
+    void            _settingsSave();
+
+    // utils
+    QString         _exportfileNameBuild(cQString &fileExt);
+
+    Q_OBJECT
+    Q_DISABLE_COPY(Main)
 
 private Q_SLOTS:
     // group "File"
@@ -107,28 +127,6 @@ private Q_SLOTS:
 
     // etc
     void            slot_cboDictPath_OnCurrentIndexChanged(const QString &arg);
-
-private:
-    void            cboDictPath_reload();
-
-    // DB
-    QSqlDatabase   *_dbDatabase;
-    QSqlTableModel *_model;
-
-    void            dbOpen(cQString &filePath);
-    void            dbReopen(cQString &filePath);
-    void            dbClose();
-
-    // audio
-    void            _googleSpeech(cQString &text, cQString &lang, cQString &filePath);
-
-    // settings
-    ExportOrder     _exportOrder;
-    void            _settingsLoad();
-    void            _settingsSave();
-
-    // utils
-    QString         _exportfileNameBuild(cQString &fileExt);
 };
 //-------------------------------------------------------------------------------------------------
 #endif // iTeacher_MainH

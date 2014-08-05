@@ -15,9 +15,6 @@
 class WordFinder :
     public QDialog
 {
-    Q_OBJECT
-    Q_DISABLE_COPY(WordFinder)
-
 public:
     Ui::UiWordFinder ui;
 
@@ -32,6 +29,9 @@ private:
 
     void            _resetAll();
     void            _saveAll();
+
+    Q_OBJECT
+    Q_DISABLE_COPY(WordFinder)
 
 private Q_SLOTS:
     void            slot_bbxButtons_OnClicked(QAbstractButton *button);

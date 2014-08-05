@@ -17,9 +17,6 @@
 class WordEditor :
     public QDialog
 {
-    Q_OBJECT
-    Q_DISABLE_COPY(WordEditor)
-
 public:
     Ui::UiWordEditor ui;
 
@@ -68,6 +65,9 @@ private:
     void             _googleTranslate(cQString &textFrom, cQString &langFrom, cQString &langTo,
                          QString *textToBrief, QString *textToDetail, QString *textToRaw) const;
         ///< translate text by Google API
+
+    Q_OBJECT
+    Q_DISABLE_COPY(WordEditor)
 
 private Q_SLOTS:
     void             slot_pbtnLangsSwap_OnClicked();

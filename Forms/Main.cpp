@@ -147,7 +147,7 @@ void
 Main::_destruct()
 {
     _settingsSave();
-    dbClose();
+    _dbClose();
 }
 //-------------------------------------------------------------------------------------------------
 void
@@ -174,7 +174,7 @@ Main::_initMain()
         setWindowTitle(APP_NAME);
         setGeometry(0, 0, APP_WIDTH, APP_HEIGHT);
         qtlib::Utils::widgetAlignCenter(this);
-        cboDictPath_reload();
+        _cboDictPath_reload();
     }
 
     // tray icon
@@ -208,12 +208,12 @@ Main::_initModel()
         if (ui.cboDictPath->currentText().isEmpty()) {
             cQString dictPath = _dbDir + QDir::separator() + DB_FILE_NAME_EMPTY;
 
-            dbOpen(dictPath);
-            cboDictPath_reload();
+            _dbOpen(dictPath);
+            _cboDictPath_reload();
         } else {
             cQString dictPath = _dbDir + QDir::separator() + ui.cboDictPath->currentText();
 
-            dbOpen(dictPath);
+            _dbOpen(dictPath);
         }
     }
 
@@ -416,8 +416,8 @@ Main::slot_OnCreateDb()
 
     // reopen DB
     {
-        dbReopen(dictPath);
-        cboDictPath_reload();
+        _dbReopen(dictPath);
+        _cboDictPath_reload();
     }
 
     // activate this DB file name in QComboBox
@@ -958,7 +958,7 @@ Main::slot_cboDictPath_OnCurrentIndexChanged(
     {
         cQString dictPath = _dbDir + QDir::separator() + a_arg;
 
-        dbReopen(dictPath);
+        _dbReopen(dictPath);
     }
 
     // words info
@@ -1066,7 +1066,7 @@ Main::slot_OnTrayActivated(
 
 //-------------------------------------------------------------------------------------------------
 void
-Main::cboDictPath_reload()
+Main::_cboDictPath_reload()
 {
     ui.cboDictPath->clear();
 
@@ -1093,7 +1093,7 @@ Main::cboDictPath_reload()
 
 //-------------------------------------------------------------------------------------------------
 void
-Main::dbOpen(
+Main::_dbOpen(
     cQString &a_filePath
 )
 {
@@ -1194,12 +1194,12 @@ Main::dbOpen(
 }
 //-------------------------------------------------------------------------------------------------
 void
-Main::dbReopen(
+Main::_dbReopen(
     cQString &a_filePath
 )
 {
-    dbClose();
-    dbOpen(a_filePath);
+    _dbClose();
+    _dbOpen(a_filePath);
 
     // _model
     _model->select();
@@ -1207,7 +1207,7 @@ Main::dbReopen(
 }
 //-------------------------------------------------------------------------------------------------
 void
-Main::dbClose()
+Main::_dbClose()
 {
     // _model
     {
