@@ -1142,6 +1142,17 @@ Main::_dbOpen(
 
         // create DB - DB_T_TAGS
         {
+            QSqlQuery qryPragma(*_db);
+
+            cQString sql =
+                "PRAGMA foreign_keys = ON";
+
+            bRv = qryPragma.exec(sql);
+            qCHECK_REF(bRv, qryPragma);
+        }
+
+        // DB pragma
+        {
             QSqlQuery qryTags(*_db);
 
             cQString sql =
