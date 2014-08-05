@@ -731,9 +731,7 @@ Main::slot_OnLearned()
     cint currentRow = _sqlNavigator.view()->currentIndex().row();
 
     QSqlRecord record = _model->record(currentRow);
-    {
-        record.setValue(DB_F_MAIN_IS_LEARNED, !record.value(DB_F_MAIN_IS_LEARNED).toBool() );
-    }
+    record.setValue(DB_F_MAIN_IS_LEARNED, !record.value(DB_F_MAIN_IS_LEARNED).toBool() );
 
     bRv = _model->setRecord(currentRow, record);
     qCHECK_PTR(bRv, _model);
@@ -827,7 +825,7 @@ Main::slot_OnPlayWordTranslation()
 void
 Main::slot_OnSearch()
 {
-    qCHECK_DO(_model == Q_NULLPTR, return);
+    qCHECK_DO(!_sqlNavigator.isValid(), return);
 
     WordFinder dlgWordFinder(this, _model);
 
@@ -970,8 +968,8 @@ Main::slot_cboDictPath_OnCurrentIndexChanged(
             QSqlQuery qryWordsAll(*_dbDatabase);
 
             cQString sql =
-                        "SELECT COUNT(*) AS f_records_count "
-                        "   FROM  " DB_T_MAIN ";";
+                "SELECT COUNT(*) AS f_records_count "
+                "   FROM  " DB_T_MAIN ";";
 
             bool bRv = qryWordsAll.exec(sql);
             qCHECK_REF(bRv, qryWordsAll);
@@ -987,9 +985,9 @@ Main::slot_cboDictPath_OnCurrentIndexChanged(
             QSqlQuery qryWordsLearned(*_dbDatabase);
 
             cQString sql =
-                        "SELECT COUNT(*) AS f_records_count "
-                        "   FROM  " DB_T_MAIN " "
-                        "   WHERE " DB_F_MAIN_IS_LEARNED " = 1;";
+                "SELECT COUNT(*) AS f_records_count "
+                "   FROM  " DB_T_MAIN " "
+                "   WHERE " DB_F_MAIN_IS_LEARNED " = 1;";
 
             bool bRv = qryWordsLearned.exec(sql);
             qCHECK_REF(bRv, qryWordsLearned);
@@ -1005,9 +1003,9 @@ Main::slot_cboDictPath_OnCurrentIndexChanged(
             QSqlQuery qryWordsNotLearned(*_dbDatabase);
 
             cQString sql =
-                        "SELECT COUNT(*) AS f_records_count "
-                        "   FROM  " DB_T_MAIN " "
-                        "   WHERE " DB_F_MAIN_IS_LEARNED " = 0;";
+                "SELECT COUNT(*) AS f_records_count "
+                "   FROM  " DB_T_MAIN " "
+                "   WHERE " DB_F_MAIN_IS_LEARNED " = 0;";
 
             bool bRv = qryWordsNotLearned.exec(sql);
             qCHECK_REF(bRv, qryWordsNotLearned);
@@ -1018,16 +1016,16 @@ Main::slot_cboDictPath_OnCurrentIndexChanged(
             wordsNotLearned = qryWordsNotLearned.value(0).toInt();
         }
 
-        cQString dictInfo =
-            QString(tr("&nbsp;&nbsp;&nbsp;<b>All</b>: %1 (%2)"
-                       "&nbsp;&nbsp;&nbsp;<b>Learned</b>: %3 (%4)"
-                       "&nbsp;&nbsp;&nbsp;<b>Not learned:</b> %5 (%6)"))
-                        .arg( wordsAll )
-                        .arg( qS2QS(xlib::core::String::formatPercentage(wordsAll, wordsAll)) )
-                        .arg( wordsLearned )
-                        .arg( qS2QS(xlib::core::String::formatPercentage(wordsAll, wordsLearned)) )
-                        .arg( wordsNotLearned )
-                        .arg( qS2QS(xlib::core::String::formatPercentage(wordsAll, wordsNotLearned)) );
+        cQString dictInfo = QString(
+            tr("&nbsp;&nbsp;&nbsp;<b>All</b>: %1 (%2)"
+            "&nbsp;&nbsp;&nbsp;<b>Learned</b>: %3 (%4)"
+            "&nbsp;&nbsp;&nbsp;<b>Not learned:</b> %5 (%6)"))
+            .arg( wordsAll )
+            .arg( qS2QS(xlib::core::String::formatPercentage(wordsAll, wordsAll)) )
+            .arg( wordsLearned )
+            .arg( qS2QS(xlib::core::String::formatPercentage(wordsAll, wordsLearned)) )
+            .arg( wordsNotLearned )
+            .arg( qS2QS(xlib::core::String::formatPercentage(wordsAll, wordsNotLearned)) );
 
         ui.lblDictInfo->setText(dictInfo);
     }
@@ -1076,7 +1074,8 @@ Main::cboDictPath_reload()
 
     std::vec_tstring_t dicts;
 
-    xlib::io::Finder::files(qQS2S(_dbDir), xlib::core::String::format(xT("*%s"), xT(DB_FILE_EXT) ), true, &dicts);
+    xlib::io::Finder::files(qQS2S(_dbDir), xlib::core::String::format(xT("*%s"), xT(DB_FILE_EXT)),
+        true, &dicts);
 
     xFOREACH(std::vec_tstring_t, it, dicts) {
         cQString dict = qS2QS( it->erase(0, (qQS2S(_dbDir) + xlib::core::Const::slash()).size()) );
@@ -1134,12 +1133,12 @@ Main::dbOpen(
             QSqlQuery qryTags(*_dbDatabase);
 
             cQString sql =
-                    "CREATE TABLE IF NOT EXISTS "
-                    "    " DB_T_TAGS
-                    "( "
-                    "    " DB_F_TAGS_ID   " integer PRIMARY KEY AUTOINCREMENT UNIQUE, "
-                    "    " DB_F_TAGS_NAME " varchar(255) DEFAULT '' UNIQUE "
-                    ")";
+                "CREATE TABLE IF NOT EXISTS "
+                "    " DB_T_TAGS
+                "( "
+                "    " DB_F_TAGS_ID   " integer PRIMARY KEY AUTOINCREMENT UNIQUE, "
+                "    " DB_F_TAGS_NAME " varchar(255) DEFAULT '' UNIQUE "
+                ")";
 
             bRv = qryTags.exec(sql);
             qCHECK_REF(bRv, qryTags);
@@ -1150,18 +1149,18 @@ Main::dbOpen(
             QSqlQuery qryMain(*_dbDatabase);
 
             cQString sql =
-                    "CREATE TABLE IF NOT EXISTS "
-                    "    " DB_T_MAIN
-                    "( "
-                    "    " DB_F_MAIN_ID         " integer PRIMARY KEY AUTOINCREMENT UNIQUE, "
-                    "    " DB_F_MAIN_TERMIN     " varchar(255) UNIQUE, "
-                    "    " DB_F_MAIN_VALUE      " varchar(255) DEFAULT '', "
-                    "    " DB_F_MAIN_IS_LEARNED " integer      DEFAULT 0, "
-                    "    " DB_F_MAIN_IS_MARKED  " integer      DEFAULT 0, "
-                    "    " DB_F_MAIN_TAG        " varchar(255) DEFAULT '', "
-                    " "
-                    "    FOREIGN KEY (" DB_F_MAIN_TAG ") REFERENCES " DB_T_TAGS "(" DB_F_TAGS_NAME ")"
-                    ")";
+                "CREATE TABLE IF NOT EXISTS "
+                "    " DB_T_MAIN
+                "( "
+                "    " DB_F_MAIN_ID         " integer PRIMARY KEY AUTOINCREMENT UNIQUE, "
+                "    " DB_F_MAIN_TERMIN     " varchar(255) UNIQUE, "
+                "    " DB_F_MAIN_VALUE      " varchar(255) DEFAULT '', "
+                "    " DB_F_MAIN_IS_LEARNED " integer      DEFAULT 0, "
+                "    " DB_F_MAIN_IS_MARKED  " integer      DEFAULT 0, "
+                "    " DB_F_MAIN_TAG        " varchar(255) DEFAULT '', "
+                " "
+                "    FOREIGN KEY (" DB_F_MAIN_TAG ") REFERENCES " DB_T_TAGS "(" DB_F_TAGS_NAME ")"
+                ")";
 
             bRv = qryMain.exec(sql);
             qCHECK_REF(bRv, qryMain);
@@ -1173,7 +1172,6 @@ Main::dbOpen(
         qTEST(_model == Q_NULLPTR);
 
         _model = new QSqlTableModel(this, *_dbDatabase);
-
         _model->setTable(DB_T_MAIN);
         _model->setHeaderData(0, Qt::Horizontal, tr("Id"),      Qt::DisplayRole);
         _model->setHeaderData(1, Qt::Horizontal, tr("Term"),    Qt::DisplayRole);
@@ -1257,6 +1255,8 @@ Main::_googleSpeech(
     cQString &a_filePath
 )
 {
+    bool bRv = false;
+
     // request to Google
     {
         cQString              urlStr = "http://translate.google.ru/translate_tts?&q=" +
@@ -1268,7 +1268,7 @@ Main::_googleSpeech(
         QNetworkReply *reply = manager.get(request);
         qTEST_PTR(reply);
 
-        for ( ;; ) {
+        for ( ; ; ) {
             QCoreApplication::processEvents(QEventLoop::ExcludeUserInputEvents);
 
             qCHECK_DO( reply->isFinished(), break);
@@ -1277,8 +1277,7 @@ Main::_googleSpeech(
         // write to audio file
         {
             QFile file(a_filePath);
-
-            bool bRv = file.open(QIODevice::WriteOnly);
+            bRv = file.open(QIODevice::WriteOnly);
             qTEST(bRv);
 
             file.write(reply->readAll());
@@ -1463,7 +1462,7 @@ Main::_settingsSave()
 
     // shortcuts
     settings.beginGroup("shortcuts");
-    settings.setValue("show_hide",      _scShowHide.shortcut().toString());
+    settings.setValue("show_hide",        _scShowHide.shortcut().toString());
     settings.setValue("import_clipboard", _scImportClipboard.shortcut().toString());
     settings.endGroup();
 }
@@ -1475,8 +1474,6 @@ Main::_exportfileNameBuild(
 {
     qCHECK_RET(_model->rowCount() <= 0, QString());
 
-    QString sRv;
-
     cQString tag = _model->record(0).value(DB_F_MAIN_TAG).toString().trimmed();
 
     QString baseName;
@@ -1487,7 +1484,7 @@ Main::_exportfileNameBuild(
         }
     }
 
-    sRv = baseName + tag + a_fileExt;
+    QString sRv = baseName + tag + a_fileExt;
 
     return sRv;
 }
