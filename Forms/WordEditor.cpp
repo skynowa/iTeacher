@@ -24,7 +24,7 @@ WordEditor::WordEditor(
     QSqlTableModel      *a_tableModel,
     qtlib::SqlNavigator *a_sqlNavigator,
     cbool               &a_insertMode,
-    cQString            &a_terminNew /* = QString() */
+    cQString            &a_termNew /* = QString() */
 ) :
     QDialog       (a_parent),
     _isConstructed(false),
@@ -32,7 +32,7 @@ WordEditor::WordEditor(
     _sqlNavigator (a_sqlNavigator),
     _currentRow   (a_sqlNavigator->view()->currentIndex().row()),
     _insertMode   (a_insertMode),
-    _terminNew    (a_terminNew.trimmed()),
+    _termNew      (a_termNew.trimmed()),
     _plInfoDefault()
 {
     qTEST_PTR(a_parent);
@@ -94,7 +94,7 @@ WordEditor::_construct()
 
     // shortcuts
     {
-        // termin translate (Ctrl+Return)
+        // term translate (Ctrl+Return)
         QShortcut *shortcut = new QShortcut(this);
         shortcut->setKey(QKeySequence(Qt::CTRL + Qt::Key_Return));
 
@@ -117,9 +117,9 @@ WordEditor::_construct()
 
         QSqlRecord record = _model->record(_currentRow);
 
-        // termin, value
+        // term, value
         {
-            ui.tedtTermin->setText( record.value(DB_F_MAIN_TERMIN).toString() );
+            ui.tedtTerm->setText( record.value(DB_F_MAIN_TERM).toString() );
             ui.tedtValueBrief->setText( record.value(DB_F_MAIN_VALUE).toString() );
             ui.tedtValueDetail->clear();
             ui.tedtValueWeb->clear();
@@ -152,9 +152,9 @@ WordEditor::_construct()
             _plInfoDefault = ui.lblInfo->palette();
         }
 
-        // check termin
-        if (!_terminNew.isEmpty()) {
-            ui.tedtTermin->setText(_terminNew);
+        // check term
+        if (!_termNew.isEmpty()) {
+            ui.tedtTerm->setText(_termNew);
 
             slot_check();
             _languagesAutoDetect();
@@ -174,8 +174,8 @@ WordEditor::_construct()
 
         // set focus
         {
-            ui.tedtTermin->selectAll();
-            ui.tedtTermin->setFocus();
+            ui.tedtTerm->selectAll();
+            ui.tedtTerm->setFocus();
         }
     }
 
@@ -202,7 +202,7 @@ WordEditor::_destruct()
 void
 WordEditor::_resetAll()
 {
-    ui.tedtTermin->clear();
+    ui.tedtTerm->clear();
     ui.tedtValueBrief->clear();
     ui.tedtValueDetail->clear();
     ui.tedtValueWeb->clear();
@@ -226,10 +226,10 @@ WordEditor::_saveAll(
     bool bRv        = false;
     int  currentRow = - 1;
 
-    // normilize termin, value
+    // normilize term, value
     {
-        cQString termNorm = ui.tedtTermin->toPlainText().trimmed();
-        ui.tedtTermin->setPlainText(termNorm);
+        cQString termNorm = ui.tedtTerm->toPlainText().trimmed();
+        ui.tedtTerm->setPlainText(termNorm);
 
         cQString valueNorm = ui.tedtValueBrief->toPlainText().trimmed();
         ui.tedtValueBrief->setPlainText(valueNorm);
@@ -237,7 +237,7 @@ WordEditor::_saveAll(
 
     // checks
     {
-        if (ui.tedtTermin->toPlainText().isEmpty()) {
+        if (ui.tedtTerm->toPlainText().isEmpty()) {
             *a_code = QDialog::Rejected;
             return;
         }
@@ -257,12 +257,12 @@ WordEditor::_saveAll(
         int iRv = ui.cboLangFrom->currentText().compare(LANG_EN, Qt::CaseInsensitive);
         if (iRv == 0) {
             // en-ru
-            record.setValue(DB_F_MAIN_TERMIN, ui.tedtTermin->toPlainText());
+            record.setValue(DB_F_MAIN_TERM, ui.tedtTerm->toPlainText());
             record.setValue(DB_F_MAIN_VALUE,  ui.tedtValueBrief->toPlainText());
         } else {
             // ru-en
-            record.setValue(DB_F_MAIN_TERMIN, ui.tedtValueBrief->toPlainText());
-            record.setValue(DB_F_MAIN_VALUE,  ui.tedtTermin->toPlainText());
+            record.setValue(DB_F_MAIN_TERM, ui.tedtValueBrief->toPlainText());
+            record.setValue(DB_F_MAIN_VALUE,  ui.tedtTerm->toPlainText());
         }
 
         record.setValue(DB_F_MAIN_TAG,        ui.cboTags->currentText());
@@ -278,7 +278,7 @@ WordEditor::_saveAll(
         QString msg;
 
         if (19 == _model->lastError().number()) {
-            msg = QString(tr("Save fail: termin is exists"));
+            msg = QString(tr("Save fail: term is exists"));
         } else {
             msg = QString(tr("Save fail: %1 - %2"))
                                 .arg(_model->lastError().number())
@@ -309,7 +309,7 @@ WordEditor::_settingsLoad()
         settings.beginGroup("word_editor");
         size              = settings.value("size", QSize(APP_WIDTH, APP_HEIGHT)).toSize();
         position          = settings.value("position", QPoint(200, 200)).toPoint();
-        isTerminLowerCase = settings.value("termin_lower_case", true).toBool();
+        isTerminLowerCase = settings.value("term_lower_case", true).toBool();
         settings.endGroup();
     }
 
@@ -331,13 +331,13 @@ WordEditor::_settingsSave()
     settings.beginGroup("word_editor");
     settings.setValue("size", size());
     settings.setValue("position", pos());
-    settings.setValue("termin_lower_case", ui.chkLowerCase->isChecked());
+    settings.setValue("term_lower_case", ui.chkLowerCase->isChecked());
     settings.endGroup();
 }
 //-------------------------------------------------------------------------------------------------
 bool
 WordEditor::_isTerminExists(
-    cQString &a_termin
+    cQString &a_term
 )
 {
     bool      bRv = false;
@@ -346,7 +346,7 @@ WordEditor::_isTerminExists(
     cQString sql =
         "SELECT COUNT(*) AS f_records_count "
         "   FROM  " DB_T_MAIN " "
-        "   WHERE " DB_F_MAIN_TERMIN " LIKE '" + a_termin.trimmed() + "';";
+        "   WHERE " DB_F_MAIN_TERM " LIKE '" + a_term.trimmed() + "';";
 
     bRv = qryQuery.exec(sql);
     qCHECK_REF(bRv, qryQuery);
@@ -362,13 +362,13 @@ WordEditor::_isTerminExists(
 void
 WordEditor::_languagesAutoDetect()
 {
-    qCHECK_DO(_terminNew.isEmpty(), return);
+    qCHECK_DO(_termNew.isEmpty(), return);
 
     WordEditor::Language langFrom;
     WordEditor::Language langTo;
     QString              langCodeFrom;
     QString              langCodeTo;
-    _googleLanguagesDetect(_terminNew, &langFrom, &langTo, &langCodeFrom, &langCodeTo);
+    _googleLanguagesDetect(_termNew, &langFrom, &langTo, &langCodeFrom, &langCodeTo);
 
     // TODO: QComboBox::findText: case-insensitive
     cint indexFrom = ui.cboLangFrom->findText(langCodeFrom);
@@ -640,7 +640,7 @@ WordEditor::slot_pbtnLangsSwap_OnClicked()
 void
 WordEditor::slot_translate()
 {
-    if (ui.tedtTermin->toPlainText().isEmpty()) {
+    if (ui.tedtTerm->toPlainText().isEmpty()) {
         ui.tedtValueBrief->clear();
         ui.tedtValueDetail->clear();
         ui.tedtValueWeb->clear();
@@ -649,7 +649,7 @@ WordEditor::slot_translate()
         return;
     }
 
-    QString  textFrom = ui.tedtTermin->toPlainText();
+    QString  textFrom = ui.tedtTerm->toPlainText();
     cQString langFrom = ui.cboLangFrom->currentText();
     cQString langTo   = ui.cboLangTo->currentText();
     QString  textToBrief;
@@ -663,7 +663,7 @@ WordEditor::slot_translate()
 
     _googleTranslate(textFrom, langFrom, langTo, &textToBrief, &textToDetail, &textToRaw);
 
-    ui.tedtTermin->setText(textFrom);
+    ui.tedtTerm->setText(textFrom);
     ui.tedtValueBrief->setText(textToBrief);
     ui.tedtValueDetail->setText(textToDetail);
     ui.tedtValueWeb->setHtml(textToRaw);
@@ -679,13 +679,13 @@ WordEditor::slot_check()
 
     QString termMinimized;
     {
-        termMinimized = ui.tedtTermin->toPlainText().trimmed();
+        termMinimized = ui.tedtTerm->toPlainText().trimmed();
         termMinimized = qS2QS(xlib::core::String::minimize(qQS2S(termMinimized),
-            TERMIN_MINIMIZED_SIZE_MAX));
+            TERM_MINIMIZED_SIZE_MAX));
     }
 
-    // is termin empty
-    bRv = ui.tedtTermin->toPlainText().trimmed().isEmpty();
+    // is term empty
+    bRv = ui.tedtTerm->toPlainText().trimmed().isEmpty();
     if (bRv) {
         msg = QString(tr("Termin is an empty"));
 
@@ -700,10 +700,10 @@ WordEditor::slot_check()
         return false;
     }
 
-    // is termin exists
-    bRv = _isTerminExists( ui.tedtTermin->toPlainText() );
+    // is term exists
+    bRv = _isTerminExists( ui.tedtTerm->toPlainText() );
     if (bRv && _insertMode) {
-        // insert: termin already exists (false)
+        // insert: term already exists (false)
         msg = QString(tr("Termin '%1' already exists")).arg(termMinimized);
 
         QPalette pallete = ui.lblInfo->palette();
@@ -717,7 +717,7 @@ WordEditor::slot_check()
         return false;
     }
     else if (bRv && !_insertMode) {
-        // edit: termin already exists (true)
+        // edit: term already exists (true)
     #if 1
         msg = QString(tr("Termin '%1' now editing")).arg(termMinimized);
 
@@ -733,7 +733,7 @@ WordEditor::slot_check()
         return true;
     }
     else {
-        // ok, termin is a new
+        // ok, term is a new
         msg = QString(tr("Termin '%1' is a new")).arg(termMinimized);
 
         ::qSwap(plInfo, _plInfoDefault);

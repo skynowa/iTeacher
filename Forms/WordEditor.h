@@ -25,7 +25,7 @@ public:
 
                      WordEditor(QWidget *parent, QSqlTableModel *tableModel,
                          qtlib::SqlNavigator *sqlNavigator, cbool &inserMode,
-                         cQString &terminNew = QString());
+                         cQString &termNew = QString());
     virtual         ~WordEditor();
 
     bool             isConstructed() const;
@@ -36,7 +36,7 @@ private:
     qtlib::SqlNavigator *_sqlNavigator;
     cint             _currentRow;
     cbool            _insertMode;
-    cQString         _terminNew;
+    cQString         _termNew;
 
     QPalette         _plInfoDefault;
 
@@ -49,7 +49,7 @@ private:
     void             _settingsLoad();
     void             _settingsSave();
 
-    bool             _isTerminExists(cQString &termin);
+    bool             _isTerminExists(cQString &term);
     void             _languagesAutoDetect();
         ///< auto detect translating languages
 

@@ -17,7 +17,7 @@
    <item row="0" column="0">
     <widget class="QLabel" name="label_2">
      <property name="text">
-      <string>Termin</string>
+      <string>Term</string>
      </property>
     </widget>
    </item>
@@ -167,7 +167,7 @@
     </widget>
    </item>
    <item row="1" column="0" colspan="2">
-    <widget class="QTextEdit" name="tedtTermin">
+    <widget class="QTextEdit" name="tedtTerm">
      <property name="minimumSize">
       <size>
        <width>0</width>
@@ -364,7 +364,7 @@
   </layout>
  </widget>
  <tabstops>
-  <tabstop>tedtTermin</tabstop>
+  <tabstop>tedtTerm</tabstop>
   <tabstop>tedtValueBrief</tabstop>
   <tabstop>cboTags</tabstop>
   <tabstop>bbxButtons</tabstop>

@@ -439,7 +439,7 @@ Main::slot_OnImportCsv()
     // DB field names
     QVector<QString> fieldNames;
 
-    fieldNames.push_back(DB_F_MAIN_TERMIN);
+    fieldNames.push_back(DB_F_MAIN_TERM);
     fieldNames.push_back(DB_F_MAIN_VALUE);
     fieldNames.push_back(DB_F_MAIN_IS_LEARNED);
     fieldNames.push_back(DB_F_MAIN_IS_MARKED);
@@ -519,12 +519,12 @@ Main::slot_OnExportCsv()
         switch (_exportOrder) {
         case eoTerminValue:
         default:
-            fieldNames.push_back(DB_F_MAIN_TERMIN);
+            fieldNames.push_back(DB_F_MAIN_TERM);
             fieldNames.push_back(DB_F_MAIN_VALUE);
             break;
         case eoValueTermin:
             fieldNames.push_back(DB_F_MAIN_VALUE);
-            fieldNames.push_back(DB_F_MAIN_TERMIN);
+            fieldNames.push_back(DB_F_MAIN_TERM);
             break;
         }
 
@@ -564,7 +564,7 @@ Main::slot_OnExportPdf()
         switch (_exportOrder) {
         case eoTerminValue:
         default:
-            html.push_back( _model->record(i).value(DB_F_MAIN_TERMIN).toString() );
+            html.push_back( _model->record(i).value(DB_F_MAIN_TERM).toString() );
             html.push_back("\n - ");
             html.push_back( _model->record(i).value(DB_F_MAIN_VALUE).toString() );
             html.push_back("<br>");
@@ -572,7 +572,7 @@ Main::slot_OnExportPdf()
         case eoValueTermin:
             html.push_back( _model->record(i).value(DB_F_MAIN_VALUE).toString() );
             html.push_back("\n - ");
-            html.push_back( _model->record(i).value(DB_F_MAIN_TERMIN).toString() );
+            html.push_back( _model->record(i).value(DB_F_MAIN_TERM).toString() );
             html.push_back("<br>");
             break;
         }
@@ -682,7 +682,7 @@ Main::slot_OnRemove()
         cint       currentRow = _sqlNavigator.view()->currentIndex().row();
         QSqlRecord record     = _sqlNavigator.model()->record(currentRow);
 
-        cQString   wordTerm   = record.value(DB_F_MAIN_TERMIN).toString();
+        cQString   wordTerm   = record.value(DB_F_MAIN_TERM).toString();
         cQString   wordValue  = record.value(DB_F_MAIN_VALUE).toString();
 
         text            = QString(tr("Remove record number %1?"))
@@ -777,12 +777,12 @@ Main::slot_OnPlayWord()
         cint       currentRow = ui.tvInfo->currentIndex().row();
         QSqlRecord record     = _model->record(currentRow);
 
-        text = record.value(DB_F_MAIN_TERMIN).toString();
+        text = record.value(DB_F_MAIN_TERM).toString();
     }
 
     QString audioFilePath;
     {
-        audioFilePath = _tempDir + QDir::separator() + AUDIO_WORD_FILE_NAME;
+        audioFilePath = _tempDir + QDir::separator() + AUDIO_TERM_FILE_NAME;
     }
 
     _googleSpeech(text, LANG_EN, audioFilePath);
@@ -801,7 +801,7 @@ Main::slot_OnPlayTranslation()
 
     QString audioFilePath;
     {
-        audioFilePath = _tempDir + QDir::separator() + AUDIO_TRANSLATION_FILE_NAME;
+        audioFilePath = _tempDir + QDir::separator() + AUDIO_VALUE_FILE_NAME;
     }
 
     _googleSpeech(text, LANG_RU, audioFilePath);
@@ -1153,7 +1153,7 @@ Main::dbOpen(
                 "    " DB_T_MAIN
                 "( "
                 "    " DB_F_MAIN_ID         " integer PRIMARY KEY AUTOINCREMENT UNIQUE, "
-                "    " DB_F_MAIN_TERMIN     " varchar(255) UNIQUE, "
+                "    " DB_F_MAIN_TERM     " varchar(255) UNIQUE, "
                 "    " DB_F_MAIN_VALUE      " varchar(255) DEFAULT '', "
                 "    " DB_F_MAIN_IS_LEARNED " integer      DEFAULT 0, "
                 "    " DB_F_MAIN_IS_MARKED  " integer      DEFAULT 0, "
