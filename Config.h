@@ -53,7 +53,7 @@
 #define DB_F_TAGS_ID            "f_tags_id"
 #define DB_F_TAGS_NAME          "f_tags_name"
 
-#define TVTAGS_COLUMN_WIDTH_0   200
+#define TVTAGS_COLUMN_WIDTH_0   50
 #define TVTAGS_COLUMN_WIDTH_1   200
 
 // audio

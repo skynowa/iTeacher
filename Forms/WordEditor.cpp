@@ -129,15 +129,21 @@ WordEditor::_construct()
         // tags
         {
             QSqlQuery query;
-            query.prepare("SELECT " DB_F_TAGS_NAME " FROM " DB_T_TAGS ";");
+            query.prepare("SELECT " DB_F_TAGS_ID ", " DB_F_TAGS_NAME " FROM " DB_T_TAGS ";");
             bool rv = query.exec();
             qCHECK_REF(rv, query);
 
             for ( ; query.next(); ) {
-                ui.cboTags->addItem( query.value(0).toString() );
+                qDebug() << qDEBUG_VAR(query.value(0));
+                qDebug() << qDEBUG_VAR(query.value(1).toString());
+                ui.cboTags->addItem(query.value(1).toString(), query.value(0));
             }
 
-            cint index = ui.cboTags->findText( record.value(DB_F_MAIN_TAG).toString() );
+            cQVariant id = record.value(QString(DB_F_MAIN_TAG));
+            qDebug() << qDEBUG_VAR(id);
+
+            cint index = ui.cboTags->findData(id);
+            qDebug() << qDEBUG_VAR(index);
             ui.cboTags->setCurrentIndex(index);
         }
 
@@ -257,15 +263,17 @@ WordEditor::_saveAll(
         int iRv = ui.cboLangFrom->currentText().compare(LANG_EN, Qt::CaseInsensitive);
         if (iRv == 0) {
             // en-ru
-            record.setValue(DB_F_MAIN_TERM, ui.tedtTerm->toPlainText());
-            record.setValue(DB_F_MAIN_VALUE,  ui.tedtValueBrief->toPlainText());
+            record.setValue(DB_F_MAIN_TERM,  ui.tedtTerm->toPlainText());
+            record.setValue(DB_F_MAIN_VALUE, ui.tedtValueBrief->toPlainText());
         } else {
             // ru-en
-            record.setValue(DB_F_MAIN_TERM, ui.tedtValueBrief->toPlainText());
-            record.setValue(DB_F_MAIN_VALUE,  ui.tedtTerm->toPlainText());
+            record.setValue(DB_F_MAIN_TERM,  ui.tedtValueBrief->toPlainText());
+            record.setValue(DB_F_MAIN_VALUE, ui.tedtTerm->toPlainText());
         }
 
-        record.setValue(DB_F_MAIN_TAG,        ui.cboTags->currentText());
+        qDebug() << qDEBUG_VAR(ui.cboTags->currentData().toInt());
+
+        record.setValue(DB_F_MAIN_TAG,        ui.cboTags->currentData());
         record.setValue(DB_F_MAIN_IS_LEARNED, ui.chkIsLearned->isChecked());
         record.setValue(DB_F_MAIN_IS_MARKED,  ui.chkIsMarked->isChecked());
     }

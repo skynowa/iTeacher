@@ -1159,8 +1159,8 @@ Main::_dbOpen(
                 "CREATE TABLE IF NOT EXISTS "
                 "    " DB_T_TAGS
                 "( "
-             // "    " DB_F_TAGS_ID   " integer PRIMARY KEY AUTOINCREMENT UNIQUE, "
-                "    " DB_F_TAGS_NAME " varchar(255) PRIMARY KEY DEFAULT '' UNIQUE"
+                "    " DB_F_TAGS_ID   " integer PRIMARY KEY AUTOINCREMENT UNIQUE, "
+                "    " DB_F_TAGS_NAME " varchar(255) DEFAULT '' UNIQUE"
                 ")";
 
             bRv = qryTags.exec(sql);
@@ -1180,9 +1180,9 @@ Main::_dbOpen(
                 "    " DB_F_MAIN_VALUE      " varchar(255) DEFAULT '', "
                 "    " DB_F_MAIN_IS_LEARNED " integer      DEFAULT 0, "
                 "    " DB_F_MAIN_IS_MARKED  " integer      DEFAULT 0, "
-                "    " DB_F_MAIN_TAG        " varchar(255) DEFAULT '', "
+                "    " DB_F_MAIN_TAG        " integer      NOT NULL, "
                 " "
-                "    FOREIGN KEY (" DB_F_MAIN_TAG ") REFERENCES " DB_T_TAGS "(" DB_F_TAGS_NAME ") "
+                "    FOREIGN KEY (" DB_F_MAIN_TAG ") REFERENCES " DB_T_TAGS "(" DB_F_TAGS_ID ") "
                 "    ON UPDATE CASCADE "
                 ")";
 
@@ -1195,8 +1195,10 @@ Main::_dbOpen(
     {
         qTEST(_model == Q_NULLPTR);
 
-        _model = new QSqlTableModel(this, *_db);
+        _model = new QSqlRelationalTableModel(this, *_db);
         _model->setTable(DB_T_MAIN);
+        _model->setJoinMode(QSqlRelationalTableModel::LeftJoin);
+        _model->setRelation(5, QSqlRelation(DB_T_TAGS, DB_F_TAGS_ID, DB_F_TAGS_NAME));
         _model->setHeaderData(0, Qt::Horizontal, tr("Id"),      Qt::DisplayRole);
         _model->setHeaderData(1, Qt::Horizontal, tr("Term"),    Qt::DisplayRole);
         _model->setHeaderData(2, Qt::Horizontal, tr("Value"),   Qt::DisplayRole);

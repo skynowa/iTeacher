@@ -53,7 +53,7 @@ private:
 
     // DB
     QSqlDatabase   *_db;
-    QSqlTableModel *_model;
+    QSqlRelationalTableModel *_model;
     qtlib::SqlNavigator _sqlNavigator;
 
     void            _dbOpen(cQString &filePath);
