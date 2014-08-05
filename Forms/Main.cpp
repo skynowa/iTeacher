@@ -96,7 +96,6 @@ Main::keyPressEvent(
 )
 {
     switch (a_event->key()) {
-    // minimize on pressing escape
     case Qt::Key_Escape:
         setWindowState(Qt::WindowMinimized);
         break;
@@ -180,27 +179,25 @@ Main::_initMain()
     }
 
     // tray icon
-    {
+    if (QSystemTrayIcon::isSystemTrayAvailable()) {
         qDebug() << qDEBUG_VAR(QSystemTrayIcon::isSystemTrayAvailable());
 
-        if (QSystemTrayIcon::isSystemTrayAvailable()) {
-            // mnuTrayIcon
-            QMenu *mnuTrayIcon = new QMenu(this);
-            mnuTrayIcon->addMenu(ui.menuFile);
-            mnuTrayIcon->addMenu(ui.menuEdit);
-            mnuTrayIcon->addMenu(ui.menuAudio);
-            mnuTrayIcon->addMenu(ui.menuFind);
-            mnuTrayIcon->addMenu(ui.menuView);
-            mnuTrayIcon->addMenu(ui.menuOptions);
-            mnuTrayIcon->addMenu(ui.menuHelp);
-            mnuTrayIcon->addSeparator();
+        // mnuTrayIcon
+        QMenu *mnuTrayIcon = new QMenu(this);
+        mnuTrayIcon->addMenu(ui.menuFile);
+        mnuTrayIcon->addMenu(ui.menuEdit);
+        mnuTrayIcon->addMenu(ui.menuAudio);
+        mnuTrayIcon->addMenu(ui.menuFind);
+        mnuTrayIcon->addMenu(ui.menuView);
+        mnuTrayIcon->addMenu(ui.menuOptions);
+        mnuTrayIcon->addMenu(ui.menuHelp);
+        mnuTrayIcon->addSeparator();
 
-            // _trayIcon
-            _trayIcon.setIcon( QIcon(RES_MAIN_PNG) );
-            _trayIcon.setToolTip( qlApp->applicationName() );
-            _trayIcon.setContextMenu(mnuTrayIcon);
-            _trayIcon.show();
-        }
+        // _trayIcon
+        _trayIcon.setIcon( QIcon(RES_MAIN_PNG) );
+        _trayIcon.setToolTip( qlApp->applicationName() );
+        _trayIcon.setContextMenu(mnuTrayIcon);
+        _trayIcon.show();
     }
 }
 //-------------------------------------------------------------------------------------------------
@@ -755,9 +752,7 @@ Main::slot_OnMarked()
     cint currentRow = _sqlNavigator.view()->currentIndex().row();
 
     QSqlRecord record = _model->record(currentRow);
-    {
-        record.setValue(DB_F_MAIN_IS_MARKED,  !record.value(DB_F_MAIN_IS_MARKED).toBool() );
-    }
+    record.setValue(DB_F_MAIN_IS_MARKED,  !record.value(DB_F_MAIN_IS_MARKED).toBool() );
 
     bRv = _model->setRecord(currentRow, record);
     qCHECK_PTR(bRv, _model);
