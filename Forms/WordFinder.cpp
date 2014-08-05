@@ -59,7 +59,7 @@ WordFinder::_construct()
             }
         }
 
-        ui.cboTermin->setFocus();
+        ui.cboTerm->setFocus();
     }
 
     // tags
@@ -133,7 +133,7 @@ WordFinder::slot_bbxButtons_OnClicked(
 void
 WordFinder::_resetAll()
 {
-    ui.cboTermin->clear();
+    ui.cboTerm->clear();
     ui.cboValue->clear();
     ui.cboTags->setCurrentText("");
     ui.chkNotLearned->setChecked(false);
@@ -147,7 +147,7 @@ WordFinder::_saveAll()
 {
     qtlib::Utils::db_fields_t fields;
     {
-        fields.push_back( QPair<QString, QString>(DB_F_MAIN_TERM,  ui.cboTermin->currentText()) );
+        fields.push_back( QPair<QString, QString>(DB_F_MAIN_TERM,  ui.cboTerm->currentText()) );
         fields.push_back( QPair<QString, QString>(DB_F_MAIN_VALUE, ui.cboValue->currentText()) );
         fields.push_back( QPair<QString, QString>(DB_F_MAIN_TAG,   ui.cboTags->currentText()) );
     }
