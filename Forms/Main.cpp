@@ -74,15 +74,21 @@ Main::eventFilter(
 {
     // table zooming
     if (ui.tvInfo->viewport() == a_object) {
-        if (QEvent::Wheel == a_event->type()) {
-            QWheelEvent *inputEvent = static_cast<QWheelEvent *>( a_event );
-            if (inputEvent->modifiers() & Qt::ControlModifier) {
-                if (inputEvent->delta() > 0) {
-                    slot_OnZoomIn();
-                } else {
-                    slot_OnZoomOut();
+        switch (a_event->type()) {
+        case QEvent::Wheel:
+            {
+                QWheelEvent *inputEvent = static_cast<QWheelEvent *>( a_event );
+                if (inputEvent->modifiers() & Qt::ControlModifier) {
+                    if (inputEvent->delta() > 0) {
+                        slot_OnZoomIn();
+                    } else {
+                        slot_OnZoomOut();
+                    }
                 }
             }
+            break;
+        default:
+            break;
         }
     }
 
@@ -134,20 +140,13 @@ Main::_construct()
     _initMain();
     _initModel();
     _initActions();
-
     _settingsLoad();
-
-    // set focus
-    {
-        ui.cboDictPath->setFocus();
-    }
 }
 //-------------------------------------------------------------------------------------------------
 void
 Main::_destruct()
 {
     _settingsSave();
-
     dbClose();
 }
 //-------------------------------------------------------------------------------------------------
@@ -1426,6 +1425,8 @@ Main::_settingsLoad()
             _scShowHide.setShortcut( QKeySequence(shortcutShowHide) );
             _scImportClipboard.setShortcut( QKeySequence(shortcutImportClipboard) );
         }
+
+        ui.cboDictPath->setFocus();
     }
 }
 //-------------------------------------------------------------------------------------------------
