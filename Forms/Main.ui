@@ -122,6 +122,7 @@
     <property name="title">
      <string>Options</string>
     </property>
+    <addaction name="actOptions_TagsEditor"/>
     <addaction name="actOptions_Settings"/>
    </widget>
    <widget class="QMenu" name="menuHelp">
@@ -489,6 +490,17 @@
    </property>
    <property name="shortcut">
     <string>Ctrl+H</string>
+   </property>
+  </action>
+  <action name="actOptions_TagsEditor">
+   <property name="text">
+    <string>Tags Editor</string>
+   </property>
+   <property name="toolTip">
+    <string>Tags Editor</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+T</string>
    </property>
   </action>
  </widget>

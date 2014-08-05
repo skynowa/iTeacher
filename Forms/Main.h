@@ -110,6 +110,7 @@ private Q_SLOTS:
     void            slot_OnZoomDefault();
 
     // group "Options"
+    void            slot_OnTagsEditor();
     void            slot_OnSettings();
 
     // group "Help"

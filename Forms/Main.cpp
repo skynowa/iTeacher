@@ -12,6 +12,7 @@
 #include "../Classes/ComboBoxItemDelegate.h"
 #include "../Forms/WordEditor.h"
 #include "../Forms/WordFinder.h"
+#include "../Forms/TagsEditor.h"
 #include "../Forms/About.h"
 
 #include <QPrinter>
@@ -365,6 +366,9 @@ Main::_initActions()
 
     // group "Options"
     {
+        connect(ui.actOptions_TagsEditor,       SIGNAL( triggered() ),
+                this,                           SLOT  ( slot_OnTagsEditor() ));
+
         connect(ui.actOptions_Settings,         SIGNAL( triggered() ),
                 this,                           SLOT  ( slot_OnSettings() ));
     }
@@ -919,6 +923,14 @@ Main::slot_OnZoomDefault()
 
 //-------------------------------------------------------------------------------------------------
 void
+Main::slot_OnTagsEditor()
+{
+    TagsEditor dlgTagsEditor(this, *_dbDatabase);
+
+    (int)dlgTagsEditor.exec();
+}
+//-------------------------------------------------------------------------------------------------
+void
 Main::slot_OnSettings()
 {
     // TODO: slot_OnSettings
@@ -941,9 +953,9 @@ Main::slot_OnFaq()
 void
 Main::slot_OnAbout()
 {
-    About wndAbout(this, windowIcon());
+    About dlgAbout(this, windowIcon());
 
-    (int)wndAbout.exec();
+    (int)dlgAbout.exec();
 }
 //-------------------------------------------------------------------------------------------------
 void
