@@ -174,8 +174,6 @@ Main::_initMain()
 
     // tray icon
     if (QSystemTrayIcon::isSystemTrayAvailable()) {
-        qDebug() << qDEBUG_VAR(QSystemTrayIcon::isSystemTrayAvailable());
-
         // mnuTrayIcon
         QMenu *mnuTrayIcon = new QMenu(this);
         mnuTrayIcon->addMenu(ui.menuFile);
@@ -192,6 +190,8 @@ Main::_initMain()
         _trayIcon.setToolTip( qlApp->applicationName() );
         _trayIcon.setContextMenu(mnuTrayIcon);
         _trayIcon.show();
+    } else {
+        qDebug() << qDEBUG_VAR(QSystemTrayIcon::isSystemTrayAvailable());
     }
 }
 //-------------------------------------------------------------------------------------------------
