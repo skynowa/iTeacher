@@ -71,9 +71,9 @@ TagsEditor::_construct()
         ui.tvTags->verticalHeader()->setVisible(true);
         ui.tvTags->verticalHeader()->setDefaultSectionSize(TABLEVIEW_ROW_HEIGHT);
 
-        ui.tvTags->setEditTriggers(QAbstractItemView::NoEditTriggers);
-        ui.tvTags->setSelectionBehavior(QAbstractItemView::SelectRows);
-        ui.tvTags->setSelectionMode(QAbstractItemView::ExtendedSelection);
+        ui.tvTags->setEditTriggers(QAbstractItemView::SelectedClicked);
+        ui.tvTags->setSelectionBehavior(QAbstractItemView::SelectItems);
+        ui.tvTags->setSelectionMode(QAbstractItemView::SingleSelection);
         ui.tvTags->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
         ui.tvTags->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
         ui.tvTags->setAlternatingRowColors(true);
