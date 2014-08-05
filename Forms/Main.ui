@@ -84,7 +84,7 @@
     <addaction name="actFile_CreateDb"/>
     <addaction name="separator"/>
     <addaction name="actFile_ImportCsv"/>
-    <addaction name="actFile_ImportClipboard"/>
+    <addaction name="actFile_ClipboardImport"/>
     <addaction name="separator"/>
     <addaction name="actFile_ExportCsv"/>
     <addaction name="actFile_ExportPdf"/>
@@ -142,9 +142,9 @@
     <property name="title">
      <string>Audio</string>
     </property>
-    <addaction name="actEdit_PlayWordTranslation"/>
-    <addaction name="actEdit_PlayWord"/>
-    <addaction name="actEdit_PlayTranslation"/>
+    <addaction name="actEdit_PlayTermValue"/>
+    <addaction name="actEdit_PlayTerm"/>
+    <addaction name="actEdit_PlayValue"/>
    </widget>
    <addaction name="menuFile"/>
    <addaction name="menuEdit"/>
@@ -165,7 +165,7 @@
     <bool>false</bool>
    </attribute>
    <addaction name="actFile_Exit"/>
-   <addaction name="actFile_ImportClipboard"/>
+   <addaction name="actFile_ClipboardImport"/>
    <addaction name="separator"/>
    <addaction name="actEdit_First"/>
    <addaction name="actEdit_Prior"/>
@@ -173,9 +173,9 @@
    <addaction name="actEdit_Last"/>
    <addaction name="actEdit_To"/>
    <addaction name="separator"/>
-   <addaction name="actEdit_PlayWordTranslation"/>
-   <addaction name="actEdit_PlayWord"/>
-   <addaction name="actEdit_PlayTranslation"/>
+   <addaction name="actEdit_PlayTermValue"/>
+   <addaction name="actEdit_PlayTerm"/>
+   <addaction name="actEdit_PlayValue"/>
    <addaction name="separator"/>
    <addaction name="actEdit_Insert"/>
    <addaction name="actEdit_Delete"/>
@@ -405,7 +405,7 @@
     <string>Ctrl+G</string>
    </property>
   </action>
-  <action name="actFile_ImportClipboard">
+  <action name="actFile_ClipboardImport">
    <property name="icon">
     <iconset resource="../Resources/App.qrc">
      <normaloff>:/Menu/Menu/ImportClipboard.png</normaloff>:/Menu/Menu/ImportClipboard.png</iconset>
@@ -417,34 +417,40 @@
     <string>Ctrl+V</string>
    </property>
   </action>
-  <action name="actEdit_PlayWord">
+  <action name="actEdit_PlayTerm">
    <property name="icon">
     <iconset resource="../Resources/App.qrc">
      <normaloff>:/Menu/Menu/PlaySound.png</normaloff>:/Menu/Menu/PlaySound.png</iconset>
    </property>
    <property name="text">
-    <string>Play word</string>
+    <string>Play Term</string>
    </property>
    <property name="toolTip">
-    <string>Play word</string>
+    <string>Play Term</string>
    </property>
   </action>
-  <action name="actEdit_PlayTranslation">
+  <action name="actEdit_PlayValue">
    <property name="icon">
     <iconset resource="../Resources/App.qrc">
      <normaloff>:/Menu/Menu/PlaySound.png</normaloff>:/Menu/Menu/PlaySound.png</iconset>
    </property>
    <property name="text">
-    <string>Play translation</string>
+    <string>Play Value</string>
+   </property>
+   <property name="toolTip">
+    <string>Play Value</string>
    </property>
   </action>
-  <action name="actEdit_PlayWordTranslation">
+  <action name="actEdit_PlayTermValue">
    <property name="icon">
     <iconset resource="../Resources/App.qrc">
      <normaloff>:/Menu/Menu/PlaySound.png</normaloff>:/Menu/Menu/PlaySound.png</iconset>
    </property>
    <property name="text">
-    <string>Play word and translation</string>
+    <string>Play Term and Value</string>
+   </property>
+   <property name="toolTip">
+    <string>Play Term and Value</string>
    </property>
    <property name="shortcut">
     <string>Ctrl+P</string>

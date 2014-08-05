@@ -42,7 +42,7 @@ private:
     QSystemTrayIcon _trayIcon;
 
     qtlib::GlobalShortcut _scShowHide;
-    qtlib::GlobalShortcut _scImportClipboard;
+    qtlib::GlobalShortcut _scClipboardImport;
 
     void            _construct();
     void            _destruct();
@@ -52,7 +52,7 @@ private:
     void            _cboDictPath_reload();
 
     // DB
-    QSqlDatabase   *_dbDatabase;
+    QSqlDatabase   *_db;
     QSqlTableModel *_model;
     qtlib::SqlNavigator _sqlNavigator;
 
@@ -78,7 +78,7 @@ private Q_SLOTS:
     // group "File"
     void            slot_OnCreateDb();
     void            slot_OnImportCsv();
-    void            slot_OnImportClipboard();
+    void            slot_OnClipboardImport();
     void            slot_OnExportCsv();
     void            slot_OnExportPdf();
     void            slot_OnExit();
@@ -96,9 +96,9 @@ private Q_SLOTS:
     void            slot_OnMarked();
 
     // group "Audio"
-    void            slot_OnPlayWord();
-    void            slot_OnPlayTranslation();
-    void            slot_OnPlayWordTranslation();
+    void            slot_OnPlayTerm();
+    void            slot_OnPlayValue();
+    void            slot_OnPlayTermValue();
 
     // group "Find"
     void            slot_OnSearch();

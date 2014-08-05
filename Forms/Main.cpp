@@ -38,8 +38,8 @@ Main::Main(
     QMainWindow       (a_parent, a_flags),
     _trayIcon         (this),
     _scShowHide       (this),
-    _scImportClipboard(this),
-    _dbDatabase       (Q_NULLPTR),
+    _scClipboardImport(this),
+    _db               (Q_NULLPTR),
     _model            (Q_NULLPTR),
     _sqlNavigator     (this),
     _exportOrder      (eoUnknown)
@@ -285,8 +285,8 @@ Main::_initActions()
         connect(ui.actFile_ImportCsv,           SIGNAL( triggered() ),
                 this,                           SLOT  ( slot_OnImportCsv() ));
 
-        connect(ui.actFile_ImportClipboard,     SIGNAL( triggered() ),
-                this,                           SLOT  ( slot_OnImportClipboard() ));
+        connect(ui.actFile_ClipboardImport,     SIGNAL( triggered() ),
+                this,                           SLOT  ( slot_OnClipboardImport() ));
 
         connect(ui.actFile_ExportCsv,           SIGNAL( triggered() ),
                 this,                           SLOT  ( slot_OnExportCsv() ));
@@ -333,14 +333,14 @@ Main::_initActions()
 
     // audio
     {
-        connect(ui.actEdit_PlayWord,            SIGNAL( triggered() ),
-                this,                           SLOT  ( slot_OnPlayWord() ));
+        connect(ui.actEdit_PlayTerm,            SIGNAL( triggered() ),
+                this,                           SLOT  ( slot_OnPlayTerm() ));
 
-        connect(ui.actEdit_PlayTranslation,     SIGNAL( triggered() ),
-                this,                           SLOT  ( slot_OnPlayTranslation() ));
+        connect(ui.actEdit_PlayValue,           SIGNAL( triggered() ),
+                this,                           SLOT  ( slot_OnPlayValue() ));
 
-        connect(ui.actEdit_PlayWordTranslation, SIGNAL( triggered() ),
-                this,                           SLOT  ( slot_OnPlayWordTranslation() ));
+        connect(ui.actEdit_PlayTermValue,       SIGNAL( triggered() ),
+                this,                           SLOT  ( slot_OnPlayTermValue() ));
     }
 
     // group "Find"
@@ -393,8 +393,8 @@ Main::_initActions()
         connect(&_scShowHide, SIGNAL( activated() ),
                 this,         SLOT  ( slot_OnShowHide() ));
 
-        connect(&_scImportClipboard, SIGNAL( activated() ),
-                this,                SLOT  ( slot_OnImportClipboard() ));
+        connect(&_scClipboardImport, SIGNAL( activated() ),
+                this,                SLOT  ( slot_OnClipboardImport() ));
     }
 }
 //-------------------------------------------------------------------------------------------------
@@ -466,7 +466,7 @@ Main::slot_OnImportCsv()
 }
 //-------------------------------------------------------------------------------------------------
 void
-Main::slot_OnImportClipboard()
+Main::slot_OnClipboardImport()
 {
     bool bRv = false;
 
@@ -771,7 +771,7 @@ Main::slot_OnMarked()
 
 //-------------------------------------------------------------------------------------------------
 void
-Main::slot_OnPlayWord()
+Main::slot_OnPlayTerm()
 {
     QString text;
     {
@@ -791,7 +791,7 @@ Main::slot_OnPlayWord()
 }
 //-------------------------------------------------------------------------------------------------
 void
-Main::slot_OnPlayTranslation()
+Main::slot_OnPlayValue()
 {
     QString text;
     {
@@ -811,10 +811,10 @@ Main::slot_OnPlayTranslation()
 }
 //-------------------------------------------------------------------------------------------------
 void
-Main::slot_OnPlayWordTranslation()
+Main::slot_OnPlayTermValue()
 {
-    slot_OnPlayWord();
-    slot_OnPlayTranslation();
+    slot_OnPlayTerm();
+    slot_OnPlayValue();
 }
 //-------------------------------------------------------------------------------------------------
 
@@ -925,7 +925,7 @@ Main::slot_OnZoomDefault()
 void
 Main::slot_OnTagsEditor()
 {
-    TagsEditor dlgTagsEditor(this, *_dbDatabase);
+    TagsEditor dlgTagsEditor(this, *_db);
 
     (int)dlgTagsEditor.exec();
 }
@@ -976,7 +976,7 @@ Main::slot_cboDictPath_OnCurrentIndexChanged(
     {
         int wordsAll = 0;
         {
-            QSqlQuery qryWordsAll(*_dbDatabase);
+            QSqlQuery qryWordsAll(*_db);
 
             cQString sql =
                 "SELECT COUNT(*) AS f_records_count "
@@ -993,7 +993,7 @@ Main::slot_cboDictPath_OnCurrentIndexChanged(
 
         int wordsLearned = 0;
         {
-            QSqlQuery qryWordsLearned(*_dbDatabase);
+            QSqlQuery qryWordsLearned(*_db);
 
             cQString sql =
                 "SELECT COUNT(*) AS f_records_count "
@@ -1011,7 +1011,7 @@ Main::slot_cboDictPath_OnCurrentIndexChanged(
 
         int wordsNotLearned = 0;
         {
-            QSqlQuery qryWordsNotLearned(*_dbDatabase);
+            QSqlQuery qryWordsNotLearned(*_db);
 
             cQString sql =
                 "SELECT COUNT(*) AS f_records_count "
@@ -1061,7 +1061,7 @@ Main::slot_OnTrayActivated(
         slot_OnShowHide();
         break;
     case QSystemTrayIcon::MiddleClick:
-        slot_OnImportClipboard();
+        slot_OnClipboardImport();
         break;
     default:
         break;
@@ -1113,7 +1113,7 @@ Main::_dbOpen(
 
     QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
 
-    // _dbDatabase
+    // _db
     {
         // prepare DB directory
         {
@@ -1129,20 +1129,20 @@ Main::_dbOpen(
             qTEST( dir.exists() );
         }
 
-        qTEST(_dbDatabase == Q_NULLPTR);
+        qTEST(_db == Q_NULLPTR);
 
         bool bRv = QSqlDatabase::isDriverAvailable("QSQLITE");
         qCHECK_DO(!bRv, qMSG(QSqlDatabase().lastError().text()); return);
 
-        _dbDatabase = new QSqlDatabase(QSqlDatabase::addDatabase("QSQLITE"));
-        _dbDatabase->setDatabaseName(a_filePath);
+        _db = new QSqlDatabase(QSqlDatabase::addDatabase("QSQLITE"));
+        _db->setDatabaseName(a_filePath);
 
-        bRv = _dbDatabase->open();
-        qCHECK_PTR(bRv, _dbDatabase);
+        bRv = _db->open();
+        qCHECK_PTR(bRv, _db);
 
         // create DB - DB_T_TAGS
         {
-            QSqlQuery qryTags(*_dbDatabase);
+            QSqlQuery qryTags(*_db);
 
             cQString sql =
                 "CREATE TABLE IF NOT EXISTS "
@@ -1158,7 +1158,7 @@ Main::_dbOpen(
 
         // create DB - DB_T_MAIN
         {
-            QSqlQuery qryMain(*_dbDatabase);
+            QSqlQuery qryMain(*_db);
 
             cQString sql =
                 "CREATE TABLE IF NOT EXISTS "
@@ -1183,7 +1183,7 @@ Main::_dbOpen(
     {
         qTEST(_model == Q_NULLPTR);
 
-        _model = new QSqlTableModel(this, *_dbDatabase);
+        _model = new QSqlTableModel(this, *_db);
         _model->setTable(DB_T_MAIN);
         _model->setHeaderData(0, Qt::Horizontal, tr("Id"),      Qt::DisplayRole);
         _model->setHeaderData(1, Qt::Horizontal, tr("Term"),    Qt::DisplayRole);
@@ -1229,17 +1229,17 @@ Main::_dbClose()
         qPTR_DELETE(_model);
     }
 
-    // _dbDatabase
+    // _db
     {
-        if (_dbDatabase != Q_NULLPTR) {
-            qTEST(_dbDatabase->isOpen());
+        if (_db != Q_NULLPTR) {
+            qTEST(_db->isOpen());
 
-            cQString connectionName = _dbDatabase->connectionName();
+            cQString connectionName = _db->connectionName();
 
-            _dbDatabase->close();
-            qTEST(!_dbDatabase->isOpen());
+            _db->close();
+            qTEST(!_db->isOpen());
 
-            qPTR_DELETE(_dbDatabase);
+            qPTR_DELETE(_db);
 
             QSqlDatabase::removeDatabase(connectionName);
         }
@@ -1369,7 +1369,7 @@ Main::_settingsLoad()
     int         columnWidth5    = 0;
     ExportOrder exportOrder     = eoUnknown;
     QString     shortcutShowHide;
-    QString     shortcutImportClipboard;
+    QString     shortcutClipboardImport;
     {
         QSettings settings(qS2QS(xlib::core::Application::configPath()), QSettings::IniFormat, this);
 
@@ -1398,7 +1398,7 @@ Main::_settingsLoad()
         settings.beginGroup("shortcuts");
         // Sample: Ctrl+Shift+F12
         shortcutShowHide = settings.value("show_hide", "Shift+F1").toString();
-        shortcutImportClipboard = settings.value("import_clipboard", "F1").toString();
+        shortcutClipboardImport = settings.value("clipboard_import", "F1").toString();
         settings.endGroup();
     }
 
@@ -1435,7 +1435,7 @@ Main::_settingsLoad()
         // shortcuts
         {
             _scShowHide.setShortcut( QKeySequence(shortcutShowHide) );
-            _scImportClipboard.setShortcut( QKeySequence(shortcutImportClipboard) );
+            _scClipboardImport.setShortcut( QKeySequence(shortcutClipboardImport) );
         }
 
         ui.cboDictPath->setFocus();
@@ -1475,7 +1475,7 @@ Main::_settingsSave()
     // shortcuts
     settings.beginGroup("shortcuts");
     settings.setValue("show_hide",        _scShowHide.shortcut().toString());
-    settings.setValue("import_clipboard", _scImportClipboard.shortcut().toString());
+    settings.setValue("clipboard_import", _scClipboardImport.shortcut().toString());
     settings.endGroup();
 }
 //-------------------------------------------------------------------------------------------------
