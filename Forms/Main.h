@@ -30,7 +30,6 @@ protected:
     virtual void    keyPressEvent(QKeyEvent *event);
     virtual void    closeEvent(QCloseEvent *event);
 
-
 private:
     enum ExportOrder
     {
@@ -40,11 +39,6 @@ private:
     };
 
     Ui::UiMain      ui;
-    QString         _appName;
-    QString         _appDir;
-    QString         _dbDir;
-    QString         _dbBackupDir;
-    QString         _tempDir;
     QSystemTrayIcon _trayIcon;
 
     qtlib::SqlNavigator _sqlNavigator;

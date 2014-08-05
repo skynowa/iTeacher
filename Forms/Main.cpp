@@ -35,11 +35,6 @@ Main::Main(
     Qt::WindowFlags  a_flags
 ) :
     QMainWindow       (a_parent, a_flags),
-    _appName          (),
-    _appDir           (),
-    _dbDir            (),
-    _dbBackupDir      (),
-    _tempDir          (),
     _trayIcon         (this),
     _sqlNavigator     (this),
     _scShowHide       (this),
@@ -157,15 +152,15 @@ Main::_initMain()
 
     // data
     {
-        _appName     = QCoreApplication::applicationName();
-    #if defined(Q_OS_ANDROID)
-        _appDir      = QDir::homePath();
-    #else
-        _appDir      = qS2QS(xlib::core::Application::dirPath());
+    #if 0
+        // TODO: _appDir (Android)
+
+        #if defined(Q_OS_ANDROID)
+            _appDir = QDir::homePath();
+        #else
+            _appDir  = qS2QS(xlib::core::Application::dirPath());
+        #endif
     #endif
-        _dbDir       = qS2QS(xlib::core::Application::dbDirPath());
-        _dbBackupDir = qS2QS(xlib::core::Application::backupDirPath());
-        _tempDir     = qS2QS(xlib::core::Application::tempDirPath());
     }
 
     // Main
@@ -206,12 +201,14 @@ Main::_initModel()
     // open DB
     {
         if (ui.cboDictPath->currentText().isEmpty()) {
-            cQString dictPath = _dbDir + QDir::separator() + DB_FILE_NAME_EMPTY;
+            cQString dictPath = qS2QS(xlib::core::Application::dbDirPath()) + QDir::separator() +
+                DB_FILE_NAME_EMPTY;
 
             _dbOpen(dictPath);
             _cboDictPath_reload();
         } else {
-            cQString dictPath = _dbDir + QDir::separator() + ui.cboDictPath->currentText();
+            cQString dictPath = qS2QS(xlib::core::Application::dbDirPath()) + QDir::separator() +
+                ui.cboDictPath->currentText();
 
             _dbOpen(dictPath);
         }
@@ -408,11 +405,11 @@ Main::_initActions()
 void
 Main::slot_OnCreateDb()
 {
-    cQString dbName = QInputDialog::getText(this, _appName, tr("New DB file path:"),
-        QLineEdit::Normal, DB_FILE_EXT);
+    cQString dbName = QInputDialog::getText(this, qS2QS(xlib::core::Application::name()),
+        tr("New DB file path:"), QLineEdit::Normal, DB_FILE_EXT);
     qCHECK_DO(dbName.trimmed().isEmpty(), return);
 
-    cQString dictPath = _dbDir + QDir::separator() + dbName;
+    cQString dictPath = qS2QS(xlib::core::Application::dbDirPath()) + QDir::separator() + dbName;
 
     // reopen DB
     {
@@ -782,7 +779,8 @@ Main::slot_OnPlayWord()
 
     QString audioFilePath;
     {
-        audioFilePath = _tempDir + QDir::separator() + AUDIO_TERM_FILE_NAME;
+        audioFilePath = qS2QS(xlib::core::Application::tempDirPath()) + QDir::separator() +
+            AUDIO_TERM_FILE_NAME;
     }
 
     _googleSpeech(text, LANG_EN, audioFilePath);
@@ -801,7 +799,8 @@ Main::slot_OnPlayTranslation()
 
     QString audioFilePath;
     {
-        audioFilePath = _tempDir + QDir::separator() + AUDIO_VALUE_FILE_NAME;
+        audioFilePath = qS2QS(xlib::core::Application::tempDirPath()) + QDir::separator() +
+            AUDIO_VALUE_FILE_NAME;
     }
 
     _googleSpeech(text, LANG_RU, audioFilePath);
@@ -956,7 +955,7 @@ Main::slot_cboDictPath_OnCurrentIndexChanged(
 
     // reopen DB
     {
-        cQString dictPath = _dbDir + QDir::separator() + a_arg;
+        cQString dictPath = qS2QS(xlib::core::Application::dbDirPath()) + QDir::separator() + a_arg;
 
         _dbReopen(dictPath);
     }
@@ -1070,15 +1069,16 @@ Main::_cboDictPath_reload()
 {
     ui.cboDictPath->clear();
 
-    qCHECK_DO(! QDir(_dbDir).exists(), return);
+    qCHECK_DO(! QDir( qS2QS(xlib::core::Application::dbDirPath()) ).exists(), return);
 
     std::vec_tstring_t dicts;
 
-    xlib::io::Finder::files(qQS2S(_dbDir), xlib::core::String::format(xT("*%s"), xT(DB_FILE_EXT)),
-        true, &dicts);
+    xlib::io::Finder::files(xlib::core::Application::dbDirPath(),
+        xlib::core::String::format(xT("*%s"), xT(DB_FILE_EXT)), true, &dicts);
 
     xFOREACH(std::vec_tstring_t, it, dicts) {
-        cQString dict = qS2QS( it->erase(0, (qQS2S(_dbDir) + xlib::core::Const::slash()).size()) );
+        cQString dict = qS2QS( it->erase(0, (xlib::core::Application::dbDirPath() +
+            xlib::core::Const::slash()).size()) );
 
         ui.cboDictPath->addItem(dict);
     }
@@ -1106,11 +1106,11 @@ Main::_dbOpen(
         // prepare DB directory
         {
             QDir dir;
-            dir.setPath(_dbDir);
+            dir.setPath( qS2QS(xlib::core::Application::dbDirPath()) );
 
             bRv = dir.exists();
             if (!bRv) {
-                bRv = QDir().mkpath(_dbDir);
+                bRv = QDir().mkpath( qS2QS(xlib::core::Application::dbDirPath()) );
                 qTEST(bRv);
             }
 
