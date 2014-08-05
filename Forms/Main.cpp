@@ -514,12 +514,12 @@ Main::slot_OnExportCsv()
         QVector<QString> fieldNames;
 
         switch (_exportOrder) {
-        case eoTerminValue:
+        case eoTermValue:
         default:
             fieldNames.push_back(DB_F_MAIN_TERM);
             fieldNames.push_back(DB_F_MAIN_VALUE);
             break;
-        case eoValueTermin:
+        case eoValueTerm:
             fieldNames.push_back(DB_F_MAIN_VALUE);
             fieldNames.push_back(DB_F_MAIN_TERM);
             break;
@@ -559,14 +559,14 @@ Main::slot_OnExportPdf()
 
     for (int i = 0; i < realRowCount; ++ i) {
         switch (_exportOrder) {
-        case eoTerminValue:
+        case eoTermValue:
         default:
             html.push_back( _model->record(i).value(DB_F_MAIN_TERM).toString() );
             html.push_back("\n - ");
             html.push_back( _model->record(i).value(DB_F_MAIN_VALUE).toString() );
             html.push_back("<br>");
             break;
-        case eoValueTermin:
+        case eoValueTerm:
             html.push_back( _model->record(i).value(DB_F_MAIN_VALUE).toString() );
             html.push_back("\n - ");
             html.push_back( _model->record(i).value(DB_F_MAIN_TERM).toString() );
@@ -1380,7 +1380,7 @@ Main::_settingsLoad()
         settings.endGroup();
 
         settings.beginGroup("file");
-        exportOrder     = static_cast<ExportOrder>( settings.value("export_order", eoTerminValue).toInt() );
+        exportOrder     = static_cast<ExportOrder>( settings.value("export_order", eoTermValue).toInt() );
         settings.endGroup();
 
         settings.beginGroup("shortcuts");

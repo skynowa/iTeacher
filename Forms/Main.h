@@ -33,9 +33,9 @@ protected:
 private:
     enum ExportOrder
     {
-        eoUnknown     = 0,
-        eoTerminValue = 1,
-        eoValueTermin = 2
+        eoUnknown   = 0,
+        eoTermValue = 1,
+        eoValueTerm = 2
     };
 
     Ui::UiMain      ui;
