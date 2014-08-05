@@ -25,7 +25,8 @@ public:
 
 private:
     const QSqlDatabase &_db;
-    QSqlTableModel   _model;
+    QSqlTableModel      _model;
+    qtlib::SqlNavigator _sqlNavigator;
 
     void             _construct();
     void             _destruct();
@@ -34,7 +35,8 @@ private:
     Q_DISABLE_COPY(TagsEditor)
 
 private Q_SLOTS:
-
+    void             slot_OnInsert();
+    void             slot_OnRemove();
 };
 //-------------------------------------------------------------------------------------------------
 #endif // iTeacher_TagsEditorH

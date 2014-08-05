@@ -21,9 +21,10 @@ TagsEditor::TagsEditor(
     QWidget            *a_parent,
     const QSqlDatabase &a_db
 ) :
-    QDialog(a_parent),
-    _db    (a_db),
-    _model (this, a_db)
+    QDialog      (a_parent),
+    _db          (a_db),
+    _model       (this, a_db),
+    _sqlNavigator(this)
 {
     qTEST_PTR(a_parent);
     qTEST_NA(a_db);
@@ -49,6 +50,15 @@ void
 TagsEditor::_construct()
 {
     ui.setupUi(this);
+
+    // slots
+    {
+        connect(ui.tbtnEditInsert, SIGNAL( clicked() ),
+                this,              SLOT  ( slot_OnInsert() ));
+
+        connect(ui.tbtnEditRemove, SIGNAL( clicked() ),
+                this,              SLOT  ( slot_OnRemove() ));
+    }
 
     // _model
     {
@@ -83,6 +93,12 @@ TagsEditor::_construct()
 
         ui.tvTags->show();
     }
+
+    // _sqlNavigator
+    {
+        _sqlNavigator.construct(&_model, ui.tvTags);
+        _sqlNavigator.last();
+    }
 }
 //-------------------------------------------------------------------------------------------------
 void
@@ -96,3 +112,53 @@ TagsEditor::_destruct()
 *   private slots
 *
 **************************************************************************************************/
+
+//-------------------------------------------------------------------------------------------------
+void
+TagsEditor::slot_OnInsert()
+{
+    qCHECK_DO(!_sqlNavigator.isValid(), return);
+
+    _sqlNavigator.insert();
+}
+//-------------------------------------------------------------------------------------------------
+void
+TagsEditor::slot_OnRemove()
+{
+    qCHECK_DO(_sqlNavigator.view()->currentIndex().row() < 0, return);
+
+    QString text;
+    QString informativeText;
+    {
+        cint       currentRow = _sqlNavigator.view()->currentIndex().row();
+        QSqlRecord record     = _sqlNavigator.model()->record(currentRow);
+
+        cQString   wordTerm   = record.value(DB_F_TAGS_ID).toString();
+        cQString   wordValue  = record.value(DB_F_TAGS_NAME).toString();
+
+        text            = QString(tr("Remove record number %1?"))
+                            .arg(currentRow + 1);
+        informativeText = QString(tr("%2 - %3"))
+                            .arg(wordTerm)
+                            .arg(wordValue);
+    }
+
+    QMessageBox msgBox;
+
+    msgBox.setIcon(QMessageBox::Warning);
+    msgBox.setText(text);
+    msgBox.setInformativeText(informativeText);
+    msgBox.setStandardButtons(QMessageBox::Yes | QMessageBox::Cancel);
+    msgBox.setDefaultButton(QMessageBox::Cancel);
+
+    int iRv = msgBox.exec();
+    switch (iRv) {
+    case QMessageBox::Yes:
+        _sqlNavigator.remove();
+        break;
+    case QMessageBox::Cancel:
+    default:
+        break;
+    }
+}
+//-------------------------------------------------------------------------------------------------
