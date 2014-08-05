@@ -57,7 +57,8 @@ TagsEditor::_construct()
         _model.setHeaderData(1, Qt::Horizontal, tr("Name"), Qt::DisplayRole);
         _model.setEditStrategy(QSqlTableModel::OnFieldChange);
 
-        _model.select();
+        bool bRv = _model.select();
+        qTEST(bRv);
     }
 
     // tvTags
