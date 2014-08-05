@@ -225,7 +225,7 @@ Main::_initModel()
         ui.tvInfo->setModel(_model);
         ui.tvInfo->viewport()->installEventFilter(this);
 
-        // ui.tvInfo->hideColumn(0); // don't show the DB_F_MAIN_ID
+        ui.tvInfo->hideColumn(0); // don't show the DB_F_MAIN_ID
         ui.tvInfo->setColumnWidth(0, TVMAIN_COLUMN_WIDTH_0);
         ui.tvInfo->setColumnWidth(1, TVMAIN_COLUMN_WIDTH_1);
         ui.tvInfo->setColumnWidth(2, TVMAIN_COLUMN_WIDTH_2);
@@ -1159,8 +1159,8 @@ Main::_dbOpen(
                 "CREATE TABLE IF NOT EXISTS "
                 "    " DB_T_TAGS
                 "( "
-                "    " DB_F_TAGS_ID   " integer PRIMARY KEY AUTOINCREMENT UNIQUE, "
-                "    " DB_F_TAGS_NAME " varchar(255) DEFAULT '' UNIQUE"
+             // "    " DB_F_TAGS_ID   " integer PRIMARY KEY AUTOINCREMENT UNIQUE, "
+                "    " DB_F_TAGS_NAME " varchar(255) PRIMARY KEY DEFAULT '' UNIQUE"
                 ")";
 
             bRv = qryTags.exec(sql);
@@ -1180,9 +1180,9 @@ Main::_dbOpen(
                 "    " DB_F_MAIN_VALUE      " varchar(255) DEFAULT '', "
                 "    " DB_F_MAIN_IS_LEARNED " integer      DEFAULT 0, "
                 "    " DB_F_MAIN_IS_MARKED  " integer      DEFAULT 0, "
-                "    " DB_F_MAIN_TAG        " integer      DEFAULT 0, "
+                "    " DB_F_MAIN_TAG        " varchar(255) DEFAULT '', "
                 " "
-                "    FOREIGN KEY (" DB_F_MAIN_TAG ") REFERENCES " DB_T_TAGS "(" DB_F_TAGS_ID ") "
+                "    FOREIGN KEY (" DB_F_MAIN_TAG ") REFERENCES " DB_T_TAGS "(" DB_F_TAGS_NAME ") "
                 "    ON UPDATE CASCADE "
                 ")";
 
@@ -1205,20 +1205,7 @@ Main::_dbOpen(
         _model->setHeaderData(5, Qt::Horizontal, tr("Tag"),     Qt::DisplayRole);
         _model->setEditStrategy(QSqlTableModel::OnManualSubmit);
 
-    #if 1
-        QSqlQueryModel *queryModel = static_cast<QSqlQueryModel *>(_model);
-
-        // model->setQuery("SELECT x.Id, y.First, y.Last, x.B FROM x "
-        // "LEFT JOIN y ON x.A = y.Id");
-
-        cQString sql = "SELECT " DB_T_MAIN"."DB_F_MAIN_TERM ", " DB_T_MAIN"."DB_F_MAIN_VALUE ", " DB_T_TAGS"."DB_F_TAGS_NAME " FROM " DB_T_MAIN " "
-                "LEFT JOIN " DB_T_TAGS " ON " DB_T_MAIN"."DB_F_MAIN_ID " = " DB_T_TAGS "." DB_F_TAGS_ID;
-
-        queryModel->setQuery(sql);
-        qDebug() << qDEBUG_VAR(sql);
-    #else
         _model->select();
-    #endif
     }
 
     // _sqlNavigator
