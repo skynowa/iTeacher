@@ -54,7 +54,7 @@
 #define DB_F_TAGS_NAME          "f_tags_name"
 
 #define TVTAGS_COLUMN_WIDTH_0   50
-#define TVTAGS_COLUMN_WIDTH_1   160
+#define TVTAGS_COLUMN_WIDTH_1   200
 
 // audio
 #define AUDIO_TERM_FILE_NAME    "term.mp3"
