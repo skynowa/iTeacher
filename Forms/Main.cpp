@@ -1148,8 +1148,8 @@ Main::_dbOpen(
                 "CREATE TABLE IF NOT EXISTS "
                 "    " DB_T_TAGS
                 "( "
-                "    " DB_F_TAGS_ID   " integer PRIMARY KEY AUTOINCREMENT UNIQUE, "
-                "    " DB_F_TAGS_NAME " varchar(255) DEFAULT '' UNIQUE "
+             // "    " DB_F_TAGS_ID   " integer PRIMARY KEY AUTOINCREMENT UNIQUE, "
+                "    " DB_F_TAGS_NAME " varchar(255) PRIMARY KEY DEFAULT '' UNIQUE"
                 ")";
 
             bRv = qryTags.exec(sql);
@@ -1171,7 +1171,8 @@ Main::_dbOpen(
                 "    " DB_F_MAIN_IS_MARKED  " integer      DEFAULT 0, "
                 "    " DB_F_MAIN_TAG        " varchar(255) DEFAULT '', "
                 " "
-                "    FOREIGN KEY (" DB_F_MAIN_TAG ") REFERENCES " DB_T_TAGS "(" DB_F_TAGS_NAME ")"
+                "    FOREIGN KEY (" DB_F_MAIN_TAG ") REFERENCES " DB_T_TAGS "(" DB_F_TAGS_NAME ") "
+                "    ON UPDATE CASCADE "
                 ")";
 
             bRv = qryMain.exec(sql);
