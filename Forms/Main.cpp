@@ -675,6 +675,8 @@ Main::slot_OnLast()
 void
 Main::slot_OnTo()
 {
+    qCHECK_DO(_sqlNavigator.view()->currentIndex().row() < 0, return);
+
     cint currentRow = _sqlNavigator.view()->currentIndex().row() + 1;
     cint minValue   = 1;
     cint maxValue   = qtlib::Utils::sqlTableModelRowCount(_model);
@@ -750,6 +752,8 @@ Main::slot_OnRemove()
 void
 Main::slot_OnEdit()
 {
+    qCHECK_DO(_sqlNavigator.view()->currentIndex().row() < 0, return);
+
     // show edit dialog
     WordEditor dlgWordEditor(this, _model, &_sqlNavigator, false);
 
@@ -762,6 +766,8 @@ Main::slot_OnEdit()
 void
 Main::slot_OnLearned()
 {
+    qCHECK_DO(_sqlNavigator.view()->currentIndex().row() < 0, return);
+
     bool bRv = false;
 
     cint currentRow = _sqlNavigator.view()->currentIndex().row();
@@ -781,6 +787,8 @@ Main::slot_OnLearned()
 void
 Main::slot_OnMarked()
 {
+    qCHECK_DO(_sqlNavigator.view()->currentIndex().row() < 0, return);
+
     bool bRv = false;
 
     cint currentRow = _sqlNavigator.view()->currentIndex().row();
