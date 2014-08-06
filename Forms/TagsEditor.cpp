@@ -82,7 +82,8 @@ TagsEditor::_construct()
         ui.tvTags->verticalHeader()->setVisible(true);
         ui.tvTags->verticalHeader()->setDefaultSectionSize(TABLEVIEW_ROW_HEIGHT);
 
-        ui.tvTags->setEditTriggers(QAbstractItemView::SelectedClicked);
+        ui.tvTags->setEditTriggers(QAbstractItemView::DoubleClicked |
+            QAbstractItemView::SelectedClicked | QAbstractItemView::EditKeyPressed);
         ui.tvTags->setSelectionBehavior(QAbstractItemView::SelectItems);
         ui.tvTags->setSelectionMode(QAbstractItemView::SingleSelection);
         ui.tvTags->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
