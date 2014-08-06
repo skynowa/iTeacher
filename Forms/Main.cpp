@@ -188,7 +188,7 @@ Main::_initMain()
 
         // _trayIcon
         _trayIcon.setIcon( QIcon(RES_MAIN_PNG) );
-        _trayIcon.setToolTip( qlApp->applicationName() );
+        _trayIcon.setToolTip( qS2QS(xlib::core::Application::name()) );
         _trayIcon.setContextMenu(mnuTrayIcon);
         _trayIcon.show();
     } else {
@@ -466,7 +466,7 @@ Main::slot_OnImportCsv()
         cQString msg = QString(tr("File: %1\nImport CSV finished."))
                             .arg(filePath);
 
-        QMessageBox::information(this, qlApp->applicationName(), msg);
+        QMessageBox::information(this, qS2QS(xlib::core::Application::name()), msg);
     }
 }
 //-------------------------------------------------------------------------------------------------
@@ -549,7 +549,7 @@ Main::slot_OnExportCsv()
         cQString msg = QString(tr("File: %1\nExport CSV finished."))
                             .arg(filePath);
 
-        QMessageBox::information(this, qlApp->applicationName(), msg);
+        QMessageBox::information(this, qS2QS(xlib::core::Application::name()), msg);
     }
 }
 //-------------------------------------------------------------------------------------------------
@@ -602,7 +602,7 @@ Main::slot_OnExportPdf()
         cQString msg = QString(tr("File: %1\nExport PDF finished."))
                             .arg(filePath);
 
-        QMessageBox::information(this, qlApp->applicationName(), msg);
+        QMessageBox::information(this, qS2QS(xlib::core::Application::name()), msg);
     }
 }
 //-------------------------------------------------------------------------------------------------
@@ -634,7 +634,7 @@ Main::slot_OnExportClipboard()
         cQString msg = QString(tr("Text: \n%1\nExport Clipboard finished."))
                             .arg(sRv);
 
-        QMessageBox::information(this, qlApp->applicationName(), msg);
+        QMessageBox::information(this, qS2QS(xlib::core::Application::name()), msg);
     }
 }
 //-------------------------------------------------------------------------------------------------
