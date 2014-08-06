@@ -1180,7 +1180,7 @@ Main::_dbOpen(
                 "    " DB_F_MAIN_VALUE      " varchar(255) DEFAULT '', "
                 "    " DB_F_MAIN_IS_LEARNED " integer      DEFAULT 0, "
                 "    " DB_F_MAIN_IS_MARKED  " integer      DEFAULT 0, "
-                "    " DB_F_MAIN_TAG        " integer      NOT NULL, "
+                "    " DB_F_MAIN_TAG        " integer      DEFAULT 1, "
                 " "
                 "    FOREIGN KEY (" DB_F_MAIN_TAG ") REFERENCES " DB_T_TAGS "(" DB_F_TAGS_ID ") "
                 "    ON UPDATE CASCADE "
