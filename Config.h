@@ -24,6 +24,10 @@
 #define APP_VENDOR_URL          "http://bitbucket.org/skynowa/iteacher"
 #define APP_VENDOR_EMAIL        "skynowa@gmail.com"
 #define APP_VENDOR_SKYPE        "skynowa777"
+#define APP_DONATE_PAYPAL       ""
+#define APP_DONATE_WEBMONEY     ""
+#define APP_DONATE_YANDEXMONEY  ""
+#define APP_DONATE_PRIVATE24    ""
 
 #define APP_GUID                APP_NAME"_simple_guid"
 #define APP_WINDOW_CLASS        "QTool"

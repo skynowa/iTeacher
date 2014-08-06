@@ -1006,6 +1006,10 @@ void
 Main::slot_OnAbout()
 {
     About dlgAbout(this, windowIcon());
+    dlgAbout.setAppDonatePayPal(APP_DONATE_PAYPAL);
+    dlgAbout.setAppDonateWebMoney(APP_DONATE_WEBMONEY);
+    dlgAbout.setAppDonateYandexMoney(APP_DONATE_YANDEXMONEY);
+    dlgAbout.setAppDonatePrivate24(APP_DONATE_PRIVATE24);
 
     (int)dlgAbout.exec();
 }
