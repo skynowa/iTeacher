@@ -329,7 +329,7 @@
      </property>
     </widget>
    </item>
-   <item row="8" column="0" colspan="2">
+   <item row="8" column="0">
     <widget class="QDialogButtonBox" name="bbxButtons">
      <property name="standardButtons">
       <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok|QDialogButtonBox::Reset</set>
