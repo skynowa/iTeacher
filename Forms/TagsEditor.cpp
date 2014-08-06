@@ -76,6 +76,7 @@ TagsEditor::_construct()
         ui.tvTags->setModel(&_model);
         ui.tvTags->viewport()->installEventFilter(this);
 
+        ui.tvTags->horizontalHeader()->setStretchLastSection(true);
         ui.tvTags->setColumnWidth(0, TVTAGS_COLUMN_WIDTH_0);
         ui.tvTags->setColumnWidth(1, TVTAGS_COLUMN_WIDTH_1);
         ui.tvTags->verticalHeader()->setVisible(true);

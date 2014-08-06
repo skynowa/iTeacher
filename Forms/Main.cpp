@@ -225,6 +225,7 @@ Main::_initModel()
         ui.tvInfo->setModel(_model);
         ui.tvInfo->viewport()->installEventFilter(this);
 
+        ui.tvInfo->horizontalHeader()->setStretchLastSection(true);
         ui.tvInfo->hideColumn(0); // don't show the DB_F_MAIN_ID
         ui.tvInfo->setColumnWidth(0, TVMAIN_COLUMN_WIDTH_0);
         ui.tvInfo->setColumnWidth(1, TVMAIN_COLUMN_WIDTH_1);
@@ -232,7 +233,6 @@ Main::_initModel()
         ui.tvInfo->setColumnWidth(3, TVMAIN_COLUMN_WIDTH_3);
         ui.tvInfo->setColumnWidth(4, TVMAIN_COLUMN_WIDTH_4);
         ui.tvInfo->setColumnWidth(5, TVMAIN_COLUMN_WIDTH_5);
-
         ui.tvInfo->verticalHeader()->setVisible(true);
         ui.tvInfo->verticalHeader()->setDefaultSectionSize(TABLEVIEW_ROW_HEIGHT);
 
