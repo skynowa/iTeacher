@@ -130,7 +130,6 @@
     <property name="title">
      <string>Help</string>
     </property>
-    <addaction name="actHelp_Faq"/>
     <addaction name="actHelp_About"/>
    </widget>
    <widget class="QMenu" name="menuFind">
