@@ -38,7 +38,7 @@ Main::Main(
     QMainWindow       (a_parent, a_flags),
     _trayIcon         (this),
     _scShowHide       (this),
-    _scClipboardImport(this),
+    _scImportClipboard(this),
     _db               (Q_NULLPTR),
     _model            (Q_NULLPTR),
     _sqlNavigator     (this),
@@ -285,8 +285,8 @@ Main::_initActions()
         connect(ui.actFile_ImportCsv,       SIGNAL( triggered() ),
                 this,                       SLOT  ( slot_OnImportCsv() ));
 
-        connect(ui.actFile_ClipboardImport, SIGNAL( triggered() ),
-                this,                       SLOT  ( slot_OnClipboardImport() ));
+        connect(ui.actFile_ImportClipboard, SIGNAL( triggered() ),
+                this,                       SLOT  ( slot_OnImportClipboard() ));
 
         connect(ui.actFile_ExportCsv,       SIGNAL( triggered() ),
                 this,                       SLOT  ( slot_OnExportCsv() ));
@@ -396,8 +396,8 @@ Main::_initActions()
         connect(&_scShowHide,               SIGNAL( activated() ),
                 this,                       SLOT  ( slot_OnShowHide() ));
 
-        connect(&_scClipboardImport,        SIGNAL( activated() ),
-                this,                       SLOT  ( slot_OnClipboardImport() ));
+        connect(&_scImportClipboard,        SIGNAL( activated() ),
+                this,                       SLOT  ( slot_OnImportClipboard() ));
     }
 }
 //-------------------------------------------------------------------------------------------------
@@ -469,7 +469,7 @@ Main::slot_OnImportCsv()
 }
 //-------------------------------------------------------------------------------------------------
 void
-Main::slot_OnClipboardImport()
+Main::slot_OnImportClipboard()
 {
     bool bRv = false;
 
@@ -1096,7 +1096,7 @@ Main::slot_OnTrayActivated(
         slot_OnShowHide();
         break;
     case QSystemTrayIcon::MiddleClick:
-        slot_OnClipboardImport();
+        slot_OnImportClipboard();
         break;
     default:
         break;
@@ -1484,7 +1484,7 @@ Main::_settingsLoad()
         // shortcuts
         {
             _scShowHide.setShortcut( QKeySequence(shortcutShowHide) );
-            _scClipboardImport.setShortcut( QKeySequence(shortcutClipboardImport) );
+            _scImportClipboard.setShortcut( QKeySequence(shortcutClipboardImport) );
         }
 
         ui.cboDictPath->setFocus();
@@ -1524,7 +1524,7 @@ Main::_settingsSave()
     // shortcuts
     settings.beginGroup("shortcuts");
     settings.setValue("show_hide",        _scShowHide.shortcut().toString());
-    settings.setValue("clipboard_import", _scClipboardImport.shortcut().toString());
+    settings.setValue("clipboard_import", _scImportClipboard.shortcut().toString());
     settings.endGroup();
 }
 //-------------------------------------------------------------------------------------------------

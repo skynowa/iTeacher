@@ -42,7 +42,7 @@ private:
     QSystemTrayIcon _trayIcon;
 
     qtlib::GlobalShortcut _scShowHide;
-    qtlib::GlobalShortcut _scClipboardImport;
+    qtlib::GlobalShortcut _scImportClipboard;
 
     void            _construct();
     void            _destruct();
@@ -78,7 +78,7 @@ private Q_SLOTS:
     // group "File"
     void            slot_OnCreateDb();
     void            slot_OnImportCsv();
-    void            slot_OnClipboardImport();
+    void            slot_OnImportClipboard();
     void            slot_OnExportCsv();
     void            slot_OnExportPdf();
     void            slot_OnExportClipboard();
