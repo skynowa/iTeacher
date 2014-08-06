@@ -126,6 +126,10 @@ WordEditor::_construct()
             ui.tedtValueRaw->clear();
         }
 
+        // checkboxes
+        ui.chkIsLearned->setChecked( record.value(DB_F_MAIN_IS_LEARNED).toBool() );
+        ui.chkIsMarked->setChecked ( record.value(DB_F_MAIN_IS_MARKED).toBool() );
+
         // tags
         {
             QSqlQuery query;
@@ -140,10 +144,6 @@ WordEditor::_construct()
             cint index = ui.cboTags->findText( record.value(DB_F_TAGS_NAME).toString() );
             ui.cboTags->setCurrentIndex(index);
         }
-
-        // checkboxes
-        ui.chkIsLearned->setChecked( record.value(DB_F_MAIN_IS_LEARNED).toBool() );
-        ui.chkIsMarked->setChecked ( record.value(DB_F_MAIN_IS_MARKED).toBool() );
 
         // ui.lblInfo
         {
@@ -207,9 +207,9 @@ WordEditor::_resetAll()
     ui.tedtValueDetail->clear();
     ui.tedtValueWeb->clear();
     ui.tedtValueRaw->clear();
-    ui.cboTags->setCurrentText(tr(""));
     ui.chkIsLearned->setChecked(false);
     ui.chkIsMarked->setChecked(false);
+    ui.cboTags->setCurrentText(tr(""));
     ui.chkLowerCase->setChecked(false);
 }
 //-------------------------------------------------------------------------------------------------
@@ -265,9 +265,9 @@ WordEditor::_saveAll(
             record.setValue(DB_F_MAIN_VALUE, ui.tedtTerm->toPlainText());
         }
 
-        record.setValue(DB_F_TAGS_NAME,       ui.cboTags->currentData());
         record.setValue(DB_F_MAIN_IS_LEARNED, ui.chkIsLearned->isChecked());
         record.setValue(DB_F_MAIN_IS_MARKED,  ui.chkIsMarked->isChecked());
+        record.setValue(DB_F_TAGS_NAME,       ui.cboTags->currentData());
     }
 
     bRv = _model->setRecord(currentRow, record);
