@@ -1575,6 +1575,7 @@ Main::_tagsIsEmty()
 
     bRv = qryTags.exec(sql);
     qCHECK_REF(bRv, qryTags);
+    qDebug() << qDEBUG_VAR(qryTags.size());
 
     if (qryTags.size() > 0) {
         return false;
@@ -1582,7 +1583,7 @@ Main::_tagsIsEmty()
 
     // report
     {
-        cQString msg = QString(tr("DB table: %1 is empty."))
+        cQString msg = QString(tr("DB table: %1 is empty.\nPlease, go to Options/Tags Editor..."))
                             .arg(DB_T_TAGS);
 
         QMessageBox::information(this, qS2QS(xlib::core::Application::name()), msg);
