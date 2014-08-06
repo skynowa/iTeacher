@@ -294,6 +294,9 @@ Main::_initActions()
         connect(ui.actFile_ExportPdf,       SIGNAL( triggered() ),
                 this,                       SLOT  ( slot_OnExportPdf() ));
 
+        connect(ui.actFile_ExportClipboard, SIGNAL( triggered() ),
+                this,                       SLOT  ( slot_OnExportClipboard() ));
+
         connect(ui.actFile_Exit,            SIGNAL( triggered() ),
                 this,                       SLOT  ( slot_OnExit() ));
     }
@@ -594,6 +597,38 @@ Main::slot_OnExportPdf()
     {
         cQString msg = QString(tr("File: %1\nExport PDF finished."))
                             .arg(filePath);
+
+        QMessageBox::information(this, qlApp->applicationName(), msg);
+    }
+}
+//-------------------------------------------------------------------------------------------------
+void
+Main::slot_OnExportClipboard()
+{
+    QString         sRv;
+    cQString        separator = ",";
+    QModelIndexList indexes   = _sqlNavigator.view()->selectionModel()->selectedIndexes();
+
+    Q_FOREACH (QModelIndex index, indexes) {
+        _sqlNavigator.view()->setFocus();
+
+        cint targetRow = index.row();
+
+        sRv += _model->record(targetRow).value(DB_F_MAIN_ID).toString() + separator;
+        sRv += _model->record(targetRow).value(DB_F_MAIN_TERM).toString() + separator;
+        sRv += _model->record(targetRow).value(DB_F_MAIN_VALUE).toString() + separator;
+        sRv += _model->record(targetRow).value(DB_F_MAIN_IS_LEARNED).toString() + separator;
+        sRv += _model->record(targetRow).value(DB_F_MAIN_IS_MARKED).toString() + separator;
+        sRv += _model->record(targetRow).value(DB_F_MAIN_TAG).toString();
+        sRv += "\n";
+    }
+
+    QApplication::clipboard()->setText(sRv);
+
+    // report
+    {
+        cQString msg = QString(tr("Text: \n%1\nExport Clipboard finished."))
+                            .arg(sRv);
 
         QMessageBox::information(this, qlApp->applicationName(), msg);
     }

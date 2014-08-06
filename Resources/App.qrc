@@ -30,6 +30,7 @@
         <file>Menu/exportPdf.png</file>
         <file>Menu/ImportCsv.png</file>
         <file>Menu/createDb.png</file>
+        <file>Menu/ExportClipboard.png</file>
     </qresource>
     <qresource prefix="/Flags">
         <file>Flags/ru.png</file>

@@ -81,6 +81,7 @@ private Q_SLOTS:
     void            slot_OnClipboardImport();
     void            slot_OnExportCsv();
     void            slot_OnExportPdf();
+    void            slot_OnExportClipboard();
     void            slot_OnExit();
 
     // group "Edit"
