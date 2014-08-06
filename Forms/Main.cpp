@@ -435,6 +435,8 @@ Main::slot_OnCreateDb()
 void
 Main::slot_OnImportCsv()
 {
+    qCHECK_DO(_tagsIsEmty(), return);
+
     // choose file path
     cQString filePath = QFileDialog::getOpenFileName(this, tr("Open file"), tr(""),
         tr("csv files (*.csv)"));
@@ -471,6 +473,8 @@ Main::slot_OnImportCsv()
 void
 Main::slot_OnImportClipboard()
 {
+    qCHECK_DO(_tagsIsEmty(), return);
+
     bool bRv = false;
 
     // WordEditor - only one instance
@@ -690,6 +694,7 @@ Main::slot_OnTo()
 void
 Main::slot_OnInsert()
 {
+    qCHECK_DO(_tagsIsEmty(),            return);
     qCHECK_DO(!_sqlNavigator.isValid(), return);
 
     _sqlNavigator.insert();
@@ -1556,5 +1561,33 @@ Main::_exportfileNameBuild(
     QString sRv = baseName + tag + a_fileExt;
 
     return sRv;
+}
+//-------------------------------------------------------------------------------------------------
+bool
+Main::_tagsIsEmty()
+{
+    bool bRv = true;
+
+    QSqlQuery qryTags(*_db);
+
+    cQString sql =
+        "SELECT * FROM " DB_T_TAGS;
+
+    bRv = qryTags.exec(sql);
+    qCHECK_REF(bRv, qryTags);
+
+    if (qryTags.size() > 0) {
+        return false;
+    }
+
+    // report
+    {
+        cQString msg = QString(tr("DB table: %1 is empty."))
+                            .arg(DB_T_TAGS);
+
+        QMessageBox::information(this, qS2QS(xlib::core::Application::name()), msg);
+    }
+
+    return true;
 }
 //-------------------------------------------------------------------------------------------------
