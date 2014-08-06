@@ -435,7 +435,7 @@ Main::slot_OnCreateDb()
 void
 Main::slot_OnImportCsv()
 {
-    qCHECK_DO(_tagsIsEmty(), return);
+    qCHECK_DO(_tagsIsEmpty(), return);
 
     // choose file path
     cQString filePath = QFileDialog::getOpenFileName(this, tr("Open file"), tr(""),
@@ -473,7 +473,7 @@ Main::slot_OnImportCsv()
 void
 Main::slot_OnImportClipboard()
 {
-    qCHECK_DO(_tagsIsEmty(), return);
+    qCHECK_DO(_tagsIsEmpty(), return);
 
     bool bRv = false;
 
@@ -694,7 +694,7 @@ Main::slot_OnTo()
 void
 Main::slot_OnInsert()
 {
-    qCHECK_DO(_tagsIsEmty(),            return);
+    qCHECK_DO(_tagsIsEmpty(),            return);
     qCHECK_DO(!_sqlNavigator.isValid(), return);
 
     _sqlNavigator.insert();
@@ -1564,7 +1564,7 @@ Main::_exportfileNameBuild(
 }
 //-------------------------------------------------------------------------------------------------
 bool
-Main::_tagsIsEmty()
+Main::_tagsIsEmpty()
 {
     bool bRv = true;
 

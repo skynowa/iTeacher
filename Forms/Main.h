@@ -70,7 +70,7 @@ private:
 
     // utils
     QString         _exportfileNameBuild(cQString &fileExt);
-    bool            _tagsIsEmty();
+    bool            _tagsIsEmpty();
 
     Q_OBJECT
     Q_DISABLE_COPY(Main)
