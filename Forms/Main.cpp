@@ -1566,20 +1566,25 @@ Main::_exportfileNameBuild(
 bool
 Main::_tagsIsEmpty()
 {
-    bool bRv = true;
+    int tagsSize = 0;
+    {
+        QSqlQuery qryTags(*_db);
 
-    QSqlQuery qryTags(*_db);
+        cQString sql =
+            "SELECT COUNT(*) AS f_records_count "
+            "   FROM  " DB_T_TAGS ";";
 
-    cQString sql =
-        "SELECT * FROM " DB_T_TAGS;
+        bool bRv = qryTags.exec(sql);
+        qCHECK_REF(bRv, qryTags);
 
-    bRv = qryTags.exec(sql);
-    qCHECK_REF(bRv, qryTags);
-    qDebug() << qDEBUG_VAR(qryTags.size());
+        bRv = qryTags.next();
+        qCHECK_REF(bRv, qryTags);
 
-    if (qryTags.size() > 0) {
-        return false;
+        tagsSize = qryTags.value(0).toInt();
+        qDebug() << qDEBUG_VAR(tagsSize);
     }
+
+    qCHECK_RET(tagsSize > 0, false);
 
     // report
     {
