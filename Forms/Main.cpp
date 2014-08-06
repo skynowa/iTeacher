@@ -167,7 +167,7 @@ Main::_initMain()
     // Main
     {
         setWindowIcon( QIcon(RES_MAIN_ICON) );
-        setWindowTitle(APP_NAME);
+        setWindowTitle( qS2QS(xlib::core::Application::name()) );
         setGeometry(0, 0, APP_WIDTH, APP_HEIGHT);
         qtlib::Utils::widgetAlignCenter(this);
         _cboDictPath_reload();
@@ -473,7 +473,7 @@ Main::slot_OnClipboardImport()
     // WordEditor - only one instance
     QSharedMemory locker;
     {
-        cQString dlgGuid = APP_NAME"_dlgWordEditor_guid";
+        cQString dlgGuid = qS2QS(xlib::core::Application::name()) + "_dlgWordEditor_guid";
 
         locker.setKey(dlgGuid);
 
@@ -644,8 +644,8 @@ Main::slot_OnTo()
     cint minValue   = 1;
     cint maxValue   = qtlib::Utils::sqlTableModelRowCount(_model);
 
-    cint targetRow  = QInputDialog::getInt(this, APP_NAME, tr("Go to row:"), currentRow, minValue,
-        maxValue) - 1;
+    cint targetRow  = QInputDialog::getInt(this, qS2QS(xlib::core::Application::name()),
+        tr("Go to row:"), currentRow, minValue, maxValue) - 1;
 
     _sqlNavigator.goTo(targetRow);
 }
