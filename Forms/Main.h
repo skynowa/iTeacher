@@ -15,6 +15,7 @@
 #include "../QtLib/Utils.h"
 #include "../QtLib/SqlNavigator.h"
 #include "../QtLib/GlobalShortcut/GlobalShortcut.h"
+#include "../Classes/GoogleTranslator.h"
 
 #include "ui_Main.h"
 //-------------------------------------------------------------------------------------------------
@@ -61,7 +62,7 @@ private:
     void            _dbClose();
 
     // audio
-    void            _googleSpeech(cQString &text, cQString &lang, cQString &filePath);
+    GoogleTranslator _translator;
 
     // settings
     ExportOrder     _exportOrder;

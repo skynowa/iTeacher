@@ -11,6 +11,7 @@
 
 #include "../Config.h"
 #include "../QtLib/Common.h"
+#include "../Classes/GoogleTranslator.h"
 
 #include "Main.h"
 //-------------------------------------------------------------------------------------------------
@@ -34,6 +35,7 @@ private:
     cint             _currentRow;
     cbool            _insertMode;
     cQString         _termNew;
+    GoogleTranslator _translator;
 
     QPalette         _plInfoDefault;
 
@@ -49,22 +51,6 @@ private:
     bool             _isTerminExists(cQString &term);
     void             _languagesAutoDetect();
         ///< auto detect translating languages
-
-    enum Language
-        ///< detected language
-    {
-        lgUnknown,
-        lgEn,
-        lgRu
-    };
-
-    void             _googleLanguagesDetect(cQString &text, WordEditor::Language *langFrom,
-                        WordEditor::Language *langTo, QString *langCodeFrom,
-                        QString *langCodeTo) const;
-        ///< detect languages
-    void             _googleTranslate(cQString &textFrom, cQString &langFrom, cQString &langTo,
-                         QString *textToBrief, QString *textToDetail, QString *textToRaw) const;
-        ///< translate text by Google API
 
     Q_OBJECT
     Q_DISABLE_COPY(WordEditor)

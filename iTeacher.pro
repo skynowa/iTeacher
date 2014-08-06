@@ -38,6 +38,7 @@ HEADERS = \
     Classes/CenteredCheckBox.h \
     Classes/CheckBoxItemDelegate.h \
     Classes/ComboBoxItemDelegate.h \
+    Classes/GoogleTranslator.h \
     QtLib/Application.h \
     QtLib/SqlNavigator.h \
     QtLib/SignalGuard.h \
@@ -53,6 +54,7 @@ SOURCES = \
     Classes/CenteredCheckBox.cpp \
     Classes/CheckBoxItemDelegate.cpp \
     Classes/ComboBoxItemDelegate.cpp \
+    Classes/GoogleTranslator.cpp \
     QtLib/Application.cpp \
     QtLib/SqlNavigator.cpp \
     QtLib/SignalGuard.cpp \

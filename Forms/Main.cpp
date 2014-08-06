@@ -16,7 +16,6 @@
 #include "../Forms/About.h"
 
 #include <QPrinter>
-#include <QMediaPlayer>
 
 #include <xLib/Core/Const.h>
 #include <xLib/Core/String.h>
@@ -42,6 +41,7 @@ Main::Main(
     _db               (Q_NULLPTR),
     _model            (Q_NULLPTR),
     _sqlNavigator     (this),
+    _translator       (),
     _exportOrder      (eoUnknown)
 {
     _construct();
@@ -837,7 +837,7 @@ Main::slot_OnPlayTerm()
             AUDIO_TERM_FILE_NAME;
     }
 
-    _googleSpeech(text, LANG_EN, audioFilePath);
+    _translator.speech(text, LANG_EN, audioFilePath);
 }
 //-------------------------------------------------------------------------------------------------
 void
@@ -859,7 +859,7 @@ Main::slot_OnPlayValue()
             AUDIO_VALUE_FILE_NAME;
     }
 
-    _googleSpeech(text, LANG_RU, audioFilePath);
+    _translator.speech(text, LANG_RU, audioFilePath);
 }
 //-------------------------------------------------------------------------------------------------
 void
@@ -1319,98 +1319,6 @@ Main::_dbClose()
 *   private
 *
 **************************************************************************************************/
-
-/**************************************************************************************************
-*   audio
-*
-**************************************************************************************************/
-
-//-------------------------------------------------------------------------------------------------
-void
-Main::_googleSpeech(
-    cQString &a_text,
-    cQString &a_lang,
-    cQString &a_filePath
-)
-{
-    bool bRv = false;
-
-    // request to Google
-    {
-        cQString              urlStr = "http://translate.google.ru/translate_tts?&q=" +
-                                       a_text + "&tl=" + a_lang;
-        const QUrl            url(urlStr);
-        QNetworkAccessManager manager;
-        const QNetworkRequest request(url);
-
-        QNetworkReply *reply = manager.get(request);
-        qTEST_PTR(reply);
-
-        for ( ; ; ) {
-            QCoreApplication::processEvents(QEventLoop::ExcludeUserInputEvents);
-
-            qCHECK_DO( reply->isFinished(), break);
-        }
-
-        // write to audio file
-        {
-            QFile file(a_filePath);
-            bRv = file.open(QIODevice::WriteOnly);
-            qTEST(bRv);
-
-            file.write(reply->readAll());
-        }
-
-        reply->close();
-        qPTR_DELETE(reply);
-    }
-
-    // play audio file
-    {
-    #if 0
-        Phonon::MediaObject *player = Phonon::createPlayer(
-                                            Phonon::MusicCategory,
-                                            Phonon::MediaSource(a_filePath));
-        qTEST_PTR(player);
-
-        // for signal slot mechanism
-        // connect(player, SIGNAL( finished() ),
-        //         player, SLOT  ( deleteLater() ));
-
-        player->play();
-
-        // wait for finish
-        for (bool bRv = true; bRv; ) {
-            Phonon::State state = player->state();
-            if (Phonon::LoadingState == state ||
-                Phonon::PlayingState == state)
-            {
-                bRv = true;
-            } else {
-                qTEST(Phonon::PausedState == state || Phonon::StoppedState == state);
-
-                bRv = false;
-            }
-
-            ::Utils::sleep(100);
-
-            QCoreApplication::processEvents(QEventLoop::ExcludeUserInputEvents);
-        }
-
-        qPTR_DELETE(player);
-    #else
-        QMediaPlayer player;
-        qCHECK_DO(!player.isAudioAvailable(),
-            qDebug() << "QMediaPlayer: audio is not available"; return);
-
-        player.setMedia(QUrl::fromLocalFile(a_filePath));
-        player.setVolume(35);
-        player.play();
-    #endif
-    }
-}
-//-------------------------------------------------------------------------------------------------
-
 
 /**************************************************************************************************
 *   settings

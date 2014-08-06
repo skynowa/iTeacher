@@ -12,7 +12,6 @@
 
 #include "TagsEditor.h"
 #include <xLib/Core/Application.h>
-#include <QDomDocument>
 
 
 /**************************************************************************************************
@@ -35,6 +34,7 @@ WordEditor::WordEditor(
     _currentRow   (a_sqlNavigator->view()->currentIndex().row()),
     _insertMode   (a_insertMode),
     _termNew      (a_termNew.trimmed()),
+    _translator   (),
     _plInfoDefault()
 {
     qTEST_PTR(a_parent);
@@ -366,11 +366,13 @@ WordEditor::_languagesAutoDetect()
 {
     qCHECK_DO(_termNew.isEmpty(), return);
 
-    WordEditor::Language langFrom;
-    WordEditor::Language langTo;
-    QString              langCodeFrom;
-    QString              langCodeTo;
-    _googleLanguagesDetect(_termNew, &langFrom, &langTo, &langCodeFrom, &langCodeTo);
+    GoogleTranslator::Language langFrom;
+    GoogleTranslator::Language langTo;
+    QString                    langCodeFrom;
+    QString                    langCodeTo;
+
+    GoogleTranslator translator;
+    translator.languagesDetect(_termNew, &langFrom, &langTo, &langCodeFrom, &langCodeTo);
 
     // TODO: QComboBox::findText: case-insensitive
     cint indexFrom = ui.cboLangFrom->findText(langCodeFrom);
@@ -381,236 +383,6 @@ WordEditor::_languagesAutoDetect()
 
     ui.cboLangFrom->setCurrentIndex(indexFrom);
     ui.cboLangTo->setCurrentIndex(indexTo);
-}
-//-------------------------------------------------------------------------------------------------
-void
-WordEditor::_googleLanguagesDetect(
-    cQString             &a_text,
-    WordEditor::Language *a_langFrom,
-    WordEditor::Language *a_langTo,
-    QString              *a_langCodeFrom,
-    QString              *a_langCodeTo
-) const
-{
-    qTEST(!a_text.isEmpty());
-    qTEST(a_langFrom     != Q_NULLPTR);
-    qTEST(a_langTo       != Q_NULLPTR);
-    qTEST(a_langCodeFrom != Q_NULLPTR);
-    qTEST(a_langCodeTo   != Q_NULLPTR);
-
-    cQString lettersEn = QString::fromUtf8("abcdefghijklmnopqrstuvwxyz");
-    cQString lettersRu = QString::fromUtf8("абвгдеёжзийклмнопрстуфхцчшщъыьэюя");
-
-    uint     countEn = 0;
-    uint     countRu = 0;
-
-    for (int i = 0; i < a_text.size(); ++ i) {
-        cQChar letter = a_text.at(i).toLower();
-        qCHECK_DO(!letter.isLetter(), continue);
-
-        qCHECK_DO(lettersEn.contains(letter), ++ countEn);
-        qCHECK_DO(lettersRu.contains(letter), ++ countRu);
-    }
-
-    cbool isEn      = (countEn != 0 && countRu == 0);
-    cbool isRu      = (countEn == 0 && countRu != 0);
-    cbool isMixed   = (countEn != 0 && countRu != 0);
-    cbool isUnknown = (countEn == 0 && countRu == 0);
-
-    if      (isEn) {
-        *a_langFrom     = WordEditor::lgEn;
-        *a_langTo       = WordEditor::lgRu;
-
-        *a_langCodeFrom = LANG_EN;
-        *a_langCodeTo   = LANG_RU;
-
-        qDebug() << "Langs: en-ru\n";
-    }
-    else if (isRu) {
-        *a_langFrom     = WordEditor::lgRu;
-        *a_langTo       = WordEditor::lgEn;
-
-        *a_langCodeFrom = LANG_RU;
-        *a_langCodeTo   = LANG_EN;
-
-        qDebug() << "Langs: ru-en\n";
-    }
-    else if (isMixed) {
-        qDebug() << "Langs: mixed-mixed\n";
-
-        cbool isPreferEn = (countEn >= countRu);
-        cbool isPreferRu = (countRu >  countEn);
-
-        if      (isPreferEn) {
-            *a_langFrom     = WordEditor::lgEn;
-            *a_langTo       = WordEditor::lgRu;
-
-            *a_langCodeFrom = LANG_EN;
-            *a_langCodeTo   = LANG_RU;
-
-            qDebug() << "Langs (prefer): en-ru\n";
-        }
-        else if (isPreferRu) {
-            *a_langFrom     = WordEditor::lgRu;
-            *a_langTo       = WordEditor::lgEn;
-
-            *a_langCodeFrom = LANG_RU;
-            *a_langCodeTo   = LANG_EN;
-
-            qDebug() << "Langs (prefer): ru-en\n";
-        }
-        else {
-            qTEST(false);
-        }
-    }
-    else if (isUnknown) {
-        *a_langFrom     = WordEditor::lgUnknown;
-        *a_langTo       = WordEditor::lgUnknown;
-
-        *a_langCodeFrom = "";
-        *a_langCodeTo   = "";
-
-        qDebug() << "Langs: unknown-unknown\n";
-    }
-    else {
-        *a_langFrom     = WordEditor::lgUnknown;
-        *a_langTo       = WordEditor::lgUnknown;
-
-        *a_langCodeFrom = "";
-        *a_langCodeTo   = "";
-
-        qDebug() << qDEBUG_VAR(countEn);
-        qDebug() << qDEBUG_VAR(countRu);
-
-        qTEST(false);
-    }
-}
-//-------------------------------------------------------------------------------------------------
-void
-WordEditor::_googleTranslate(
-    cQString &a_textFrom,       ///< source text
-    cQString &a_langFrom,       ///< source text language
-    cQString &a_langTo,         ///< target text language
-    QString  *a_textToBrief,    ///< [out] target brief translate
-    QString  *a_textToDetail,   ///< [out] target detail translate
-    QString  *a_textToRaw       ///< [out] target raw translate (HTML) (maybe Q_NULLPTR)
-) const
-{
-    qTEST(!a_textFrom.isEmpty());
-    qTEST(!a_langFrom.isEmpty());
-    qTEST(!a_langTo.isEmpty());
-    qTEST(a_textToBrief  != Q_NULLPTR);
-    qTEST(a_textToDetail != Q_NULLPTR);
-    qTEST_NA(a_textToDetail);
-
-    QString textToBrief;
-    QString textToDetail;
-    QString textToRaw;
-
-    // request to Google
-    QString response;
-    bool    isDictionaryText = false;
-    {
-        cQString host = QString("https://translate.google.com");
-        cQString url  = QString("%1/m?text=%2&sl=%3&tl=%4")
-                            .arg(host)
-                            .arg(a_textFrom)
-                            .arg(a_langFrom)
-                            .arg(a_langTo);
-
-        QNetworkAccessManager manager;
-        manager.connectToHost(host, 80);
-
-        QNetworkRequest request(url);
-
-        QNetworkReply *reply = manager.get(request);
-        qTEST_PTR(reply);
-
-    #if 0
-        cQVariant httpStatusCode = reply->attribute(QNetworkRequest::HttpStatusCodeAttribute);
-        if ( !httpStatusCode.isValid() ) {
-            qDebug() << qDEBUG_VAR(httpStatusCode);
-            return;
-        }
-
-        int status = httpStatusCode.toInt();
-        if (status != 200) {
-            cQString reason = reply->attribute(QNetworkRequest::HttpReasonPhraseAttribute).toString();
-            qDebug() << qDEBUG_VAR(reason);
-        }
-    #endif
-
-        if (reply->error() != QNetworkReply::NoError) {
-            *a_textToBrief  = reply->errorString();
-            *a_textToDetail = reply->errorString();
-
-            if (a_textToRaw != Q_NULLPTR) {
-                *a_textToRaw = reply->errorString();
-            }
-
-            reply->close();
-            qPTR_DELETE(reply);
-
-            return;
-        }
-
-        for ( ; ; ) {
-            QCoreApplication::processEvents(QEventLoop::ExcludeUserInputEvents);
-
-            qCHECK_DO(reply->isFinished(), break);
-        }
-
-        response = QString::fromUtf8(reply->readAll());
-        qTEST(!response.isEmpty());
-
-        reply->close();
-        qPTR_DELETE(reply);
-
-        textToRaw        = response;
-        isDictionaryText = response.contains("Dictionary:");
-    }
-
-    // proccess response
-
-    {
-        response.replace("Dictionary:", "\n");
-        response.replace("<br>", "\n");
-    }
-
-    // parse response
-    {
-        QDomDocument document;
-        document.setContent(response);
-
-        QDomNodeList docList = document.elementsByTagName("div");
-        qTEST(docList.count() >= 3);
-
-        // out - textToBrief
-        textToBrief = docList.at(2).toElement().text();
-        qTEST(!textToBrief.isEmpty());
-
-        // out - textToDetail
-        if (isDictionaryText) {
-            textToDetail = docList.at(5).toElement().text();
-            qTEST(!textToDetail.isEmpty());
-        } else {
-            textToDetail = QObject::tr("n/a");
-        }
-    }
-
-    // out
-    {
-        a_textToBrief->swap(textToBrief);
-        a_textToDetail->swap(textToDetail);
-
-        if (a_textToRaw != Q_NULLPTR) {
-            a_textToRaw->swap(textToRaw);
-        }
-
-        // qDebug() << qDEBUG_VAR(*a_textToBrief);
-        // qDebug() << qDEBUG_VAR(*a_textToDetail);
-        // qDebug() << qDEBUG_VAR(*a_textToRaw);
-    }
 }
 //-------------------------------------------------------------------------------------------------
 
@@ -665,7 +437,7 @@ WordEditor::slot_translate()
         textFrom = textFrom.toLower();
     }
 
-    _googleTranslate(textFrom, langFrom, langTo, &textToBrief, &textToDetail, &textToRaw);
+    _translator.execute(textFrom, langFrom, langTo, &textToBrief, &textToDetail, &textToRaw);
 
     ui.tedtTerm->setText(textFrom);
     ui.tedtValueBrief->setText(textToBrief);
