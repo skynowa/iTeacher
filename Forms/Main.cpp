@@ -821,6 +821,8 @@ Main::slot_OnMarked()
 void
 Main::slot_OnPlayTerm()
 {
+    qCHECK_DO(_sqlNavigator.view()->currentIndex().row() < 0, return);
+
     QString text;
     {
         cint       currentRow = ui.tvInfo->currentIndex().row();
@@ -841,6 +843,8 @@ Main::slot_OnPlayTerm()
 void
 Main::slot_OnPlayValue()
 {
+    qCHECK_DO(_sqlNavigator.view()->currentIndex().row() < 0, return);
+
     QString text;
     {
         cint       currentRow = ui.tvInfo->currentIndex().row();
