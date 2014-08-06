@@ -649,6 +649,8 @@ WordEditor::slot_translate()
         return;
     }
 
+    QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
+
     QString  textFrom = ui.tedtTerm->toPlainText();
     cQString langFrom = ui.cboLangFrom->currentText();
     cQString langTo   = ui.cboLangTo->currentText();
@@ -668,6 +670,8 @@ WordEditor::slot_translate()
     ui.tedtValueDetail->setText(textToDetail);
     ui.tedtValueWeb->setHtml(textToRaw);
     ui.tedtValueRaw->setPlainText(textToRaw);
+
+    QApplication::restoreOverrideCursor();
 }
 //-------------------------------------------------------------------------------------------------
 bool
