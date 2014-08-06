@@ -7,6 +7,8 @@
 #include "WordEditor.h"
 
 #include "../QtLib/Utils.h"
+#include "../QtLib/SignalGuard.h"
+#include "../QtLib/Application.h"
 
 #include "TagsEditor.h"
 #include <xLib/Core/Application.h>

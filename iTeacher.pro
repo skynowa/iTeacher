@@ -40,6 +40,7 @@ HEADERS = \
     Classes/ComboBoxItemDelegate.h \
     QtLib/Application.h \
     QtLib/SqlNavigator.h \
+    QtLib/SignalGuard.h \
     QtLib/Utils.h
 
 SOURCES = \
@@ -54,6 +55,7 @@ SOURCES = \
     Classes/ComboBoxItemDelegate.cpp \
     QtLib/Application.cpp \
     QtLib/SqlNavigator.cpp \
+    QtLib/SignalGuard.cpp \
     QtLib/Utils.cpp
 
 # includes

@@ -1585,7 +1585,6 @@ Main::_tagsIsEmpty()
         qCHECK_REF(bRv, qryTags);
 
         tagsSize = qryTags.value(0).toInt();
-        qDebug() << qDEBUG_VAR(tagsSize);
     }
 
     qCHECK_RET(tagsSize > 0, false);
