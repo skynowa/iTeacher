@@ -123,10 +123,15 @@ Settings::_saveAll()
 void
 Settings::_settingsLoad()
 {
-    QString shortcutShowHide;
-    QString shortcutImportClipboard;
+    Main::ExportOrder importExportOrder = Main::eoUnknown;
+    QString           shortcutShowHide;
+    QString           shortcutImportClipboard;
     {
         QSettings settings(qS2QS(xlib::core::Application::configPath()), QSettings::IniFormat, this);
+
+        settings.beginGroup("file");
+        importExportOrder = static_cast<Main::ExportOrder>( settings.value("import_export_order", Main::eoTermValue).toInt() );
+        settings.endGroup();
 
         settings.beginGroup("shortcuts");
         // Sample: Ctrl+Shift+F12
@@ -137,13 +142,27 @@ Settings::_settingsLoad()
 
     // apply settings
     {
+        // file
+        {
+            switch (importExportOrder) {
+            case Main::eoTermValue:
+                ui.chkImportExportOrder->setChecked(true);
+                break;
+            case Main::eoValueTerm:
+                ui.chkImportExportOrder->setChecked(false);
+                break;
+            case Main::eoUnknown:
+            default:
+                qTEST(false);
+                break;
+            }
+        }
+
         // shortcuts
         {
             ui.kedtAppShowHide->setKeySequence( QKeySequence(shortcutShowHide) );
             ui.kedtImportClipboard->setKeySequence( QKeySequence(shortcutImportClipboard) );
         }
-
-        _wndMain->ui.cboDictPath->setFocus();
     }
 }
 //-------------------------------------------------------------------------------------------------
@@ -151,6 +170,25 @@ void
 Settings::_settingsSave()
 {
     QSettings settings(qS2QS(xlib::core::Application::configPath()), QSettings::IniFormat, this);
+
+    // file
+    settings.beginGroup("file");
+    {
+        Qt::CheckState state = ui.chkImportExportOrder->checkState();
+        switch (state) {
+        case Qt::Checked:
+            settings.setValue("import_export_order", Main::eoTermValue);
+            break;
+        case Qt::Unchecked:
+            settings.setValue("import_export_order", Main::eoValueTerm);
+            break;
+        case Qt::PartiallyChecked:
+        default:
+            qTEST(false);
+            break;
+        }
+    }
+    settings.endGroup();
 
     // shortcuts
     settings.beginGroup("shortcuts");
@@ -160,6 +198,23 @@ Settings::_settingsSave()
 
     // apply settings to UI
     {
+        // file
+        {
+            Qt::CheckState state = ui.chkImportExportOrder->checkState();
+            switch (state) {
+            case Qt::Checked:
+                _wndMain->_exportOrder = Main::eoTermValue;
+                break;
+            case Qt::Unchecked:
+                _wndMain->_exportOrder = Main::eoValueTerm;
+                break;
+            case Qt::PartiallyChecked:
+            default:
+                qTEST(false);
+                break;
+            }
+        }
+
         // shortcuts
         {
             _wndMain->_scShowHide.setShortcut( ui.kedtAppShowHide->keySequence() );

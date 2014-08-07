@@ -64,7 +64,7 @@
       <enum>QFrame::Plain</enum>
      </property>
      <property name="currentIndex">
-      <number>1</number>
+      <number>0</number>
      </property>
      <widget class="QWidget" name="tabwGroupsDetailPage1">
       <layout class="QGridLayout" name="gridLayout_13">
@@ -98,7 +98,18 @@
         </spacer>
        </item>
        <item row="2" column="0" rowspan="2" colspan="2">
-        <layout class="QGridLayout" name="gridLayout_11"/>
+        <layout class="QGridLayout" name="gridLayout_11">
+         <item row="1" column="0">
+          <widget class="QCheckBox" name="chkImportExportOrder">
+           <property name="text">
+            <string>Import/Export Order (term/value - on, value/term - off)</string>
+           </property>
+           <property name="checked">
+            <bool>true</bool>
+           </property>
+          </widget>
+         </item>
+        </layout>
        </item>
        <item row="0" column="0">
         <layout class="QHBoxLayout" name="horizontalLayout_3">

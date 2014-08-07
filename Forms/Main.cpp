@@ -1373,7 +1373,7 @@ Main::_settingsLoad()
         settings.endGroup();
 
         settings.beginGroup("file");
-        exportOrder     = static_cast<ExportOrder>( settings.value("export_order", eoTermValue).toInt() );
+        exportOrder     = static_cast<ExportOrder>( settings.value("import_export_order", eoTermValue).toInt() );
         settings.endGroup();
 
         settings.beginGroup("shortcuts");
@@ -1450,7 +1450,7 @@ Main::_settingsSave()
 
     // file
     settings.beginGroup("file");
-    settings.setValue("export_order",   _exportOrder);
+    settings.setValue("import_export_order",   _exportOrder);
     settings.endGroup();
 
     // shortcuts
