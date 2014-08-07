@@ -142,7 +142,12 @@
         </sizepolicy>
        </property>
        <property name="text">
-        <string>...</string>
+        <string/>
+       </property>
+       <property name="icon">
+        <iconset>
+         <normalon>:/Menu/Menu/TagsEditor.png</normalon>
+        </iconset>
        </property>
       </widget>
      </item>
