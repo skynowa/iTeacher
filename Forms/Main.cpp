@@ -43,7 +43,7 @@ Main::Main(
     _model            (Q_NULLPTR),
     _sqlNavigator     (this),
     _translator       (),
-    _exportOrder      (eoUnknown)
+    _importExportOrder(ieoUnknown)
 {
     _construct();
 }
@@ -525,13 +525,13 @@ Main::slot_OnExportCsv()
         // DB field names
         QVector<QString> fieldNames;
 
-        switch (_exportOrder) {
-        case eoTermValue:
+        switch (_importExportOrder) {
+        case ieoTermValue:
         default:
             fieldNames.push_back(DB_F_MAIN_TERM);
             fieldNames.push_back(DB_F_MAIN_VALUE);
             break;
-        case eoValueTerm:
+        case ieoValueTerm:
             fieldNames.push_back(DB_F_MAIN_VALUE);
             fieldNames.push_back(DB_F_MAIN_TERM);
             break;
@@ -570,15 +570,15 @@ Main::slot_OnExportPdf()
     cint realRowCount = qtlib::Utils::sqlTableModelRowCount(_model);
 
     for (int i = 0; i < realRowCount; ++ i) {
-        switch (_exportOrder) {
-        case eoTermValue:
+        switch (_importExportOrder) {
+        case ieoTermValue:
         default:
             html.push_back( _model->record(i).value(DB_F_MAIN_TERM).toString() );
             html.push_back("\n - ");
             html.push_back( _model->record(i).value(DB_F_MAIN_VALUE).toString() );
             html.push_back("<br>");
             break;
-        case eoValueTerm:
+        case ieoValueTerm:
             html.push_back( _model->record(i).value(DB_F_MAIN_VALUE).toString() );
             html.push_back("\n - ");
             html.push_back( _model->record(i).value(DB_F_MAIN_TERM).toString() );
@@ -1348,7 +1348,7 @@ Main::_settingsLoad()
     int         columnWidth3    = 0;
     int         columnWidth4    = 0;
     int         columnWidth5    = 0;
-    ExportOrder exportOrder     = eoUnknown;
+    ImportExportOrder importExportOrder = ieoUnknown;
     QString     shortcutShowHide;
     QString     shortcutClipboardImport;
     {
@@ -1373,7 +1373,7 @@ Main::_settingsLoad()
         settings.endGroup();
 
         settings.beginGroup("file");
-        exportOrder     = static_cast<ExportOrder>( settings.value("import_export_order", eoTermValue).toInt() );
+        importExportOrder = static_cast<ImportExportOrder>( settings.value("import_export_order", ieoTermValue).toInt() );
         settings.endGroup();
 
         settings.beginGroup("shortcuts");
@@ -1411,7 +1411,7 @@ Main::_settingsLoad()
         }
 
         // file
-        _exportOrder = exportOrder;
+        _importExportOrder = importExportOrder;
 
         // shortcuts
         {
@@ -1450,7 +1450,7 @@ Main::_settingsSave()
 
     // file
     settings.beginGroup("file");
-    settings.setValue("import_export_order",   _exportOrder);
+    settings.setValue("import_export_order",   _importExportOrder);
     settings.endGroup();
 
     // shortcuts

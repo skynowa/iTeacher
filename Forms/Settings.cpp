@@ -123,14 +123,14 @@ Settings::_saveAll()
 void
 Settings::_settingsLoad()
 {
-    Main::ExportOrder importExportOrder = Main::eoUnknown;
+    Main::ImportExportOrder importExportOrder = Main::ieoUnknown;
     QString           shortcutShowHide;
     QString           shortcutImportClipboard;
     {
         QSettings settings(qS2QS(xlib::core::Application::configPath()), QSettings::IniFormat, this);
 
         settings.beginGroup("file");
-        importExportOrder = static_cast<Main::ExportOrder>( settings.value("import_export_order", Main::eoTermValue).toInt() );
+        importExportOrder = static_cast<Main::ImportExportOrder>( settings.value("import_export_order", Main::ieoTermValue).toInt() );
         settings.endGroup();
 
         settings.beginGroup("shortcuts");
@@ -145,13 +145,13 @@ Settings::_settingsLoad()
         // file
         {
             switch (importExportOrder) {
-            case Main::eoTermValue:
+            case Main::ieoTermValue:
                 ui.chkImportExportOrder->setChecked(true);
                 break;
-            case Main::eoValueTerm:
+            case Main::ieoValueTerm:
                 ui.chkImportExportOrder->setChecked(false);
                 break;
-            case Main::eoUnknown:
+            case Main::ieoUnknown:
             default:
                 qTEST(false);
                 break;
@@ -177,10 +177,10 @@ Settings::_settingsSave()
         Qt::CheckState state = ui.chkImportExportOrder->checkState();
         switch (state) {
         case Qt::Checked:
-            settings.setValue("import_export_order", Main::eoTermValue);
+            settings.setValue("import_export_order", Main::ieoTermValue);
             break;
         case Qt::Unchecked:
-            settings.setValue("import_export_order", Main::eoValueTerm);
+            settings.setValue("import_export_order", Main::ieoValueTerm);
             break;
         case Qt::PartiallyChecked:
         default:
@@ -203,10 +203,10 @@ Settings::_settingsSave()
             Qt::CheckState state = ui.chkImportExportOrder->checkState();
             switch (state) {
             case Qt::Checked:
-                _wndMain->_exportOrder = Main::eoTermValue;
+                _wndMain->_importExportOrder = Main::ieoTermValue;
                 break;
             case Qt::Unchecked:
-                _wndMain->_exportOrder = Main::eoValueTerm;
+                _wndMain->_importExportOrder = Main::ieoValueTerm;
                 break;
             case Qt::PartiallyChecked:
             default:

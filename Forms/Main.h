@@ -32,11 +32,11 @@ protected:
     virtual void    closeEvent(QCloseEvent *event);
 
 private:
-    enum ExportOrder
+    enum ImportExportOrder
     {
-        eoUnknown   = 0,
-        eoTermValue = 1,
-        eoValueTerm = 2
+        ieoUnknown   = 0,
+        ieoTermValue = 1,
+        ieoValueTerm = 2
     };
 
     Ui::UiMain      ui;
@@ -65,7 +65,7 @@ private:
     GoogleTranslator _translator;
 
     // settings
-    ExportOrder     _exportOrder;
+    ImportExportOrder _importExportOrder;
     void            _settingsLoad();
     void            _settingsSave();
 
