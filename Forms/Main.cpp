@@ -1221,7 +1221,7 @@ Main::_dbOpen(
                 "    " DB_T_TAGS
                 "( "
                 "    " DB_F_TAGS_ID   " integer PRIMARY KEY AUTOINCREMENT UNIQUE, "
-                "    " DB_F_TAGS_NAME " varchar(255) DEFAULT '' UNIQUE"
+                "    " DB_F_TAGS_NAME " varchar(255) DEFAULT '' UNIQUE "
                 ")";
 
             bRv = qryTags.exec(sql);
