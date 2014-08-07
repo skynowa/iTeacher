@@ -496,11 +496,15 @@
    </property>
   </action>
   <action name="actOptions_TagsEditor">
+   <property name="icon">
+    <iconset resource="../Resources/App.qrc">
+     <normaloff>:/Menu/Menu/TagsEditor.png</normaloff>:/Menu/Menu/TagsEditor.png</iconset>
+   </property>
    <property name="text">
-    <string>Tags Editor</string>
+    <string>Tags Editor...</string>
    </property>
    <property name="toolTip">
-    <string>Tags Editor</string>
+    <string>Tags Editor...</string>
    </property>
    <property name="shortcut">
     <string>Ctrl+T</string>
