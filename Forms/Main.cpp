@@ -1201,7 +1201,7 @@ Main::_dbOpen(
         bRv = _db->open();
         qCHECK_PTR(bRv, _db);
 
-        // create DB - DB_T_TAGS
+        // DB pragma
         {
             QSqlQuery qryPragma(*_db);
 
@@ -1212,7 +1212,7 @@ Main::_dbOpen(
             qCHECK_REF(bRv, qryPragma);
         }
 
-        // DB pragma
+        // create DB - DB_T_TAGS
         {
             QSqlQuery qryTags(*_db);
 
