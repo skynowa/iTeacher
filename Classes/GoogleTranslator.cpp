@@ -145,14 +145,16 @@ GoogleTranslator::languagesDetect(
 //-------------------------------------------------------------------------------------------------
 void
 GoogleTranslator::execute(
-    cQString &a_textFrom,       ///< source text
-    cQString &a_langFrom,       ///< source text language
-    cQString &a_langTo,         ///< target text language
-    QString  *a_textToBrief,    ///< [out] target brief translate
-    QString  *a_textToDetail,   ///< [out] target detail translate
-    QString  *a_textToRaw       ///< [out] target raw translate (HTML) (maybe Q_NULLPTR)
+    cHttpRequestType &a_httpRequestType,///< HTTP request type
+    cQString         &a_textFrom,       ///< source text
+    cQString         &a_langFrom,       ///< source text language
+    cQString         &a_langTo,         ///< target text language
+    QString          *a_textToBrief,    ///< [out] target brief translate
+    QString          *a_textToDetail,   ///< [out] target detail translate
+    QString          *a_textToRaw       ///< [out] target raw translate (HTML) (maybe Q_NULLPTR)
 ) const
 {
+    qTEST(a_httpRequestType == hrGet || a_httpRequestType == hrPost);
     qTEST(!a_textFrom.isEmpty());
     qTEST(!a_langFrom.isEmpty());
     qTEST(!a_langTo.isEmpty());
@@ -160,144 +162,75 @@ GoogleTranslator::execute(
     qTEST(a_textToDetail != Q_NULLPTR);
     qTEST_NA(a_textToDetail);
 
-   /**
-    * Http POST request:
-    *
-    * <form action="/m" class="">
-    *     <div class="small nb s2 center">
-    *         <a href="http://translate.google.com/m?sl=auto&amp;tl=ru&amp;mui=sl&amp;hl=ru" class="s1">
-    *             Определить язык
-    *         </a>
-    *         <a id="arrow">&gt;</a>
-    *         <a href="http://translate.google.com/m?sl=auto&amp;tl=ru&amp;mui=tl&amp;hl=ru" class="s1">
-    *             русский
-    *         </a>
-    *     </div>
-    *     <input type="hidden" name="hl" value="ru"/>
-    *     <input type="hidden" name="sl" value="auto"/>
-    *     <input type="hidden" name="tl" value="ru"/>
-    *     <input type="hidden" name="ie" value="UTF-8"/>
-    *     <input type="hidden" name="prev" value="_m"/>
-    *     <input type="text" name="q" style="width:65%" maxlength="2048" value=""/><br>
-    *     <input type="submit" value="Перевести"/>
-    * </form>
-    *
-    *
-    * Http GET request:
-    *
-    * https://translate.google.com/m?text=cat&sl=en&tl=ru
-    */
+    cQString              host  = QString("https://translate.google.com");
+    QNetworkAccessManager manager;
+    QNetworkRequest       request;
+    QNetworkReply        *reply = Q_NULLPTR;
 
-    QString textToBrief;
-    QString textToDetail;
-    QString textToRaw;
+    switch (a_httpRequestType) {
+    case hrGet: {
+           /**
+            * HTTP GET request:
+            *
+            * https://translate.google.com/m?text=cat&sl=en&tl=ru
+            */
 
-    // request to Google
-    QString response;
-    bool    isDictionaryText = false;
-    {
-        cQString host = QString("https://translate.google.com");
-        cQString url  = QString("%1/m?text=%2&sl=%3&tl=%4")
-                            .arg(host)
-                            .arg(a_textFrom)
-                            .arg(a_langFrom)
-                            .arg(a_langTo);
+            cQString url  = QString("%1/m?text=%2&sl=%3&tl=%4")
+                                .arg(host)
+                                .arg(a_textFrom)
+                                .arg(a_langFrom)
+                                .arg(a_langTo);
 
-        QNetworkAccessManager manager;
-        manager.connectToHost(host, 80);
+            request.setUrl(url);
 
-        QNetworkRequest request(url);
-
-        QNetworkReply *reply = manager.get(request);
-        qTEST_PTR(reply);
-
-    #if 0
-        cQVariant httpStatusCode = reply->attribute(QNetworkRequest::HttpStatusCodeAttribute);
-        if ( !httpStatusCode.isValid() ) {
-            qDebug() << qDEBUG_VAR(httpStatusCode);
-            return;
+            reply = manager.get(request);
+            qTEST_PTR(reply);
         }
+        break;
+    case hrPost: {
+           /**
+            * HTTP POST request:
+            *
+            * <form action="/m" class="">
+            *     ...
+            *     <input type="hidden" name="hl" value="ru"/>
+            *     <input type="hidden" name="sl" value="auto"/>
+            *     <input type="hidden" name="tl" value="ru"/>
+            *     <input type="hidden" name="ie" value="UTF-8"/>
+            *     <input type="hidden" name="prev" value="_m"/>
+            *     <input type="text" name="q" style="width:65%" maxlength="2048" value=""/><br>
+            *     <input type="submit" value="Перевести"/>
+            * </form>
+            */
 
-        int status = httpStatusCode.toInt();
-        if (status != 200) {
-            cQString reason = reply->attribute(QNetworkRequest::HttpReasonPhraseAttribute).toString();
-            qDebug() << qDEBUG_VAR(reason);
+            cQString url = QString("%1/m").arg(host);
+
+            QUrlQuery query;
+            query.addQueryItem("h1", a_langFrom);
+            query.addQueryItem("tl", a_langTo);
+            query.addQueryItem("ie", "UTF-8");
+            query.addQueryItem("q",  a_textFrom);
+
+            request.setUrl(url);
+            request.setHeader(QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded");
+
+            reply = manager.post(request, query.toString(QUrl::FullyEncoded).toUtf8());
+            qTEST_PTR(reply);
         }
-    #endif
-
-        if (reply->error() != QNetworkReply::NoError) {
-            *a_textToBrief  = reply->errorString();
-            *a_textToDetail = reply->errorString();
-
-            if (a_textToRaw != Q_NULLPTR) {
-                *a_textToRaw = reply->errorString();
-            }
-
-            reply->close();
-            qPTR_DELETE(reply);
-
-            return;
-        }
-
-        for ( ; ; ) {
-            QCoreApplication::processEvents(QEventLoop::ExcludeUserInputEvents);
-
-            qCHECK_DO(reply->isFinished(), break);
-        }
-
-        response = QString::fromUtf8(reply->readAll());
-        qTEST(!response.isEmpty());
-
-        reply->close();
-        qPTR_DELETE(reply);
-
-        textToRaw        = response;
-        isDictionaryText = response.contains("Dictionary:");
+        break;
+    case hrUnknown:
+    default:
+        qTEST(false);
+        break;
     }
 
-    // proccess response
+     _replyParse(reply, a_textToBrief, a_textToDetail, a_textToRaw);
 
-    {
-        response.replace("Dictionary:", "\n");
-        response.replace("<br>", "\n");
-    }
-
-    // parse response
-    {
-        QDomDocument document;
-        document.setContent(response);
-
-        QDomNodeList docList = document.elementsByTagName("div");
-        qTEST(docList.count() >= 3);
-
-        // out - textToBrief
-        textToBrief = docList.at(2).toElement().text();
-        qTEST(!textToBrief.isEmpty());
-
-        // out - textToDetail
-        if (isDictionaryText) {
-            textToDetail = docList.at(5).toElement().text();
-            qTEST(!textToDetail.isEmpty());
-        } else {
-            textToDetail = QObject::tr("n/a");
-        }
-    }
-
-    // out
-    {
-        a_textToBrief->swap(textToBrief);
-        a_textToDetail->swap(textToDetail);
-
-        if (a_textToRaw != Q_NULLPTR) {
-            a_textToRaw->swap(textToRaw);
-        }
-
-        // qDebug() << qDEBUG_VAR(*a_textToBrief);
-        // qDebug() << qDEBUG_VAR(*a_textToDetail);
-        // qDebug() << qDEBUG_VAR(*a_textToRaw);
-    }
+    reply->close();
+    qPTR_DELETE(reply);
 }
 //-------------------------------------------------------------------------------------------------
+
 
 /**************************************************************************************************
 *   audio
@@ -386,6 +319,112 @@ GoogleTranslator::speech(
         player.setVolume(35);
         player.play();
     #endif
+    }
+}
+//-------------------------------------------------------------------------------------------------
+
+
+/**************************************************************************************************
+*   private
+*
+**************************************************************************************************/
+
+//-------------------------------------------------------------------------------------------------
+void
+GoogleTranslator::_replyParse(
+    QNetworkReply *a_reply,
+    QString       *a_textToBrief,
+    QString       *a_textToDetail,
+    QString       *a_textToRaw
+) const
+{
+    QString textToBrief;
+    QString textToDetail;
+    QString textToRaw;
+
+    QString response;
+    bool    isDictionaryText = false;
+    {
+    #if 0
+        cQVariant httpStatusCode = a_reply->attribute(QNetworkRequest::HttpStatusCodeAttribute);
+        if ( !httpStatusCode.isValid() ) {
+            qDebug() << qDEBUG_VAR(httpStatusCode);
+            return;
+        }
+
+        int status = httpStatusCode.toInt();
+        if (status != 200) {
+            cQString reason = a_reply->attribute(QNetworkRequest::HttpReasonPhraseAttribute).toString();
+            qDebug() << qDEBUG_VAR(reason);
+        }
+    #endif
+
+        if (a_reply->error() != QNetworkReply::NoError) {
+            *a_textToBrief  = a_reply->errorString();
+            *a_textToDetail = a_reply->errorString();
+
+            if (a_textToRaw != Q_NULLPTR) {
+                *a_textToRaw = a_reply->errorString();
+            }
+
+            return;
+        }
+
+        for ( ; ; ) {
+            QCoreApplication::processEvents(QEventLoop::ExcludeUserInputEvents);
+
+            qCHECK_DO(a_reply->isFinished(), break);
+        }
+
+        response = QString::fromUtf8(a_reply->readAll());
+        qTEST(!response.isEmpty());
+
+        textToRaw        = response;
+        isDictionaryText = response.contains("Dictionary:");
+
+        qDebug() << qDEBUG_VAR(response);
+    }
+
+    // proccess response
+
+    {
+        response.replace("Dictionary:", "\n");
+        response.replace("<br>", "\n");
+    }
+
+    // parse response
+    {
+        QDomDocument document;
+        document.setContent(response);
+
+        QDomNodeList docList = document.elementsByTagName("div");
+        qTEST(docList.count() >= 3);
+
+        // out - textToBrief
+        textToBrief = docList.at(2).toElement().text();
+        qTEST(!textToBrief.isEmpty());
+
+        // out - textToDetail
+        if (isDictionaryText) {
+            textToDetail = docList.at(5).toElement().text();
+            qTEST(!textToDetail.isEmpty());
+        } else {
+            textToDetail = QObject::tr("n/a");
+        }
+    }
+
+    // out
+    {
+        a_textToBrief->swap(textToBrief);
+        a_textToDetail->swap(textToDetail);
+
+        if (a_textToRaw != Q_NULLPTR) {
+            a_textToRaw->swap(textToRaw);
+        }
+
+        // qDebug() << qDEBUG_VAR(*a_textToBrief);
+        // qDebug() << qDEBUG_VAR(*a_textToDetail);
+        // qDebug() << qDEBUG_VAR(*a_textToRaw);
     }
 }
 //-------------------------------------------------------------------------------------------------

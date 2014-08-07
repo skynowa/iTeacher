@@ -437,7 +437,8 @@ WordEditor::slot_translate()
         textFrom = textFrom.toLower();
     }
 
-    _translator.execute(textFrom, langFrom, langTo, &textToBrief, &textToDetail, &textToRaw);
+    _translator.execute(GoogleTranslator::hrPost, textFrom, langFrom, langTo, &textToBrief,
+        &textToDetail, &textToRaw);
 
     ui.tedtTerm->setText(textFrom);
     ui.tedtValueBrief->setText(textToBrief);
