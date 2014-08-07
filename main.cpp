@@ -39,6 +39,7 @@ int main(int argc, char *argv[])
     qtlib::Application application(argc, argv, APP_GUID);
     bRv = application.isRunnig();
     if (bRv) {
+        std::wcerr << "Application is already running." << std::endl;
         application.windowActivate(APP_WINDOW_CLASS, APP_NAME);
 
         return EXIT_SUCCESS;
