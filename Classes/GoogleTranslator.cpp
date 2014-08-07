@@ -165,9 +165,13 @@ GoogleTranslator::execute(
     *
     * <form action="/m" class="">
     *     <div class="small nb s2 center">
-    *         <a href="http://translate.google.com/m?sl=auto&amp;tl=ru&amp;mui=sl&amp;hl=ru" class="s1">Определить язык</a>
+    *         <a href="http://translate.google.com/m?sl=auto&amp;tl=ru&amp;mui=sl&amp;hl=ru" class="s1">
+    *             Определить язык
+    *         </a>
     *         <a id="arrow">&gt;</a>
-    *         <a href="http://translate.google.com/m?sl=auto&amp;tl=ru&amp;mui=tl&amp;hl=ru" class="s1">русский</a>
+    *         <a href="http://translate.google.com/m?sl=auto&amp;tl=ru&amp;mui=tl&amp;hl=ru" class="s1">
+    *             русский
+    *         </a>
     *     </div>
     *     <input type="hidden" name="hl" value="ru"/>
     *     <input type="hidden" name="sl" value="auto"/>
