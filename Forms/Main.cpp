@@ -1513,11 +1513,16 @@ Main::_tagsIsEmpty()
     qCHECK_RET(tagsSize > 0, false);
 
     // report
-    {
-        cQString msg = QString(tr("DB table: %1 is empty.\nPlease, go to Options/Tags Editor..."))
-                            .arg(DB_T_TAGS);
+    QMessageBox msgBox;
+    msgBox.setIcon(QMessageBox::Question);
+    msgBox.setWindowTitle( qS2QS(xlib::core::Application::name()) );
+    msgBox.setText(tr("DB table: " DB_T_TAGS " is empty.\nAdd tags to Tags Editor?"));
+    msgBox.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
+    msgBox.setDefaultButton(QMessageBox::Yes);
 
-        QMessageBox::information(this, qS2QS(xlib::core::Application::name()), msg);
+    int iRv = msgBox.exec();
+    if (iRv == QMessageBox::Yes){
+        slot_OnTagsEditor();
     }
 
     return true;
