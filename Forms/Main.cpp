@@ -13,6 +13,7 @@
 #include "../Forms/WordEditor.h"
 #include "../Forms/WordFinder.h"
 #include "../Forms/TagsEditor.h"
+#include "../Forms/Settings.h"
 #include "../Forms/About.h"
 
 #include <QPrinter>
@@ -985,7 +986,9 @@ Main::slot_OnTagsEditor()
 void
 Main::slot_OnSettings()
 {
-    // TODO: slot_OnSettings
+    Settings dlgSettings(this);
+
+    (int)dlgSettings.exec();
 }
 //-------------------------------------------------------------------------------------------------
 
