@@ -452,7 +452,7 @@ Main::slot_OnImportCsv()
     fieldNames.push_back(DB_F_MAIN_TAG);
 
     // import
-    qtlib::Utils::importCsv(filePath, _model, fieldNames, "\t");
+    qtlib::Utils::importCsv(filePath, _model, fieldNames, ",");
 
     // "fire" cboDictPath
     {
@@ -541,7 +541,7 @@ Main::slot_OnExportCsv()
         fieldNames.push_back(DB_F_MAIN_TAG);
 
         // import
-        qtlib::Utils::exportCsv(filePath, _model, fieldNames, "\t");
+        qtlib::Utils::exportCsv(filePath, _model, fieldNames, ",");
     }
 
     // report
