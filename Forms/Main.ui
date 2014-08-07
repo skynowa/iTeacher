@@ -2,9 +2,6 @@
 <ui version="4.0">
  <class>UiMain</class>
  <widget class="QMainWindow" name="UiMain">
-  <property name="enabled">
-   <bool>true</bool>
-  </property>
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -12,9 +9,6 @@
     <width>725</width>
     <height>403</height>
    </rect>
-  </property>
-  <property name="windowTitle">
-   <string>CMain</string>
   </property>
   <widget class="QWidget" name="centralWidget">
    <layout class="QGridLayout" name="gridLayout">
