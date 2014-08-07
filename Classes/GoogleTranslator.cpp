@@ -160,6 +160,30 @@ GoogleTranslator::execute(
     qTEST(a_textToDetail != Q_NULLPTR);
     qTEST_NA(a_textToDetail);
 
+   /**
+    * Http POST request:
+    *
+    * <form action="/m" class="">
+    *     <div class="small nb s2 center">
+    *         <a href="http://translate.google.com/m?sl=auto&amp;tl=ru&amp;mui=sl&amp;hl=ru" class="s1">Определить язык</a>
+    *         <a id="arrow">&gt;</a>
+    *         <a href="http://translate.google.com/m?sl=auto&amp;tl=ru&amp;mui=tl&amp;hl=ru" class="s1">русский</a>
+    *     </div>
+    *     <input type="hidden" name="hl" value="ru"/>
+    *     <input type="hidden" name="sl" value="auto"/>
+    *     <input type="hidden" name="tl" value="ru"/>
+    *     <input type="hidden" name="ie" value="UTF-8"/>
+    *     <input type="hidden" name="prev" value="_m"/>
+    *     <input type="text" name="q" style="width:65%" maxlength="2048" value=""/><br>
+    *     <input type="submit" value="Перевести"/>
+    * </form>
+    *
+    *
+    * Http GET request:
+    *
+    * https://translate.google.com/m?text=cat&sl=en&tl=ru
+    */
+
     QString textToBrief;
     QString textToDetail;
     QString textToRaw;
