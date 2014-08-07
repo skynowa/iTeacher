@@ -312,8 +312,12 @@ GoogleTranslator::speech(
         qPTR_DELETE(player);
     #else
         QMediaPlayer player;
-        qCHECK_DO(!player.isAudioAvailable(),
-            qDebug() << "QMediaPlayer: audio is not available"; return);
+        if (!player.isAudioAvailable()) {
+            cQString msg = QString(QObject::tr("QMediaPlayer: audio is not available."));
+            QMessageBox::warning(Q_NULLPTR, qApp->applicationName(), msg);
+
+            return;
+        }
 
         player.setMedia(QUrl::fromLocalFile(a_filePath));
         player.setVolume(35);
