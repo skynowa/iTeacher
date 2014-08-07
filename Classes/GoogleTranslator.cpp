@@ -160,7 +160,7 @@ GoogleTranslator::execute(
     qTEST(!a_langTo.isEmpty());
     qTEST(a_textToBrief  != Q_NULLPTR);
     qTEST(a_textToDetail != Q_NULLPTR);
-    qTEST_NA(a_textToDetail);
+    qTEST_NA(a_textToRaw);
 
     cQString              host  = QString("https://translate.google.com");
     QNetworkAccessManager manager;
