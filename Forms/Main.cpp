@@ -32,7 +32,7 @@
 
 namespace {
 
-cQString csvSeparator = "\t";
+cQString csvSeparator = "###";
 
 }
 
@@ -453,7 +453,6 @@ Main::slot_OnImportCsv()
 
     // DB field names
     QVector<QString> fieldNames;
-
     fieldNames.push_back(DB_F_MAIN_TERM);
     fieldNames.push_back(DB_F_MAIN_VALUE);
     fieldNames.push_back(DB_F_MAIN_IS_LEARNED);
