@@ -986,7 +986,7 @@ Main::slot_OnTagsEditor()
 void
 Main::slot_OnSettings()
 {
-    Settings dlgSettings(this);
+    Settings dlgSettings(this, this);
 
     (int)dlgSettings.exec();
 }

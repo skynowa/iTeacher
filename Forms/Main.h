@@ -76,6 +76,8 @@ private:
     Q_OBJECT
     Q_DISABLE_COPY(Main)
 
+    friend class Settings;
+
 private Q_SLOTS:
     // group "File"
     void            slot_OnCreateDb();

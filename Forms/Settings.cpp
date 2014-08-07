@@ -17,12 +17,15 @@
 
 //-------------------------------------------------------------------------------------------------
 Settings::Settings(
-    QWidget *a_parent
+    QWidget *a_parent,
+    Main    *a_wndMain
 ) :
-    QDialog(a_parent)
+    QDialog (a_parent),
+    _wndMain(a_wndMain)
 
 {
     qTEST_PTR(a_parent);
+    qTEST_PTR(a_wndMain);
 
     _construct();
 }
@@ -57,14 +60,13 @@ void
 Settings::_construct()
 {
     _initMain();
-
-    // ui.chkPhotos_IsDeleteFromDisk->setChecked( Ini::photos_isDeleteFromDisk() );
+    _settingsLoad();
 }
 //-------------------------------------------------------------------------------------------------
 void
 Settings::_destruct()
 {
-    // Ini::setPhotos_isDeleteFromDisk( ui.chkPhotos_IsDeleteFromDisk->isChecked() );
+    _settingsSave();
 }
 //-------------------------------------------------------------------------------------------------
 void
@@ -94,7 +96,7 @@ Settings::_initMain()
                 ui.kedtAppShowHide,          &QKeySequenceEdit::clear);
 
         connect(ui.tbtnImportClipboardClear, &QToolButton::clicked,
-                ui.kedtImportClipboar,       &QKeySequenceEdit::clear);
+                ui.kedtImportClipboard,      &QKeySequenceEdit::clear);
     }
 }
 //-------------------------------------------------------------------------------------------------
@@ -108,6 +110,57 @@ void
 Settings::_saveAll()
 {
 
+}
+//-------------------------------------------------------------------------------------------------
+void
+Settings::_settingsLoad()
+{
+    QString shortcutShowHide;
+    QString shortcutImportClipboard;
+    {
+        QSettings settings(qS2QS(xlib::core::Application::configPath()), QSettings::IniFormat, this);
+
+        settings.beginGroup("shortcuts");
+        // Sample: Ctrl+Shift+F12
+        shortcutShowHide        = settings.value("show_hide", "Shift+F1").toString();
+        shortcutImportClipboard = settings.value("clipboard_import", "F1").toString();
+        settings.endGroup();
+    }
+
+    // apply settings
+    {
+        // shortcuts
+        {
+            ui.kedtAppShowHide->setKeySequence( QKeySequence(shortcutShowHide) );
+            ui.kedtImportClipboard->setKeySequence( QKeySequence(shortcutImportClipboard) );
+        }
+
+        _wndMain->ui.cboDictPath->setFocus();
+    }
+}
+//-------------------------------------------------------------------------------------------------
+void
+Settings::_settingsSave()
+{
+    QSettings settings(qS2QS(xlib::core::Application::configPath()), QSettings::IniFormat, this);
+
+    // shortcuts
+    settings.beginGroup("shortcuts");
+    settings.setValue("show_hide",        ui.kedtAppShowHide->keySequence().toString());
+    settings.setValue("clipboard_import", ui.kedtImportClipboard->keySequence().toString());
+    settings.endGroup();
+
+    // apply settings to UI
+    {
+        // shortcuts
+        {
+            _wndMain->_scShowHide.setShortcut( ui.kedtAppShowHide->keySequence() );
+            _wndMain->_scImportClipboard.setShortcut( ui.kedtImportClipboard->keySequence() );
+        }
+    }
+
+    settings.setValue("show_hide",        _wndMain->_scShowHide.shortcut().toString());
+    settings.setValue("clipboard_import", _wndMain->_scImportClipboard.shortcut().toString());
 }
 //-------------------------------------------------------------------------------------------------
 
