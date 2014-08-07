@@ -165,6 +165,7 @@ WordEditor::_construct()
 
         // ui.bbxButtons
         {
+        #if 0
             ui.bbxButtons->setMinimumWidth(BUTTON_BOX_WIDTH);
 
             QList<QAbstractButton *> buttons = ui.bbxButtons->buttons();
@@ -172,6 +173,7 @@ WordEditor::_construct()
             while ( !buttons.empty() ) {
                 buttons.takeFirst()->setMinimumWidth( ui.bbxButtons->minimumWidth() );
             }
+        #endif
         }
 
         // set focus

@@ -6,79 +6,51 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>548</width>
-    <height>594</height>
+    <width>544</width>
+    <height>499</height>
    </rect>
   </property>
-  <property name="windowTitle">
-   <string>Word editor[*]</string>
+  <property name="sizeGripEnabled">
+   <bool>true</bool>
   </property>
   <layout class="QGridLayout" name="gridLayout_7">
    <item row="0" column="0">
     <widget class="QLabel" name="label_2">
      <property name="text">
-      <string>Term</string>
+      <string>Term/Value</string>
      </property>
     </widget>
    </item>
    <item row="1" column="0">
-    <widget class="QTextEdit" name="tedtTerm">
-     <property name="minimumSize">
-      <size>
-       <width>0</width>
-       <height>54</height>
-      </size>
+    <widget class="QSplitter" name="splitter">
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
      </property>
-     <property name="maximumSize">
-      <size>
-       <width>16777215</width>
-       <height>54</height>
-      </size>
-     </property>
-     <property name="frameShape">
-      <enum>QFrame::Box</enum>
-     </property>
-     <property name="frameShadow">
-      <enum>QFrame::Plain</enum>
-     </property>
-     <property name="tabStopWidth">
-      <number>40</number>
-     </property>
+     <widget class="QTextEdit" name="tedtTerm">
+      <property name="frameShape">
+       <enum>QFrame::Box</enum>
+      </property>
+      <property name="frameShadow">
+       <enum>QFrame::Plain</enum>
+      </property>
+      <property name="tabStopWidth">
+       <number>40</number>
+      </property>
+     </widget>
+     <widget class="QTextEdit" name="tedtValueBrief">
+      <property name="frameShape">
+       <enum>QFrame::Box</enum>
+      </property>
+      <property name="frameShadow">
+       <enum>QFrame::Plain</enum>
+      </property>
+      <property name="tabStopWidth">
+       <number>40</number>
+      </property>
+     </widget>
     </widget>
    </item>
    <item row="2" column="0">
-    <widget class="QLabel" name="label_3">
-     <property name="text">
-      <string>Value</string>
-     </property>
-    </widget>
-   </item>
-   <item row="3" column="0">
-    <widget class="QTextEdit" name="tedtValueBrief">
-     <property name="minimumSize">
-      <size>
-       <width>0</width>
-       <height>60</height>
-      </size>
-     </property>
-     <property name="maximumSize">
-      <size>
-       <width>16777215</width>
-       <height>60</height>
-      </size>
-     </property>
-     <property name="frameShape">
-      <enum>QFrame::Box</enum>
-     </property>
-     <property name="frameShadow">
-      <enum>QFrame::Plain</enum>
-     </property>
-     <property name="tabStopWidth">
-      <number>40</number>
-     </property>
-    </widget>
-   </item>
-   <item row="4" column="0">
     <widget class="QTabWidget" name="tabWidget">
      <property name="currentIndex">
       <number>0</number>
@@ -154,30 +126,12 @@
      </widget>
     </widget>
    </item>
-   <item row="5" column="0">
+   <item row="3" column="0">
     <layout class="QGridLayout" name="gridLayout_3">
-     <item row="4" column="0" colspan="2">
-      <widget class="QLabel" name="lblInfo">
-       <property name="minimumSize">
-        <size>
-         <width>0</width>
-         <height>25</height>
-        </size>
-       </property>
-       <property name="maximumSize">
-        <size>
-         <width>16777215</width>
-         <height>25</height>
-        </size>
-       </property>
-       <property name="frameShape">
-        <enum>QFrame::StyledPanel</enum>
-       </property>
-       <property name="frameShadow">
-        <enum>QFrame::Sunken</enum>
-       </property>
+     <item row="0" column="0" colspan="2">
+      <widget class="QLabel" name="label">
        <property name="text">
-        <string/>
+        <string>Tag</string>
        </property>
       </widget>
      </item>
@@ -194,33 +148,37 @@
        </property>
       </widget>
      </item>
-     <item row="3" column="0" colspan="2">
-      <widget class="QDialogButtonBox" name="bbxButtons">
-       <property name="standardButtons">
-        <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok|QDialogButtonBox::Reset</set>
-       </property>
-      </widget>
-     </item>
      <item row="1" column="0">
       <widget class="QComboBox" name="cboTags"/>
      </item>
-     <item row="2" column="0" colspan="2">
-      <widget class="Line" name="line">
-       <property name="orientation">
-        <enum>Qt::Horizontal</enum>
-       </property>
-      </widget>
-     </item>
-     <item row="0" column="0" colspan="2">
-      <widget class="QLabel" name="label">
-       <property name="text">
-        <string>Tag</string>
-       </property>
-      </widget>
-     </item>
     </layout>
    </item>
-   <item row="0" column="1" rowspan="6">
+   <item row="4" column="0" colspan="2">
+    <widget class="QLabel" name="lblInfo">
+     <property name="minimumSize">
+      <size>
+       <width>0</width>
+       <height>25</height>
+      </size>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>16777215</width>
+       <height>25</height>
+      </size>
+     </property>
+     <property name="frameShape">
+      <enum>QFrame::StyledPanel</enum>
+     </property>
+     <property name="frameShadow">
+      <enum>QFrame::Sunken</enum>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+   </item>
+   <item row="0" column="1" rowspan="4">
     <widget class="QGroupBox" name="groupBox">
      <property name="title">
       <string/>
@@ -229,11 +187,56 @@
       <property name="leftMargin">
        <number>0</number>
       </property>
+      <property name="topMargin">
+       <number>6</number>
+      </property>
       <property name="rightMargin">
-       <number>9</number>
+       <number>0</number>
+      </property>
+      <property name="bottomMargin">
+       <number>0</number>
       </property>
       <item row="0" column="0">
        <layout class="QGridLayout" name="gridLayout">
+        <item row="2" column="0" colspan="3">
+         <widget class="QPushButton" name="pbtnCheck">
+          <property name="text">
+           <string>Check</string>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="1">
+         <widget class="QPushButton" name="pbtnLangsSwap">
+          <property name="maximumSize">
+           <size>
+            <width>36</width>
+            <height>16777215</height>
+           </size>
+          </property>
+          <property name="text">
+           <string/>
+          </property>
+          <property name="icon">
+           <iconset>
+            <normalon>:/Menu/Menu/LangsSwap.png</normalon>
+           </iconset>
+          </property>
+         </widget>
+        </item>
+        <item row="5" column="0" colspan="3">
+         <widget class="QCheckBox" name="chkLowerCase">
+          <property name="text">
+           <string>Lower case</string>
+          </property>
+         </widget>
+        </item>
+        <item row="4" column="0" colspan="3">
+         <widget class="QCheckBox" name="chkIsMarked">
+          <property name="text">
+           <string>Marked</string>
+          </property>
+         </widget>
+        </item>
         <item row="0" column="2">
          <widget class="QComboBox" name="cboLangTo">
           <property name="maximumSize">
@@ -294,35 +297,10 @@
           </item>
          </widget>
         </item>
-        <item row="0" column="1">
-         <widget class="QPushButton" name="pbtnLangsSwap">
-          <property name="maximumSize">
-           <size>
-            <width>36</width>
-            <height>16777215</height>
-           </size>
-          </property>
-          <property name="text">
-           <string/>
-          </property>
-          <property name="icon">
-           <iconset>
-            <normalon>:/Menu/Menu/LangsSwap.png</normalon>
-           </iconset>
-          </property>
-         </widget>
-        </item>
-        <item row="1" column="0" colspan="3">
-         <widget class="QPushButton" name="pbtnTranslate">
-          <property name="text">
-           <string>Translate</string>
-          </property>
-         </widget>
-        </item>
-        <item row="2" column="0" colspan="3">
-         <widget class="QPushButton" name="pbtnCheck">
-          <property name="text">
-           <string>Check</string>
+        <item row="7" column="0" colspan="3">
+         <widget class="QDialogButtonBox" name="bbxButtons">
+          <property name="standardButtons">
+           <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok|QDialogButtonBox::Reset</set>
           </property>
          </widget>
         </item>
@@ -333,29 +311,22 @@
           </property>
          </widget>
         </item>
-        <item row="4" column="0" colspan="3">
-         <widget class="QCheckBox" name="chkIsMarked">
+        <item row="1" column="0" colspan="3">
+         <widget class="QPushButton" name="pbtnTranslate">
           <property name="text">
-           <string>Marked</string>
-          </property>
-         </widget>
-        </item>
-        <item row="5" column="0" colspan="3">
-         <widget class="QCheckBox" name="chkLowerCase">
-          <property name="text">
-           <string>Lower case</string>
+           <string>Translate</string>
           </property>
          </widget>
         </item>
         <item row="6" column="0" colspan="3">
-         <spacer name="verticalSpacer">
+         <spacer name="verticalSpacer_2">
           <property name="orientation">
            <enum>Qt::Vertical</enum>
           </property>
           <property name="sizeHint" stdset="0">
            <size>
-            <width>17</width>
-            <height>82</height>
+            <width>20</width>
+            <height>40</height>
            </size>
           </property>
          </spacer>
@@ -371,7 +342,6 @@
   <tabstop>tedtTerm</tabstop>
   <tabstop>tedtValueBrief</tabstop>
   <tabstop>cboTags</tabstop>
-  <tabstop>bbxButtons</tabstop>
  </tabstops>
  <resources/>
  <connections/>
