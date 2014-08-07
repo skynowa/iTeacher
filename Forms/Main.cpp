@@ -1338,6 +1338,7 @@ Main::_dbClose()
 void
 Main::_settingsLoad()
 {
+    // load settings from INI
     QSize       size;
     QPoint      position;
     int         dictionaryNum   = 0;

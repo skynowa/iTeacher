@@ -123,6 +123,7 @@ Settings::_saveAll()
 void
 Settings::_settingsLoad()
 {
+    // load settings from INI
     Main::ImportExportOrder importExportOrder = Main::ieoUnknown;
     bool    isHideOnCLose  = false;
     QString shortcutShowHide;
@@ -175,31 +176,34 @@ Settings::_settingsSave()
 {
     QSettings settings(qS2QS(xlib::core::Application::configPath()), QSettings::IniFormat, this);
 
-    // file
-    settings.beginGroup("file");
+    // save settings to INI
     {
-        Qt::CheckState state = ui.chkImportExportOrder->checkState();
-        switch (state) {
-        case Qt::Checked:
-            settings.setValue("import_export_order", Main::ieoTermValue);
-            break;
-        case Qt::Unchecked:
-            settings.setValue("import_export_order", Main::ieoValueTerm);
-            break;
-        case Qt::PartiallyChecked:
-        default:
-            qTEST(false);
-            break;
+        // file
+        settings.beginGroup("file");
+        {
+            Qt::CheckState state = ui.chkImportExportOrder->checkState();
+            switch (state) {
+            case Qt::Checked:
+                settings.setValue("import_export_order", Main::ieoTermValue);
+                break;
+            case Qt::Unchecked:
+                settings.setValue("import_export_order", Main::ieoValueTerm);
+                break;
+            case Qt::PartiallyChecked:
+            default:
+                qTEST(false);
+                break;
+            }
         }
-    }
-    settings.setValue("hide_on_close", ui.chkHideOnClose->isChecked());
-    settings.endGroup();
+        settings.setValue("hide_on_close", ui.chkHideOnClose->isChecked());
+        settings.endGroup();
 
-    // shortcuts
-    settings.beginGroup("shortcuts");
-    settings.setValue("show_hide",        ui.kedtAppShowHide->keySequence().toString());
-    settings.setValue("clipboard_import", ui.kedtImportClipboard->keySequence().toString());
-    settings.endGroup();
+        // shortcuts
+        settings.beginGroup("shortcuts");
+        settings.setValue("show_hide",        ui.kedtAppShowHide->keySequence().toString());
+        settings.setValue("clipboard_import", ui.kedtImportClipboard->keySequence().toString());
+        settings.endGroup();
+    }
 
     // apply settings to UI
     {
