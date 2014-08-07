@@ -44,6 +44,7 @@ private:
 
     qtlib::GlobalShortcut _scShowHide;
     qtlib::GlobalShortcut _scImportClipboard;
+    bool            _isHideOnCLose;
 
     void            _construct();
     void            _destruct();

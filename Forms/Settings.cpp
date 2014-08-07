@@ -124,13 +124,15 @@ void
 Settings::_settingsLoad()
 {
     Main::ImportExportOrder importExportOrder = Main::ieoUnknown;
-    QString           shortcutShowHide;
-    QString           shortcutImportClipboard;
+    bool    isHideOnCLose  = false;
+    QString shortcutShowHide;
+    QString shortcutImportClipboard;
     {
         QSettings settings(qS2QS(xlib::core::Application::configPath()), QSettings::IniFormat, this);
 
         settings.beginGroup("file");
         importExportOrder = static_cast<Main::ImportExportOrder>( settings.value("import_export_order", Main::ieoTermValue).toInt() );
+        isHideOnCLose     = settings.value("hide_on_close", false).toBool();
         settings.endGroup();
 
         settings.beginGroup("shortcuts");
@@ -156,6 +158,8 @@ Settings::_settingsLoad()
                 qTEST(false);
                 break;
             }
+
+            ui.chkHideOnClose->setChecked(isHideOnCLose);
         }
 
         // shortcuts
@@ -188,6 +192,7 @@ Settings::_settingsSave()
             break;
         }
     }
+    settings.setValue("hide_on_close", ui.chkHideOnClose->isChecked());
     settings.endGroup();
 
     // shortcuts
@@ -213,6 +218,8 @@ Settings::_settingsSave()
                 qTEST(false);
                 break;
             }
+
+            _wndMain->_isHideOnCLose = ui.chkHideOnClose->isChecked();
         }
 
         // shortcuts
@@ -221,9 +228,6 @@ Settings::_settingsSave()
             _wndMain->_scImportClipboard.setShortcut( ui.kedtImportClipboard->keySequence() );
         }
     }
-
-    settings.setValue("show_hide",        _wndMain->_scShowHide.shortcut().toString());
-    settings.setValue("clipboard_import", _wndMain->_scImportClipboard.shortcut().toString());
 }
 //-------------------------------------------------------------------------------------------------
 

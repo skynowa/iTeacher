@@ -109,6 +109,13 @@
            </property>
           </widget>
          </item>
+         <item row="2" column="0">
+          <widget class="QCheckBox" name="chkHideOnClose">
+           <property name="text">
+            <string>Hide On Close</string>
+           </property>
+          </widget>
+         </item>
         </layout>
        </item>
        <item row="0" column="0">

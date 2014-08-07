@@ -39,6 +39,7 @@ Main::Main(
     _trayIcon         (this),
     _scShowHide       (this),
     _scImportClipboard(this),
+    _isHideOnCLose    (false),
     _db               (Q_NULLPTR),
     _model            (Q_NULLPTR),
     _sqlNavigator     (this),
@@ -115,11 +116,12 @@ Main::closeEvent(
     QCloseEvent *a_event
 )
 {
-    if (true) {
+    if (_isHideOnCLose) {
+        a_event->ignore();
+        slot_OnShowHide();
+    } else {
         QApplication::setQuitOnLastWindowClosed(true);
         a_event->accept();
-    } else {
-        a_event->ignore();
     }
 }
 //-------------------------------------------------------------------------------------------------
@@ -1349,6 +1351,7 @@ Main::_settingsLoad()
     int         columnWidth4    = 0;
     int         columnWidth5    = 0;
     ImportExportOrder importExportOrder = ieoUnknown;
+    bool        isHideOnCLose   = false;
     QString     shortcutShowHide;
     QString     shortcutClipboardImport;
     {
@@ -1374,6 +1377,7 @@ Main::_settingsLoad()
 
         settings.beginGroup("file");
         importExportOrder = static_cast<ImportExportOrder>( settings.value("import_export_order", ieoTermValue).toInt() );
+        isHideOnCLose     = settings.value("hide_on_close", false).toBool();
         settings.endGroup();
 
         settings.beginGroup("shortcuts");
@@ -1412,6 +1416,7 @@ Main::_settingsLoad()
 
         // file
         _importExportOrder = importExportOrder;
+        _isHideOnCLose     = isHideOnCLose;
 
         // shortcuts
         {
@@ -1450,7 +1455,8 @@ Main::_settingsSave()
 
     // file
     settings.beginGroup("file");
-    settings.setValue("import_export_order",   _importExportOrder);
+    settings.setValue("import_export_order", _importExportOrder);
+    settings.setValue("hide_on_close",       _isHideOnCLose);
     settings.endGroup();
 
     // shortcuts
