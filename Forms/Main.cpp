@@ -644,8 +644,7 @@ Main::slot_OnExportClipboard()
 void
 Main::slot_OnExit()
 {
-    _isHideOnCLose = false;
-    close();
+    qApp->exit();
 }
 //-------------------------------------------------------------------------------------------------
 
