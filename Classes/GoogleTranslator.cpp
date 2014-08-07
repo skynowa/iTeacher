@@ -382,7 +382,7 @@ GoogleTranslator::_replyParse(
         textToRaw        = response;
         isDictionaryText = response.contains("Dictionary:");
 
-        qDebug() << qDEBUG_VAR(response);
+        // qDebug() << qDEBUG_VAR(response);
     }
 
     // proccess response
