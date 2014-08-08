@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>725</width>
+    <width>760</width>
     <height>403</height>
    </rect>
   </property>
@@ -67,7 +67,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>725</width>
+     <width>760</width>
      <height>27</height>
     </rect>
    </property>
@@ -180,6 +180,9 @@
    <addaction name="actFind_Search"/>
    <addaction name="separator"/>
    <addaction name="actView_ShowHide"/>
+   <addaction name="separator"/>
+   <addaction name="actOptions_TagsEditor"/>
+   <addaction name="actOptions_Settings"/>
   </widget>
   <action name="actFile_CreateDb">
    <property name="icon">
