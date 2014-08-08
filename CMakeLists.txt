@@ -113,12 +113,18 @@ target_link_libraries(${PROJECT_NAME}
 set(CMAKE_INSTALL_PREFIX "${CMAKE_SOURCE_DIR}/Bin")
 
 install(
-    FILES
-        Readme.txt
+    TARGETS
+        ${PROJECT_NAME}
     DESTINATION
         ${CMAKE_INSTALL_PREFIX}
 )
 
+install(
+    FILES
+        "${CMAKE_SOURCE_DIR}/Readme.txt"
+    DESTINATION
+        ${CMAKE_INSTALL_PREFIX}
+)
 
 #--------------------------------------------------------------------------------------------------
 # CPack
