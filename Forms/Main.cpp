@@ -989,6 +989,13 @@ Main::slot_OnTagsEditor()
     TagsEditor dlgTagsEditor(this, *_db);
 
     (int)dlgTagsEditor.exec();
+
+    // refresh table
+    {
+        cint currentRow = _sqlNavigator.view()->currentIndex().row();
+        _sqlNavigator.model()->select();
+        _sqlNavigator.goTo(currentRow);
+    }
 }
 //-------------------------------------------------------------------------------------------------
 void
