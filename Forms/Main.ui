@@ -389,6 +389,10 @@
    </property>
   </action>
   <action name="actHelp_About">
+   <property name="icon">
+    <iconset resource="../Resources/App.qrc">
+     <normaloff>:/Menu/Menu/About.png</normaloff>:/Menu/Menu/About.png</iconset>
+   </property>
    <property name="text">
     <string>About</string>
    </property>
