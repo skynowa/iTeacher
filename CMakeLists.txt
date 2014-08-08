@@ -92,6 +92,8 @@ project(iTeacher)
 cmake_minimum_required(VERSION 2.8)
 
 set(CMAKE_AUTOMOC ON)
+set(CMAKE_AUTOMOC_RELAXED_MODE ON)
+# AUTOMOC_TARGETS_FOLDER
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
 find_package(Qt5Core REQUIRED)
@@ -100,65 +102,123 @@ find_package(Qt5Widgets REQUIRED)
 find_package(Qt5Sql REQUIRED)
 find_package(Qt5Network REQUIRED)
 find_package(Qt5Xml REQUIRED)
-#find_package(Qt5Printsupport REQUIRED)
+find_package(Qt5PrintSupport REQUIRED)
 find_package(Qt5Multimedia REQUIRED)
+#find_package(Qt5GuiPrivate REQUIRED)
 
-include_directories(${Qt5Core_INCLUDES})
-include_directories(${Qt5Gui_INCLUDES})
-include_directories(${Qt5Widgets_INCLUDES})
-include_directories(${Qt5Sql_INCLUDES})
-include_directories(${Qt5Xml_INCLUDES})
-#include_directories(${Qt5Printsupport_INCLUDES})
-include_directories(${Qt5Multimedia_INCLUDES})
+include_directories(${Qt5Core_INCLUDE_DIRS})
+include_directories(${Qt5Gui_INCLUDE_DIRS})
+include_directories(${Qt5Gui_PRIVATE_INCLUDE_DIRS})
+include_directories(${Qt5Widgets_INCLUDE_DIRS})
+include_directories(${Qt5Sql_INCLUDE_DIRS})
+include_directories(${Qt5Xml_INCLUDE_DIRS})
+include_directories(${Qt5PrintSupport_INCLUDE_DIRS})
+include_directories(${Qt5Multimedia_INCLUDE_DIRS})
+
+
+#INCLUDE_DIRECTORIES( ${CMAKE_CURRENT_BINARY_DIR} ${CMAKE_CURRENT_SOURCE_DIR} )
+
 
 # We need add -DQT_WIDGETS_LIB when using QtWidgets in Qt 5
+add_definitions(${Qt5Core_DEFINITIONS})
+add_definitions(${Qt5Gui_DEFINITIONS})
 add_definitions(${Qt5Widgets_DEFINITIONS})
+add_definitions(${Qt5Sql_DEFINITIONS})
+add_definitions(${Qt5Xml_DEFINITIONS})
+add_definitions(${Qt5PrintSupport_DEFINITIONS})
+add_definitions(${Qt5Multimedia_DEFINITIONS})
 
 # Executables fail to build with Qt 5 in the default configuration without -fPIE. We add that here
 set(CMAKE_CXX_FLAGS "${Qt5Widgets_EXECUTABLE_COMPILE_FLAGS}")
 
-add_executable(iTeacher
-    main.cpp
+
+include_directories(
+    "${CMAKE_SOURCE_DIR}/QtLib"
+    "${CMAKE_SOURCE_DIR}/QtLib/Forms"
+    "${CMAKE_SOURCE_DIR}/Classes"
+    "${CMAKE_SOURCE_DIR}/Forms"
+)
+
+QT5_WRAP_UI(MOC_UI
+    QtLib/Forms/About.ui
+    Forms/Main.ui
+    Forms/WordEditor.ui
+    Forms/WordFinder.ui
+    Forms/TagsEditor.ui
+    Forms/Settings.ui
+)
+
+QT5_WRAP_CPP(MOC_CPP
+    QtLib/Forms/About.cpp
     Forms/Main.cpp
     Forms/WordEditor.cpp
     Forms/WordFinder.cpp
     Forms/TagsEditor.cpp
     Forms/Settings.cpp
+)
+
+add_executable(${PROJECT_NAME}
+    main.cpp
     QtLib/Forms/About.cpp
+    QtLib/Application.cpp
+    QtLib/SqlNavigator.cpp
+    QtLib/SignalGuard.cpp
+
+    QtLib/GlobalShortcut/GlobalShortcut.cpp
+    # QtLib/GlobalShortcut/GlobalShortcut_mac.cpp
+    # QtLib/GlobalShortcut/GlobalShortcut_win.cpp
+    QtLib/GlobalShortcut/GlobalShortcut_x11.cpp
+
+    QtLib/Utils.cpp
     Classes/CenteredCheckBox.cpp
     Classes/CheckBoxItemDelegate.cpp
     Classes/ComboBoxItemDelegate.cpp
     Classes/GoogleTranslator.cpp
-    QtLib/Application.cpp
-    QtLib/SqlNavigator.cpp
-    QtLib/SignalGuard.cpp
-    QtLib/Utils.cpp
+    Forms/Main.cpp
+    Forms/WordEditor.cpp
+    Forms/WordFinder.cpp
+    Forms/TagsEditor.cpp
+    Forms/Settings.cpp
+    ${MOC_UI}
+    ${MOC_CPP}
 )
-target_link_libraries(iTeacher ${Qt5Widgets_LIBRARIES})
+target_link_libraries(${PROJECT_NAME}
+    ${Qt5Widgets_LIBRARIES}
+    ${Qt5Core_LIBRARIES}
+    ${Qt5Gui_LIBRARIES}
+    ${Qt5Widgets_LIBRARIES}
+    ${Qt5Sql_LIBRARIES}
+    ${Qt5Xml_LIBRARIES}
+    ${Qt5PrintSupport_LIBRARIES}
+    ${Qt5Multimedia_LIBRARIES}
+)
 
 #--------------------------------------------------------------------------------------------------
 # CPack
 include(InstallRequiredSystemLibraries)
 
-set(VERSION "1.0.1")
+set(VERSION "1.0.0")
 SET(CPACK_CMAKE_GENERATOR "Unix Makefiles")
 set(CPACK_GENERATOR "ZIP")
 
-set(CPACK_PACKAGE_NAME "iTeacher")
+set(CPACK_PACKAGE_NAME ${PROJECT_NAME})
 set(CPACK_PACKAGE_VERSION ${VERSION})
 set(CPACK_PACKAGE_VERSION_MAJOR "1")
 set(CPACK_PACKAGE_VERSION_MINOR "0")
+set(CPACK_PACKAGE_RELEASE 0)
 
-set(CPACK_PACKAGE_RELEASE 1)
-set(CPACK_PACKAGE_CONTACT "John Explainer")
-set(CPACK_PACKAGE_VENDOR "My Company")
+set(CPACK_PACKAGE_CONTACT "skynowa")
+set(CPACK_PACKAGE_VENDOR "Skynowa Studio")
 set(CPACK_PACKAGING_INSTALL_PREFIX ${CMAKE_INSTALL_PREFIX})
 set(CPACK_PACKAGE_FILE_NAME "${CPACK_PACKAGE_NAME}-${CPACK_PACKAGE_VERSION}-${CPACK_PACKAGE_RELEASE}.${CMAKE_SYSTEM_PROCESSOR}")
 
-set(CPACK_PACKAGE_EXECUTABLES "iTeacher" "iTeacher")
+set(CPACK_PACKAGE_EXECUTABLES ${PROJECT_NAME} ${PROJECT_NAME})
 
 include(CPack)
 
-# cpack -D CPACK_GENERATOR="ZIP;TGZ" ./build
 
 # sudo apt-get install libegl1-mesa-dev
+# cd ..
+# mkdir ../iTeacher_build
+# cmake ../iTeacher
+# cpack ../iTeacher
