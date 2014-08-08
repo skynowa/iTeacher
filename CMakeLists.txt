@@ -19,7 +19,14 @@ find_package(Qt5Network REQUIRED)
 find_package(Qt5Xml REQUIRED)
 find_package(Qt5PrintSupport REQUIRED)
 find_package(Qt5Multimedia REQUIRED)
-#find_package(Qt5GuiPrivate REQUIRED)
+
+add_definitions(${Qt5Core_DEFINITIONS})
+add_definitions(${Qt5Gui_DEFINITIONS})
+add_definitions(${Qt5Widgets_DEFINITIONS})
+add_definitions(${Qt5Sql_DEFINITIONS})
+add_definitions(${Qt5Xml_DEFINITIONS})
+add_definitions(${Qt5PrintSupport_DEFINITIONS})
+add_definitions(${Qt5Multimedia_DEFINITIONS})
 
 include_directories(${Qt5Core_INCLUDE_DIRS})
 include_directories(${Qt5Gui_INCLUDE_DIRS})
@@ -29,23 +36,7 @@ include_directories(${Qt5Sql_INCLUDE_DIRS})
 include_directories(${Qt5Xml_INCLUDE_DIRS})
 include_directories(${Qt5PrintSupport_INCLUDE_DIRS})
 include_directories(${Qt5Multimedia_INCLUDE_DIRS})
-
-
-#INCLUDE_DIRECTORIES( ${CMAKE_CURRENT_BINARY_DIR} ${CMAKE_CURRENT_SOURCE_DIR} )
-
-
-# We need add -DQT_WIDGETS_LIB when using QtWidgets in Qt 5
-add_definitions(${Qt5Core_DEFINITIONS})
-add_definitions(${Qt5Gui_DEFINITIONS})
-add_definitions(${Qt5Widgets_DEFINITIONS})
-add_definitions(${Qt5Sql_DEFINITIONS})
-add_definitions(${Qt5Xml_DEFINITIONS})
-add_definitions(${Qt5PrintSupport_DEFINITIONS})
-add_definitions(${Qt5Multimedia_DEFINITIONS})
-
-# Executables fail to build with Qt 5 in the default configuration without -fPIE. We add that here
-set(CMAKE_CXX_FLAGS "${Qt5Widgets_EXECUTABLE_COMPILE_FLAGS}")
-
+# include_directories( ${CMAKE_CURRENT_BINARY_DIR} ${CMAKE_CURRENT_SOURCE_DIR} )
 
 include_directories(
     "${CMAKE_SOURCE_DIR}/QtLib"
@@ -71,6 +62,9 @@ QT5_WRAP_CPP(MOC_CPP
     Forms/TagsEditor.cpp
     Forms/Settings.cpp
 )
+
+# Add -fPIE
+set(CMAKE_CXX_FLAGS "${Qt5Widgets_EXECUTABLE_COMPILE_FLAGS}")
 
 add_executable(${PROJECT_NAME}
     main.cpp
