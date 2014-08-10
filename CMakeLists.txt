@@ -43,6 +43,7 @@ include_directories(
     "${CMAKE_SOURCE_DIR}/QtLib/Forms"
     "${CMAKE_SOURCE_DIR}/Classes"
     "${CMAKE_SOURCE_DIR}/Forms"
+    "${CMAKE_SOURCE_DIR}/xLib/Include"
 )
 
 QT5_WRAP_UI(MOC_UI
@@ -146,7 +147,7 @@ set(CPACK_PACKAGE_EXECUTABLES ${PROJECT_NAME} ${PROJECT_NAME})
 include(CPack)
 
 
-# sudo apt-get install libegl1-mesa-dev
+# sudo apt-get install libegl1-mesa-dev libgles2-mesa-dev
 # cd ..
 # mkdir ../iTeacher_build
 # cmake ../iTeacher
