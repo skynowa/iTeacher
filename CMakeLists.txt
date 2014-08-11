@@ -7,9 +7,15 @@
 project(iTeacher)
 cmake_minimum_required(VERSION 2.8)
 
+#--------------------------------------------------------------------------------------------------
+# options
 set(CMAKE_AUTOMOC ON)
 # AUTOMOC_TARGETS_FOLDER
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
+
+#--------------------------------------------------------------------------------------------------
+#
+set(_QT5_MODULES Core Gui Widgets Sql Network Xml PrintSupport Multimedia)
 
 find_package(Qt5Core REQUIRED)
 find_package(Qt5Gui REQUIRED)
@@ -46,7 +52,7 @@ include_directories(
     "${CMAKE_SOURCE_DIR}/xLib/Include"
 )
 
-QT5_WRAP_UI(MOC_UI
+qt5_wrap_ui(MOC_UI
     QtLib/Forms/About.ui
     Forms/Main.ui
     Forms/WordEditor.ui
@@ -55,7 +61,7 @@ QT5_WRAP_UI(MOC_UI
     Forms/Settings.ui
 )
 
-QT5_WRAP_CPP(MOC_CPP
+qt5_wrap_cpp(MOC_CPP
     QtLib/Forms/About.cpp
     Forms/Main.cpp
     Forms/WordEditor.cpp
@@ -63,6 +69,8 @@ QT5_WRAP_CPP(MOC_CPP
     Forms/TagsEditor.cpp
     Forms/Settings.cpp
 )
+
+qt5_add_resources(RESOURCES Resources/App.qrc)
 
 # Add -fPIE
 set(CMAKE_CXX_FLAGS "${Qt5Widgets_EXECUTABLE_COMPILE_FLAGS}")
@@ -91,6 +99,7 @@ add_executable(${PROJECT_NAME}
     Forms/Settings.cpp
     ${MOC_UI}
     ${MOC_CPP}
+    ${RESOURCES}
 )
 target_link_libraries(${PROJECT_NAME}
     ${Qt5Widgets_LIBRARIES}
@@ -107,6 +116,13 @@ target_link_libraries(${PROJECT_NAME}
 # install
 set(CMAKE_INSTALL_PREFIX "${CMAKE_SOURCE_DIR}/Bin")
 
+FOREACH(QT5_MODULE ${_QT5_MODULES})
+    GET_TARGET_PROPERTY(dll Qt5::${QT5_MODULE} LOCATION_${CMAKE_BUILD_TYPE})
+    LIST(APPEND DLLS_REQUIRED "${dll}")
+
+    message("Qt5::${QT5_MODULE} - ${dll}")
+ENDFOREACH()
+
 install(
     TARGETS
         ${PROJECT_NAME}
@@ -116,6 +132,7 @@ install(
 
 install(
     FILES
+        ${DLLS_REQUIRED}
         "${CMAKE_SOURCE_DIR}/Readme.txt"
     DESTINATION
         ${CMAKE_INSTALL_PREFIX}
