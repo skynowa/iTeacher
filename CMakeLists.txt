@@ -101,6 +101,10 @@ target_link_libraries(${PROJECT_NAME}
     ${Qt5Xml_LIBRARIES}
     ${Qt5PrintSupport_LIBRARIES}
     ${Qt5Multimedia_LIBRARIES}
+    pthread
+    ${CMAKE_THREAD_LIBS}
+    ${CMAKE_DL_LIBS}
+    -lX11 rt m z
 )
 
 #--------------------------------------------------------------------------------------------------
