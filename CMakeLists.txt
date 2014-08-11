@@ -17,39 +17,19 @@ set(CMAKE_INCLUDE_CURRENT_DIR ON)
 #
 set(_QT5_MODULES Core Gui Widgets Sql Network Xml PrintSupport Multimedia)
 
-find_package(Qt5Core REQUIRED)
-find_package(Qt5Gui REQUIRED)
-find_package(Qt5Widgets REQUIRED)
-find_package(Qt5Sql REQUIRED)
-find_package(Qt5Network REQUIRED)
-find_package(Qt5Xml REQUIRED)
-find_package(Qt5PrintSupport REQUIRED)
-find_package(Qt5Multimedia REQUIRED)
-
-add_definitions(${Qt5Core_DEFINITIONS})
-add_definitions(${Qt5Gui_DEFINITIONS})
-add_definitions(${Qt5Widgets_DEFINITIONS})
-add_definitions(${Qt5Sql_DEFINITIONS})
-add_definitions(${Qt5Xml_DEFINITIONS})
-add_definitions(${Qt5PrintSupport_DEFINITIONS})
-add_definitions(${Qt5Multimedia_DEFINITIONS})
-
-include_directories(${Qt5Core_INCLUDE_DIRS})
-include_directories(${Qt5Gui_INCLUDE_DIRS})
-include_directories(${Qt5Gui_PRIVATE_INCLUDE_DIRS})
-include_directories(${Qt5Widgets_INCLUDE_DIRS})
-include_directories(${Qt5Sql_INCLUDE_DIRS})
-include_directories(${Qt5Xml_INCLUDE_DIRS})
-include_directories(${Qt5PrintSupport_INCLUDE_DIRS})
-include_directories(${Qt5Multimedia_INCLUDE_DIRS})
-# include_directories( ${CMAKE_CURRENT_BINARY_DIR} ${CMAKE_CURRENT_SOURCE_DIR} )
+FOREACH(COMPONENT ${_QT5_MODULES})
+    find_package(Qt5${COMPONENT} REQUIRED)
+    include_directories(${Qt5${COMPONENT}_INCLUDE_DIRS})
+    add_definitions(${Qt5${COMPONENT}_DEFINITIONS})
+ENDFOREACH()
 
 include_directories(
+    "${CMAKE_SOURCE_DIR}/xLib/Include"
+    ${Qt5Gui_PRIVATE_INCLUDE_DIRS}
     "${CMAKE_SOURCE_DIR}/QtLib"
     "${CMAKE_SOURCE_DIR}/QtLib/Forms"
     "${CMAKE_SOURCE_DIR}/Classes"
     "${CMAKE_SOURCE_DIR}/Forms"
-    "${CMAKE_SOURCE_DIR}/xLib/Include"
 )
 
 qt5_wrap_ui(MOC_UI
@@ -101,6 +81,7 @@ add_executable(${PROJECT_NAME}
     ${MOC_CPP}
     ${RESOURCES}
 )
+
 target_link_libraries(${PROJECT_NAME}
     ${Qt5Widgets_LIBRARIES}
     ${Qt5Core_LIBRARIES}
