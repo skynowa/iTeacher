@@ -104,6 +104,7 @@ FOREACH(QT5_MODULE ${_QT5_MODULES})
     message("Qt5::${QT5_MODULE} - ${dll}")
 ENDFOREACH()
 
+# target
 install(
     TARGETS
         ${PROJECT_NAME}
@@ -111,12 +112,28 @@ install(
         ${CMAKE_INSTALL_PREFIX}
 )
 
+# DLLs
 install(
     FILES
         ${DLLS_REQUIRED}
-        "${CMAKE_SOURCE_DIR}/Readme.txt"
     DESTINATION
-        ${CMAKE_INSTALL_PREFIX}
+        ${CMAKE_INSTALL_PREFIX}/Libs
+)
+
+# Doc
+install(
+    FILES
+        ${CMAKE_SOURCE_DIR}/Readme.txt
+    DESTINATION
+        ${CMAKE_INSTALL_PREFIX}/Doc
+)
+
+# Resources
+install(
+    FILES
+        ${CMAKE_SOURCE_DIR}/Resources/App.ico
+    DESTINATION
+        ${CMAKE_INSTALL_PREFIX}/Resources
 )
 
 #--------------------------------------------------------------------------------------------------
