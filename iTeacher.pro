@@ -82,10 +82,10 @@ win32 {
 }
 
 CONFIG(debug, debug | release) {
-    DISTR_DIR   = Distr/Debug
+    DISTR_DIR   = Bin/Debug
     OUT_DIR     = Build/Debug
 } else {
-    DISTR_DIR   = Distr/Release
+    DISTR_DIR   = Bin/Release
     OUT_DIR     = Build/Release
 }
 
