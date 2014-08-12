@@ -14,8 +14,8 @@ set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
 #--------------------------------------------------------------------------------------------------
 # modules
-set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}")
-set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/xLib/CMake")
+set(CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR})
+set(CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/xLib/CMake)
 include(FindxLib)
 
 #--------------------------------------------------------------------------------------------------
@@ -42,10 +42,10 @@ endforeach()
 include_directories(
     ${XLIB_INCLUDES}
     ${Qt5Gui_PRIVATE_INCLUDE_DIRS}
-    "${CMAKE_SOURCE_DIR}/QtLib"
-    "${CMAKE_SOURCE_DIR}/QtLib/Forms"
-    "${CMAKE_SOURCE_DIR}/Classes"
-    "${CMAKE_SOURCE_DIR}/Forms"
+    ${CMAKE_SOURCE_DIR}/QtLib
+    ${CMAKE_SOURCE_DIR}/QtLib/Forms
+    ${CMAKE_SOURCE_DIR}/Classes
+    ${CMAKE_SOURCE_DIR}/Forms
 )
 
 qt5_wrap_ui(MOC_UI
@@ -102,7 +102,7 @@ target_link_libraries(${PROJECT_NAME} ${XLIB_LIBRARIES})
 
 #--------------------------------------------------------------------------------------------------
 # install
-set(CMAKE_INSTALL_PREFIX "${CMAKE_SOURCE_DIR}/Bin")
+set(CMAKE_INSTALL_PREFIX ${CMAKE_SOURCE_DIR}/Bin)
 
 foreach(QT5_MODULE ${_QT5_MODULES})
     GET_TARGET_PROPERTY(dll Qt5::${QT5_MODULE} LOCATION_${CMAKE_BUILD_TYPE})
