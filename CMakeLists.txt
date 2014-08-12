@@ -13,6 +13,12 @@ set(CMAKE_AUTOMOC ON)
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
 #--------------------------------------------------------------------------------------------------
+# modules
+set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}")
+set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/xLib/CMake")
+include(FindxLib)
+
+#--------------------------------------------------------------------------------------------------
 # checks
 
 # Check if Qtversion is >=QT_OFFICIAL_VERSION.
@@ -34,7 +40,7 @@ foreach(COMPONENT ${_QT5_MODULES})
 endforeach()
 
 include_directories(
-    "${CMAKE_SOURCE_DIR}/xLib/Include"
+    ${XLIB_INCLUDES}
     ${Qt5Gui_PRIVATE_INCLUDE_DIRS}
     "${CMAKE_SOURCE_DIR}/QtLib"
     "${CMAKE_SOURCE_DIR}/QtLib/Forms"
@@ -92,7 +98,7 @@ add_executable(${PROJECT_NAME}
     ${RESOURCES}
 )
 
-target_link_libraries(${PROJECT_NAME} ${CMAKE_THREAD_LIBS} ${CMAKE_DL_LIBS} pthread X11 rt m z)
+target_link_libraries(${PROJECT_NAME} ${XLIB_LIBRARIES})
 
 #--------------------------------------------------------------------------------------------------
 # install
@@ -102,7 +108,7 @@ foreach(QT5_MODULE ${_QT5_MODULES})
     GET_TARGET_PROPERTY(dll Qt5::${QT5_MODULE} LOCATION_${CMAKE_BUILD_TYPE})
     LIST(APPEND DLLS_REQUIRED "${dll}")
 
-    message("Qt5::${QT5_MODULE} - ${dll}")
+    # message("Qt5::${QT5_MODULE} - ${dll}")
 endforeach()
 
 # target
