@@ -11,7 +11,7 @@ include(InstallRequiredSystemLibraries)
 set(CPACK_SET_DESTDIR ON)
 
 #--------------------------------------------------------------------------------------------------
-# Basic settings
+# settings
 set(CPACK_GENERATOR "ZIP")
     # CPack generator to be used:
     # DEB    = Debian packages
@@ -42,15 +42,6 @@ set(CPACK_PACKAGE_EXECUTABLES ${PROJECT_NAME} ${PROJECT_NAME})
     # List of pairs of executables and labels. Used by the NSIS generator to create Start Menu
     # shortcuts.
     # Example: ccmake;CMake
-set(CPACK_PACKAGE_FILE_NAME ${CPACK_PACKAGE_NAME}-${CPACK_PACKAGE_VERSION}.${CMAKE_SYSTEM_PROCESSOR})
-    # Package file name without extension. Also a directory of installer
-    # Example: cmake-2.5.0-Linux-i686
-# set(CPACK_PACKAGE_INSTALL_DIRECTORY xxxxxxxxxxxxxxx)
-    # Installation directory on the target system
-    # Example: CMake 2.5
-# set(CPACK_PACKAGE_INSTALL_REGISTRY_KEY xxxxxxxxxxxxxxx)
-    # Registry key used when installing this project
-    # Example: CMake 2.5.0
 set(CPACK_PACKAGE_NAME ${PROJECT_NAME})
     # Package name, defaults to the project name.
     # Example: CMake
@@ -70,15 +61,27 @@ set(CPACK_PACKAGE_VERSION_PATCH 0)
     # File included at cpack time, once per generator after setting CPACK_GENERATOR to the actual
     # generator being used; allows per-generator setting of CPACK_* variables at cpack time.
     # Example: ${PROJECT_BINARY_DIR}/CPackOptions.cmake
+set(CPACK_PACKAGE_VERSION ${CPACK_PACKAGE_VERSION_MAJOR}.${CPACK_PACKAGE_VERSION_MINOR}.${CPACK_PACKAGE_VERSION_PATCH})
+    # Package full version, used internally.
+    # Example: 2.5.0
 set(CPACK_SOURCE_GENERATOR "ZIP")
     # List of generators used for the source package
     # Example: TGZ;TZ
 set(CPACK_SOURCE_IGNORE_FILES ".git;")
     # Pattern of files in the source tree that won't be packaged
     # Example: /CVS/;/\\.svn/;\\.swp$;\\.#;/#;.*~;cscope.*
-set(CPACK_SOURCE_PACKAGE_FILE_NAME xxxxxxxxxxxxxxx)
+set(CPACK_SOURCE_PACKAGE_FILE_NAME ${CPACK_PACKAGE_NAME}-${CPACK_PACKAGE_VERSION})
     # Name of the source package
     # Example: cmake-2.5.0
+set(CPACK_PACKAGE_FILE_NAME ${CPACK_PACKAGE_NAME}-${CPACK_PACKAGE_VERSION}.${CMAKE_SYSTEM_PROCESSOR})
+    # Package file name without extension. Also a directory of installer
+    # Example: cmake-2.5.0-Linux-i686
+# set(CPACK_PACKAGE_INSTALL_DIRECTORY xxxxxxxxxxxxxxx)
+    # Installation directory on the target system
+    # Example: CMake 2.5
+# set(CPACK_PACKAGE_INSTALL_REGISTRY_KEY xxxxxxxxxxxxxxx)
+    # Registry key used when installing this project
+    # Example: CMake 2.5.0
 # set(CPACK_SOURCE_STRIP_FILES xxxxxxxxxxxxxxx)
     # List of files in the source tree that will be stripped. Starting with CMake 2.6.0
     # CPACK_SOURCE_STRIP_FILES will be a boolean variable which enables stripping of all files
@@ -92,8 +95,6 @@ set(CPACK_SOURCE_PACKAGE_FILE_NAME xxxxxxxxxxxxxxx)
 set(CPACK_SYSTEM_NAME ${CMAKE_SYSTEM_NAME})
     # System name, defaults to the value of ${CMAKE_SYSTEM_NAME}.
     # Example: Linux-i686
-#--------------------------------------------------------------------------------------------------
-# Advanced settings
 set(CPACK_CMAKE_GENERATOR "Unix Makefiles")
     # What CMake generator should be used if the project is CMake project.
     # Defaults to the value of CMAKE_GENERATOR.
@@ -107,9 +108,6 @@ set(CPACK_CMAKE_GENERATOR "Unix Makefiles")
 # set(CPACK_RESOURCE_FILE_WELCOME xxxxxxxxxxxxxxx)
     # Welcome file for the project, used by PackageMaker generator.
     # Example: /home/andy/vtk/CMake/Templates/CPack.GenericWelcome.txt
-set(CPACK_PACKAGE_VERSION "${CPACK_PACKAGE_VERSION_MAJOR}.${CPACK_PACKAGE_VERSION_MINOR}.${CPACK_PACKAGE_VERSION_PATCH}")
-    # Package full version, used internally.
-    # Example: 2.5.0
 # set(CPACK_TOPLEVEL_TAG xxxxxxxxxxxxxxx)
     # Directory for the installed files.
     # Example: Linux-i686
