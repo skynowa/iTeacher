@@ -24,18 +24,18 @@ set(CPACK_GENERATOR "ZIP")
     # TZ     = Tar Compress compression
     # ZIP    = ZIP file format
     # Example: STGZ;TGZ;TZ
-set(CPACK_INCLUDE_TOPLEVEL_DIRECTORY xxxxxxxxxxxxxxx)
+# set(CPACK_INCLUDE_TOPLEVEL_DIRECTORY xxxxxxxxxxxxxxx)
     # Controls whether CPack adds a top-level directory, usually of the form ProjectName-Version-OS,
     # to the top of package tree.
     # Example: 0 to disable, 1 to enable
-set(CPACK_INSTALL_CMAKE_PROJECTS xxxxxxxxxxxxxxx)
+# set(CPACK_INSTALL_CMAKE_PROJECTS xxxxxxxxxxxxxxx)
     # List of four values: Build directory, Project Name, Project Component, Directory in the
     # package
     # Example: /home/andy/vtk/CMake-bin;CMake;ALL;/
-set(CPACK_PACKAGE_DESCRIPTION_FILE xxxxxxxxxxxxxxx)
+set(CPACK_PACKAGE_DESCRIPTION_FILE ${CMAKE_SOURCE_DIR}/Readme.txt)
     # File used as a description of a project
     # Example: /path/to/project/ReadMe.txt
-set(CPACK_PACKAGE_DESCRIPTION_SUMMARY xxxxxxxxxxxxxxx)
+set(CPACK_PACKAGE_DESCRIPTION_SUMMARY "Learning foreign words")
     # Description summary of a project
     # Example: CMake is a build tool
 set(CPACK_PACKAGE_EXECUTABLES ${PROJECT_NAME} ${PROJECT_NAME})
@@ -45,10 +45,10 @@ set(CPACK_PACKAGE_EXECUTABLES ${PROJECT_NAME} ${PROJECT_NAME})
 set(CPACK_PACKAGE_FILE_NAME ${CPACK_PACKAGE_NAME}-${CPACK_PACKAGE_VERSION}.${CMAKE_SYSTEM_PROCESSOR})
     # Package file name without extension. Also a directory of installer
     # Example: cmake-2.5.0-Linux-i686
-set(CPACK_PACKAGE_INSTALL_DIRECTORY xxxxxxxxxxxxxxx)
+# set(CPACK_PACKAGE_INSTALL_DIRECTORY xxxxxxxxxxxxxxx)
     # Installation directory on the target system
     # Example: CMake 2.5
-set(CPACK_PACKAGE_INSTALL_REGISTRY_KEY xxxxxxxxxxxxxxx)
+# set(CPACK_PACKAGE_INSTALL_REGISTRY_KEY xxxxxxxxxxxxxxx)
     # Registry key used when installing this project
     # Example: CMake 2.5.0
 set(CPACK_PACKAGE_NAME ${PROJECT_NAME})
@@ -66,30 +66,30 @@ set(CPACK_PACKAGE_VERSION_MINOR 0)
 set(CPACK_PACKAGE_VERSION_PATCH 0)
     # Package Patch Version
     # Example: 0
-set(CPACK_PROJECT_CONFIG_FILE xxxxxxxxxxxxxxx)
+# set(CPACK_PROJECT_CONFIG_FILE xxxxxxxxxxxxxxx)
     # File included at cpack time, once per generator after setting CPACK_GENERATOR to the actual
     # generator being used; allows per-generator setting of CPACK_* variables at cpack time.
     # Example: ${PROJECT_BINARY_DIR}/CPackOptions.cmake
-set(CPACK_SOURCE_GENERATOR xxxxxxxxxxxxxxx)
+set(CPACK_SOURCE_GENERATOR "ZIP")
     # List of generators used for the source package
     # Example: TGZ;TZ
-set(CPACK_SOURCE_IGNORE_FILES xxxxxxxxxxxxxxx)
+set(CPACK_SOURCE_IGNORE_FILES "/\\.git/;")
     # Pattern of files in the source tree that won't be packaged
     # Example: /CVS/;/\\.svn/;\\.swp$;\\.#;/#;.*~;cscope.*
 set(CPACK_SOURCE_PACKAGE_FILE_NAME xxxxxxxxxxxxxxx)
     # Name of the source package
     # Example: cmake-2.5.0
-set(CPACK_SOURCE_STRIP_FILES xxxxxxxxxxxxxxx)
+# set(CPACK_SOURCE_STRIP_FILES xxxxxxxxxxxxxxx)
     # List of files in the source tree that will be stripped. Starting with CMake 2.6.0
     # CPACK_SOURCE_STRIP_FILES will be a boolean variable which enables stripping of all files
     # (a list of files evaluates to TRUE in CMake, so this change is compatible).
     # Example: -
-set(CPACK_STRIP_FILES xxxxxxxxxxxxxxx)
+# set(CPACK_STRIP_FILES xxxxxxxxxxxxxxx)
     # List of files to be stripped. Starting with CMake 2.6.0 CPACK_STRIP_FILES will be a boolean
     # variable which enables stripping of all files (a list of files evaluates to TRUE in CMake,
     # so this change is compatible).
     # Example: bin/ccmake;bin/cmake;bin/cpack;bin/ctest
-set(CPACK_SYSTEM_NAME xxxxxxxxxxxxxxx)
+set(CPACK_SYSTEM_NAME ${CMAKE_SYSTEM_NAME})
     # System name, defaults to the value of ${CMAKE_SYSTEM_NAME}.
     # Example: Linux-i686
 #--------------------------------------------------------------------------------------------------
@@ -98,32 +98,32 @@ set(CPACK_CMAKE_GENERATOR "Unix Makefiles")
     # What CMake generator should be used if the project is CMake project.
     # Defaults to the value of CMAKE_GENERATOR.
     # Example: Unix Makefiles
-set(CPACK_RESOURCE_FILE_LICENSE xxxxxxxxxxxxxxx)
+# set(CPACK_RESOURCE_FILE_LICENSE xxxxxxxxxxxxxxx)
     # License file for the project, used by the STGZ, NSIS, and PackageMaker generators.
     # Example: /home/andy/vtk/CMake/Copyright.txt
-set(CPACK_RESOURCE_FILE_README xxxxxxxxxxxxxxx)
+# set(CPACK_RESOURCE_FILE_README xxxxxxxxxxxxxxx)
     # ReadMe file for the project, used by PackageMaker generator.
     # Example: /home/andy/vtk/CMake/Templates/CPack.GenericDescription.txt
-set(CPACK_RESOURCE_FILE_WELCOME xxxxxxxxxxxxxxx)
+# set(CPACK_RESOURCE_FILE_WELCOME xxxxxxxxxxxxxxx)
     # Welcome file for the project, used by PackageMaker generator.
     # Example: /home/andy/vtk/CMake/Templates/CPack.GenericWelcome.txt
 set(CPACK_PACKAGE_VERSION ${CPACK_PACKAGE_VERSION_MAJOR}.${CPACK_PACKAGE_VERSION_MINOR}.${CPACK_PACKAGE_VERSION_PATCH})
     # Package full version, used internally.
     # Example: 2.5.0
-set(CPACK_TOPLEVEL_TAG xxxxxxxxxxxxxxx)
+# set(CPACK_TOPLEVEL_TAG xxxxxxxxxxxxxxx)
     # Directory for the installed files.
     # Example: Linux-i686
-set(CPACK_INSTALL_COMMANDS xxxxxxxxxxxxxxx)
+# set(CPACK_INSTALL_COMMANDS xxxxxxxxxxxxxxx)
     # Extra commands to install components. Executed in addition to ..._SCRIPT and
     # CPACK_INSTALLED_DIRECTORIES.
-set(CPACK_INSTALL_SCRIPT xxxxxxxxxxxxxxx)
+# set(CPACK_INSTALL_SCRIPT xxxxxxxxxxxxxxx)
     # Extra script to install components. Executed in addition to related variables.
-set(CPACK_INSTALLED_DIRECTORIES xxxxxxxxxxxxxxx)
+# set(CPACK_INSTALLED_DIRECTORIES xxxxxxxxxxxxxxx)
     # Extra directories to install. Note that spelling is CPACK_INSTALLED_DIRECTORIES
     # (wrong docs in CPack.cmake). Executed in addition to related variables.
-set(CPACK_MONOLITHIC_INSTALL xxxxxxxxxxxxxxx)
+# set(CPACK_MONOLITHIC_INSTALL xxxxxxxxxxxxxxx)
     # When set disables the component-based installer.
-set(CPACK_PACKAGING_INSTALL_PREFIX xxxxxxxxxxxxxxx)
+# set(CPACK_PACKAGING_INSTALL_PREFIX xxxxxxxxxxxxxxx)
     # Sets the default root that the generated package installs into, '/usr' is the default for
     # the debian and redhat generators
     # Example: /usr/local
@@ -143,7 +143,4 @@ include(CPack)
 # cd ..
 # mkdir ../iTeacher_build
 # cmake ../iTeacher
-# cpack ../iTeacher or make package
-
-
-# https://github.com/Kitware/ParaView/blob/master/CMake/ParaViewQt5.cmake
+# cpack ../iTeacher (or make package)
