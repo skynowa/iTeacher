@@ -73,7 +73,10 @@ set(CPACK_SOURCE_IGNORE_FILES ".git;")
 set(CPACK_SOURCE_PACKAGE_FILE_NAME ${CPACK_PACKAGE_NAME}-${CPACK_PACKAGE_VERSION})
     # Name of the source package
     # Example: cmake-2.5.0
-set(CPACK_PACKAGE_FILE_NAME ${CPACK_PACKAGE_NAME}-${CPACK_PACKAGE_VERSION}.${CMAKE_SYSTEM_PROCESSOR})
+set(CPACK_SYSTEM_NAME ${CMAKE_SYSTEM_NAME})
+    # System name, defaults to the value of ${CMAKE_SYSTEM_NAME}.
+    # Example: Linux-i686
+set(CPACK_PACKAGE_FILE_NAME ${CPACK_PACKAGE_NAME}-${CPACK_PACKAGE_VERSION}-${CMAKE_SYSTEM_NAME})
     # Package file name without extension. Also a directory of installer
     # Example: cmake-2.5.0-Linux-i686
 # set(CPACK_PACKAGE_INSTALL_DIRECTORY xxxxxxxxxxxxxxx)
@@ -92,9 +95,6 @@ set(CPACK_PACKAGE_FILE_NAME ${CPACK_PACKAGE_NAME}-${CPACK_PACKAGE_VERSION}.${CMA
     # variable which enables stripping of all files (a list of files evaluates to TRUE in CMake,
     # so this change is compatible).
     # Example: bin/ccmake;bin/cmake;bin/cpack;bin/ctest
-set(CPACK_SYSTEM_NAME ${CMAKE_SYSTEM_NAME})
-    # System name, defaults to the value of ${CMAKE_SYSTEM_NAME}.
-    # Example: Linux-i686
 set(CPACK_CMAKE_GENERATOR "Unix Makefiles")
     # What CMake generator should be used if the project is CMake project.
     # Defaults to the value of CMAKE_GENERATOR.
