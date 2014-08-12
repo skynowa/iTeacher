@@ -107,10 +107,10 @@ target_link_libraries(${PROJECT_NAME} ${XLIB_LIBRARIES})
 set(CMAKE_INSTALL_PREFIX ${CMAKE_SOURCE_DIR}/Bin)
 
 foreach(QT5_MODULE ${_QT5_MODULES})
-    GET_TARGET_PROPERTY(dll Qt5::${QT5_MODULE} LOCATION_${CMAKE_BUILD_TYPE})
-    LIST(APPEND DLLS_REQUIRED "${dll}")
+    GET_TARGET_PROPERTY(DLL Qt5::${QT5_MODULE} LOCATION_${CMAKE_BUILD_TYPE})
+    LIST(APPEND DLLS_REQUIRED "${DLL}")
 
-    # message("Qt5::${QT5_MODULE} - ${dll}")
+    # message("Qt5::${QT5_MODULE} - ${DLL}\n")
 endforeach()
 
 # target
@@ -122,12 +122,25 @@ install(
 )
 
 # DLLs
-install(
-    FILES
-        ${DLLS_REQUIRED}
-    DESTINATION
-        ${CMAKE_INSTALL_PREFIX}/Libs
-)
+function(install_files)
+    if (UNIX)
+        foreach(file ${ARGV})
+            get_filename_component(name_without_extension ${file} NAME_WE)
+            install(FILES ${file} DESTINATION ${CMAKE_INSTALL_PREFIX}/Libs RENAME ${name_without_extension})
+        endforeach()
+    else (WIN32)
+        install(FILES ${ARGV} DESTINATION ${CMAKE_INSTALL_PREFIX}/Libs)
+    endif()
+endfunction()
+
+# install(
+#     FILES
+#         ${DLLS_REQUIRED}
+#     DESTINATION
+#         ${CMAKE_INSTALL_PREFIX}/Libs
+# )
+
+install_files(${DLLS_REQUIRED})
 
 # Doc
 install(
