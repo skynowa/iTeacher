@@ -100,7 +100,7 @@ add_executable(${PROJECT_NAME}
     ${RESOURCES}
 )
 
-target_link_libraries(${PROJECT_NAME} ${XLIB_LIBRARIES})
+target_link_libraries(${PROJECT_NAME} ${XLIB_LIBRARIES} X11)
 
 #--------------------------------------------------------------------------------------------------
 # install
