@@ -1,7 +1,7 @@
 #--------------------------------------------------------------------------------------------------
 # \file  Package.cmake
-# \brief
-#        http://www.cmake.org/Wiki/CMake%3aCPackConfiguration
+# \brief CPack config
+#        http://www.cmake.org/Wiki/CMake:CPackConfiguration
 #--------------------------------------------------------------------------------------------------
 
 
