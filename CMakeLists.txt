@@ -15,7 +15,9 @@ set(CMAKE_INCLUDE_CURRENT_DIR ON)
 #--------------------------------------------------------------------------------------------------
 # modules
 set(CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR})
-set(CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/xLib/CMake)
+
+set(XLIB_LOCATION ${CMAKE_SOURCE_DIR}/xLib) # set for FindxLib
+set(CMAKE_MODULE_PATH ${XLIB_LOCATION}/CMake)
 include(FindxLib)
 
 #--------------------------------------------------------------------------------------------------
