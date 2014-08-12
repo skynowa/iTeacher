@@ -123,14 +123,19 @@ install(
 
 # DLLs
 function(install_files)
-    if (UNIX)
-        foreach(file ${ARGV})
-            get_filename_component(name_without_extension ${file} NAME_WE)
-            install(FILES ${file} DESTINATION ${CMAKE_INSTALL_PREFIX}/Libs RENAME ${name_without_extension})
-        endforeach()
-    else (WIN32)
-        install(FILES ${ARGV} DESTINATION ${CMAKE_INSTALL_PREFIX}/Libs)
-    endif()
+    foreach(FILE ${ARGV})
+        get_filename_component(NAME_NEW ${FILE} NAME_WE)
+
+        if   (ENV_WIN)
+            set(NAME_NEW ${NAME_NEW}.dll)
+        else (WIN32)
+            set(NAME_NEW ${NAME_NEW}.so)
+        else (ENV_APPLE)
+            set(NAME_NEW ${NAME_NEW}.dylib)
+        endif()
+
+        install(FILES ${FILE} DESTINATION ${CMAKE_INSTALL_PREFIX}/Libs RENAME ${NAME_NEW})
+    endforeach()
 endfunction()
 
 # install(
