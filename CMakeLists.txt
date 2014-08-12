@@ -10,7 +10,6 @@ cmake_minimum_required(VERSION 2.8)
 #--------------------------------------------------------------------------------------------------
 # options
 set(CMAKE_AUTOMOC ON)
-# AUTOMOC_TARGETS_FOLDER
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
 #--------------------------------------------------------------------------------------------------
@@ -27,11 +26,12 @@ endif()
 #
 set(_QT5_MODULES Core Gui Widgets Sql Network Xml PrintSupport Multimedia)
 
-FOREACH(COMPONENT ${_QT5_MODULES})
+foreach(COMPONENT ${_QT5_MODULES})
     find_package(Qt5${COMPONENT} REQUIRED)
     include_directories(${Qt5${COMPONENT}_INCLUDE_DIRS})
     add_definitions(${Qt5${COMPONENT}_DEFINITIONS})
-ENDFOREACH()
+    link_libraries(${Qt5${COMPONENT}_LIBRARIES})
+endforeach()
 
 include_directories(
     "${CMAKE_SOURCE_DIR}/xLib/Include"
@@ -92,31 +92,18 @@ add_executable(${PROJECT_NAME}
     ${RESOURCES}
 )
 
-target_link_libraries(${PROJECT_NAME}
-    ${Qt5Widgets_LIBRARIES}
-    ${Qt5Core_LIBRARIES}
-    ${Qt5Gui_LIBRARIES}
-    ${Qt5Widgets_LIBRARIES}
-    ${Qt5Sql_LIBRARIES}
-    ${Qt5Xml_LIBRARIES}
-    ${Qt5PrintSupport_LIBRARIES}
-    ${Qt5Multimedia_LIBRARIES}
-    pthread
-    ${CMAKE_THREAD_LIBS}
-    ${CMAKE_DL_LIBS}
-    -lX11 rt m z
-)
+target_link_libraries(${PROJECT_NAME} ${CMAKE_THREAD_LIBS} ${CMAKE_DL_LIBS} pthread X11 rt m z)
 
 #--------------------------------------------------------------------------------------------------
 # install
 set(CMAKE_INSTALL_PREFIX "${CMAKE_SOURCE_DIR}/Bin")
 
-FOREACH(QT5_MODULE ${_QT5_MODULES})
+foreach(QT5_MODULE ${_QT5_MODULES})
     GET_TARGET_PROPERTY(dll Qt5::${QT5_MODULE} LOCATION_${CMAKE_BUILD_TYPE})
     LIST(APPEND DLLS_REQUIRED "${dll}")
 
     message("Qt5::${QT5_MODULE} - ${dll}")
-ENDFOREACH()
+endforeach()
 
 # target
 install(
