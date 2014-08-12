@@ -73,7 +73,7 @@ set(CPACK_PACKAGE_VERSION_PATCH 0)
 set(CPACK_SOURCE_GENERATOR "ZIP")
     # List of generators used for the source package
     # Example: TGZ;TZ
-set(CPACK_SOURCE_IGNORE_FILES "/\\.git/;")
+set(CPACK_SOURCE_IGNORE_FILES ".git;")
     # Pattern of files in the source tree that won't be packaged
     # Example: /CVS/;/\\.svn/;\\.swp$;\\.#;/#;.*~;cscope.*
 set(CPACK_SOURCE_PACKAGE_FILE_NAME xxxxxxxxxxxxxxx)
@@ -107,7 +107,7 @@ set(CPACK_CMAKE_GENERATOR "Unix Makefiles")
 # set(CPACK_RESOURCE_FILE_WELCOME xxxxxxxxxxxxxxx)
     # Welcome file for the project, used by PackageMaker generator.
     # Example: /home/andy/vtk/CMake/Templates/CPack.GenericWelcome.txt
-set(CPACK_PACKAGE_VERSION ${CPACK_PACKAGE_VERSION_MAJOR}.${CPACK_PACKAGE_VERSION_MINOR}.${CPACK_PACKAGE_VERSION_PATCH})
+set(CPACK_PACKAGE_VERSION "${CPACK_PACKAGE_VERSION_MAJOR}.${CPACK_PACKAGE_VERSION_MINOR}.${CPACK_PACKAGE_VERSION_PATCH}")
     # Package full version, used internally.
     # Example: 2.5.0
 # set(CPACK_TOPLEVEL_TAG xxxxxxxxxxxxxxx)
