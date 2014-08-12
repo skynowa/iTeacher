@@ -137,4 +137,4 @@ install(
         ${CMAKE_INSTALL_PREFIX}/Resources
 )
 
-include(Pack.cmake)
+include(Package.cmake)
