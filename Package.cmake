@@ -137,7 +137,7 @@ set(CPACK_OUTPUT_FILE_PREFIX ${CMAKE_SOURCE_DIR}/Distr/${CMAKE_BUILD_TYPE})
 include(CPack)
 
 
-# sudo apt-get install libegl1-mesa-dev libgles2-mesa-dev
+# sudo apt-get install libegl1-mesa-dev libgles2-mesa-dev libgl1-mesa-dev
 # cd ..
 # mkdir ../iTeacher_build
 # cmake ../iTeacher
