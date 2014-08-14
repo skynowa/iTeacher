@@ -68,12 +68,6 @@ qt5_wrap_ui(MOC_UI
 )
 
 qt5_wrap_cpp(MOC_CPP
-    QtLib/Forms/About.cpp
-    Forms/Main.cpp
-    Forms/WordEditor.cpp
-    Forms/WordFinder.cpp
-    Forms/TagsEditor.cpp
-    Forms/Settings.cpp
 )
 
 qt5_add_resources(RESOURCES Resources/App.qrc)
