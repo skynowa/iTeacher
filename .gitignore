@@ -16,6 +16,7 @@ android-build
 ##### files #####
 todo.txt
 *.pro.user
+*.txt.user
 *.pro.user.*
 *.autosave
 Makefile*
