@@ -161,6 +161,7 @@ install(
 install(
     FILES
         ${CMAKE_SOURCE_DIR}/Resources/App.ico
+        ${CMAKE_SOURCE_DIR}/Resources/App.png
     DESTINATION
         ${CMAKE_INSTALL_PREFIX}/Resources
 )
