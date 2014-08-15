@@ -106,7 +106,7 @@ target_link_libraries(${PROJECT_NAME} ${XLIB_LIBRARIES} X11)
 
 #--------------------------------------------------------------------------------------------------
 # install
-set(CMAKE_INSTALL_PREFIX ${CMAKE_SOURCE_DIR}/Bin)
+set(CMAKE_INSTALL_PREFIX ".")
 
 foreach(QT5_MODULE ${_QT5_MODULES})
     GET_TARGET_PROPERTY(DLL Qt5::${QT5_MODULE} LOCATION_${CMAKE_BUILD_TYPE})
