@@ -133,8 +133,8 @@ WordFinder::slot_bbxButtons_OnClicked(
 void
 WordFinder::_resetAll()
 {
-    ui.cboTerm->clear();
-    ui.cboValue->clear();
+    ui.cboTerm->setCurrentText("");
+    ui.cboValue->setCurrentText("");
     ui.cboTags->setCurrentText("");
     ui.chkNotLearned->setChecked(false);
     ui.chkNotMarked->setChecked(false);
