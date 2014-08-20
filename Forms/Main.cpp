@@ -182,7 +182,9 @@ Main::_initMain()
     }
 
     // tray icon
-    if (QSystemTrayIcon::isSystemTrayAvailable()) {
+    if (!QSystemTrayIcon::isSystemTrayAvailable()) {
+        qDebug() << qDEBUG_VAR(QSystemTrayIcon::isSystemTrayAvailable());
+    } else {
         // mnuTrayIcon
         QMenu *mnuTrayIcon = new QMenu(this);
         mnuTrayIcon->addMenu(ui.menuFile);
@@ -199,8 +201,6 @@ Main::_initMain()
         _trayIcon.setToolTip( qS2QS(xlib::core::Application::name()) );
         _trayIcon.setContextMenu(mnuTrayIcon);
         _trayIcon.show();
-    } else {
-        qDebug() << qDEBUG_VAR(QSystemTrayIcon::isSystemTrayAvailable());
     }
 }
 //-------------------------------------------------------------------------------------------------
