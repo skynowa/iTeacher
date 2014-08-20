@@ -10,6 +10,10 @@
     <height>477</height>
    </rect>
   </property>
+  <property name="windowIcon">
+   <iconset resource="../Resources/App.qrc">
+    <normaloff>:/Menu/Menu/Options.png</normaloff>:/Menu/Menu/Options.png</iconset>
+  </property>
   <property name="sizeGripEnabled">
    <bool>true</bool>
   </property>
@@ -271,6 +275,8 @@
   <tabstop>twGroups</tabstop>
   <tabstop>bbxButtons</tabstop>
  </tabstops>
- <resources/>
+ <resources>
+  <include location="../Resources/App.qrc"/>
+ </resources>
  <connections/>
 </ui>

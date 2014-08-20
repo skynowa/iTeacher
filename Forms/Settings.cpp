@@ -76,7 +76,6 @@ Settings::_initMain()
 
     // Main
     {
-        setWindowIcon( QIcon(RES_MAIN_ICON) );
         setWindowTitle( qS2QS(xlib::core::Application::name()) );
         // setGeometry(0, 0, APP_WIDTH, APP_HEIGHT);
         qtlib::Utils::widgetAlignCenter(this);

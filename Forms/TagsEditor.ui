@@ -13,6 +13,10 @@
   <property name="windowTitle">
    <string>Tags editor</string>
   </property>
+  <property name="windowIcon">
+   <iconset resource="../Resources/App.qrc">
+    <normaloff>:/Menu/Menu/TagsEditor.png</normaloff>:/Menu/Menu/TagsEditor.png</iconset>
+  </property>
   <property name="sizeGripEnabled">
    <bool>true</bool>
   </property>
@@ -64,6 +68,8 @@
    </property>
   </action>
  </widget>
- <resources/>
+ <resources>
+  <include location="../Resources/App.qrc"/>
+ </resources>
  <connections/>
 </ui>

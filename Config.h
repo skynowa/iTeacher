@@ -64,10 +64,6 @@
 #define AUDIO_TERM_FILE_NAME    "term.mp3"
 #define AUDIO_VALUE_FILE_NAME   "value.mp3"
 
-// resources
-#define RES_MAIN_ICON           ":/App.ico"
-#define RES_MAIN_PNG            ":/App.png"
-
 // etc
 #define DB_FILE_EXT             ".db"
 #define LANG_EN                 "en"

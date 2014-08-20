@@ -10,6 +10,10 @@
     <height>403</height>
    </rect>
   </property>
+  <property name="windowIcon">
+   <iconset resource="../Resources/App.qrc">
+    <normaloff>:/App.png</normaloff>:/App.png</iconset>
+  </property>
   <widget class="QWidget" name="centralWidget">
    <layout class="QGridLayout" name="gridLayout">
     <item row="0" column="0">

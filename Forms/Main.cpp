@@ -175,7 +175,6 @@ Main::_initMain()
 
     // Main
     {
-        setWindowIcon( QIcon(RES_MAIN_ICON) );
         setWindowTitle( qS2QS(xlib::core::Application::name()) );
         setGeometry(0, 0, APP_WIDTH, APP_HEIGHT);
         qtlib::Utils::widgetAlignCenter(this);
@@ -196,7 +195,7 @@ Main::_initMain()
         mnuTrayIcon->addSeparator();
 
         // _trayIcon
-        _trayIcon.setIcon( QIcon(RES_MAIN_PNG) );
+        _trayIcon.setIcon( windowIcon() );
         _trayIcon.setToolTip( qS2QS(xlib::core::Application::name()) );
         _trayIcon.setContextMenu(mnuTrayIcon);
         _trayIcon.show();
