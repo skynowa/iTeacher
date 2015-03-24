@@ -59,8 +59,8 @@ private:
     qtlib::SqlNavigator _sqlNavigator;
 
     void            _dbOpen(cQString &filePath);
-    void            _dbReopen(cQString &filePath);
     void            _dbClose();
+    void            _dbReopen(cQString &filePath);
 
     // audio
     GoogleTranslator _translator;

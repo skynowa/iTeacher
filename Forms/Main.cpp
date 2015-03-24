@@ -1293,19 +1293,6 @@ Main::_dbOpen(
 }
 //-------------------------------------------------------------------------------------------------
 void
-Main::_dbReopen(
-    cQString &a_filePath
-)
-{
-    _dbClose();
-    _dbOpen(a_filePath);
-
-    // _model
-    _model->select();
-    ui.tvInfo->setModel(_model);
-}
-//-------------------------------------------------------------------------------------------------
-void
 Main::_dbClose()
 {
     // _model
@@ -1329,6 +1316,19 @@ Main::_dbClose()
 
         QSqlDatabase::removeDatabase(connectionName);
     }
+}
+//-------------------------------------------------------------------------------------------------
+void
+Main::_dbReopen(
+    cQString &a_filePath
+)
+{
+    _dbClose();
+    _dbOpen(a_filePath);
+
+    // _model
+    _model->select();
+    ui.tvInfo->setModel(_model);
 }
 //-------------------------------------------------------------------------------------------------
 
