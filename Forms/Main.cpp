@@ -1309,7 +1309,7 @@ void
 Main::_dbClose()
 {
     // _model
-    {
+    if (_model != Q_NULLPTR) {
         bool bRv = _model->submitAll();
         qCHECK_PTR(bRv, _model);
 
@@ -1317,21 +1317,18 @@ Main::_dbClose()
     }
 
     // _db
-    {
-        if (_db != Q_NULLPTR) {
-            qTEST(_db->isOpen());
+    if (_db != Q_NULLPTR) {
+        qTEST(_db->isOpen());
 
-            cQString connectionName = _db->connectionName();
+        cQString connectionName = _db->connectionName();
 
-            _db->close();
-            qTEST(!_db->isOpen());
+        _db->close();
+        qTEST(!_db->isOpen());
 
-            qPTR_DELETE(_db);
+        qPTR_DELETE(_db);
 
-            QSqlDatabase::removeDatabase(connectionName);
-        }
+        QSqlDatabase::removeDatabase(connectionName);
     }
-
 }
 //-------------------------------------------------------------------------------------------------
 
