@@ -888,7 +888,6 @@ void
 Main::slot_OnSearch()
 {
     qCHECK_DO(!_sqlNavigator.isValid(), return);
-    qCHECK_DO(_sqlNavigator.view()->currentIndex().row() < 0, return);
 
     WordFinder dlgWordFinder(this, _model);
 
