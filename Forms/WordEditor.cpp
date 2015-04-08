@@ -268,13 +268,9 @@ WordEditor::_saveAll(
     if (!bRv) {
         QString msg;
 
-        if (19 == _model->lastError().number()) {
-            msg = QString(tr("Save fail: term is exists"));
-        } else {
-            msg = QString(tr("Save fail: %1 - %2"))
-                                .arg(_model->lastError().number())
-                                .arg(_model->lastError().text());
-        }
+        msg = QString(tr("Save fail: %1 - %2"))
+                    .arg(_model->lastError().number())
+                    .arg(_model->lastError().text());
 
         QMessageBox::warning(this, qApp->applicationName(), msg);
         _model->revertAll();
