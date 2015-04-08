@@ -102,7 +102,7 @@ add_executable(${PROJECT_NAME}
     ${RESOURCES}
 )
 
-target_link_libraries(${PROJECT_NAME} ${XLIB_LIBRARIES} X11)
+target_link_libraries(${PROJECT_NAME} ${XLIB_LIBRARIES} X11 pthread rt m z dl)
 
 #--------------------------------------------------------------------------------------------------
 # install
