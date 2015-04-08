@@ -24,9 +24,9 @@ set(CMAKE_BUILD_TYPE "RelWithDebInfo")
 # modules
 set(CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR})
 
-set(XLIB_LOCATION ${CMAKE_SOURCE_DIR}/xLib) # set for FindxLib
-set(CMAKE_MODULE_PATH ${XLIB_LOCATION}/CMake)
-include(FindxLib)
+# set(XLIB_LOCATION ${CMAKE_SOURCE_DIR}/xLib) # set for FindxLib
+# set(CMAKE_MODULE_PATH ${XLIB_LOCATION}/CMake)
+# include(FindxLib)
 
 #--------------------------------------------------------------------------------------------------
 # checks
