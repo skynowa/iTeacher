@@ -618,7 +618,8 @@ Main::slot_OnExportClipboard()
 {
     QString         sRv;
     cQString        separator = ::csvSeparator;
-    QModelIndexList indexes   = _sqlNavigator.view()->selectionModel()->selectedIndexes();
+
+    QModelIndexList indexes   = _sqlNavigator.view()->selectionModel()->selectedRows();
 
     Q_FOREACH (QModelIndex index, indexes) {
         _sqlNavigator.view()->setFocus();
