@@ -618,11 +618,11 @@ Main::slot_OnExportClipboard()
 
         cint targetRow = index.row();
 
-        sRv += _model->record(targetRow).value(DB_F_MAIN_ID).toString() + separator;
-        sRv += _model->record(targetRow).value(DB_F_MAIN_TERM).toString() + separator;
-        sRv += _model->record(targetRow).value(DB_F_MAIN_VALUE).toString() + separator;
-        sRv += _model->record(targetRow).value(DB_F_MAIN_IS_LEARNED).toString() + separator;
-        sRv += _model->record(targetRow).value(DB_F_MAIN_IS_MARKED).toString() + separator;
+        sRv += _model->record(targetRow).value(DB_F_MAIN_ID).toString() + CSV_SEPARATOR;
+        sRv += _model->record(targetRow).value(DB_F_MAIN_TERM).toString() + CSV_SEPARATOR;
+        sRv += _model->record(targetRow).value(DB_F_MAIN_VALUE).toString() + CSV_SEPARATOR;
+        sRv += _model->record(targetRow).value(DB_F_MAIN_IS_LEARNED).toString() + CSV_SEPARATOR;
+        sRv += _model->record(targetRow).value(DB_F_MAIN_IS_MARKED).toString() + CSV_SEPARATOR;
         sRv += _model->record(targetRow).value(DB_F_MAIN_TAG).toString();
         sRv += "\n";
     }
