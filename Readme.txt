@@ -18,3 +18,10 @@ Dependencies:
                 Ubuntu: libphonon-dev
 
 
+Dictionary tags:
+    1
+    2 poker
+    3 hotel
+    4 auto
+    5 coding
+    6 weather
