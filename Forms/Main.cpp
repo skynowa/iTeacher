@@ -30,12 +30,6 @@
 *
 **************************************************************************************************/
 
-namespace {
-
-cQString csvSeparator = "###";
-
-}
-
 //-------------------------------------------------------------------------------------------------
 Main::Main(
     QWidget         *a_parent,
@@ -459,7 +453,7 @@ Main::slot_OnImportCsv()
     fieldNames.push_back(DB_F_MAIN_TAG);
 
     // import
-    qtlib::Utils::importCsv(filePath, _model, fieldNames, ::csvSeparator);
+    qtlib::Utils::importCsv(filePath, _model, fieldNames, CSV_SEPARATOR);
 
     // "fire" cboDictPath
     {
@@ -548,7 +542,7 @@ Main::slot_OnExportCsv()
         fieldNames.push_back(DB_F_MAIN_TAG);
 
         // import
-        qtlib::Utils::exportCsv(filePath, _model, fieldNames, ::csvSeparator);
+        qtlib::Utils::exportCsv(filePath, _model, fieldNames, CSV_SEPARATOR);
     }
 
     // report
@@ -617,8 +611,6 @@ void
 Main::slot_OnExportClipboard()
 {
     QString         sRv;
-    cQString        separator = ::csvSeparator;
-
     QModelIndexList indexes   = _sqlNavigator.view()->selectionModel()->selectedRows();
 
     Q_FOREACH (QModelIndex index, indexes) {
