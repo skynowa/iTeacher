@@ -81,6 +81,8 @@
     </property>
     <addaction name="actFile_CreateDb"/>
     <addaction name="separator"/>
+    <addaction name="actFile_TranslateClipboard"/>
+    <addaction name="separator"/>
     <addaction name="actFile_ImportCsv"/>
     <addaction name="actFile_ImportClipboard"/>
     <addaction name="separator"/>
@@ -534,6 +536,14 @@
    </property>
    <property name="shortcut">
     <string>Ctrl+C</string>
+   </property>
+  </action>
+  <action name="actFile_TranslateClipboard">
+   <property name="text">
+    <string>Translate Clipboard...</string>
+   </property>
+   <property name="toolTip">
+    <string>Translate Clipboard</string>
    </property>
   </action>
  </widget>
