@@ -1443,9 +1443,9 @@ Main::_settingsLoad()
 
         settings.beginGroup("shortcuts");
         // Sample: Ctrl+Shift+F12
-        shortcutShowHide           = settings.value("show_hide", "Shift+F1").toString();
-        shortcutClipboardTranslate = settings.value("clipboard_translate", "Ctrl+F1").toString();
-        shortcutClipboardImport    = settings.value("clipboard_import", "F1").toString();
+        shortcutShowHide           = settings.value("show_hide", "Ctrl+F1").toString();
+        shortcutClipboardTranslate = settings.value("clipboard_translate", "F1").toString();
+        shortcutClipboardImport    = settings.value("clipboard_import", "Shift+F1").toString();
         settings.endGroup();
     }
 
