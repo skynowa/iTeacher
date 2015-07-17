@@ -10,7 +10,7 @@
 // main window
 #define APP_NAME                 "iTeacher"
 #define APP_DESCRIPTION          "Learning foreign words"
-#define APP_COPYRIGHT_YEARS      "2000-2014"
+#define APP_COPYRIGHT_YEARS      "2000-2015"
 #define APP_USAGE                ""
 #define APP_HELP                 ""
 #define APP_VERSION_MAJOR        "1"
