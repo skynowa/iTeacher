@@ -1418,34 +1418,34 @@ Main::_settingsLoad()
     {
         QSettings settings(qS2QS(xlib::core::Application::configPath()), QSettings::IniFormat, this);
 
-        settings.beginGroup("main");
-        size           = settings.value("size",            QSize(APP_WIDTH, APP_HEIGHT)).toSize();
-        position       = settings.value("position",        QPoint(200, 200)).toPoint();
-        dictionaryNum  = settings.value("dictionary_num",  0).toInt();
+        settings.beginGroup(CFG_GROUP_MAIN);
+        size           = settings.value(CFG_SIZE,            QSize(APP_WIDTH, APP_HEIGHT)).toSize();
+        position       = settings.value(CFG_POSITION,        QPoint(200, 200)).toPoint();
+        dictionaryNum  = settings.value(CFG_DICTIONARY_NUM,  0).toInt();
         settings.endGroup();
 
-        settings.beginGroup("table");
-        tableFontSize   = settings.value("font_size",      APP_FONT_SIZE_DEFAULT).toInt();
-        tableRowHeight  = settings.value("row_height",     TABLEVIEW_ROW_HEIGHT).toInt();
-        tableCurrentRow = settings.value("current_row",    0).toInt();
-        columnWidth0    = settings.value("column_width_0", TVMAIN_COLUMN_WIDTH_0).toInt();
-        columnWidth1    = settings.value("column_width_1", TVMAIN_COLUMN_WIDTH_1).toInt();
-        columnWidth2    = settings.value("column_width_2", TVMAIN_COLUMN_WIDTH_2).toInt();
-        columnWidth3    = settings.value("column_width_3", TVMAIN_COLUMN_WIDTH_3).toInt();
-        columnWidth4    = settings.value("column_width_4", TVMAIN_COLUMN_WIDTH_4).toInt();
-        columnWidth5    = settings.value("column_width_5", TVMAIN_COLUMN_WIDTH_5).toInt();
+        settings.beginGroup(CFG_GROUP_TABLE);
+        tableFontSize   = settings.value(CFG_FONT_SIZE,      APP_FONT_SIZE_DEFAULT).toInt();
+        tableRowHeight  = settings.value(CFG_ROW_HEIGHT,     TABLEVIEW_ROW_HEIGHT).toInt();
+        tableCurrentRow = settings.value(CFG_CURRENT_ROW,    0).toInt();
+        columnWidth0    = settings.value(CFG_COLUMN_WIDTH_0, TVMAIN_COLUMN_WIDTH_0).toInt();
+        columnWidth1    = settings.value(CFG_COLUMN_WIDTH_1, TVMAIN_COLUMN_WIDTH_1).toInt();
+        columnWidth2    = settings.value(CFG_COLUMN_WIDTH_2, TVMAIN_COLUMN_WIDTH_2).toInt();
+        columnWidth3    = settings.value(CFG_COLUMN_WIDTH_3, TVMAIN_COLUMN_WIDTH_3).toInt();
+        columnWidth4    = settings.value(CFG_COLUMN_WIDTH_4, TVMAIN_COLUMN_WIDTH_4).toInt();
+        columnWidth5    = settings.value(CFG_COLUMN_WIDTH_5, TVMAIN_COLUMN_WIDTH_5).toInt();
         settings.endGroup();
 
-        settings.beginGroup("file");
-        importExportOrder = static_cast<ImportExportOrder>( settings.value("import_export_order", ieoTermValue).toInt() );
-        isHideOnCLose     = settings.value("hide_on_close", false).toBool();
+        settings.beginGroup(CFG_GROUP_FILE);
+        importExportOrder = static_cast<ImportExportOrder>( settings.value(CFG_IMPORT_EXPORT_ORDER, ieoTermValue).toInt() );
+        isHideOnCLose     = settings.value(CFG_HIDE_ON_CLOSE, false).toBool();
         settings.endGroup();
 
-        settings.beginGroup("shortcuts");
+        settings.beginGroup(CFG_GROUP_SHORTCUTS);
         // Sample: Ctrl+Shift+F12
-        shortcutShowHide           = settings.value("show_hide", "Ctrl+F1").toString();
-        shortcutClipboardTranslate = settings.value("clipboard_translate", "F1").toString();
-        shortcutClipboardImport    = settings.value("clipboard_import", "Shift+F1").toString();
+        shortcutShowHide           = settings.value(CFG_SHOW_HIDE, "Ctrl+F1").toString();
+        shortcutClipboardTranslate = settings.value(CFG_CLIPBOARD_TRANSLATE, "F1").toString();
+        shortcutClipboardImport    = settings.value(CFG_CLIPBOARD_IMPORT, "Shift+F1").toString();
         settings.endGroup();
     }
 
@@ -1497,36 +1497,36 @@ Main::_settingsSave()
     QSettings settings(qS2QS(xlib::core::Application::configPath()), QSettings::IniFormat, this);
 
     // main
-    settings.beginGroup("main");
-    settings.setValue("position",       pos());
-    settings.setValue("size",           size());
-    settings.setValue("dictionary_num", ui.cboDictPath->currentIndex());
+    settings.beginGroup(CFG_GROUP_MAIN);
+    settings.setValue(CFG_SIZE,           size());
+    settings.setValue(CFG_POSITION,       pos());
+    settings.setValue(CFG_DICTIONARY_NUM, ui.cboDictPath->currentIndex());
     settings.endGroup();
 
     // table
-    settings.beginGroup("table");
-    settings.setValue("font_size",      ui.tvInfo->font().pointSize());
-    settings.setValue("row_height",     ui.tvInfo->verticalHeader()->defaultSectionSize());
-    settings.setValue("current_row",    ui.tvInfo->currentIndex().row());
-    settings.setValue("column_width_0", ui.tvInfo->columnWidth(0));
-    settings.setValue("column_width_1", ui.tvInfo->columnWidth(1));
-    settings.setValue("column_width_2", ui.tvInfo->columnWidth(2));
-    settings.setValue("column_width_3", ui.tvInfo->columnWidth(3));
-    settings.setValue("column_width_4", ui.tvInfo->columnWidth(4));
-    settings.setValue("column_width_5", ui.tvInfo->columnWidth(5));
+    settings.beginGroup(CFG_GROUP_TABLE);
+    settings.setValue(CFG_FONT_SIZE,      ui.tvInfo->font().pointSize());
+    settings.setValue(CFG_ROW_HEIGHT,     ui.tvInfo->verticalHeader()->defaultSectionSize());
+    settings.setValue(CFG_CURRENT_ROW,    ui.tvInfo->currentIndex().row());
+    settings.setValue(CFG_COLUMN_WIDTH_0, ui.tvInfo->columnWidth(0));
+    settings.setValue(CFG_COLUMN_WIDTH_1, ui.tvInfo->columnWidth(1));
+    settings.setValue(CFG_COLUMN_WIDTH_2, ui.tvInfo->columnWidth(2));
+    settings.setValue(CFG_COLUMN_WIDTH_3, ui.tvInfo->columnWidth(3));
+    settings.setValue(CFG_COLUMN_WIDTH_4, ui.tvInfo->columnWidth(4));
+    settings.setValue(CFG_COLUMN_WIDTH_5, ui.tvInfo->columnWidth(5));
     settings.endGroup();
 
     // file
-    settings.beginGroup("file");
-    settings.setValue("import_export_order", _importExportOrder);
-    settings.setValue("hide_on_close",       _isHideOnCLose);
+    settings.beginGroup(CFG_GROUP_FILE);
+    settings.setValue(CFG_IMPORT_EXPORT_ORDER, _importExportOrder);
+    settings.setValue(CFG_HIDE_ON_CLOSE,       _isHideOnCLose);
     settings.endGroup();
 
     // shortcuts
-    settings.beginGroup("shortcuts");
-    settings.setValue("show_hide",           _scShowHide.shortcut().toString());
-    settings.setValue("clipboard_translate", _scTranslateClipboard.shortcut().toString());
-    settings.setValue("clipboard_import",    _scImportClipboard.shortcut().toString());
+    settings.beginGroup(CFG_GROUP_SHORTCUTS);
+    settings.setValue(CFG_SHOW_HIDE,           _scShowHide.shortcut().toString());
+    settings.setValue(CFG_CLIPBOARD_TRANSLATE, _scTranslateClipboard.shortcut().toString());
+    settings.setValue(CFG_CLIPBOARD_IMPORT,    _scImportClipboard.shortcut().toString());
     settings.endGroup();
 }
 //-------------------------------------------------------------------------------------------------
