@@ -10,7 +10,7 @@
 // main window
 #define APP_NAME                 "iTeacher"
 #define APP_DESCRIPTION          "Learning foreign words"
-#define APP_COPYRIGHT_YEARS      "2000-2015"
+#define APP_COPYRIGHT_YEARS      QString("2000-%1").arg( QDate::currentDate().year() ).toStdString()
 #define APP_USAGE                ""
 #define APP_HELP                 ""
 #define APP_VERSION_MAJOR        "1"
