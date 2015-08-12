@@ -40,6 +40,9 @@
       <property name="tabStopWidth">
        <number>40</number>
       </property>
+      <property name="acceptRichText">
+       <bool>false</bool>
+      </property>
      </widget>
      <widget class="QTextEdit" name="tedtValueBrief">
       <property name="frameShape">
@@ -50,6 +53,9 @@
       </property>
       <property name="tabStopWidth">
        <number>40</number>
+      </property>
+      <property name="acceptRichText">
+       <bool>false</bool>
       </property>
      </widget>
      <widget class="QTabWidget" name="tabWidget">
@@ -74,6 +80,9 @@
           </property>
           <property name="tabStopWidth">
            <number>40</number>
+          </property>
+          <property name="acceptRichText">
+           <bool>false</bool>
           </property>
          </widget>
         </item>
