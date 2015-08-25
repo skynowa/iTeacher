@@ -10,6 +10,7 @@
 #include "../QtLib/Application.h"
 #include "../Classes/CheckBoxItemDelegate.h"
 #include "../Classes/ComboBoxItemDelegate.h"
+#include "../Classes/Utils.h"
 #include "../Forms/WordEditor.h"
 #include "../Forms/WordFinder.h"
 #include "../Forms/TagsEditor.h"
@@ -464,12 +465,14 @@ Main::slot_OnQuickTranslateClipboard()
                         .arg( qS2QS(xlib::core::Application::name()) )
                         .arg( tr("Google Translator") );
 
+    QString term;
     QString text;
     {
-        cQString term = QApplication::clipboard()->text();
-        QString  valueBrief;
-        QString  valueDetail;
-        QString  valueRaw;
+        term = QApplication::clipboard()->text().trimmed();
+
+        QString valueBrief;
+        QString valueDetail;
+        QString valueRaw;
 
         // auto detect languages
         GoogleTranslator::Language langFrom;
@@ -487,6 +490,17 @@ Main::slot_OnQuickTranslateClipboard()
                     "<b>%2</b>"
                     "<pre>%3</pre>")
                     .arg(term, valueBrief, valueDetail);
+    }
+
+    // is term exists
+    bRv = iteacher::Utils::isTerminExists(_model->database(), term);
+    if (bRv) {
+        // term already exists
+        text += QString(tr("<br />Term already exists"));
+    }
+    else {
+        // ok, term is a new
+        text += QString(tr("<br />Term is a new"));
     }
 
     QMessageBox::information(this, title, text);
