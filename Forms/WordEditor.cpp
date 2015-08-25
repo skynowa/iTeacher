@@ -9,6 +9,7 @@
 #include "../QtLib/Utils.h"
 #include "../QtLib/SignalGuard.h"
 #include "../QtLib/Application.h"
+#include "../Classes/Utils.h"
 
 #include "TagsEditor.h"
 #include <xLib/Core/Application.h>
@@ -321,30 +322,6 @@ WordEditor::_settingsSave()
     settings.endGroup();
 }
 //-------------------------------------------------------------------------------------------------
-bool
-WordEditor::_isTerminExists(
-    cQString &a_term
-)
-{
-    bool      bRv = false;
-    QSqlQuery qryQuery( _model->database() );
-
-    cQString sql =
-        "SELECT COUNT(*) AS f_records_count "
-        "   FROM  " DB_T_MAIN " "
-        "   WHERE " DB_F_MAIN_TERM " LIKE '" + a_term.trimmed() + "';";
-
-    bRv = qryQuery.exec(sql);
-    qCHECK_REF(bRv, qryQuery);
-
-    bRv = qryQuery.next();
-    qCHECK_REF(bRv, qryQuery);
-
-    bRv = qryQuery.value(0).toBool();
-
-    return bRv;
-}
-//-------------------------------------------------------------------------------------------------
 void
 WordEditor::_languagesAutoDetect()
 {
@@ -466,7 +443,7 @@ WordEditor::slot_check()
     }
 
     // is term exists
-    bRv = _isTerminExists( ui.tedtTerm->toPlainText() );
+    bRv = iteacher::Utils::isTerminExists(_model->database(), ui.tedtTerm->toPlainText());
     if (bRv && _insertMode) {
         // insert: term already exists (false)
         msg = QString(tr("Term '%1' already exists")).arg(termMinimized);

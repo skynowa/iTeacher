@@ -48,7 +48,6 @@ private:
     void             _settingsLoad();
     void             _settingsSave();
 
-    bool             _isTerminExists(cQString &term);
     void             _languagesAutoDetect();
         ///< auto detect translating languages
 

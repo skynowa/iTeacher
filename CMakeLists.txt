@@ -94,6 +94,7 @@ add_executable(${PROJECT_NAME}
     Classes/CheckBoxItemDelegate.cpp
     Classes/ComboBoxItemDelegate.cpp
     Classes/GoogleTranslator.cpp
+    Classes/Utils.cpp
     Forms/Main.cpp
     Forms/WordEditor.cpp
     Forms/WordFinder.cpp
