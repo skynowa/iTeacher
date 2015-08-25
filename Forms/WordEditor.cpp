@@ -158,7 +158,6 @@ WordEditor::_construct()
         if (!_termNew.isEmpty()) {
             ui.tedtTerm->setText(_termNew);
 
-            slot_check();
             _languagesAutoDetect();
             slot_translate();
         }
@@ -407,6 +406,8 @@ WordEditor::slot_translate()
 
         return;
     }
+
+    slot_check();
 
     QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
 
