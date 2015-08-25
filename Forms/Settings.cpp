@@ -132,13 +132,13 @@ Settings::_settingsLoad()
 
         settings.beginGroup("file");
         importExportOrder = static_cast<Main::ImportExportOrder>( settings.value("import_export_order", Main::ieoTermValue).toInt() );
-        isHideOnCLose     = settings.value("hide_on_close", false).toBool();
+        isHideOnCLose     = settings.value(CFG_HIDE_ON_CLOSE, false).toBool();
         settings.endGroup();
 
-        settings.beginGroup("shortcuts");
+        settings.beginGroup(CFG_GROUP_SHORTCUTS);
         // Sample: Ctrl+Shift+F12
-        shortcutShowHide        = settings.value("show_hide", "Shift+F1").toString();
-        shortcutImportClipboard = settings.value("clipboard_import", "F1").toString();
+        shortcutShowHide        = settings.value(CFG_SHOW_HIDE, "Shift+F1").toString();
+        shortcutImportClipboard = settings.value(CFG_CLIPBOARD_IMPORT, "F1").toString();
         settings.endGroup();
     }
 
@@ -194,13 +194,13 @@ Settings::_settingsSave()
                 break;
             }
         }
-        settings.setValue("hide_on_close", ui.chkHideOnClose->isChecked());
+        settings.setValue(CFG_HIDE_ON_CLOSE, ui.chkHideOnClose->isChecked());
         settings.endGroup();
 
         // shortcuts
-        settings.beginGroup("shortcuts");
-        settings.setValue("show_hide",        ui.kedtAppShowHide->keySequence().toString());
-        settings.setValue("clipboard_import", ui.kedtImportClipboard->keySequence().toString());
+        settings.beginGroup(CFG_GROUP_SHORTCUTS);
+        settings.setValue(CFG_SHOW_HIDE,        ui.kedtAppShowHide->keySequence().toString());
+        settings.setValue(CFG_CLIPBOARD_IMPORT, ui.kedtImportClipboard->keySequence().toString());
         settings.endGroup();
     }
 
