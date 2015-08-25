@@ -39,7 +39,7 @@ Main::Main(
     QMainWindow               (a_parent, a_flags),
     _trayIcon                 (this),
     _scShowHide               (this),
-    _scQuickTranslateClipboard(this),
+    _scQuickClipboardTranslate(this),
     _scImportClipboard        (this),
     _isHideOnCLose            (false),
     _db                       (Q_NULLPTR),
@@ -403,7 +403,7 @@ Main::_initActions()
         connect(&_scShowHide,               SIGNAL( activated() ),
                 this,                       SLOT  ( slot_OnShowHide() ));
 
-        connect(&_scQuickTranslateClipboard,SIGNAL( activated() ),
+        connect(&_scQuickClipboardTranslate,SIGNAL( activated() ),
                 this,                       SLOT  ( slot_OnQuickTranslateClipboard() ));
 
         connect(&_scImportClipboard,        SIGNAL( activated() ),
@@ -1497,7 +1497,7 @@ Main::_settingsLoad()
         // shortcuts
         {
             _scShowHide.setShortcut( QKeySequence(shortcutShowHide) );
-            _scQuickTranslateClipboard.setShortcut( QKeySequence(shortcutQuickClipboardTranslate) );
+            _scQuickClipboardTranslate.setShortcut( QKeySequence(shortcutQuickClipboardTranslate) );
             _scImportClipboard.setShortcut( QKeySequence(shortcutClipboardImport) );
         }
 
@@ -1539,7 +1539,7 @@ Main::_settingsSave()
     // shortcuts
     settings.beginGroup(CFG_GROUP_SHORTCUTS);
     settings.setValue(CFG_SHOW_HIDE,                 _scShowHide.shortcut().toString());
-    settings.setValue(CFG_QUICK_CLIPBOARD_TRANSLATE, _scQuickTranslateClipboard.shortcut().toString());
+    settings.setValue(CFG_QUICK_CLIPBOARD_TRANSLATE, _scQuickClipboardTranslate.shortcut().toString());
     settings.setValue(CFG_CLIPBOARD_IMPORT,          _scImportClipboard.shortcut().toString());
     settings.endGroup();
 }

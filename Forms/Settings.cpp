@@ -94,16 +94,19 @@ Settings::_initMain()
 
     // signals
     {
-        connect(ui.bbxButtons,               &QDialogButtonBox::clicked,
-                this,                        &Settings::bbxButtons_onClicked);
-        connect(ui.twGroups,                 &QTreeWidget::currentItemChanged,
-                this,                        &Settings::twGroups_onCurrentItemChanged);
+        connect(ui.bbxButtons,                  &QDialogButtonBox::clicked,
+                this,                           &Settings::bbxButtons_onClicked);
+        connect(ui.twGroups,                    &QTreeWidget::currentItemChanged,
+                this,                           &Settings::twGroups_onCurrentItemChanged);
 
-        connect(ui.tbtnAppShowHideClear,     &QToolButton::clicked,
-                ui.kedtAppShowHide,          &QKeySequenceEdit::clear);
+        connect(ui.tbtnAppShowHideClear,        &QToolButton::clicked,
+                ui.kedtAppShowHide,             &QKeySequenceEdit::clear);
 
-        connect(ui.tbtnImportClipboardClear, &QToolButton::clicked,
-                ui.kedtImportClipboard,      &QKeySequenceEdit::clear);
+        connect(ui.tbtnQuickClipboardTranslate, &QToolButton::clicked,
+                ui.kedtQuickClipboardTranslate, &QKeySequenceEdit::clear);
+
+        connect(ui.tbtnImportClipboardClear,    &QToolButton::clicked,
+                ui.kedtImportClipboard,         &QKeySequenceEdit::clear);
     }
 }
 //-------------------------------------------------------------------------------------------------
@@ -126,19 +129,21 @@ Settings::_settingsLoad()
     Main::ImportExportOrder importExportOrder = Main::ieoUnknown;
     bool    isHideOnCLose  = false;
     QString shortcutShowHide;
+    QString shortcutQuickClipboardTranslate;
     QString shortcutImportClipboard;
     {
         QSettings settings(qS2QS(xlib::core::Application::configPath()), QSettings::IniFormat, this);
 
-        settings.beginGroup("file");
-        importExportOrder = static_cast<Main::ImportExportOrder>( settings.value("import_export_order", Main::ieoTermValue).toInt() );
+        settings.beginGroup(CFG_GROUP_FILE);
+        importExportOrder = static_cast<Main::ImportExportOrder>( settings.value(CFG_IMPORT_EXPORT_ORDER, Main::ieoTermValue).toInt() );
         isHideOnCLose     = settings.value(CFG_HIDE_ON_CLOSE, false).toBool();
         settings.endGroup();
 
         settings.beginGroup(CFG_GROUP_SHORTCUTS);
         // Sample: Ctrl+Shift+F12
-        shortcutShowHide        = settings.value(CFG_SHOW_HIDE, "Shift+F1").toString();
-        shortcutImportClipboard = settings.value(CFG_CLIPBOARD_IMPORT, "F1").toString();
+        shortcutShowHide                = settings.value(CFG_SHOW_HIDE, "Ctrl+F1").toString();
+        shortcutQuickClipboardTranslate = settings.value(CFG_QUICK_CLIPBOARD_TRANSLATE, "F1").toString();
+        shortcutImportClipboard         = settings.value(CFG_CLIPBOARD_IMPORT, "Shift+F1").toString();
         settings.endGroup();
     }
 
@@ -165,6 +170,7 @@ Settings::_settingsLoad()
         // shortcuts
         {
             ui.kedtAppShowHide->setKeySequence( QKeySequence(shortcutShowHide) );
+            ui.kedtQuickClipboardTranslate->setKeySequence( QKeySequence(shortcutQuickClipboardTranslate) );
             ui.kedtImportClipboard->setKeySequence( QKeySequence(shortcutImportClipboard) );
         }
     }
@@ -178,15 +184,15 @@ Settings::_settingsSave()
     // save settings to INI
     {
         // file
-        settings.beginGroup("file");
+        settings.beginGroup(CFG_GROUP_FILE);
         {
             Qt::CheckState state = ui.chkImportExportOrder->checkState();
             switch (state) {
             case Qt::Checked:
-                settings.setValue("import_export_order", Main::ieoTermValue);
+                settings.setValue(CFG_IMPORT_EXPORT_ORDER, Main::ieoTermValue);
                 break;
             case Qt::Unchecked:
-                settings.setValue("import_export_order", Main::ieoValueTerm);
+                settings.setValue(CFG_IMPORT_EXPORT_ORDER, Main::ieoValueTerm);
                 break;
             case Qt::PartiallyChecked:
             default:
@@ -199,8 +205,9 @@ Settings::_settingsSave()
 
         // shortcuts
         settings.beginGroup(CFG_GROUP_SHORTCUTS);
-        settings.setValue(CFG_SHOW_HIDE,        ui.kedtAppShowHide->keySequence().toString());
-        settings.setValue(CFG_CLIPBOARD_IMPORT, ui.kedtImportClipboard->keySequence().toString());
+        settings.setValue(CFG_SHOW_HIDE,                 ui.kedtAppShowHide->keySequence().toString());
+        settings.setValue(CFG_QUICK_CLIPBOARD_TRANSLATE, ui.kedtQuickClipboardTranslate->keySequence().toString());
+        settings.setValue(CFG_CLIPBOARD_IMPORT,          ui.kedtImportClipboard->keySequence().toString());
         settings.endGroup();
     }
 
@@ -228,6 +235,7 @@ Settings::_settingsSave()
         // shortcuts
         {
             _wndMain->_scShowHide.setShortcut( ui.kedtAppShowHide->keySequence() );
+            _wndMain->_scQuickClipboardTranslate.setShortcut( ui.kedtQuickClipboardTranslate->keySequence() );
             _wndMain->_scImportClipboard.setShortcut( ui.kedtImportClipboard->keySequence() );
         }
     }

@@ -43,7 +43,7 @@ private:
     QSystemTrayIcon _trayIcon;
 
     qtlib::GlobalShortcut _scShowHide;
-    qtlib::GlobalShortcut _scQuickTranslateClipboard;
+    qtlib::GlobalShortcut _scQuickClipboardTranslate;
     qtlib::GlobalShortcut _scImportClipboard;
     bool            _isHideOnCLose;
 
