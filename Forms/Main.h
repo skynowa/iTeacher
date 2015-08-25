@@ -43,7 +43,7 @@ private:
     QSystemTrayIcon _trayIcon;
 
     qtlib::GlobalShortcut _scShowHide;
-    qtlib::GlobalShortcut _scTranslateClipboard;
+    qtlib::GlobalShortcut _scQuickTranslateClipboard;
     qtlib::GlobalShortcut _scImportClipboard;
     bool            _isHideOnCLose;
 
@@ -83,7 +83,7 @@ private:
 private Q_SLOTS:
     // group "File"
     void            slot_OnCreateDb();
-    void            slot_OnTranslateClipboard();
+    void            slot_OnQuickTranslateClipboard();
     void            slot_OnImportCsv();
     void            slot_OnImportClipboard();
     void            slot_OnExportCsv();

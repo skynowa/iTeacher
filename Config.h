@@ -83,7 +83,7 @@
 
 #define  CFG_GROUP_SHORTCUTS     "shortcuts"
 #define  CFG_SHOW_HIDE           "show_hide"
-#define  CFG_CLIPBOARD_TRANSLATE "clipboard_translate"
+#define  CFG_QUICK_CLIPBOARD_TRANSLATE "quick_clipboard_translate"
 #define  CFG_CLIPBOARD_IMPORT    "clipboard_import"
 
 // audio
