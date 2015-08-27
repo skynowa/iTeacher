@@ -1179,6 +1179,14 @@ Main::slot_cboDictPath_OnCurrentIndexChanged(
     }
 }
 //-------------------------------------------------------------------------------------------------
+void
+Main::slot_OnReceiveFromOtherApplication(
+    const QStringList &a_message
+)
+{
+    QMessageBox::information(this, "Hey", "Some Apps send:\n" + a_message.join("\n"));
+}
+//-------------------------------------------------------------------------------------------------
 
 
 /**************************************************************************************************

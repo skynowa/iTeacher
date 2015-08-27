@@ -130,6 +130,7 @@ private Q_SLOTS:
 
     // etc
     void            slot_cboDictPath_OnCurrentIndexChanged(const QString &arg);
+    void            slot_OnReceiveFromOtherApplication(const QStringList &message);
 };
 //-------------------------------------------------------------------------------------------------
 #endif // iTeacher_MainH
