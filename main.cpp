@@ -6,7 +6,6 @@
 
 #include <xLib/Core/Application.h>
 #include <QtLib/Application.h>
-#include <QtLib/SingleApplication.h>
 #include "Forms/Main.h"
 
 
@@ -15,19 +14,6 @@ int main(int argc, char *argv[])
 {
     bool bRv = false;
 
-#if 1
-    qtlib::SingleApplication application(argc, argv, "myUniqueKey");
-
-    bRv = application.isRunnig();
-    if (bRv) {
-        std::wcerr << "Application is already running." << std::endl;
-
-        application.sendMessage("I am another instance");
-        application.sendMessage("I want to send several message like argv if needed");
-
-        return EXIT_SUCCESS;
-    }
-#else
     // xlib::core::Application
     xlib::core::Application xapplication(xT(APP_GUID), xT(""));
     xapplication.dirsCreate();
@@ -54,13 +40,16 @@ int main(int argc, char *argv[])
     bRv = application.isRunnig();
     if (bRv) {
         std::wcerr << "Application is already running." << std::endl;
-        application.windowActivate(APP_WINDOW_CLASS, APP_NAME);
+
+    #if 0
+        application.sendMessage("I am another instance");
+        application.sendMessage("I want to send several message like argv if needed");
+    #endif
 
         return EXIT_SUCCESS;
     }
 
     qtlib::Application::setQuitOnLastWindowClosed(false);
-#endif
 
     Main dlgMain;
     dlgMain.show();

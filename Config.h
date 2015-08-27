@@ -30,7 +30,6 @@
 #define APP_DONATE_PRIVATE24     ""
 
 #define APP_GUID                 APP_NAME"_simple_guid"
-#define APP_WINDOW_CLASS         "QTool"
 #define APP_WIDTH                700
 #define APP_HEIGHT               600
 #define APP_FONT_SIZE_DEFAULT    9

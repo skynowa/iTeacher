@@ -80,7 +80,6 @@ add_executable(${PROJECT_NAME}
 
     main.cpp
     QtLib/Forms/About.cpp
-    QtLib/SingleApplication.cpp
     QtLib/Application.cpp
     QtLib/SqlNavigator.cpp
     QtLib/SignalGuard.cpp
