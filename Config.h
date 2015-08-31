@@ -7,6 +7,9 @@
 #ifndef iTeacher_ConfigH
 #define iTeacher_ConfigH
 //-------------------------------------------------------------------------------------------------
+#include <Qt>
+#include <QVariant>
+//-------------------------------------------------------------------------------------------------
 // main window
 #define APP_NAME                 "iTeacher"
 #define APP_DESCRIPTION          "Learning foreign words"
@@ -43,6 +46,21 @@
 #define DB_F_MAIN_IS_LEARNED     "f_main_is_learned"
 #define DB_F_MAIN_IS_MARKED      "f_main_is_marked"
 #define DB_F_MAIN_TAG            "f_main_tag"
+
+struct TableViewHeader
+{
+    int             section;
+    const QVariant &value;
+};
+
+const TableViewHeader tableViewHeaders[] = {
+    {0, QObject::tr("Id")},
+    {1, QObject::tr("Term")},
+    {2, QObject::tr("Value")},
+    {3, QObject::tr("Learned")},
+    {4, QObject::tr("Marked")},
+    {5, QObject::tr("Tag")}
+};
 
 #define TVMAIN_COLUMN_WIDTH_0    100
 #define TVMAIN_COLUMN_WIDTH_1    120

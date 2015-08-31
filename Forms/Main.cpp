@@ -1344,12 +1344,12 @@ Main::_dbOpen(
         _model->setTable(DB_T_MAIN);
         _model->setJoinMode(QSqlRelationalTableModel::LeftJoin);
         _model->setRelation(5, QSqlRelation(DB_T_TAGS, DB_F_TAGS_ID, DB_F_TAGS_NAME));
-        _model->setHeaderData(0, Qt::Horizontal, tr("Id"),      Qt::DisplayRole);
-        _model->setHeaderData(1, Qt::Horizontal, tr("Term"),    Qt::DisplayRole);
-        _model->setHeaderData(2, Qt::Horizontal, tr("Value"),   Qt::DisplayRole);
-        _model->setHeaderData(3, Qt::Horizontal, tr("Learned"), Qt::DisplayRole);
-        _model->setHeaderData(4, Qt::Horizontal, tr("Marked"),  Qt::DisplayRole);
-        _model->setHeaderData(5, Qt::Horizontal, tr("Tag"),     Qt::DisplayRole);
+
+        for (size_t i = 0; i < qARRAY_LENGTH(::tableViewHeaders); ++ i) {
+            _model->setHeaderData(::tableViewHeaders[i].section, Qt::Horizontal,
+                ::tableViewHeaders[i].value, Qt::DisplayRole);
+        }
+
         _model->setEditStrategy(QSqlTableModel::OnManualSubmit);
 
         _model->select();
