@@ -55,6 +55,7 @@
 #define DB_T_TAGS                "t_tags"
 #define DB_F_TAGS_ID             "f_tags_id"
 #define DB_F_TAGS_NAME           "f_tags_name"
+#define DB_ALL_TAGS_ID           "1"
 
 #define TVTAGS_COLUMN_WIDTH_0    50
 #define TVTAGS_COLUMN_WIDTH_1    200
