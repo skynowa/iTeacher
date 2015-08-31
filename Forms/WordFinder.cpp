@@ -145,11 +145,42 @@ WordFinder::_resetAll()
 void
 WordFinder::_saveAll()
 {
+    bool bRv = false;
+
     qtlib::Utils::db_fields_t fields;
     {
         fields.push_back( QPair<QString, QString>(DB_F_MAIN_TERM,  ui.cboTerm->currentText()) );
         fields.push_back( QPair<QString, QString>(DB_F_MAIN_VALUE, ui.cboValue->currentText()) );
-        fields.push_back( QPair<QString, QString>(DB_F_MAIN_TAG,   ui.cboTags->currentText()) );
+
+        QString tag_id;
+        {
+            QMap<QString, QString> nameToId;
+            {
+                QSqlQuery qryQuery(_model->database());
+
+                cQString sql = "SELECT * FROM " DB_T_TAGS ";";
+
+                bRv = qryQuery.exec(sql);
+                qCHECK_REF(bRv, qryQuery);
+
+                for ( ; ; ) {
+                    bRv = qryQuery.next();
+                    qCHECK_DO(!bRv, break);
+
+                    cQString id   = qryQuery.value(0).toString();
+                    cQString name = qryQuery.value(1).toString();
+
+                    nameToId.insert(name, id);
+                }
+            }
+
+            tag_id = nameToId[ ui.cboTags->currentText() ];
+            if (tag_id == DB_ALL_TAGS_ID) {
+                tag_id.clear();
+            }
+        }
+
+        fields.push_back( QPair<QString, QString>(DB_F_MAIN_TAG, tag_id) );
     }
 
     QString sqlStrWhere;
