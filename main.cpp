@@ -54,7 +54,7 @@ int main(int argc, char *argv[])
     Main dlgMain;
     dlgMain.show();
 
-    application.connect(&application, &qtlib::Application::messageAvailable,
+    application.connect(&application, &qtlib::Application::sig_messageAvailable,
                         &dlgMain,     &Main::receiveFromOtherApplication);
 
     int exitCode = application.exec();
