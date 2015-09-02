@@ -54,8 +54,8 @@ int main(int argc, char *argv[])
     Main dlgMain;
     dlgMain.show();
 
-    application.connect(&application, SIGNAL(messageAvailable(QStringList)),
-                        &dlgMain,     SLOT(OnReceiveFromOtherApplication(QStringList)));
+    application.connect(&application, &qtlib::Application::messageAvailable,
+                        &dlgMain,     &Main::receiveFromOtherApplication);
 
     int exitCode = application.exec();
 

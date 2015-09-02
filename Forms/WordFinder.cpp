@@ -78,8 +78,8 @@ WordFinder::_construct()
 
     // signals
     {
-        connect(ui.bbxButtons, SIGNAL( clicked(QAbstractButton *) ),
-                this,          SLOT  ( bbxButtons_OnClicked(QAbstractButton *) ));
+        connect(ui.bbxButtons, &QDialogButtonBox::clicked,
+                this,          &WordFinder::bbxButtons_OnClicked);
     }
 }
 //-------------------------------------------------------------------------------------------------

@@ -25,6 +25,9 @@ public:
                     Main(QWidget *parent = Q_NULLPTR, Qt::WindowFlags flags = Qt::Widget);
     virtual        ~Main();
 
+public Q_SLOTS:
+    void            receiveFromOtherApplication(cQStringList &message);
+
 protected:
     virtual bool    eventFilter(QObject *object, QEvent *event);
     virtual void    keyPressEvent(QKeyEvent *event);
@@ -129,6 +132,5 @@ private Q_SLOTS:
 
     // etc
     void            cboDictPath_OnCurrentIndexChanged(const QString &arg);
-    void            receiveFromOtherApplication(const QStringList &message);
 };
 //-------------------------------------------------------------------------------------------------

@@ -44,8 +44,8 @@ CheckBoxItemDelegate::createEditor(
     editor->checkBox()->setChecked(::defaultValue);
 
     QCheckBox *chkEditor = editor->checkBox();
-    connect(chkEditor, SIGNAL(pressed()),
-            this,      SLOT  (toggled()));
+    connect(chkEditor, &QCheckBox::pressed,
+            this,      &CheckBoxItemDelegate::toggled);
 
     return editor;
 }

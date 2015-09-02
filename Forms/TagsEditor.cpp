@@ -53,11 +53,11 @@ TagsEditor::_construct()
 
     // slots
     {
-        connect(ui.tbtnEditInsert, SIGNAL( clicked() ),
-                this,              SLOT  ( Insert() ));
+        connect(ui.tbtnEditInsert, &QToolButton::clicked,
+                this,              &TagsEditor::insert);
 
-        connect(ui.tbtnEditRemove, SIGNAL( clicked() ),
-                this,              SLOT  ( Remove() ));
+        connect(ui.tbtnEditRemove, &QToolButton::clicked,
+                this,              &TagsEditor::remove);
     }
 
     // _model
@@ -117,7 +117,7 @@ TagsEditor::_destruct()
 
 //-------------------------------------------------------------------------------------------------
 void
-TagsEditor::Insert()
+TagsEditor::insert()
 {
     qCHECK_DO(!_sqlNavigator.isValid(), return);
 
@@ -125,7 +125,7 @@ TagsEditor::Insert()
 }
 //-------------------------------------------------------------------------------------------------
 void
-TagsEditor::Remove()
+TagsEditor::remove()
 {
     qCHECK_DO(_sqlNavigator.view()->currentIndex().row() < 0, return);
 

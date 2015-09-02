@@ -258,11 +258,16 @@ Main::_initModel()
 
     // slots
     {
-        connect(ui.tvInfo,      SIGNAL( doubleClicked(const QModelIndex &) ),
-                this,           SLOT  ( edit() ));
+        connect(ui.tvInfo,      &QTableView::doubleClicked,
+                this,           &Main::edit);
 
+#if 0
+        connect(ui.cboDictPath, &QComboBox::currentIndexChanged,
+                this,           &Main::cboDictPath_OnCurrentIndexChanged);
+#else
         connect(ui.cboDictPath, SIGNAL( currentIndexChanged(const QString &) ),
                 this,           SLOT  ( cboDictPath_OnCurrentIndexChanged(const QString &) ));
+#endif
     }
 
     // fire cboDictPath
@@ -283,131 +288,131 @@ Main::_initActions()
 {
     // group "File"
     {
-        connect(ui.actFile_CreateDb,        SIGNAL( triggered() ),
-                this,                       SLOT  ( createDb() ));
+        connect(ui.actFile_CreateDb,        &QAction::triggered,
+                this,                       &Main::createDb);
 
-        connect(ui.actFile_QuickTranslateClipboard, SIGNAL( triggered() ),
-                this,                       SLOT  ( quickTranslateClipboard() ));
+        connect(ui.actFile_QuickTranslateClipboard, &QAction::triggered,
+                this,                       &Main::quickTranslateClipboard);
 
-        connect(ui.actFile_ImportCsv,       SIGNAL( triggered() ),
-                this,                       SLOT  ( importCsv() ));
+        connect(ui.actFile_ImportCsv,       &QAction::triggered,
+                this,                       &Main::importCsv);
 
-        connect(ui.actFile_ImportClipboard, SIGNAL( triggered() ),
-                this,                       SLOT  ( importClipboard() ));
+        connect(ui.actFile_ImportClipboard, &QAction::triggered,
+                this,                       &Main::importClipboard);
 
-        connect(ui.actFile_ExportCsv,       SIGNAL( triggered() ),
-                this,                       SLOT  ( exportCsv() ));
+        connect(ui.actFile_ExportCsv,       &QAction::triggered,
+                this,                       &Main::exportCsv);
 
-        connect(ui.actFile_ExportPdf,       SIGNAL( triggered() ),
-                this,                       SLOT  ( eExportPdf() ));
+        connect(ui.actFile_ExportPdf,       &QAction::triggered,
+                this,                       &Main::exportPdf);
 
-        connect(ui.actFile_ExportClipboard, SIGNAL( triggered() ),
-                this,                       SLOT  ( wxportClipboard() ));
+        connect(ui.actFile_ExportClipboard, &QAction::triggered,
+                this,                       &Main::exportClipboard);
 
-        connect(ui.actFile_Exit,            SIGNAL( triggered() ),
-                this,                       SLOT  ( exit() ));
+        connect(ui.actFile_Exit,            &QAction::triggered,
+                this,                       &Main::exit);
     }
 
     // group "Edit"
     {
-        connect(ui.actEdit_First,           SIGNAL( triggered() ),
-                this,                       SLOT  ( first() ));
+        connect(ui.actEdit_First,           &QAction::triggered,
+                this,                       &Main::first);
 
-        connect(ui.actEdit_Prior,           SIGNAL( triggered() ),
-                this,                       SLOT  ( prior() ));
+        connect(ui.actEdit_Prior,           &QAction::triggered,
+                this,                       &Main::prior);
 
-        connect(ui.actEdit_Next,            SIGNAL( triggered() ),
-                this,                       SLOT  ( next() ));
+        connect(ui.actEdit_Next,            &QAction::triggered,
+                this,                       &Main::next);
 
-        connect(ui.actEdit_Last,            SIGNAL( triggered() ),
-                this,                       SLOT  ( last() ));
+        connect(ui.actEdit_Last,            &QAction::triggered,
+                this,                       &Main::last);
 
-        connect(ui.actEdit_To,              SIGNAL( triggered() ),
-                this,                       SLOT  ( to() ));
+        connect(ui.actEdit_To,              &QAction::triggered,
+                this,                       &Main::to);
 
-        connect(ui.actEdit_Insert,          SIGNAL( triggered() ),
-                this,                       SLOT  ( insert() ));
+        connect(ui.actEdit_Insert,          &QAction::triggered,
+                this,                       &Main::insert);
 
-        connect(ui.actEdit_Delete,          SIGNAL( triggered() ),
-                this,                       SLOT  ( remove() ));
+        connect(ui.actEdit_Delete,          &QAction::triggered,
+                this,                       &Main::remove);
 
-        connect(ui.actEdit_Edit,            SIGNAL( triggered() ),
-                this,                       SLOT  ( edit() ));
+        connect(ui.actEdit_Edit,            &QAction::triggered,
+                this,                       &Main::edit);
 
-        connect(ui.actEdit_Learned,         SIGNAL( triggered() ),
-                this,                       SLOT  ( learned() ));
+        connect(ui.actEdit_Learned,         &QAction::triggered,
+                this,                       &Main::learned);
 
-        connect(ui.actEdit_Marked,          SIGNAL( triggered() ),
-                this,                       SLOT  ( marked() ));
+        connect(ui.actEdit_Marked,          &QAction::triggered,
+                this,                       &Main::marked);
     }
 
     // audio
     {
-        connect(ui.actEdit_PlayTerm,        SIGNAL( triggered() ),
-                this,                       SLOT  ( playTerm() ));
+        connect(ui.actEdit_PlayTerm,        &QAction::triggered,
+                this,                       &Main::playTerm);
 
-        connect(ui.actEdit_PlayValue,       SIGNAL( triggered() ),
-                this,                       SLOT  ( playValue() ));
+        connect(ui.actEdit_PlayValue,       &QAction::triggered,
+                this,                       &Main::playValue);
 
-        connect(ui.actEdit_PlayTermValue,   SIGNAL( triggered() ),
-                this,                       SLOT  ( playTermValue() ));
+        connect(ui.actEdit_PlayTermValue,   &QAction::triggered,
+                this,                       &Main::playTermValue);
     }
 
     // group "Find"
     {
-        connect(ui.actFind_Search,          SIGNAL( triggered() ),
-                this,                       SLOT  ( search() ));
+        connect(ui.actFind_Search,          &QAction::triggered,
+                this,                       &Main::search);
     }
 
     // group "View"
     {
-        connect(ui.actView_ShowHide,        SIGNAL( triggered() ),
-                this,                       SLOT  ( showHide() ));
+        connect(ui.actView_ShowHide,        &QAction::triggered,
+                this,                       &Main::showHide);
 
-        connect(ui.actView_ZoomIn,          SIGNAL( triggered() ),
-                this,                       SLOT  ( zoomIn() ));
+        connect(ui.actView_ZoomIn,          &QAction::triggered,
+                this,                       &Main::zoomIn);
 
-        connect(ui.actView_ZoomOut,         SIGNAL( triggered() ),
-                this,                       SLOT  ( zoomOut() ));
+        connect(ui.actView_ZoomOut,         &QAction::triggered,
+                this,                       &Main::zoomOut);
 
-        connect(ui.actView_ZoomDefault,     SIGNAL( triggered() ),
-                this,                       SLOT  ( zoomDefault() ));
+        connect(ui.actView_ZoomDefault,     &QAction::triggered,
+                this,                       &Main::zoomDefault);
     }
 
     // group "Options"
     {
-        connect(ui.actOptions_TagsEditor,   SIGNAL( triggered() ),
-                this,                       SLOT  ( tagsEditor() ));
+        connect(ui.actOptions_TagsEditor,   &QAction::triggered,
+                this,                       &Main::tagsEditor);
 
-        connect(ui.actOptions_Settings,     SIGNAL( triggered() ),
-                this,                       SLOT  ( settings() ));
+        connect(ui.actOptions_Settings,     &QAction::triggered,
+                this,                       &Main::settings);
     }
 
     // group "Help"
     {
-        connect(ui.actHelp_Faq,             SIGNAL( triggered() ),
-                this,                       SLOT  ( faq() ));
+        connect(ui.actHelp_Faq,             &QAction::triggered,
+                this,                       &Main::faq);
 
-        connect(ui.actHelp_About,           SIGNAL( triggered() ),
-                this,                       SLOT  ( about() ));
+        connect(ui.actHelp_About,           &QAction::triggered,
+                this,                       &Main::about);
     }
 
     // tray
     {
-        connect(&_trayIcon,                 SIGNAL( activated(QSystemTrayIcon::ActivationReason) ),
-                this,                       SLOT  ( trayActivated(QSystemTrayIcon::ActivationReason) ));
+        connect(&_trayIcon,                 &QSystemTrayIcon::activated,
+                this,                       &Main::trayActivated);
     }
 
     // global shortcut
     {
-        connect(&_scShowHide,               SIGNAL( activated() ),
-                this,                       SLOT  ( showHide() ));
+        connect(&_scShowHide,               &qtlib::GlobalShortcut::activated,
+                this,                       &Main::showHide);
 
-        connect(&_scQuickClipboardTranslate,SIGNAL( activated() ),
-                this,                       SLOT  ( quickTranslateClipboard() ));
+        connect(&_scQuickClipboardTranslate,&qtlib::GlobalShortcut::activated,
+                this,                       &Main::quickTranslateClipboard);
 
-        connect(&_scImportClipboard,        SIGNAL( activated() ),
-                this,                       SLOT  ( importClipboard() ));
+        connect(&_scImportClipboard,        &qtlib::GlobalShortcut::activated,
+                this,                       &Main::importClipboard);
     }
 }
 //-------------------------------------------------------------------------------------------------
@@ -1181,7 +1186,7 @@ Main::cboDictPath_OnCurrentIndexChanged(
 //-------------------------------------------------------------------------------------------------
 void
 Main::receiveFromOtherApplication(
-    const QStringList &a_message
+    cQStringList &a_message
 )
 {
     QMessageBox::information(this, "Hey", "Some Apps send:\n" + a_message.join("\n"));

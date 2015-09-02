@@ -79,20 +79,20 @@ WordEditor::_construct()
 
     // signals
     {
-        connect(ui.pbtnLangsSwap, SIGNAL( clicked() ),
-                this,             SLOT  ( pbtnLangsSwap_OnClicked() ));
+        connect(ui.pbtnLangsSwap, &QPushButton::clicked,
+                this,             &WordEditor::pbtnLangsSwap_OnClicked);
 
-        connect(ui.pbtnTranslate, SIGNAL( clicked() ),
-                this,             SLOT  ( translate() ));
+        connect(ui.pbtnTranslate, &QPushButton::clicked,
+                this,             &WordEditor::translate);
 
-        connect(ui.pbtnCheck,     SIGNAL( clicked() ),
-                this,             SLOT  ( check() ));
+        connect(ui.pbtnCheck,     &QPushButton::clicked,
+                this,             &WordEditor::check);
 
-        connect(ui.pbtnTagsEdit,  SIGNAL( clicked() ),
-                this,             SLOT  ( pbtnTagsEdit_OnClicked() ));
+        connect(ui.pbtnTagsEdit,  &QPushButton::clicked,
+                this,             &WordEditor::pbtnTagsEdit_OnClicked);
 
-        connect(ui.bbxButtons,    SIGNAL( clicked(QAbstractButton *) ),
-                this,             SLOT  ( bbxButtons_OnClicked(QAbstractButton *) ));
+        connect(ui.bbxButtons,    &QDialogButtonBox::clicked,
+                this,             &WordEditor::bbxButtons_OnClicked);
     }
 
     // shortcuts
@@ -101,8 +101,8 @@ WordEditor::_construct()
         QShortcut *shortcut = new QShortcut(this);
         shortcut->setKey(QKeySequence(Qt::CTRL + Qt::Key_Return));
 
-        connect(shortcut, SIGNAL( activated() ),
-                this,     SLOT  ( translate() ));
+        connect(shortcut, &QShortcut::activated,
+                this,     &WordEditor::translate);
     }
 
     // UI
