@@ -4,9 +4,8 @@
  */
 
 
-#ifndef iTeacher_CenteredCheckBox_H
-#define iTeacher_CenteredCheckBox_H
-//-------------------------------------------------------------------------------------------------
+#pragma once
+
 #include <QWidget>
 //-------------------------------------------------------------------------------------------------
 class QCheckBox;
@@ -26,4 +25,3 @@ private:
     QCheckBox *_checkBox;
 };
 //-------------------------------------------------------------------------------------------------
-#endif // iTeacher_CenteredCheckBox_H

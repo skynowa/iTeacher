@@ -4,9 +4,8 @@
  */
 
 
-#ifndef iTeacher_ConfigH
-#define iTeacher_ConfigH
-//-------------------------------------------------------------------------------------------------
+#pragma once
+
 #include <Qt>
 #include <QVariant>
 //-------------------------------------------------------------------------------------------------
@@ -117,4 +116,3 @@ const TableViewHeader tableViewHeaders[] = {
 #define BUTTON_BOX_WIDTH         75
 #define TERM_MINIMIZED_SIZE_MAX  30
 //-------------------------------------------------------------------------------------------------
-#endif // iTeacher_ConfigH

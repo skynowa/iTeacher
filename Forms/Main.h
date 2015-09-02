@@ -4,9 +4,8 @@
  */
 
 
-#ifndef iTeacher_MainH
-#define iTeacher_MainH
-//-------------------------------------------------------------------------------------------------
+#pragma once
+
 #include "../Config.h"
 
 #include <xLib/Core/Core.h>
@@ -133,4 +132,3 @@ private Q_SLOTS:
     void            slot_OnReceiveFromOtherApplication(const QStringList &message);
 };
 //-------------------------------------------------------------------------------------------------
-#endif // iTeacher_MainH

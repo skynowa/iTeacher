@@ -4,9 +4,8 @@
  */
 
 
-#ifndef iTeacher_WordFinderH
-#define iTeacher_WordFinderH
-//-------------------------------------------------------------------------------------------------
+#pragma once
+
 #include "ui_WordFinder.h"
 
 #include "../Config.h"
@@ -37,4 +36,3 @@ private Q_SLOTS:
     void            slot_bbxButtons_OnClicked(QAbstractButton *button);
 };
 //-------------------------------------------------------------------------------------------------
-#endif // iTeacher_WordFinderH

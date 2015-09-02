@@ -4,9 +4,8 @@
  */
 
 
-#ifndef iTeacher__GoogleTranslatorH
-#define iTeacher__GoogleTranslatorH
-//-------------------------------------------------------------------------------------------------
+#pragma once
+
 #include "../QtLib/Common.h"
 #include "../QtLib/Utils.h"
 //-------------------------------------------------------------------------------------------------
@@ -53,4 +52,3 @@ private:
         ///< parse response
 };
 //-------------------------------------------------------------------------------------------------
-#endif // iTeacher__GoogleTranslatorH

@@ -4,9 +4,8 @@
  */
 
 
-#ifndef iTeacher_CheckBoxItemDelegate_H
-#define iTeacher_CheckBoxItemDelegate_H
-//-------------------------------------------------------------------------------------------------
+#pragma once
+
 #include <QStyledItemDelegate>
 #include "../QtLib/Common.h"
 //-------------------------------------------------------------------------------------------------
@@ -34,4 +33,3 @@ private Q_SLOTS:
     void     slot_OnToggled();
 };
 //-------------------------------------------------------------------------------------------------
-#endif // iTeacher_CheckBoxItemDelegate_H

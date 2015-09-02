@@ -4,9 +4,8 @@
  */
 
 
-#ifndef iTeacher_WordEditorH
-#define iTeacher_WordEditorH
-//-------------------------------------------------------------------------------------------------
+#pragma once
+
 #include "ui_WordEditor.h"
 
 #include "../Config.h"
@@ -62,4 +61,3 @@ private Q_SLOTS:
     void             slot_bbxButtons_OnClicked(QAbstractButton *button);
 };
 //-------------------------------------------------------------------------------------------------
-#endif // iTeacher_WordEditorH

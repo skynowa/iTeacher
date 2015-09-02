@@ -4,8 +4,8 @@
  */
 
 
-#ifndef iTeacher_SettingsH
-#define iTeacher_SettingsH
+#pragma once
+
 //-------------------------------------------------------------------------------------------------
 #include "ui_Settings.h"
 
@@ -47,4 +47,3 @@ private Q_SLOTS:
     void         twGroups_onCurrentItemChanged(QTreeWidgetItem *current, QTreeWidgetItem *previous);
 };
 //-------------------------------------------------------------------------------------------------
-#endif // iTeacher_SettingsH

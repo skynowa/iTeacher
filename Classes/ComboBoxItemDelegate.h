@@ -4,9 +4,8 @@
  */
 
 
-#ifndef iTeacher_ComboBoxItemDelegate_H
-#define iTeacher_ComboBoxItemDelegate_H
-//-------------------------------------------------------------------------------------------------
+#pragma once
+
 #include <QStyledItemDelegate>
 #include "../QtLib/Common.h"
 #include "../Config.h"
@@ -38,4 +37,3 @@ private Q_SLOTS:
 
 };
 //-------------------------------------------------------------------------------------------------
-#endif // iTeacher_ComboBoxItemDelegate_H

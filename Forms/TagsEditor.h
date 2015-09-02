@@ -4,8 +4,8 @@
  */
 
 
-#ifndef iTeacher_TagsEditorH
-#define iTeacher_TagsEditorH
+#pragma once
+
 //-------------------------------------------------------------------------------------------------
 #include "ui_TagsEditor.h"
 
@@ -39,4 +39,3 @@ private Q_SLOTS:
     void             slot_OnRemove();
 };
 //-------------------------------------------------------------------------------------------------
-#endif // iTeacher_TagsEditorH
