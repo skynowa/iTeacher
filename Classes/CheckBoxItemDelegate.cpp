@@ -45,7 +45,7 @@ CheckBoxItemDelegate::createEditor(
 
     QCheckBox *chkEditor = editor->checkBox();
     connect(chkEditor, SIGNAL(pressed()),
-            this,      SLOT  (slot_OnToggled()));
+            this,      SLOT  (toggled()));
 
     return editor;
 }
@@ -137,7 +137,7 @@ CheckBoxItemDelegate::paint(
 }
 //-------------------------------------------------------------------------------------------------
 void
-CheckBoxItemDelegate::slot_OnToggled()
+CheckBoxItemDelegate::toggled()
 {
     qDebug() << __FUNCTION__;
 }

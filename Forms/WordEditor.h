@@ -54,10 +54,10 @@ private:
     Q_DISABLE_COPY(WordEditor)
 
 private Q_SLOTS:
-    void             slot_pbtnLangsSwap_OnClicked();
-    void             slot_translate();
-    bool             slot_check();
-    void             slot_pbtnTagsEdit_OnClicked();
-    void             slot_bbxButtons_OnClicked(QAbstractButton *button);
+    void             pbtnLangsSwap_OnClicked();
+    void             translate();
+    bool             check();
+    void             pbtnTagsEdit_OnClicked();
+    void             bbxButtons_OnClicked(QAbstractButton *button);
 };
 //-------------------------------------------------------------------------------------------------

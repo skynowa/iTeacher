@@ -80,19 +80,19 @@ WordEditor::_construct()
     // signals
     {
         connect(ui.pbtnLangsSwap, SIGNAL( clicked() ),
-                this,             SLOT  ( slot_pbtnLangsSwap_OnClicked() ));
+                this,             SLOT  ( pbtnLangsSwap_OnClicked() ));
 
         connect(ui.pbtnTranslate, SIGNAL( clicked() ),
-                this,             SLOT  ( slot_translate() ));
+                this,             SLOT  ( translate() ));
 
         connect(ui.pbtnCheck,     SIGNAL( clicked() ),
-                this,             SLOT  ( slot_check() ));
+                this,             SLOT  ( check() ));
 
         connect(ui.pbtnTagsEdit,  SIGNAL( clicked() ),
-                this,             SLOT  ( slot_pbtnTagsEdit_OnClicked() ));
+                this,             SLOT  ( pbtnTagsEdit_OnClicked() ));
 
         connect(ui.bbxButtons,    SIGNAL( clicked(QAbstractButton *) ),
-                this,             SLOT  ( slot_bbxButtons_OnClicked(QAbstractButton *) ));
+                this,             SLOT  ( bbxButtons_OnClicked(QAbstractButton *) ));
     }
 
     // shortcuts
@@ -102,7 +102,7 @@ WordEditor::_construct()
         shortcut->setKey(QKeySequence(Qt::CTRL + Qt::Key_Return));
 
         connect(shortcut, SIGNAL( activated() ),
-                this,     SLOT  ( slot_translate() ));
+                this,     SLOT  ( translate() ));
     }
 
     // UI
@@ -160,7 +160,7 @@ WordEditor::_construct()
             ui.tedtTerm->setText(_termNew);
 
             _languagesAutoDetect();
-            slot_translate();
+            translate();
         }
 
         // set focus
@@ -212,7 +212,7 @@ WordEditor::_saveAll(
     qTEST(!ui.cboLangFrom->currentText().isEmpty());
     qTEST(ui.cboLangFrom->currentText() == LANG_EN || ui.cboLangFrom->currentText() == LANG_RU);
 
-    qCHECK_DO(!slot_check(), return);
+    qCHECK_DO(!check(), return);
 
     bool bRv        = false;
     int  currentRow = - 1;
@@ -355,7 +355,7 @@ WordEditor::_languagesAutoDetect()
 
 //-------------------------------------------------------------------------------------------------
 void
-WordEditor::slot_pbtnLangsSwap_OnClicked()
+WordEditor::pbtnLangsSwap_OnClicked()
 {
     cQString textFrom  = ui.cboLangFrom->currentText();
     cQString textTo    = ui.cboLangTo->currentText();
@@ -373,7 +373,7 @@ WordEditor::slot_pbtnLangsSwap_OnClicked()
 }
 //-------------------------------------------------------------------------------------------------
 void
-WordEditor::slot_translate()
+WordEditor::translate()
 {
     if (ui.tedtTerm->toPlainText().isEmpty()) {
         ui.tedtValueBrief->clear();
@@ -384,7 +384,7 @@ WordEditor::slot_translate()
         return;
     }
 
-    slot_check();
+    check();
 
     QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
 
@@ -413,7 +413,7 @@ WordEditor::slot_translate()
 }
 //-------------------------------------------------------------------------------------------------
 bool
-WordEditor::slot_check()
+WordEditor::check()
 {
     bool     bRv = false;
     QPalette plInfo;
@@ -488,14 +488,14 @@ WordEditor::slot_check()
 }
 //-------------------------------------------------------------------------------------------------
 void
-WordEditor::slot_pbtnTagsEdit_OnClicked()
+WordEditor::pbtnTagsEdit_OnClicked()
 {
     TagsEditor dlgTagsEditor(this, _model->database());
     (int)dlgTagsEditor.exec();
 }
 //-------------------------------------------------------------------------------------------------
 void
-WordEditor::slot_bbxButtons_OnClicked(
+WordEditor::bbxButtons_OnClicked(
     QAbstractButton *a_button
 )
 {

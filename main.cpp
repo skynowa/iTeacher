@@ -55,7 +55,7 @@ int main(int argc, char *argv[])
     dlgMain.show();
 
     application.connect(&application, SIGNAL(messageAvailable(QStringList)),
-                        &dlgMain,     SLOT(slot_OnReceiveFromOtherApplication(QStringList)));
+                        &dlgMain,     SLOT(OnReceiveFromOtherApplication(QStringList)));
 
     int exitCode = application.exec();
 

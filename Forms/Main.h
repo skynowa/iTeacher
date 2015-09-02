@@ -81,54 +81,54 @@ private:
 
 private Q_SLOTS:
     // group "File"
-    void            slot_OnCreateDb();
-    void            slot_OnQuickTranslateClipboard();
-    void            slot_OnImportCsv();
-    void            slot_OnImportClipboard();
-    void            slot_OnExportCsv();
-    void            slot_OnExportPdf();
-    void            slot_OnExportClipboard();
-    void            slot_OnExit();
+    void            createDb();
+    void            quickTranslateClipboard();
+    void            importCsv();
+    void            importClipboard();
+    void            exportCsv();
+    void            exportPdf();
+    void            exportClipboard();
+    void            exit();
 
     // group "Edit"
-    void            slot_OnFirst();
-    void            slot_OnPrior();
-    void            slot_OnNext();
-    void            slot_OnLast();
-    void            slot_OnTo();
-    void            slot_OnInsert();
-    void            slot_OnRemove();
-    void            slot_OnEdit();
-    void            slot_OnLearned();
-    void            slot_OnMarked();
+    void            first();
+    void            prior();
+    void            next();
+    void            last();
+    void            to();
+    void            insert();
+    void            remove();
+    void            edit();
+    void            learned();
+    void            marked();
 
     // group "Audio"
-    void            slot_OnPlayTerm();
-    void            slot_OnPlayValue();
-    void            slot_OnPlayTermValue();
+    void            playTerm();
+    void            playValue();
+    void            playTermValue();
 
     // group "Find"
-    void            slot_OnSearch();
+    void            search();
 
     // group "View"
-    void            slot_OnShowHide();
-    void            slot_OnZoomIn();
-    void            slot_OnZoomOut();
-    void            slot_OnZoomDefault();
+    void            showHide();
+    void            zoomIn();
+    void            zoomOut();
+    void            zoomDefault();
 
     // group "Options"
-    void            slot_OnTagsEditor();
-    void            slot_OnSettings();
+    void            tagsEditor();
+    void            settings();
 
     // group "Help"
-    void            slot_OnFaq();
-    void            slot_OnAbout();
+    void            faq();
+    void            about();
 
     // tray
-    void            slot_OnTrayActivated(QSystemTrayIcon::ActivationReason);
+    void            trayActivated(QSystemTrayIcon::ActivationReason);
 
     // etc
-    void            slot_cboDictPath_OnCurrentIndexChanged(const QString &arg);
-    void            slot_OnReceiveFromOtherApplication(const QStringList &message);
+    void            cboDictPath_OnCurrentIndexChanged(const QString &arg);
+    void            receiveFromOtherApplication(const QStringList &message);
 };
 //-------------------------------------------------------------------------------------------------

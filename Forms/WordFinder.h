@@ -33,6 +33,6 @@ private:
     Q_DISABLE_COPY(WordFinder)
 
 private Q_SLOTS:
-    void            slot_bbxButtons_OnClicked(QAbstractButton *button);
+    void            bbxButtons_OnClicked(QAbstractButton *button);
 };
 //-------------------------------------------------------------------------------------------------

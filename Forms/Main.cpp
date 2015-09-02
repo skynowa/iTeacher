@@ -80,9 +80,9 @@ Main::eventFilter(
                 QWheelEvent *inputEvent = static_cast<QWheelEvent *>( a_event );
                 if (inputEvent->modifiers() & Qt::ControlModifier) {
                     if (inputEvent->delta() > 0) {
-                        slot_OnZoomIn();
+                        zoomIn();
                     } else {
-                        slot_OnZoomOut();
+                        zoomOut();
                     }
                 }
             }
@@ -120,7 +120,7 @@ Main::closeEvent(
 {
     if (_isHideOnCLose) {
         a_event->ignore();
-        slot_OnShowHide();
+        showHide();
     } else {
         QApplication::setQuitOnLastWindowClosed(true);
         a_event->accept();
@@ -259,10 +259,10 @@ Main::_initModel()
     // slots
     {
         connect(ui.tvInfo,      SIGNAL( doubleClicked(const QModelIndex &) ),
-                this,           SLOT  ( slot_OnEdit() ));
+                this,           SLOT  ( edit() ));
 
         connect(ui.cboDictPath, SIGNAL( currentIndexChanged(const QString &) ),
-                this,           SLOT  ( slot_cboDictPath_OnCurrentIndexChanged(const QString &) ));
+                this,           SLOT  ( cboDictPath_OnCurrentIndexChanged(const QString &) ));
     }
 
     // fire cboDictPath
@@ -284,130 +284,130 @@ Main::_initActions()
     // group "File"
     {
         connect(ui.actFile_CreateDb,        SIGNAL( triggered() ),
-                this,                       SLOT  ( slot_OnCreateDb() ));
+                this,                       SLOT  ( createDb() ));
 
         connect(ui.actFile_QuickTranslateClipboard, SIGNAL( triggered() ),
-                this,                       SLOT  ( slot_OnQuickTranslateClipboard() ));
+                this,                       SLOT  ( quickTranslateClipboard() ));
 
         connect(ui.actFile_ImportCsv,       SIGNAL( triggered() ),
-                this,                       SLOT  ( slot_OnImportCsv() ));
+                this,                       SLOT  ( importCsv() ));
 
         connect(ui.actFile_ImportClipboard, SIGNAL( triggered() ),
-                this,                       SLOT  ( slot_OnImportClipboard() ));
+                this,                       SLOT  ( importClipboard() ));
 
         connect(ui.actFile_ExportCsv,       SIGNAL( triggered() ),
-                this,                       SLOT  ( slot_OnExportCsv() ));
+                this,                       SLOT  ( exportCsv() ));
 
         connect(ui.actFile_ExportPdf,       SIGNAL( triggered() ),
-                this,                       SLOT  ( slot_OnExportPdf() ));
+                this,                       SLOT  ( eExportPdf() ));
 
         connect(ui.actFile_ExportClipboard, SIGNAL( triggered() ),
-                this,                       SLOT  ( slot_OnExportClipboard() ));
+                this,                       SLOT  ( wxportClipboard() ));
 
         connect(ui.actFile_Exit,            SIGNAL( triggered() ),
-                this,                       SLOT  ( slot_OnExit() ));
+                this,                       SLOT  ( exit() ));
     }
 
     // group "Edit"
     {
         connect(ui.actEdit_First,           SIGNAL( triggered() ),
-                this,                       SLOT  ( slot_OnFirst() ));
+                this,                       SLOT  ( first() ));
 
         connect(ui.actEdit_Prior,           SIGNAL( triggered() ),
-                this,                       SLOT  ( slot_OnPrior() ));
+                this,                       SLOT  ( prior() ));
 
         connect(ui.actEdit_Next,            SIGNAL( triggered() ),
-                this,                       SLOT  ( slot_OnNext() ));
+                this,                       SLOT  ( next() ));
 
         connect(ui.actEdit_Last,            SIGNAL( triggered() ),
-                this,                       SLOT  ( slot_OnLast() ));
+                this,                       SLOT  ( last() ));
 
         connect(ui.actEdit_To,              SIGNAL( triggered() ),
-                this,                       SLOT  ( slot_OnTo() ));
+                this,                       SLOT  ( to() ));
 
         connect(ui.actEdit_Insert,          SIGNAL( triggered() ),
-                this,                       SLOT  ( slot_OnInsert() ));
+                this,                       SLOT  ( insert() ));
 
         connect(ui.actEdit_Delete,          SIGNAL( triggered() ),
-                this,                       SLOT  ( slot_OnRemove() ));
+                this,                       SLOT  ( remove() ));
 
         connect(ui.actEdit_Edit,            SIGNAL( triggered() ),
-                this,                       SLOT  ( slot_OnEdit() ));
+                this,                       SLOT  ( edit() ));
 
         connect(ui.actEdit_Learned,         SIGNAL( triggered() ),
-                this,                       SLOT  ( slot_OnLearned() ));
+                this,                       SLOT  ( learned() ));
 
         connect(ui.actEdit_Marked,          SIGNAL( triggered() ),
-                this,                       SLOT  ( slot_OnMarked() ));
+                this,                       SLOT  ( marked() ));
     }
 
     // audio
     {
         connect(ui.actEdit_PlayTerm,        SIGNAL( triggered() ),
-                this,                       SLOT  ( slot_OnPlayTerm() ));
+                this,                       SLOT  ( playTerm() ));
 
         connect(ui.actEdit_PlayValue,       SIGNAL( triggered() ),
-                this,                       SLOT  ( slot_OnPlayValue() ));
+                this,                       SLOT  ( playValue() ));
 
         connect(ui.actEdit_PlayTermValue,   SIGNAL( triggered() ),
-                this,                       SLOT  ( slot_OnPlayTermValue() ));
+                this,                       SLOT  ( playTermValue() ));
     }
 
     // group "Find"
     {
         connect(ui.actFind_Search,          SIGNAL( triggered() ),
-                this,                       SLOT  ( slot_OnSearch() ));
+                this,                       SLOT  ( search() ));
     }
 
     // group "View"
     {
         connect(ui.actView_ShowHide,        SIGNAL( triggered() ),
-                this,                       SLOT  ( slot_OnShowHide() ));
+                this,                       SLOT  ( showHide() ));
 
         connect(ui.actView_ZoomIn,          SIGNAL( triggered() ),
-                this,                       SLOT  ( slot_OnZoomIn() ));
+                this,                       SLOT  ( zoomIn() ));
 
         connect(ui.actView_ZoomOut,         SIGNAL( triggered() ),
-                this,                       SLOT  ( slot_OnZoomOut() ));
+                this,                       SLOT  ( zoomOut() ));
 
         connect(ui.actView_ZoomDefault,     SIGNAL( triggered() ),
-                this,                       SLOT  ( slot_OnZoomDefault() ));
+                this,                       SLOT  ( zoomDefault() ));
     }
 
     // group "Options"
     {
         connect(ui.actOptions_TagsEditor,   SIGNAL( triggered() ),
-                this,                       SLOT  ( slot_OnTagsEditor() ));
+                this,                       SLOT  ( tagsEditor() ));
 
         connect(ui.actOptions_Settings,     SIGNAL( triggered() ),
-                this,                       SLOT  ( slot_OnSettings() ));
+                this,                       SLOT  ( settings() ));
     }
 
     // group "Help"
     {
         connect(ui.actHelp_Faq,             SIGNAL( triggered() ),
-                this,                       SLOT  ( slot_OnFaq() ));
+                this,                       SLOT  ( faq() ));
 
         connect(ui.actHelp_About,           SIGNAL( triggered() ),
-                this,                       SLOT  ( slot_OnAbout() ));
+                this,                       SLOT  ( about() ));
     }
 
     // tray
     {
         connect(&_trayIcon,                 SIGNAL( activated(QSystemTrayIcon::ActivationReason) ),
-                this,                       SLOT  ( slot_OnTrayActivated(QSystemTrayIcon::ActivationReason) ));
+                this,                       SLOT  ( trayActivated(QSystemTrayIcon::ActivationReason) ));
     }
 
     // global shortcut
     {
         connect(&_scShowHide,               SIGNAL( activated() ),
-                this,                       SLOT  ( slot_OnShowHide() ));
+                this,                       SLOT  ( showHide() ));
 
         connect(&_scQuickClipboardTranslate,SIGNAL( activated() ),
-                this,                       SLOT  ( slot_OnQuickTranslateClipboard() ));
+                this,                       SLOT  ( quickTranslateClipboard() ));
 
         connect(&_scImportClipboard,        SIGNAL( activated() ),
-                this,                       SLOT  ( slot_OnImportClipboard() ));
+                this,                       SLOT  ( importClipboard() ));
     }
 }
 //-------------------------------------------------------------------------------------------------
@@ -420,7 +420,7 @@ Main::_initActions()
 
 //-------------------------------------------------------------------------------------------------
 void
-Main::slot_OnCreateDb()
+Main::createDb()
 {
     cQString dbName = QInputDialog::getText(this, qS2QS(xlib::core::Application::name()),
         tr("New DB file path:"), QLineEdit::Normal, DB_FILE_EXT);
@@ -443,7 +443,7 @@ Main::slot_OnCreateDb()
 }
 //-------------------------------------------------------------------------------------------------
 void
-Main::slot_OnQuickTranslateClipboard()
+Main::quickTranslateClipboard()
 {
     bool bRv = false;
 
@@ -507,7 +507,7 @@ Main::slot_OnQuickTranslateClipboard()
 }
 //-------------------------------------------------------------------------------------------------
 void
-Main::slot_OnImportCsv()
+Main::importCsv()
 {
     qCHECK_DO(_tagsIsEmpty(), return);
 
@@ -544,7 +544,7 @@ Main::slot_OnImportCsv()
 }
 //-------------------------------------------------------------------------------------------------
 void
-Main::slot_OnImportClipboard()
+Main::importClipboard()
 {
     qCHECK_DO(_tagsIsEmpty(), return);
 
@@ -585,7 +585,7 @@ Main::slot_OnImportClipboard()
 }
 //-------------------------------------------------------------------------------------------------
 void
-Main::slot_OnExportCsv()
+Main::exportCsv()
 {
     // choose file path
     cQString filePath = QFileDialog::getSaveFileName(this, tr("Save file"),
@@ -627,7 +627,7 @@ Main::slot_OnExportCsv()
 }
 //-------------------------------------------------------------------------------------------------
 void
-Main::slot_OnExportPdf()
+Main::exportPdf()
 {
     // choose file path
     cQString filePath = QFileDialog::getSaveFileName(this, tr("Save file"),
@@ -680,7 +680,7 @@ Main::slot_OnExportPdf()
 }
 //-------------------------------------------------------------------------------------------------
 void
-Main::slot_OnExportClipboard()
+Main::exportClipboard()
 {
     QString         sRv;
     QModelIndexList indexes   = _sqlNavigator.view()->selectionModel()->selectedRows();
@@ -711,7 +711,7 @@ Main::slot_OnExportClipboard()
 }
 //-------------------------------------------------------------------------------------------------
 void
-Main::slot_OnExit()
+Main::exit()
 {
     qApp->exit();
 }
@@ -725,31 +725,31 @@ Main::slot_OnExit()
 
 //-------------------------------------------------------------------------------------------------
 void
-Main::slot_OnFirst()
+Main::first()
 {
     _sqlNavigator.first();
 }
 //-------------------------------------------------------------------------------------------------
 void
-Main::slot_OnPrior()
+Main::prior()
 {
     _sqlNavigator.prior();
 }
 //-------------------------------------------------------------------------------------------------
 void
-Main::slot_OnNext()
+Main::next()
 {
     _sqlNavigator.next();
 }
 //-------------------------------------------------------------------------------------------------
 void
-Main::slot_OnLast()
+Main::last()
 {
     _sqlNavigator.last();
 }
 //-------------------------------------------------------------------------------------------------
 void
-Main::slot_OnTo()
+Main::to()
 {
     qCHECK_DO(_sqlNavigator.view()->currentIndex().row() < 0, return);
 
@@ -764,7 +764,7 @@ Main::slot_OnTo()
 }
 //-------------------------------------------------------------------------------------------------
 void
-Main::slot_OnInsert()
+Main::insert()
 {
     qCHECK_DO(_tagsIsEmpty(),            return);
     qCHECK_DO(!_sqlNavigator.isValid(), return);
@@ -787,7 +787,7 @@ Main::slot_OnInsert()
 }
 //-------------------------------------------------------------------------------------------------
 void
-Main::slot_OnRemove()
+Main::remove()
 {
     qCHECK_DO(_sqlNavigator.view()->currentIndex().row() < 0, return);
 
@@ -827,7 +827,7 @@ Main::slot_OnRemove()
 }
 //-------------------------------------------------------------------------------------------------
 void
-Main::slot_OnEdit()
+Main::edit()
 {
     qCHECK_DO(_sqlNavigator.view()->currentIndex().row() < 0, return);
 
@@ -841,7 +841,7 @@ Main::slot_OnEdit()
 }
 //-------------------------------------------------------------------------------------------------
 void
-Main::slot_OnLearned()
+Main::learned()
 {
     qCHECK_DO(_sqlNavigator.view()->currentIndex().row() < 0, return);
 
@@ -862,7 +862,7 @@ Main::slot_OnLearned()
 }
 //-------------------------------------------------------------------------------------------------
 void
-Main::slot_OnMarked()
+Main::marked()
 {
     qCHECK_DO(_sqlNavigator.view()->currentIndex().row() < 0, return);
 
@@ -891,7 +891,7 @@ Main::slot_OnMarked()
 
 //-------------------------------------------------------------------------------------------------
 void
-Main::slot_OnPlayTerm()
+Main::playTerm()
 {
     qCHECK_DO(_sqlNavigator.view()->currentIndex().row() < 0, return);
 
@@ -913,7 +913,7 @@ Main::slot_OnPlayTerm()
 }
 //-------------------------------------------------------------------------------------------------
 void
-Main::slot_OnPlayValue()
+Main::playValue()
 {
     qCHECK_DO(_sqlNavigator.view()->currentIndex().row() < 0, return);
 
@@ -935,10 +935,10 @@ Main::slot_OnPlayValue()
 }
 //-------------------------------------------------------------------------------------------------
 void
-Main::slot_OnPlayTermValue()
+Main::playTermValue()
 {
-    slot_OnPlayTerm();
-    slot_OnPlayValue();
+    playTerm();
+    playValue();
 }
 //-------------------------------------------------------------------------------------------------
 
@@ -950,7 +950,7 @@ Main::slot_OnPlayTermValue()
 
 //-------------------------------------------------------------------------------------------------
 void
-Main::slot_OnSearch()
+Main::search()
 {
     qCHECK_DO(!_sqlNavigator.isValid(), return);
 
@@ -968,13 +968,13 @@ Main::slot_OnSearch()
 
 //-------------------------------------------------------------------------------------------------
 void
-Main::slot_OnShowHide()
+Main::showHide()
 {
     setVisible( !isVisible() );
 }
 //-------------------------------------------------------------------------------------------------
 void
-Main::slot_OnZoomIn()
+Main::zoomIn()
 {
     // table font
     {
@@ -995,7 +995,7 @@ Main::slot_OnZoomIn()
 }
 //-------------------------------------------------------------------------------------------------
 void
-Main::slot_OnZoomOut()
+Main::zoomOut()
 {
     // table font
     {
@@ -1022,7 +1022,7 @@ Main::slot_OnZoomOut()
 }
 //-------------------------------------------------------------------------------------------------
 void
-Main::slot_OnZoomDefault()
+Main::zoomDefault()
 {
     // font
     {
@@ -1047,7 +1047,7 @@ Main::slot_OnZoomDefault()
 
 //-------------------------------------------------------------------------------------------------
 void
-Main::slot_OnTagsEditor()
+Main::tagsEditor()
 {
     TagsEditor dlgTagsEditor(this, *_db);
 
@@ -1062,7 +1062,7 @@ Main::slot_OnTagsEditor()
 }
 //-------------------------------------------------------------------------------------------------
 void
-Main::slot_OnSettings()
+Main::settings()
 {
     Settings dlgSettings(this, this);
 
@@ -1078,13 +1078,13 @@ Main::slot_OnSettings()
 
 //-------------------------------------------------------------------------------------------------
 void
-Main::slot_OnFaq()
+Main::faq()
 {
-    // TODO: slot_OnFaq
+    // TODO: Faq
 }
 //-------------------------------------------------------------------------------------------------
 void
-Main::slot_OnAbout()
+Main::about()
 {
     About dlgAbout(this, windowIcon());
     dlgAbout.setAppDonatePayPal(APP_DONATE_PAYPAL);
@@ -1096,7 +1096,7 @@ Main::slot_OnAbout()
 }
 //-------------------------------------------------------------------------------------------------
 void
-Main::slot_cboDictPath_OnCurrentIndexChanged(
+Main::cboDictPath_OnCurrentIndexChanged(
     const QString &a_arg
 )
 {
@@ -1180,7 +1180,7 @@ Main::slot_cboDictPath_OnCurrentIndexChanged(
 }
 //-------------------------------------------------------------------------------------------------
 void
-Main::slot_OnReceiveFromOtherApplication(
+Main::receiveFromOtherApplication(
     const QStringList &a_message
 )
 {
@@ -1196,17 +1196,17 @@ Main::slot_OnReceiveFromOtherApplication(
 
 //-------------------------------------------------------------------------------------------------
 void
-Main::slot_OnTrayActivated(
+Main::trayActivated(
     QSystemTrayIcon::ActivationReason a_reason
 )
 {
     switch (a_reason) {
     case QSystemTrayIcon::DoubleClick:
     case QSystemTrayIcon::Trigger:
-        slot_OnShowHide();
+        showHide();
         break;
     case QSystemTrayIcon::MiddleClick:
-        slot_OnImportClipboard();
+        importClipboard();
         break;
     default:
         break;
@@ -1606,7 +1606,7 @@ Main::_tagsIsEmpty()
 
     int iRv = msgBox.exec();
     if (iRv == QMessageBox::Yes){
-        slot_OnTagsEditor();
+        tagsEditor();
     }
 
     return true;

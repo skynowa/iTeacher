@@ -79,7 +79,7 @@ WordFinder::_construct()
     // signals
     {
         connect(ui.bbxButtons, SIGNAL( clicked(QAbstractButton *) ),
-                this,          SLOT  ( slot_bbxButtons_OnClicked(QAbstractButton *) ));
+                this,          SLOT  ( bbxButtons_OnClicked(QAbstractButton *) ));
     }
 }
 //-------------------------------------------------------------------------------------------------
@@ -97,7 +97,7 @@ WordFinder::_destruct()
 
 //-------------------------------------------------------------------------------------------------
 void
-WordFinder::slot_bbxButtons_OnClicked(
+WordFinder::bbxButtons_OnClicked(
     QAbstractButton *a_button
 )
 {

@@ -35,7 +35,7 @@ private:
     Q_DISABLE_COPY(TagsEditor)
 
 private Q_SLOTS:
-    void             slot_OnInsert();
-    void             slot_OnRemove();
+    void             Insert();
+    void             Remove();
 };
 //-------------------------------------------------------------------------------------------------
