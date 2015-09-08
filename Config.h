@@ -115,4 +115,5 @@ const TableViewHeader tableViewHeaders[] = {
 #define TABLEVIEW_ROW_HEIGHT     20
 #define BUTTON_BOX_WIDTH         75
 #define TERM_MINIMIZED_SIZE_MAX  30
+#define QSYSTEM_TRAYICON_MESSAGE_TIMEOUT_MSEC 5000
 //-------------------------------------------------------------------------------------------------
