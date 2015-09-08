@@ -452,7 +452,8 @@ Main::quickTranslateClipboard()
 {
     bool bRv = false;
 
-    cbool isSystemTrayIconMessages = QSystemTrayIcon::supportsMessages();
+    // TODO: Main::quickTranslateClipboard - quick message
+    cbool isSystemTrayIconMessages = false; // QSystemTrayIcon::supportsMessages();
 
     // QMessageBox - only one instance
     QSharedMemory locker;
