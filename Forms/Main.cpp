@@ -1220,7 +1220,11 @@ Main::receiveFromOtherApplication(
     cQStringList &a_message
 )
 {
-    QMessageBox::information(this, "Hey", "Some Apps send:\n" + a_message.join("\n"));
+    // QMessageBox::information(this, "Hey", "Some Apps send:\n" + a_message.join("\n"));
+
+    setVisible(true);
+    raise();
+    activateWindow();
 }
 //-------------------------------------------------------------------------------------------------
 

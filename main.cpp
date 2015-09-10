@@ -41,8 +41,8 @@ int main(int argc, char *argv[])
     if (bRv) {
         std::wcerr << "Application is already running." << std::endl;
 
-    #if 0
         application.sendMessage("I am another instance");
+    #if 0
         application.sendMessage("I want to send several message like argv if needed");
     #endif
 
