@@ -175,11 +175,12 @@ GoogleTranslator::execute(
             * https://translate.google.com/m?text=cat&sl=en&tl=ru
             */
 
-            cQString url  = QString("%1/m?text=%2&sl=%3&tl=%4")
+            const QUrl url  = QString("%1/m?text=%2&sl=%3&tl=%4")
                                 .arg(host)
                                 .arg(a_textFrom)
                                 .arg(a_langFrom)
                                 .arg(a_langTo);
+            url.toEncoded();
 
             request.setUrl(url);
 
@@ -203,7 +204,8 @@ GoogleTranslator::execute(
             * </form>
             */
 
-            cQString url = QString("%1/m").arg(host);
+            const QUrl url = QString("%1/m").arg(host);
+            url.toEncoded();
 
             QUrlQuery query;
             query.addQueryItem("h1", a_langFrom);
