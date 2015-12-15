@@ -500,6 +500,7 @@ Main::quickTranslateClipboard()
         if ( isSystemTrayIconMessages ) {
             // QSystemTrayIcon doesn't support HTML
             text = QString(
+                        "%1 -> %2\n\n"
                         "%1\n\n"
                         "%2\n\n"
                         "%3")
@@ -508,17 +509,17 @@ Main::quickTranslateClipboard()
             text = QString(
                         "<style>"
                         "   h3 {"
-                        "       color: #0000FF"
+                        "       color: #0000FF" // blue
                         "   }"
                         "   h4 {"
-                        "       color: #FF0000"
+                        "       color: #FF0000" // red
                         "   }"
                         "</style>"
-                        ""
-                        "<h3>%1</h3>"
-                        "<h4>%2</h4>"
-                        "<pre>%3</pre>")
-                        .arg(term, valueBrief, valueDetail);
+                        "<b>%1 -> %2</b>"
+                        "<h3>%3</h3>"
+                        "<h4>%4</h4>"
+                        "<pre>%5</pre>")
+                        .arg(langCodeFrom, langCodeTo, term, valueBrief, valueDetail);
         }
     }
 
