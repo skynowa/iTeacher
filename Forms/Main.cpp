@@ -1122,12 +1122,34 @@ Main::faq()
 void
 Main::about()
 {
-    About dlgAbout(this, windowIcon());
-    dlgAbout.setAppDonatePayPal(APP_DONATE_PAYPAL);
-    dlgAbout.setAppDonateWebMoney(APP_DONATE_WEBMONEY);
-    dlgAbout.setAppDonateYandexMoney(APP_DONATE_YANDEXMONEY);
-    dlgAbout.setAppDonatePrivate24(APP_DONATE_PRIVATE24);
+    AboutData aboutData;
+#if 0
+    aboutData.appName              = qS2QS(xlib::core::Application::name());
+    aboutData.appVersionFull       = qS2QS(xlib::core::Application::versionFull());
+    aboutData.appDecription        = qS2QS(xlib::core::Application::decription());
+    aboutData.appCopyrightYears    = qS2QS(xlib::core::Application::copyrightYears());
+    aboutData.appUsage             = qS2QS(xlib::core::Application::usage());
+    aboutData.appHelp              = qS2QS(xlib::core::Application::help());
+    aboutData.appVersionMajor      = qS2QS(xlib::core::Application::versionMajor());
+    aboutData.appVersionMinor      = qS2QS(xlib::core::Application::versionMinor());
+    aboutData.appVersionPatch      = qS2QS(xlib::core::Application::versionPatch());
+    aboutData.appVersionType       = qS2QS(xlib::core::Application::versionType());
+    aboutData.appVersionRevision   = qS2QS(xlib::core::Application::versionRevision());
+    aboutData.appVendorName        = qS2QS(xlib::core::Application::vendorName());
+    aboutData.appVendorDomain      = qS2QS(xlib::core::Application::vendorDomain());
+    aboutData.appVendorAuthor      = qS2QS(xlib::core::Application::vendorAuthor());
+    aboutData.appVendorUrl         = qS2QS(xlib::core::Application::vendorUrl());
+    aboutData.appVendorEmail       = qS2QS(xlib::core::Application::vendorEmail());
+    aboutData.appVendorSkype       = qS2QS(xlib::core::Application::vendorSkype());
+    aboutData.appVendorJabber      = qS2QS(xlib::core::Application::vendorJabber());
+    aboutData.appVendorIcq         = qS2QS(xlib::core::Application::vendorIcq());
+#endif
+    aboutData.appDonatePayPal      = APP_DONATE_PAYPAL;
+    aboutData.appDonateWebMoney    = APP_DONATE_WEBMONEY;
+    aboutData.appDonateYandexMoney = APP_DONATE_YANDEXMONEY;
+    aboutData.appDonatePrivate24   = APP_DONATE_PRIVATE24;
 
+    About dlgAbout(this, aboutData, windowIcon());
     (int)dlgAbout.exec();
 }
 //-------------------------------------------------------------------------------------------------

@@ -10,6 +10,8 @@
 
 
 //-------------------------------------------------------------------------------------------------
+xLIB_CORE_APPLICATION_STATIC_DECLARE
+
 int main(int argc, char *argv[])
 {
     bool bRv = false;
