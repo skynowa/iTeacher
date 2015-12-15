@@ -506,8 +506,17 @@ Main::quickTranslateClipboard()
                         .arg(term, valueBrief, valueDetail);
         } else {
             text = QString(
-                        "<h3>%1</h3"
-                        "<b>%2</b>"
+                        "<style>"
+                        "   h3 {"
+                        "       color: #0000FF"
+                        "   }"
+                        "   h4 {"
+                        "       color: #FF0000"
+                        "   }"
+                        "</style>"
+                        ""
+                        "<h3>%1</h3>"
+                        "<h4>%2</h4>"
                         "<pre>%3</pre>")
                         .arg(term, valueBrief, valueDetail);
         }
