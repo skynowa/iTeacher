@@ -159,7 +159,6 @@ WordEditor::_construct()
         if (!_termNew.isEmpty()) {
             ui.tedtTerm->setText(_termNew);
 
-            _languagesAutoDetect();
             translate();
         }
 
@@ -384,9 +383,10 @@ WordEditor::translate()
         return;
     }
 
-    check();
-
     QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
+
+    check();
+    _languagesAutoDetect();
 
     QString  textFrom = ui.tedtTerm->toPlainText();
     cQString langFrom = ui.cboLangFrom->currentText();
