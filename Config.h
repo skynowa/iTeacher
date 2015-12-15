@@ -26,6 +26,8 @@
 #define APP_VENDOR_URL           "http://bitbucket.org/skynowa/iteacher"
 #define APP_VENDOR_EMAIL         "skynowa@gmail.com"
 #define APP_VENDOR_SKYPE         "skynowa777"
+#define APP_VENDOR_JABBER        "skynowa@jabber.ru"
+#define APP_VENDOR_ICQ           "627713628"
 #define APP_DONATE_PAYPAL        ""
 #define APP_DONATE_WEBMONEY      ""
 #define APP_DONATE_YANDEXMONEY   ""

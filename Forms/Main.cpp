@@ -1123,7 +1123,6 @@ void
 Main::about()
 {
     AboutData aboutData;
-#if 0
     aboutData.appName              = qS2QS(xlib::core::Application::name());
     aboutData.appVersionFull       = qS2QS(xlib::core::Application::versionFull());
     aboutData.appDecription        = qS2QS(xlib::core::Application::decription());
@@ -1143,7 +1142,6 @@ Main::about()
     aboutData.appVendorSkype       = qS2QS(xlib::core::Application::vendorSkype());
     aboutData.appVendorJabber      = qS2QS(xlib::core::Application::vendorJabber());
     aboutData.appVendorIcq         = qS2QS(xlib::core::Application::vendorIcq());
-#endif
     aboutData.appDonatePayPal      = APP_DONATE_PAYPAL;
     aboutData.appDonateWebMoney    = APP_DONATE_WEBMONEY;
     aboutData.appDonateYandexMoney = APP_DONATE_YANDEXMONEY;

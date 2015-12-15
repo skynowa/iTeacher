@@ -36,6 +36,8 @@ int main(int argc, char *argv[])
     xlib::core::Application::setVendorUrl(APP_VENDOR_URL);
     xlib::core::Application::setVendorEmail(APP_VENDOR_EMAIL);
     xlib::core::Application::setVendorSkype(APP_VENDOR_SKYPE);
+    xlib::core::Application::setVendorJabber(APP_VENDOR_JABBER);
+    xlib::core::Application::setVendorIcq(APP_VENDOR_ICQ);
 
     // qtlib::Application
     qtlib::Application application(argc, argv, APP_GUID);
