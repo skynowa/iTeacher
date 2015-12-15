@@ -137,8 +137,8 @@ GoogleTranslator::languagesDetect(
         *a_langCodeFrom = "";
         *a_langCodeTo   = "";
 
-        qDebug() << qDEBUG_VAR(countEn);
-        qDebug() << qDEBUG_VAR(countRu);
+        qDebug() << qTRACE_VAR(countEn);
+        qDebug() << qTRACE_VAR(countRu);
 
         qTEST(false);
     }
@@ -356,14 +356,14 @@ GoogleTranslator::_replyParse(
     #if 0
         cQVariant httpStatusCode = a_reply->attribute(QNetworkRequest::HttpStatusCodeAttribute);
         if ( !httpStatusCode.isValid() ) {
-            qDebug() << qDEBUG_VAR(httpStatusCode);
+            qDebug() << qTRACE_VAR(httpStatusCode);
             return;
         }
 
         int status = httpStatusCode.toInt();
         if (status != 200) {
             cQString reason = a_reply->attribute(QNetworkRequest::HttpReasonPhraseAttribute).toString();
-            qDebug() << qDEBUG_VAR(reason);
+            qDebug() << qTRACE_VAR(reason);
         }
     #endif
 
@@ -390,7 +390,7 @@ GoogleTranslator::_replyParse(
         textToRaw        = response;
         isDictionaryText = response.contains("Dictionary:");
 
-        // qDebug() << qDEBUG_VAR(response);
+        // qDebug() << qTRACE_VAR(response);
     }
 
     // proccess response
@@ -430,9 +430,9 @@ GoogleTranslator::_replyParse(
             a_textToRaw->swap(textToRaw);
         }
 
-        // qDebug() << qDEBUG_VAR(*a_textToBrief);
-        // qDebug() << qDEBUG_VAR(*a_textToDetail);
-        // qDebug() << qDEBUG_VAR(*a_textToRaw);
+        // qDebug() << qTRACE_VAR(*a_textToBrief);
+        // qDebug() << qTRACE_VAR(*a_textToDetail);
+        // qDebug() << qTRACE_VAR(*a_textToRaw);
     }
 }
 //-------------------------------------------------------------------------------------------------

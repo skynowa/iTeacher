@@ -179,7 +179,7 @@ Main::_initMain()
 
     // tray icon
     if (!QSystemTrayIcon::isSystemTrayAvailable()) {
-        qDebug() << qDEBUG_VAR(QSystemTrayIcon::isSystemTrayAvailable());
+        qDebug() << qTRACE_VAR(QSystemTrayIcon::isSystemTrayAvailable());
     } else {
         // mnuTrayIcon
         QMenu *mnuTrayIcon = new QMenu(this);
@@ -536,7 +536,7 @@ Main::quickTranslateClipboard()
         _trayIcon.showMessage(title, text, QSystemTrayIcon::Information,
             QSYSTEM_TRAYICON_MESSAGE_TIMEOUT_MSEC);
     } else {
-        qDebug() << qDEBUG_VAR(isSystemTrayIconMessages);
+        qDebug() << qTRACE_VAR(isSystemTrayIconMessages);
 
         QMessageBox::information(this, title, text);
     }

@@ -1,6 +1,6 @@
 /**
  * \file   GoogleTranslator.h
- * \brief
+ * \brief  Google translator
  */
 
 
