@@ -1,6 +1,6 @@
 /**
  * \file   GoogleTranslator.cpp
- * \brief
+ * \brief  Google translator
  */
 
 
@@ -16,7 +16,8 @@
 **************************************************************************************************/
 
 //-------------------------------------------------------------------------------------------------
-namespace {
+namespace
+{
 
 cQString langEn = "en";
 cQString langRu = "ru";
@@ -280,6 +281,7 @@ GoogleTranslator::speech(
     }
 
     // play audio file
+    // TODO: GoogleTranslator::speech - QSound ???
     {
     #if 0
         Phonon::MediaObject *player = Phonon::createPlayer(

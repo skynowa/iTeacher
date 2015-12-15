@@ -10,7 +10,7 @@
 #include "../QtLib/Utils.h"
 //-------------------------------------------------------------------------------------------------
 class GoogleTranslator
-    /// application
+    /// Google translator
 {
 public:
     enum Language
