@@ -82,6 +82,12 @@ WordEditor::_construct()
         connect(ui.pbtnLangsSwap, &QPushButton::clicked,
                 this,             &WordEditor::pbtnLangsSwap_OnClicked);
 
+        connect(ui.tbtnTermCopy,  &QPushButton::clicked,
+                this,             &WordEditor::tbtnTermCopy_OnClicked);
+
+        connect(ui.tbtnValueCopy, &QPushButton::clicked,
+                this,             &WordEditor::tbtnValueCopy_OnClicked);
+
         connect(ui.pbtnTranslate, &QPushButton::clicked,
                 this,             &WordEditor::translate);
 
@@ -371,6 +377,18 @@ WordEditor::pbtnLangsSwap_OnClicked()
 
     ui.cboLangFrom->setCurrentIndex(indexFrom);
     ui.cboLangTo->setCurrentIndex(indexTo);
+}
+//-------------------------------------------------------------------------------------------------
+void
+WordEditor::tbtnTermCopy_OnClicked()
+{
+    QApplication::clipboard()->setText( ui.tedtTerm->toPlainText() );
+}
+//-------------------------------------------------------------------------------------------------
+void
+WordEditor::tbtnValueCopy_OnClicked()
+{
+    QApplication::clipboard()->setText( ui.tedtValueBrief->toPlainText() );
 }
 //-------------------------------------------------------------------------------------------------
 void
