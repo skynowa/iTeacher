@@ -156,8 +156,9 @@ WordEditor::_construct()
         }
 
         // check term
-        if (!_termNew.isEmpty()) {
+        if ( !_termNew.isEmpty() ) {
             ui.tedtTerm->setText(_termNew);
+            _termNew.clear();
 
             translate();
         }
@@ -324,7 +325,7 @@ WordEditor::_settingsSave()
 void
 WordEditor::_languagesAutoDetect()
 {
-    qCHECK_DO(_termNew.isEmpty(), return);
+    qCHECK_DO(ui.tedtTerm->toPlainText().isEmpty(), return);
 
     GoogleTranslator::Language langFrom;
     GoogleTranslator::Language langTo;
@@ -332,7 +333,8 @@ WordEditor::_languagesAutoDetect()
     QString                    langCodeTo;
 
     GoogleTranslator translator;
-    translator.languagesDetect(_termNew, &langFrom, &langTo, &langCodeFrom, &langCodeTo);
+    translator.languagesDetect(ui.tedtTerm->toPlainText(), &langFrom, &langTo, &langCodeFrom,
+        &langCodeTo);
 
     // TODO: QComboBox::findText: case-insensitive
     cint indexFrom = ui.cboLangFrom->findText(langCodeFrom);

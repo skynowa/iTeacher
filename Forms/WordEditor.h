@@ -33,7 +33,7 @@ private:
     qtlib::SqlNavigator *_sqlNavigator;
     cint             _currentRow;
     cbool            _insertMode;
-    cQString         _termNew;
+    QString          _termNew;
     GoogleTranslator _translator;
 
     QPalette         _plInfoDefault;
