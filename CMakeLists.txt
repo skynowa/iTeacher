@@ -51,6 +51,7 @@ endforeach()
 
 include_directories(
     ${XLIB_INCLUDES}
+    ${CMAKE_SOURCE_DIR}/xLib/Include
     ${Qt5Gui_PRIVATE_INCLUDE_DIRS}
     ${CMAKE_SOURCE_DIR}/QtLib
     ${CMAKE_SOURCE_DIR}/QtLib/Forms
