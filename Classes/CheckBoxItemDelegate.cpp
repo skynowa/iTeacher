@@ -15,8 +15,11 @@
 
 
 //-------------------------------------------------------------------------------------------------
-namespace {
-    const bool defaultValue = false;
+namespace
+{
+
+const bool defaultValue = false;
+
 }
 //-------------------------------------------------------------------------------------------------
 CheckBoxItemDelegate::CheckBoxItemDelegate(

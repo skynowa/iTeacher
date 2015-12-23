@@ -508,12 +508,12 @@ Main::quickTranslateClipboard()
         } else {
             text = QString(
                         "<style>"
-                        "   h3 {"
-                        "       color: #0000FF" // blue
-                        "   }"
-                        "   h4 {"
-                        "       color: #FF0000" // red
-                        "   }"
+                            "h3 {"
+                                "color: #0000FF" // blue
+                            "}"
+                            "h4 {"
+                                "color: #FF0000" // red
+                            "}"
                         "</style>"
                         "<b>%1 -> %2</b>"
                         "<h3>%3</h3>"
@@ -729,7 +729,7 @@ void
 Main::exportClipboard()
 {
     QString         sRv;
-    QModelIndexList indexes   = _sqlNavigator.view()->selectionModel()->selectedRows();
+    QModelIndexList indexes = _sqlNavigator.view()->selectionModel()->selectedRows();
 
     Q_FOREACH (QModelIndex index, indexes) {
         _sqlNavigator.view()->setFocus();

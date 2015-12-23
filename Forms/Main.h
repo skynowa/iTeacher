@@ -29,9 +29,9 @@ public Q_SLOTS:
     void            receiveFromOtherApplication(cQStringList &message);
 
 protected:
-    virtual bool    eventFilter(QObject *object, QEvent *event);
-    virtual void    keyPressEvent(QKeyEvent *event);
-    virtual void    closeEvent(QCloseEvent *event);
+    virtual bool    eventFilter(QObject *object, QEvent *event) Q_DECL_OVERRIDE;
+    virtual void    keyPressEvent(QKeyEvent *event) Q_DECL_OVERRIDE;
+    virtual void    closeEvent(QCloseEvent *event) Q_DECL_OVERRIDE;
 
 private:
     enum ImportExportOrder
