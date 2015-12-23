@@ -18,15 +18,15 @@ public:
     virtual         ~ComboBoxItemDelegate();
 
     virtual QWidget *createEditor(QWidget *parent, const QStyleOptionViewItem &option,
-                        const QModelIndex &index) const Q_DECL_OVERRIDE;
-    virtual void     setEditorData(QWidget *editor, const QModelIndex &index) const Q_DECL_OVERRIDE;
+                        cQModelIndex &index) const Q_DECL_OVERRIDE;
+    virtual void     setEditorData(QWidget *editor, cQModelIndex &index) const Q_DECL_OVERRIDE;
     virtual void     setModelData(QWidget *editor, QAbstractItemModel *model,
-                        const QModelIndex &index) const Q_DECL_OVERRIDE;
+                        cQModelIndex &index) const Q_DECL_OVERRIDE;
     virtual void     updateEditorGeometry(QWidget *editor,
-                        const QStyleOptionViewItem &option, const QModelIndex &index) const
+                        const QStyleOptionViewItem &option, cQModelIndex &index) const
                         Q_DECL_OVERRIDE;
     virtual void     paint(QPainter *painter, const QStyleOptionViewItem &option,
-                        const QModelIndex &index) const Q_DECL_OVERRIDE;
+                        cQModelIndex &index) const Q_DECL_OVERRIDE;
 
 private:
     QSqlTableModel  *_sqlModel;

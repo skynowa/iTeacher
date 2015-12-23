@@ -176,7 +176,7 @@ GoogleTranslator::execute(
             * https://translate.google.com/m?text=cat&sl=en&tl=ru
             */
 
-            const QUrl url  = QString("%1/m?text=%2&sl=%3&tl=%4")
+            cQUrl url  = QString("%1/m?text=%2&sl=%3&tl=%4")
                                 .arg(host)
                                 .arg(a_textFrom)
                                 .arg(a_langFrom)
@@ -205,7 +205,7 @@ GoogleTranslator::execute(
             * </form>
             */
 
-            const QUrl url = QString("%1/m").arg(host);
+            cQUrl url = QString("%1/m").arg(host);
             url.toEncoded();
 
             QUrlQuery query;
@@ -254,7 +254,7 @@ GoogleTranslator::speech(
     {
         cQString              urlStr = "http://translate.google.ru/translate_tts?&q=" +
                                        a_text + "&tl=" + a_lang;
-        const QUrl            url(urlStr);
+        cQUrl                 url(urlStr);
         QNetworkAccessManager manager;
         const QNetworkRequest request(url);
 

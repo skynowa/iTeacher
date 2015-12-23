@@ -28,7 +28,7 @@ public:
         hrGet,
         hrPost
     };
-    typedef const HttpRequestType cHttpRequestType;
+    qTYPEDEF_CONST(HttpRequestType);
 
              GoogleTranslator();
         ///< constructor

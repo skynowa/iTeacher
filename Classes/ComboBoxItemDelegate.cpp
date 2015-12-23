@@ -30,7 +30,7 @@ QWidget *
 ComboBoxItemDelegate::createEditor(
     QWidget                    *a_parent,
     const QStyleOptionViewItem &a_option,
-    const QModelIndex          &a_index
+    cQModelIndex               &a_index
 ) const
 {
     Q_UNUSED(a_option);
@@ -50,7 +50,7 @@ ComboBoxItemDelegate::createEditor(
     bool rv = query.exec();
     qCHECK_REF(rv, query);
 
-    for (; query.next(); ) {
+    for ( ; query.next(); ) {
         comboBox->addItem( query.value(0).toString() );
     }
 
@@ -61,8 +61,8 @@ ComboBoxItemDelegate::createEditor(
 //-------------------------------------------------------------------------------------------------
 void
 ComboBoxItemDelegate::setEditorData(
-    QWidget           *a_editor,
-    const QModelIndex &a_index
+    QWidget      *a_editor,
+    cQModelIndex &a_index
 ) const
 {
     QComboBox *comboBox = static_cast<QComboBox *>(a_editor);
@@ -82,7 +82,7 @@ void
 ComboBoxItemDelegate::setModelData(
     QWidget            *a_editor,
     QAbstractItemModel *a_model,
-    const QModelIndex  &a_index
+    cQModelIndex       &a_index
 ) const
 {
     QComboBox *comboBox = static_cast<QComboBox *>( a_editor );
@@ -97,7 +97,7 @@ void
 ComboBoxItemDelegate::updateEditorGeometry(
     QWidget                    *a_editor,
     const QStyleOptionViewItem &a_option,
-    const QModelIndex          &a_index
+    cQModelIndex               &a_index
 ) const
 {
     Q_UNUSED(a_index);
@@ -115,7 +115,7 @@ void
 ComboBoxItemDelegate::paint(
     QPainter                   *a_painter,
     const QStyleOptionViewItem &a_option,
-    const QModelIndex          &a_index
+    cQModelIndex               &a_index
 ) const
 {
     cQString value = a_index.data().toString();

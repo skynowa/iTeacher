@@ -37,7 +37,7 @@ QWidget *
 CheckBoxItemDelegate::createEditor(
     QWidget                    *a_parent,
     const QStyleOptionViewItem &a_option,
-    const QModelIndex          &a_index
+    cQModelIndex               &a_index
 ) const
 {
     Q_UNUSED(a_option);
@@ -55,8 +55,8 @@ CheckBoxItemDelegate::createEditor(
 //-------------------------------------------------------------------------------------------------
 void
 CheckBoxItemDelegate::setEditorData(
-    QWidget           *a_editor,
-    const QModelIndex &a_index
+    QWidget      *a_editor,
+    cQModelIndex &a_index
 ) const
 {
     cQVariant data = a_index.model()->data(a_index, Qt::EditRole);
@@ -77,7 +77,7 @@ void
 CheckBoxItemDelegate::setModelData(
     QWidget            *a_editor,
     QAbstractItemModel *a_model,
-    const QModelIndex  &a_index
+    cQModelIndex       &a_index
 ) const
 {
     CenteredCheckBox *checkBoxWidget = static_cast<CenteredCheckBox*>(a_editor);
@@ -90,7 +90,7 @@ void
 CheckBoxItemDelegate::updateEditorGeometry(
     QWidget                    *a_editor,
     const QStyleOptionViewItem &a_option,
-    const QModelIndex          &a_index
+    cQModelIndex               &a_index
 ) const
 {
     Q_UNUSED(a_index);
@@ -108,7 +108,7 @@ void
 CheckBoxItemDelegate::paint(
     QPainter                   *a_painter,
     const QStyleOptionViewItem &a_option,
-    const QModelIndex          &a_index
+    cQModelIndex               &a_index
 ) const
 {
     cQVariant value = a_index.data();
