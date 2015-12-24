@@ -57,8 +57,7 @@ int main(int argc, char *argv[])
 
     Main dlgMain;
 
-    cbool isMainVisibleOnLoad = false;
-    if (isMainVisibleOnLoad) {
+    if (APP_IS_VISIBLE_ON_LOAD) {
         dlgMain.show();
     }
 

@@ -38,6 +38,7 @@
 #define APP_HEIGHT               600
 #define APP_FONT_SIZE_DEFAULT    9
 #define DB_FILE_NAME_EMPTY       "db_empty.db"
+#define APP_IS_VISIBLE_ON_LOAD   true
 
 // DB table - t_main
 #define DB_T_MAIN                "t_main"
