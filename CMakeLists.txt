@@ -55,6 +55,7 @@ include_directories(
     ${Qt5Gui_PRIVATE_INCLUDE_DIRS}
     ${CMAKE_SOURCE_DIR}/QtLib
     ${CMAKE_SOURCE_DIR}/QtLib/Forms
+    ${CMAKE_SOURCE_DIR}/QtLib/Db
     ${CMAKE_SOURCE_DIR}/Classes
     ${CMAKE_SOURCE_DIR}/Forms
 )
@@ -82,7 +83,7 @@ add_executable(${PROJECT_NAME}
     main.cpp
     QtLib/Forms/About.cpp
     QtLib/Application.cpp
-    QtLib/SqlNavigator.cpp
+    QtLib/Db/SqlNavigator.cpp
     QtLib/SignalGuard.cpp
 
     QtLib/GlobalShortcut/GlobalShortcut.cpp

@@ -12,7 +12,7 @@
 
 #include "../QtLib/Common.h"
 #include "../QtLib/Utils.h"
-#include "../QtLib/SqlNavigator.h"
+#include "../QtLib/Db/SqlNavigator.h"
 #include "../QtLib/GlobalShortcut/GlobalShortcut.h"
 #include "../Classes/GoogleTranslator.h"
 
