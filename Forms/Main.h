@@ -13,6 +13,7 @@
 #include "../QtLib/Common.h"
 #include "../QtLib/Utils.h"
 #include "../QtLib/Db/SqlNavigator.h"
+#include "../QtLib/Db/SqlTableModelEx.h"
 #include "../QtLib/GlobalShortcut/GlobalShortcut.h"
 #include "../Classes/GoogleTranslator.h"
 
@@ -58,7 +59,7 @@ private:
 
     // DB
     QSqlDatabase   *_db;
-    QSqlRelationalTableModel *_model;
+    qtlib::SqlTableModelEx *_model;
     qtlib::SqlNavigator _sqlNavigator;
 
     void            _dbOpen(cQString &filePath);
