@@ -1410,7 +1410,7 @@ Main::_dbOpen(
     {
         qTEST(_model == Q_NULLPTR);
 
-        _model = new qtlib::SqlTableModelEx(this, *_db);
+        _model = new qtlib::SqlRelationalTableModelEx(this, *_db);
         _model->setTable(DB_T_MAIN);
         _model->setJoinMode(QSqlRelationalTableModel::LeftJoin);
         _model->setRelation(5, QSqlRelation(DB_T_TAGS, DB_F_TAGS_ID, DB_F_TAGS_NAME));
