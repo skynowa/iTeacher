@@ -46,7 +46,7 @@ Utils::isTerminExists(
     cQString sql =
         "SELECT COUNT(*) AS f_records_count "
             "FROM  " DB_T_MAIN " "
-            "WHERE " DB_F_MAIN_TERM " = :term";
+            "WHERE " DB_F_MAIN_TERM " LIKE :term";
 
     qryQuery.prepare(sql);
     qryQuery.bindValue(":term", a_term.trimmed());
