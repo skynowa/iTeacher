@@ -277,9 +277,19 @@ WordEditor::_saveAll(
     if (!bRv) {
         QString msg;
 
-        msg = QString(tr("Save fail: %1 - %2"))
-                    .arg(_model->lastError().number())
-                    .arg(_model->lastError().text());
+        // http://www.sqlite.org/c3ref/c_abort.html
+        cint sqliteConstraint = 19;
+
+        switch ( _model->lastError().nativeErrorCode().toInt() ) {
+        case sqliteConstraint:
+            msg = tr("Term already exists");
+            break;
+        default:
+            msg = QString(tr("Save fail: %1 - %2"))
+                        .arg(_model->lastError().number())
+                        .arg(_model->lastError().text());
+            break;
+        }
 
         QMessageBox::warning(this, qApp->applicationName(), msg);
         _model->revertAll();
