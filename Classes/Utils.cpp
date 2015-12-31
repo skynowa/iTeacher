@@ -46,12 +46,12 @@ Utils::isTerminExists(
     cQString sql =
         "SELECT COUNT(*) AS f_records_count "
             "FROM  " DB_T_MAIN " "
-            "WHERE " DB_F_MAIN_TERM " LIKE ':term';";
+            "WHERE " DB_F_MAIN_TERM " = :term";
 
     qryQuery.prepare(sql);
     qryQuery.bindValue(":term", a_term.trimmed());
 
-    bRv = qryQuery.exec(sql);
+    bRv = qryQuery.exec();
     qCHECK_REF(bRv, qryQuery);
 
     bRv = qryQuery.next();
