@@ -163,7 +163,12 @@ WordEditor::_construct()
 
             _plInfoDefault = ui.lblInfo->palette();
         }
+    }
 
+    _settingsLoad();
+
+    // UI, post actions
+    {
         // check term
         if ( !_termNew.isEmpty() ) {
             ui.tedtTerm->setText(_termNew);
@@ -178,8 +183,6 @@ WordEditor::_construct()
             ui.tedtTerm->setFocus();
         }
     }
-
-    _settingsLoad();
 
     // _isConstructed
     _isConstructed = true;
