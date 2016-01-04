@@ -453,8 +453,14 @@ WordEditor::translate()
 
     QApplication::restoreOverrideCursor();
 
+    // Animate tray icon - stop
     if (_insertMode) {
-        dynamic_cast<Main *>( parent() )->isTrayIconAnimate = false;
+        Main *wndMain = dynamic_cast<Main *>( parent() );
+        qTEST_PTR(wndMain);
+
+        if (wndMain != Q_NULLPTR) {
+            wndMain->isTrayIconAnimate = false;
+        }
     }
 }
 //-------------------------------------------------------------------------------------------------
