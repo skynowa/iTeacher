@@ -449,6 +449,10 @@ WordEditor::translate()
     ui.tedtValueRaw->setPlainText(textToRaw);
 
     QApplication::restoreOverrideCursor();
+
+    if (_insertMode) {
+        dynamic_cast<Main *>( parent() )->isTrayIconAnimate = false;
+    }
 }
 //-------------------------------------------------------------------------------------------------
 bool

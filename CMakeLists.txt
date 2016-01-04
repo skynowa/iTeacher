@@ -40,7 +40,7 @@ string(REGEX MATCH "^5\\.[3]\\.[0-1]+" QT_VERSION_MATCH "${Qt5Core_VERSION_STRIN
 endif()
 #--------------------------------------------------------------------------------------------------
 #
-set(_QT5_MODULES Core Gui Widgets Sql Network Xml PrintSupport Multimedia)
+set(_QT5_MODULES Core Gui Widgets Sql Network Xml PrintSupport Multimedia Concurrent)
 
 foreach(COMPONENT ${_QT5_MODULES})
     find_package(Qt5${COMPONENT} REQUIRED)
