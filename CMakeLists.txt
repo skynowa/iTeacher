@@ -141,7 +141,7 @@ function(install_files)
 
         if   (ENV_WIN)
             set(NAME_NEW ${NAME_NEW}.dll)
-        else (WIN32)
+        else (ENV_UNIX)
             set(NAME_NEW ${NAME_NEW}.so)
         else (ENV_APPLE)
             set(NAME_NEW ${NAME_NEW}.dylib)
