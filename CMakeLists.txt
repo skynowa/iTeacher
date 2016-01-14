@@ -148,13 +148,6 @@ function(install_files)
     endforeach()
 endfunction()
 
-# install(
-#     FILES
-#         ${DLLS_REQUIRED}
-#     DESTINATION
-#         ${CMAKE_INSTALL_PREFIX}/Libs
-# )
-
 install_files(${DLLS_REQUIRED})
 
 # Doc
