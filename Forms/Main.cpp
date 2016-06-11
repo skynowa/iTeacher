@@ -40,6 +40,7 @@ Main::Main(
 ) :
     QMainWindow               (a_parent, a_flags),
     isTrayIconAnimate         (false),
+    _dlgWordEditorOpened      (Q_NULLPTR),
     _trayIcon                 (this),
     _scShowHide               (this),
     _scQuickClipboardTranslate(this),
@@ -604,6 +605,8 @@ Main::importClipboard()
 
     bool bRv = false;
 
+    WordEditor::activateOpened(_dlgWordEditorOpened);
+
     // WordEditor - only one instance
     QSharedMemory locker;
     {
@@ -628,6 +631,8 @@ Main::importClipboard()
     cQString   data = QApplication::clipboard()->text();
     WordEditor dlgWordEditor(this, _model, &_sqlNavigator, true, data);
 
+    _dlgWordEditorOpened = &dlgWordEditor;
+
     bRv = dlgWordEditor.isConstructed();
     qCHECK_DO(!bRv, return);
 
@@ -639,6 +644,8 @@ Main::importClipboard()
     default:
         break;
     }
+
+    _dlgWordEditorOpened = Q_NULLPTR;
 }
 //-------------------------------------------------------------------------------------------------
 void

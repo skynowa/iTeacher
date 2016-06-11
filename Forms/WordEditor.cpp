@@ -58,6 +58,18 @@ WordEditor::isConstructed() const
     return _isConstructed;
 }
 //-------------------------------------------------------------------------------------------------
+void
+WordEditor::activateOpened(
+    WordEditor *a_dlgWordEditor
+)
+{
+    qCHECK_DO(a_dlgWordEditor == Q_NULLPTR, return);
+
+    a_dlgWordEditor->setVisible(true);
+    a_dlgWordEditor->raise();
+    a_dlgWordEditor->activateWindow();
+}
+//-------------------------------------------------------------------------------------------------
 
 
 /**************************************************************************************************

@@ -19,6 +19,8 @@
 
 #include "ui_Main.h"
 //-------------------------------------------------------------------------------------------------
+class WordEditor;
+
 class Main :
     public QMainWindow
 {
@@ -45,6 +47,7 @@ private:
     };
 
     Ui::UiMain      ui;
+    WordEditor *    _dlgWordEditorOpened;
     QSystemTrayIcon _trayIcon;
 
     qtlib::GlobalShortcut _scShowHide;

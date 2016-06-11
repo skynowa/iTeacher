@@ -27,6 +27,9 @@ public:
 
     bool             isConstructed() const;
 
+    static
+    void             activateOpened(WordEditor *dlgWordEditor);
+
 private:
     bool             _isConstructed;
     QSqlTableModel  *_model;
