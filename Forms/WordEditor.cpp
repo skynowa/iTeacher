@@ -103,6 +103,9 @@ WordEditor::_construct()
         connect(ui.tbtnValueCopy, &QPushButton::clicked,
                 this,             &WordEditor::tbtnValueCopy_OnClicked);
 
+        connect(ui.tbtnTermValueSwap, &QPushButton::clicked,
+                this,             &WordEditor::tbtnTermValueSwap_OnClicked);
+
         connect(ui.pbtnTranslate, &QPushButton::clicked,
                 this,             &WordEditor::translate);
 
@@ -417,6 +420,16 @@ void
 WordEditor::tbtnTermPaste_OnClicked()
 {
     ui.tedtTerm->setText( QApplication::clipboard()->text() );
+}
+//-------------------------------------------------------------------------------------------------
+void
+WordEditor::tbtnTermValueSwap_OnClicked()
+{
+    QString term  = ui.tedtTerm->toPlainText();
+    QString value = ui.tedtValueBrief->toPlainText();
+
+    ui.tedtTerm->setText(value);
+    ui.tedtValueBrief->setText(term);
 }
 //-------------------------------------------------------------------------------------------------
 void

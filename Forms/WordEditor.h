@@ -60,6 +60,7 @@ private Q_SLOTS:
     void             pbtnLangsSwap_OnClicked();
     void             tbtnTermCopy_OnClicked();
     void             tbtnTermPaste_OnClicked();
+    void             tbtnTermValueSwap_OnClicked();
     void             tbtnValueCopy_OnClicked();
     void             translate();
     bool             check();
