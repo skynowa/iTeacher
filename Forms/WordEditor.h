@@ -26,9 +26,10 @@ public:
     virtual         ~WordEditor();
 
     bool             isConstructed() const;
+    void             setTerm(cQString &value);
 
     static
-    void             activateOpened(WordEditor *dlgWordEditor);
+    void             retranslate(WordEditor *dlgWordEditor);
 
 private:
     bool             _isConstructed;

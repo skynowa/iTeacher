@@ -605,7 +605,7 @@ Main::importClipboard()
 
     bool bRv = false;
 
-    WordEditor::activateOpened(_dlgWordEditorOpened);
+    WordEditor::retranslate(_dlgWordEditorOpened);
 
     // WordEditor - only one instance
     QSharedMemory locker;

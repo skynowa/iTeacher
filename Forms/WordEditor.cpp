@@ -59,15 +59,24 @@ WordEditor::isConstructed() const
 }
 //-------------------------------------------------------------------------------------------------
 void
-WordEditor::activateOpened(
+WordEditor::setTerm(
+    cQString &a_value
+)
+{
+    _termNew = a_value;
+}
+//-------------------------------------------------------------------------------------------------
+void
+WordEditor::retranslate(
     WordEditor *a_dlgWordEditor
 )
 {
     qCHECK_DO(a_dlgWordEditor == Q_NULLPTR, return);
 
-    a_dlgWordEditor->setVisible(true);
-    a_dlgWordEditor->raise();
-    a_dlgWordEditor->activateWindow();
+    cQString data = QApplication::clipboard()->text();
+
+    a_dlgWordEditor->setTerm(data);
+    a_dlgWordEditor->translate();
 }
 //-------------------------------------------------------------------------------------------------
 
@@ -181,23 +190,7 @@ WordEditor::_construct()
     }
 
     _settingsLoad();
-
-    // UI, post actions
-    {
-        // check term
-        if ( !_termNew.isEmpty() ) {
-            ui.tedtTerm->setText(_termNew);
-            _termNew.clear();
-
-            translate();
-        }
-
-        // set focus
-        {
-            ui.tedtTerm->selectAll();
-            ui.tedtTerm->setFocus();
-        }
-    }
+    translate();
 
     // _isConstructed
     _isConstructed = true;
@@ -441,6 +434,24 @@ WordEditor::tbtnValueCopy_OnClicked()
 void
 WordEditor::translate()
 {
+    // set focus
+    {
+        setVisible(true);
+        raise();
+        activateWindow();
+
+        ui.tedtTerm->selectAll();
+        ui.tedtTerm->setFocus();
+    }
+
+    // check term
+    if ( _termNew.isEmpty() ) {
+        return;
+    }
+
+    ui.tedtTerm->setText(_termNew);
+    _termNew.clear();
+
     if (ui.tedtTerm->toPlainText().isEmpty()) {
         ui.tedtValueBrief->clear();
         ui.tedtValueDetail->clear();
