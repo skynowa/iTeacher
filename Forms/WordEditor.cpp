@@ -445,11 +445,14 @@ WordEditor::translate()
     }
 
     // check term
-    if ( _termNew.isEmpty() ) {
+    if (_termNew.isEmpty() && ui.tedtTerm->toPlainText().isEmpty()) {
         return;
     }
 
-    ui.tedtTerm->setText(_termNew);
+    if ( ui.tedtTerm->toPlainText().isEmpty() ) {
+        ui.tedtTerm->setText(_termNew);
+    }
+
     _termNew.clear();
 
     if (ui.tedtTerm->toPlainText().isEmpty()) {
