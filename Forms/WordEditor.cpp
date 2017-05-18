@@ -491,16 +491,6 @@ WordEditor::translate()
     ui.tedtValueRaw->setPlainText(textToRaw);
 
     QApplication::restoreOverrideCursor();
-
-    // Animate tray icon - stop
-    if (_insertMode) {
-        Main *wndMain = dynamic_cast<Main *>( parent() );
-        qTEST_PTR(wndMain);
-
-        if (wndMain != Q_NULLPTR) {
-            wndMain->isTrayIconAnimate = false;
-        }
-    }
 }
 //-------------------------------------------------------------------------------------------------
 bool

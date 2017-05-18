@@ -39,7 +39,6 @@ Main::Main(
     Qt::WindowFlags  a_flags
 ) :
     QMainWindow               (a_parent, a_flags),
-    isTrayIconAnimate         (false),
     _dlgWordEditorOpened      (Q_NULLPTR),
     _trayIcon                 (this),
     _scShowHide               (this),
@@ -484,9 +483,6 @@ Main::quickTranslateClipboard()
     QString term;
     QString text;
     {
-        QFuture<void> future = QtConcurrent::run(this, &Main::_trayIconAnimate);
-        Q_UNUSED(future)
-
         term = QApplication::clipboard()->text().trimmed();
 
         QString valueBrief;
@@ -528,8 +524,6 @@ Main::quickTranslateClipboard()
                         "<pre>%5</pre>")
                         .arg(langCodeFrom, langCodeTo, term, valueBrief, valueDetail);
         }
-
-        isTrayIconAnimate = false;
     }
 
     // is term exists
@@ -622,9 +616,6 @@ Main::importClipboard()
     }
 
     qCHECK_DO(!_sqlNavigator.isValid(), return);
-
-    QFuture<void> future = QtConcurrent::run(this, &Main::_trayIconAnimate);
-    Q_UNUSED(future)
 
     _sqlNavigator.insert();
 
@@ -1698,23 +1689,5 @@ Main::_tagsIsEmpty()
     }
 
     return true;
-}
-//-------------------------------------------------------------------------------------------------
-void
-Main::_trayIconAnimate()
-{
-    isTrayIconAnimate = true;
-
-    for (int trayIconIndex = 2; isTrayIconAnimate; ++ trayIconIndex) {
-        if (trayIconIndex % 2 == 0) {
-            _trayIcon.setIcon( ui.actFile_ImportClipboard->icon() );
-        } else {
-            _trayIcon.setIcon( windowIcon() );
-        }
-
-        QThread::msleep(500);
-    }
-
-    _trayIcon.setIcon( windowIcon() );
 }
 //-------------------------------------------------------------------------------------------------

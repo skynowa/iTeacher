@@ -28,8 +28,6 @@ public:
                     Main(QWidget *parent = Q_NULLPTR, Qt::WindowFlags flags = Qt::Widget);
     virtual        ~Main();
 
-    bool            isTrayIconAnimate;
-
 public Q_SLOTS:
     void            receiveFromOtherApplication(cQStringList &message);
 
@@ -82,7 +80,6 @@ private:
     // utils
     QString         _exportfileNameBuild(cQString &fileExt);
     bool            _tagsIsEmpty();
-    void            _trayIconAnimate();
 
     Q_OBJECT
     Q_DISABLE_COPY(Main)
