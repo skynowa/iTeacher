@@ -56,10 +56,7 @@ int main(int argc, char *argv[])
     qtlib::Application::setQuitOnLastWindowClosed(false);
 
     Main dlgMain;
-
-    if (APP_IS_VISIBLE_ON_LOAD) {
-        dlgMain.show();
-    }
+    // show window on CFG_VISIBLE option
 
     application.connect(&application, &qtlib::Application::sig_messageAvailable,
                         &dlgMain,     &Main::receiveFromOtherApplication);

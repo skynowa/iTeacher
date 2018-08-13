@@ -1502,6 +1502,8 @@ Main::_settingsLoad()
     QSize       size;
     QPoint      position;
     int         dictionaryNum   = 0;
+    bool        visible         = true;
+
     int         tableFontSize   = 0;
     int         tableRowHeight  = 0;
     int         tableCurrentRow = 0;
@@ -1522,6 +1524,7 @@ Main::_settingsLoad()
         settings.beginGroup(CFG_GROUP_MAIN);
         size           = settings.value(CFG_SIZE,            QSize(APP_WIDTH, APP_HEIGHT)).toSize();
         position       = settings.value(CFG_POSITION,        QPoint(200, 200)).toPoint();
+        visible        = settings.value(CFG_VISIBLE,         true).toBool();
         dictionaryNum  = settings.value(CFG_DICTIONARY_NUM,  0).toInt();
         settings.endGroup();
 
@@ -1556,6 +1559,7 @@ Main::_settingsLoad()
         resize(size);
         move(position);
         ui.cboDictPath->setCurrentIndex(dictionaryNum);
+        setVisible(visible);
 
         // table
         {
@@ -1601,6 +1605,7 @@ Main::_settingsSave()
     settings.beginGroup(CFG_GROUP_MAIN);
     settings.setValue(CFG_SIZE,           size());
     settings.setValue(CFG_POSITION,       pos());
+    settings.setValue(CFG_VISIBLE,        isVisible());
     settings.setValue(CFG_DICTIONARY_NUM, ui.cboDictPath->currentIndex());
     settings.endGroup();
 
