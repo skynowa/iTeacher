@@ -81,7 +81,7 @@ add_executable(${PROJECT_NAME}
     Config.h
 
     main.cpp
-    QtLib/Forms/About.cpp
+    QtLib/Ui/About.cpp
     QtLib/Application.cpp
     QtLib/Db/SqlTableModelEx.cpp
     QtLib/Db/SqlRelationalTableModelEx.cpp
