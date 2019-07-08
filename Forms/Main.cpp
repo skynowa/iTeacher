@@ -15,7 +15,7 @@
 #include "../Forms/WordFinder.h"
 #include "../Forms/TagsEditor.h"
 #include "../Forms/Settings.h"
-#include "../Forms/About.h"
+#include <QtLib/Ui/About.h>
 
 #include <QPrinter>
 #include <QFuture>
@@ -23,9 +23,9 @@
 
 #include <xLib/Core/Const.h>
 #include <xLib/Core/String.h>
-#include <xLib/Core/Application.h>
-#include <xLib/IO/Path.h>
-#include <xLib/IO/Finder.h>
+#include <xLib/Package/Application.h>
+#include <xLib/Fs/Path.h>
+#include <xLib/Fs/Finder.h>
 
 
 /**************************************************************************************************
@@ -167,14 +167,14 @@ Main::_initMain()
         #if defined(Q_OS_ANDROID)
             _appDir = QDir::homePath();
         #else
-            _appDir  = qS2QS(xlib::core::Application::dirPath());
+            _appDir  = qS2QS(xl::package::Application::dirPath());
         #endif
     #endif
     }
 
     // Main
     {
-        setWindowTitle( qS2QS(xlib::core::Application::name()) );
+        /// TODO: setWindowTitle( qS2QS(xl::package::Application::name()) );
         setGeometry(0, 0, APP_WIDTH, APP_HEIGHT);
         qtlib::Utils::widgetAlignCenter(this);
         _cboDictPath_reload();
@@ -197,7 +197,7 @@ Main::_initMain()
 
         // _trayIcon
         _trayIcon.setIcon( windowIcon() );
-        _trayIcon.setToolTip( qS2QS(xlib::core::Application::name()) );
+        /// TODO: _trayIcon.setToolTip( qS2QS(xl::package::Application::name()) );
         _trayIcon.setContextMenu(mnuTrayIcon);
         _trayIcon.show();
     }
@@ -209,13 +209,13 @@ Main::_initModel()
     // open DB
     {
         if (ui.cboDictPath->currentText().isEmpty()) {
-            cQString dictPath = qS2QS(xlib::core::Application::dbDirPath()) + QDir::separator() +
+            cQString dictPath = qS2QS(xl::package::Application::dbDirPath()) + QDir::separator() +
                 DB_FILE_NAME_EMPTY;
 
             _dbOpen(dictPath);
             _cboDictPath_reload();
         } else {
-            cQString dictPath = qS2QS(xlib::core::Application::dbDirPath()) + QDir::separator() +
+            cQString dictPath = qS2QS(xl::package::Application::dbDirPath()) + QDir::separator() +
                 ui.cboDictPath->currentText();
 
             _dbOpen(dictPath);
@@ -430,11 +430,11 @@ Main::_initActions()
 void
 Main::createDb()
 {
-    cQString dbName = QInputDialog::getText(this, qS2QS(xlib::core::Application::name()),
+    cQString dbName = QInputDialog::getText(this, qS2QS(xl::package::Application::name()),
         tr("New DB file path:"), QLineEdit::Normal, DB_FILE_EXT);
     qCHECK_DO(dbName.trimmed().isEmpty(), return);
 
-    cQString dictPath = qS2QS(xlib::core::Application::dbDirPath()) + QDir::separator() + dbName;
+    cQString dictPath = qS2QS(xl::package::Application::dbDirPath()) + QDir::separator() + dbName;
 
     // reopen DB
     {
@@ -465,7 +465,7 @@ Main::quickTranslateClipboard()
     // QMessageBox - only one instance
     QSharedMemory locker;
     {
-        cQString dlgGuid = qS2QS(xlib::core::Application::name()) + "_OnTranslateClipboard_guid";
+        cQString dlgGuid = qS2QS(xl::package::Application::name()) + "_OnTranslateClipboard_guid";
 
         locker.setKey(dlgGuid);
 
@@ -477,7 +477,7 @@ Main::quickTranslateClipboard()
     }
 
     cQString title = QString("%1 - %2")
-                        .arg( qS2QS(xlib::core::Application::name()) )
+                        .arg( qS2QS(xl::package::Application::name()) )
                         .arg( tr("Google Translator") );
 
     QString term;
@@ -588,7 +588,7 @@ Main::importCsv()
         cQString msg = QString(tr("File: %1\nImport CSV finished."))
                             .arg(filePath);
 
-        QMessageBox::information(this, qS2QS(xlib::core::Application::name()), msg);
+        QMessageBox::information(this, qS2QS(xl::package::Application::name()), msg);
     }
 }
 //-------------------------------------------------------------------------------------------------
@@ -604,7 +604,7 @@ Main::importClipboard()
     // WordEditor - only one instance
     QSharedMemory locker;
     {
-        cQString dlgGuid = qS2QS(xlib::core::Application::name()) + "_dlgWordEditor_guid";
+        cQString dlgGuid = qS2QS(xl::package::Application::name()) + "_dlgWordEditor_guid";
 
         locker.setKey(dlgGuid);
 
@@ -677,7 +677,7 @@ Main::exportCsv()
         cQString msg = QString(tr("File: %1\nExport CSV finished."))
                             .arg(filePath);
 
-        QMessageBox::information(this, qS2QS(xlib::core::Application::name()), msg);
+        QMessageBox::information(this, qS2QS(xl::package::Application::name()), msg);
     }
 }
 //-------------------------------------------------------------------------------------------------
@@ -730,7 +730,7 @@ Main::exportPdf()
         cQString msg = QString(tr("File: %1\nExport PDF finished."))
                             .arg(filePath);
 
-        QMessageBox::information(this, qS2QS(xlib::core::Application::name()), msg);
+        QMessageBox::information(this, qS2QS(xl::package::Application::name()), msg);
     }
 }
 //-------------------------------------------------------------------------------------------------
@@ -761,7 +761,7 @@ Main::exportClipboard()
         cQString msg = QString(tr("Text: \n%1\nExport Clipboard finished."))
                             .arg(sRv);
 
-        QMessageBox::information(this, qS2QS(xlib::core::Application::name()), msg);
+        QMessageBox::information(this, qS2QS(xl::package::Application::name()), msg);
     }
 }
 //-------------------------------------------------------------------------------------------------
@@ -812,7 +812,7 @@ Main::to()
     cint minValue   = 1;
     cint maxValue   = qtlib::Utils::sqlTableModelRowCount(_model);
 
-    cint targetRow  = QInputDialog::getInt(this, qS2QS(xlib::core::Application::name()),
+    cint targetRow  = QInputDialog::getInt(this, qS2QS(xl::package::Application::name()),
         tr("Go to row:"), currentRow, minValue, maxValue) - 1;
 
     _sqlNavigator.goTo(targetRow);
@@ -960,7 +960,7 @@ Main::playTerm()
 
     QString audioFilePath;
     {
-        audioFilePath = qS2QS(xlib::core::Application::tempDirPath()) + QDir::separator() +
+        audioFilePath = qS2QS(xl::package::Application::tempDirPath()) + QDir::separator() +
             AUDIO_TERM_FILE_NAME;
     }
 
@@ -982,7 +982,7 @@ Main::playValue()
 
     QString audioFilePath;
     {
-        audioFilePath = qS2QS(xlib::core::Application::tempDirPath()) + QDir::separator() +
+        audioFilePath = qS2QS(xl::package::Application::tempDirPath()) + QDir::separator() +
             AUDIO_VALUE_FILE_NAME;
     }
 
@@ -1142,25 +1142,25 @@ void
 Main::about()
 {
     AboutData aboutData;
-    aboutData.appName              = qS2QS(xlib::core::Application::name());
-    aboutData.appVersionFull       = qS2QS(xlib::core::Application::versionFull());
-    aboutData.appDecription        = qS2QS(xlib::core::Application::decription());
-    aboutData.appCopyrightYears    = qS2QS(xlib::core::Application::copyrightYears());
-    aboutData.appUsage             = qS2QS(xlib::core::Application::usage());
-    aboutData.appHelp              = qS2QS(xlib::core::Application::help());
-    aboutData.appVersionMajor      = qS2QS(xlib::core::Application::versionMajor());
-    aboutData.appVersionMinor      = qS2QS(xlib::core::Application::versionMinor());
-    aboutData.appVersionPatch      = qS2QS(xlib::core::Application::versionPatch());
-    aboutData.appVersionType       = qS2QS(xlib::core::Application::versionType());
-    aboutData.appVersionRevision   = qS2QS(xlib::core::Application::versionRevision());
-    aboutData.appVendorName        = qS2QS(xlib::core::Application::vendorName());
-    aboutData.appVendorDomain      = qS2QS(xlib::core::Application::vendorDomain());
-    aboutData.appVendorAuthor      = qS2QS(xlib::core::Application::vendorAuthor());
-    aboutData.appVendorUrl         = qS2QS(xlib::core::Application::vendorUrl());
-    aboutData.appVendorEmail       = qS2QS(xlib::core::Application::vendorEmail());
-    aboutData.appVendorSkype       = qS2QS(xlib::core::Application::vendorSkype());
-    aboutData.appVendorJabber      = qS2QS(xlib::core::Application::vendorJabber());
-    aboutData.appVendorIcq         = qS2QS(xlib::core::Application::vendorIcq());
+    aboutData.appName              = qS2QS(xl::package::Application::name());
+    aboutData.appVersionFull       = qS2QS(xl::package::Application::versionFull());
+    aboutData.appDecription        = qS2QS(xl::package::Application::decription());
+    aboutData.appCopyrightYears    = qS2QS(xl::package::Application::copyrightYears());
+    aboutData.appUsage             = qS2QS(xl::package::Application::usage());
+    aboutData.appHelp              = qS2QS(xl::package::Application::help());
+    aboutData.appVersionMajor      = qS2QS(xl::package::Application::versionMajor());
+    aboutData.appVersionMinor      = qS2QS(xl::package::Application::versionMinor());
+    aboutData.appVersionPatch      = qS2QS(xl::package::Application::versionPatch());
+    aboutData.appVersionType       = qS2QS(xl::package::Application::versionType());
+    aboutData.appVersionRevision   = qS2QS(xl::package::Application::versionRevision());
+    aboutData.appVendorName        = qS2QS(xl::package::Application::vendorName());
+    aboutData.appVendorDomain      = qS2QS(xl::package::Application::vendorDomain());
+    aboutData.appVendorAuthor      = qS2QS(xl::package::Application::vendorAuthor());
+    aboutData.appVendorUrl         = qS2QS(xl::package::Application::vendorUrl());
+    aboutData.appVendorEmail       = qS2QS(xl::package::Application::vendorEmail());
+    aboutData.appVendorSkype       = qS2QS(xl::package::Application::vendorSkype());
+    aboutData.appVendorJabber      = qS2QS(xl::package::Application::vendorJabber());
+    aboutData.appVendorIcq         = qS2QS(xl::package::Application::vendorIcq());
     aboutData.appDonatePayPal      = APP_DONATE_PAYPAL;
     aboutData.appDonateWebMoney    = APP_DONATE_WEBMONEY;
     aboutData.appDonateYandexMoney = APP_DONATE_YANDEXMONEY;
@@ -1179,7 +1179,7 @@ Main::cboDictPath_OnCurrentIndexChanged(
 
     // reopen DB
     {
-        cQString dictPath = qS2QS(xlib::core::Application::dbDirPath()) + QDir::separator() + a_arg;
+        cQString dictPath = qS2QS(xl::package::Application::dbDirPath()) + QDir::separator() + a_arg;
 
         _dbReopen(dictPath);
     }
@@ -1244,11 +1244,11 @@ Main::cboDictPath_OnCurrentIndexChanged(
             "&nbsp;&nbsp;&nbsp;<b>Learned</b>: %3 (%4)"
             "&nbsp;&nbsp;&nbsp;<b>Not learned:</b> %5 (%6)"))
             .arg( wordsAll )
-            .arg( qS2QS(xlib::core::String::formatPercentage(wordsAll, wordsAll)) )
+            .arg( qS2QS(xl::core::String::formatPercentage(wordsAll, wordsAll)) )
             .arg( wordsLearned )
-            .arg( qS2QS(xlib::core::String::formatPercentage(wordsAll, wordsLearned)) )
+            .arg( qS2QS(xl::core::String::formatPercentage(wordsAll, wordsLearned)) )
             .arg( wordsNotLearned )
-            .arg( qS2QS(xlib::core::String::formatPercentage(wordsAll, wordsNotLearned)) );
+            .arg( qS2QS(xl::core::String::formatPercentage(wordsAll, wordsNotLearned)) );
 
         ui.lblDictInfo->setText(dictInfo);
     }
@@ -1305,16 +1305,16 @@ Main::_cboDictPath_reload()
 {
     ui.cboDictPath->clear();
 
-    qCHECK_DO(! QDir( qS2QS(xlib::core::Application::dbDirPath()) ).exists(), return);
+    qCHECK_DO(! QDir( qS2QS(xl::package::Application::dbDirPath()) ).exists(), return);
 
     std::vec_tstring_t dicts;
 
-    xlib::io::Finder::files(xlib::core::Application::dbDirPath(),
-        xlib::core::String::format(xT("*%s"), xT(DB_FILE_EXT)), true, &dicts);
+    xlib::io::Finder::files(xl::package::Application::dbDirPath(),
+        xl::core::String::format(xT("*%s"), xT(DB_FILE_EXT)), true, &dicts);
 
     xFOREACH(std::vec_tstring_t, it, dicts) {
-        cQString dict = qS2QS( it->erase(0, (xlib::core::Application::dbDirPath() +
-            xlib::core::Const::slash()).size()) );
+        cQString dict = qS2QS( it->erase(0, (xl::package::Application::dbDirPath() +
+            xl::package::Const::slash()).size()) );
 
         ui.cboDictPath->addItem(dict);
     }
@@ -1342,11 +1342,11 @@ Main::_dbOpen(
         // prepare DB directory
         {
             QDir dir;
-            dir.setPath( qS2QS(xlib::core::Application::dbDirPath()) );
+            dir.setPath( qS2QS(xl::package::Application::dbDirPath()) );
 
             bRv = dir.exists();
             if (!bRv) {
-                bRv = QDir().mkpath( qS2QS(xlib::core::Application::dbDirPath()) );
+                bRv = QDir().mkpath( qS2QS(xl::package::Application::dbDirPath()) );
                 qTEST(bRv);
             }
 
@@ -1519,7 +1519,7 @@ Main::_settingsLoad()
     QString     shortcutQuickClipboardTranslate;
     QString     shortcutClipboardImport;
     {
-        QSettings settings(qS2QS(xlib::core::Application::configPath()), QSettings::IniFormat, this);
+        QSettings settings(qS2QS(xl::package::Application::configPath()), QSettings::IniFormat, this);
 
         settings.beginGroup(CFG_GROUP_MAIN);
         size           = settings.value(CFG_SIZE,            QSize(APP_WIDTH, APP_HEIGHT)).toSize();
@@ -1599,7 +1599,7 @@ Main::_settingsLoad()
 void
 Main::_settingsSave()
 {
-    QSettings settings(qS2QS(xlib::core::Application::configPath()), QSettings::IniFormat, this);
+    QSettings settings(qS2QS(xl::package::Application::configPath()), QSettings::IniFormat, this);
 
     // main
     settings.beginGroup(CFG_GROUP_MAIN);
@@ -1683,7 +1683,7 @@ Main::_tagsIsEmpty()
     // report
     QMessageBox msgBox;
     msgBox.setIcon(QMessageBox::Question);
-    msgBox.setWindowTitle( qS2QS(xlib::core::Application::name()) );
+    msgBox.setWindowTitle( qS2QS(xl::package::Application::name()) );
     msgBox.setText(tr("DB table: " DB_T_TAGS " is empty.\nAdd tags to Tags Editor?"));
     msgBox.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
     msgBox.setDefaultButton(QMessageBox::Yes);
