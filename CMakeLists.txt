@@ -40,7 +40,7 @@ string(REGEX MATCH "^5\\.[3]\\.[0-1]+" QT_VERSION_MATCH "${Qt5Core_VERSION_STRIN
 endif()
 #--------------------------------------------------------------------------------------------------
 #
-set(_QT5_MODULES Core Gui Widgets Sql Network Xml PrintSupport Multimedia Concurrent)
+set(_QT5_MODULES Core Gui Widgets Sql Network Xml PrintSupport Concurrent) #-- Multimedia
 
 foreach(COMPONENT ${_QT5_MODULES})
     find_package(Qt5${COMPONENT} REQUIRED)
@@ -61,7 +61,7 @@ include_directories(
 )
 
 qt5_wrap_ui(MOC_UI
-    QtLib/Forms/About.ui
+    QtLib/Ui/About.ui
     Forms/Main.ui
     Forms/WordEditor.ui
     Forms/WordFinder.ui
