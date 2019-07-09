@@ -32,9 +32,9 @@ set(CPACK_GENERATOR "ZIP")
     # List of four values: Build directory, Project Name, Project Component, Directory in the
     # package
     # Example: /home/andy/vtk/CMake-bin;CMake;ALL;/
-set(CPACK_PACKAGE_DESCRIPTION_FILE ${CMAKE_SOURCE_DIR}/Readme.txt)
+set(CPACK_PACKAGE_DESCRIPTION_FILE ${CMAKE_SOURCE_DIR}/Readme.md)
     # File used as a description of a project
-    # Example: /path/to/project/ReadMe.txt
+    # Example: /path/to/project/ReadMe.md
 set(CPACK_PACKAGE_DESCRIPTION_SUMMARY "Learning foreign words")
     # Description summary of a project
     # Example: CMake is a build tool

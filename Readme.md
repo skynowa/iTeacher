@@ -28,5 +28,5 @@ Dictionary tags:
 
 
 Ubuntu 18.04
-    sudo apt-get install qtbase5-dev
-    sudo apt-get install qttools5-dev-tools libqt5svg5-dev qtmultimedia5-dev
+    sudo apt-get install qtbase5-dev qttools5-dev-tools qtmultimedia5-dev
+    sudo apt-get install qtcreator*

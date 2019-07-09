@@ -30,6 +30,7 @@ set(CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR})
 
 #--------------------------------------------------------------------------------------------------
 # checks
+message("QT_QMAKE_EXECUTABLE: ${QT_QMAKE_EXECUTABLE}")
 
 # Check if Qtversion is >=QT_OFFICIAL_VERSION.
 # If so, we are good. Otherwise we will post a warning of versions (<QT_OFFICIAL_VERSION)
@@ -51,10 +52,10 @@ endforeach()
 
 include_directories(
     ${XLIB_INCLUDES}
-    ${CMAKE_SOURCE_DIR}/xLib/Include
+    /usr/include/libxml2
     ${Qt5Gui_PRIVATE_INCLUDE_DIRS}
     ${CMAKE_SOURCE_DIR}/QtLib
-    ${CMAKE_SOURCE_DIR}/QtLib/Forms
+    ${CMAKE_SOURCE_DIR}/QtLib/Ui
     ${CMAKE_SOURCE_DIR}/QtLib/Db
     ${CMAKE_SOURCE_DIR}/Classes
     ${CMAKE_SOURCE_DIR}/Forms
@@ -153,7 +154,7 @@ install_files(${DLLS_REQUIRED})
 # Doc
 install(
     FILES
-        ${CMAKE_SOURCE_DIR}/Readme.txt
+        ${CMAKE_SOURCE_DIR}/Readme.md
     DESTINATION
         ${CMAKE_INSTALL_PREFIX}/Doc
 )
