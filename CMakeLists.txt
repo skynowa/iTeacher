@@ -30,10 +30,6 @@ set(CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR})
 
 #--------------------------------------------------------------------------------------------------
 # checks
-
-# hide warning
-message("${QT_QMAKE_EXECUTABLE}")
-
 # Check if Qtversion is >=QT_OFFICIAL_VERSION.
 # If so, we are good. Otherwise we will post a warning of versions (<QT_OFFICIAL_VERSION)
 string(REGEX MATCH "^5\\.[3]\\.[0-1]+" QT_VERSION_MATCH "${Qt5Core_VERSION_STRING}")
