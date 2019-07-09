@@ -7,6 +7,7 @@
 #include "WordFinder.h"
 
 #include "../QtLib/Utils.h"
+#include "../QtLib/Db/SqlTableModelEx.h"    /// TODO: rm
 
 
 /**************************************************************************************************
@@ -147,7 +148,7 @@ WordFinder::_saveAll()
 {
     bool bRv = false;
 
-    qtlib::Utils::db_fields_t fields;
+    qtlib::SqlTableModelEx::db_fields_t fields;
     {
         fields.push_back( QPair<QString, QString>(DB_F_MAIN_TERM,  ui.cboTerm->currentText()) );
         fields.push_back( QPair<QString, QString>(DB_F_MAIN_VALUE, ui.cboValue->currentText()) );
@@ -241,6 +242,6 @@ WordFinder::_saveAll()
         }
     }
 
-    qtlib::Utils::dbFilter(_model, DB_T_MAIN, fields, "", sqlStrWhere, sqlStrOrderBy);
+    /// TODO: qtlib::Utils::dbFilter(_model, DB_T_MAIN, fields, "", sqlStrWhere, sqlStrOrderBy);
 }
 //-------------------------------------------------------------------------------------------------

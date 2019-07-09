@@ -76,7 +76,7 @@ Settings::_initMain()
 
     // Main
     {
-        setWindowTitle( qS2QS(xlib::core::Application::name()) );
+        setWindowTitle( qS2QS(xl::package::Application::info().get().name) );
         // setGeometry(0, 0, APP_WIDTH, APP_HEIGHT);
         qtlib::Utils::widgetAlignCenter(this);
     }
@@ -132,7 +132,7 @@ Settings::_settingsLoad()
     QString shortcutQuickClipboardTranslate;
     QString shortcutImportClipboard;
     {
-        QSettings settings(qS2QS(xlib::core::Application::configPath()), QSettings::IniFormat, this);
+        QSettings settings(qS2QS(xl::package::Application::configPath()), QSettings::IniFormat, this);
 
         settings.beginGroup(CFG_GROUP_FILE);
         importExportOrder = static_cast<Main::ImportExportOrder>( settings.value(CFG_IMPORT_EXPORT_ORDER, Main::ieoTermValue).toInt() );
@@ -179,7 +179,7 @@ Settings::_settingsLoad()
 void
 Settings::_settingsSave()
 {
-    QSettings settings(qS2QS(xlib::core::Application::configPath()), QSettings::IniFormat, this);
+    QSettings settings(qS2QS(xl::package::Application::configPath()), QSettings::IniFormat, this);
 
     // save settings to INI
     {

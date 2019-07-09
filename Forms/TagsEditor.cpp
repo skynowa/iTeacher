@@ -7,8 +7,7 @@
 #include "TagsEditor.h"
 
 #include "../QtLib/Utils.h"
-
-#include <xLib/Core/Application.h>
+#include <xLib/Package/Application.h>
 
 
 /**************************************************************************************************
@@ -98,7 +97,7 @@ TagsEditor::_construct()
 
     // _sqlNavigator
     {
-        _sqlNavigator.construct(&_model, ui.tvTags);
+        /// TODO:  _sqlNavigator.construct(&_model, ui.tvTags);
         _sqlNavigator.last();
     }
 }

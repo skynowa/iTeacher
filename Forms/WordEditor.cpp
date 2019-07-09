@@ -12,7 +12,7 @@
 #include "../Classes/Utils.h"
 
 #include "TagsEditor.h"
-#include <xLib/Core/Application.h>
+#include <xLib/Package/Application.h>
 
 
 /**************************************************************************************************
@@ -145,7 +145,7 @@ WordEditor::_construct()
             QFileInfo info( _sqlNavigator->model()->database().databaseName() );
 
             cQString title = QString("%1 - %2")
-                                .arg( qS2QS(xlib::core::Application::name()) )
+                                .arg( qS2QS(xl::package::Application::info().get().name) )
                                 .arg( info.fileName() );
 
             setWindowTitle(title);
@@ -321,7 +321,7 @@ WordEditor::_settingsLoad()
     QPoint position;
     bool   isTerminLowerCase = false;
     {
-        QSettings settings(qS2QS(xlib::core::Application::configPath()), QSettings::IniFormat, this);
+        QSettings settings(qS2QS(xl::package::Application::configPath()), QSettings::IniFormat, this);
 
         settings.beginGroup("word_editor");
         size              = settings.value("size", QSize(APP_WIDTH, APP_HEIGHT)).toSize();
@@ -342,7 +342,7 @@ WordEditor::_settingsLoad()
 void
 WordEditor::_settingsSave()
 {
-    QSettings settings(qS2QS(xlib::core::Application::configPath()), QSettings::IniFormat, this);
+    QSettings settings(qS2QS(xl::package::Application::configPath()), QSettings::IniFormat, this);
 
     // main
     settings.beginGroup("word_editor");
@@ -503,7 +503,7 @@ WordEditor::check()
     QString termMinimized;
     {
         termMinimized = ui.tedtTerm->toPlainText().trimmed();
-        termMinimized = qS2QS(xlib::core::String::minimize(qQS2S(termMinimized),
+        termMinimized = qS2QS(xl::core::String::minimize(qQS2S(termMinimized),
             TERM_MINIMIZED_SIZE_MAX));
     }
 
