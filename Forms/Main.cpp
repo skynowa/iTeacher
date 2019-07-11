@@ -197,7 +197,7 @@ Main::_initMain()
 
         // _trayIcon
         _trayIcon.setIcon( windowIcon() );
-        /// TODO: _trayIcon.setToolTip( qS2QS(xl::package::Application::info().get().name) );
+        _trayIcon.setToolTip( qS2QS(xl::package::Application::info().get().name) );
         _trayIcon.setContextMenu(mnuTrayIcon);
         _trayIcon.show();
     }
