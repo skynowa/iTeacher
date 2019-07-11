@@ -242,6 +242,6 @@ WordFinder::_saveAll()
         }
     }
 
-    // TODO: qtlib::Utils::dbFilter(_model, DB_T_MAIN, fields, "", sqlStrWhere, sqlStrOrderBy);
+    _model->filter(DB_T_MAIN, fields, "", sqlStrWhere, sqlStrOrderBy);
 }
 //-------------------------------------------------------------------------------------------------

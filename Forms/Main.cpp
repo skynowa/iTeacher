@@ -574,7 +574,7 @@ Main::importCsv()
     fieldNames.push_back(DB_F_MAIN_TAG);
 
     // import
-    /// TODO: qtlib::Utils::importCsv(filePath, _model, fieldNames, CSV_SEPARATOR);
+    _model->importCsv(filePath,  fieldNames, CSV_SEPARATOR, true);
 
     // "fire" cboDictPath
     {
@@ -669,7 +669,7 @@ Main::exportCsv()
         fieldNames.push_back(DB_F_MAIN_TAG);
 
         // import
-        /// TODO: qtlib::Utils::exportCsv(filePath, _model, fieldNames, CSV_SEPARATOR);
+        _model->exportCsv(filePath, fieldNames, CSV_SEPARATOR, true);
     }
 
     // report
@@ -694,8 +694,7 @@ Main::exportPdf()
 
 
     // file -> DB
-    /// TODO: cint realRowCount = qtlib::Utils::sqlTableModelRowCount(_model);
-    cint realRowCount = _model->rowCount();
+    cint realRowCount = _model->realRowCount();
 
     for (int i = 0; i < realRowCount; ++ i) {
         switch (_importExportOrder) {
@@ -811,8 +810,7 @@ Main::to()
 
     cint currentRow = _sqlNavigator.view()->currentIndex().row() + 1;
     cint minValue   = 1;
-    /// TODO: cint maxValue   = qtlib::Utils::sqlTableModelRowCount(_model);
-    cint maxValue   = _model->rowCount();
+    cint maxValue   = _model->realRowCount();
 
     cint targetRow  = QInputDialog::getInt(this, qS2QS(xl::package::Application::info().get().name),
         tr("Go to row:"), currentRow, minValue, maxValue) - 1;
