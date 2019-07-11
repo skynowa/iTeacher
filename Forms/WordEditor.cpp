@@ -366,7 +366,7 @@ WordEditor::_languagesAutoDetect()
     translator.languagesDetect(ui.tedtTerm->toPlainText(), &langFrom, &langTo, &langCodeFrom,
         &langCodeTo);
 
-    // TODO: QComboBox::findText: case-insensitive
+    // TODO_VER: QComboBox::findText: case-insensitive
     cint indexFrom = ui.cboLangFrom->findText(langCodeFrom);
     qTEST(indexFrom > - 1);
 
