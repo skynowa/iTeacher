@@ -7,7 +7,7 @@
 #include "WordFinder.h"
 
 #include "../QtLib/Utils.h"
-#include "../QtLib/Db/SqlTableModelEx.h"    /// TODO: rm
+#include "../QtLib/Db/SqlTableModelEx.h"
 
 
 /**************************************************************************************************
