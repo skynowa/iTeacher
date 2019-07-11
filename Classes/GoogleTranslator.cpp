@@ -281,7 +281,7 @@ GoogleTranslator::speech(
     }
 
     // play audio file
-    // TODO: GoogleTranslator::speech - QSound ???
+    // TODO_VER: GoogleTranslator::speech - QSound ???
     {
         QMediaPlayer player;
         if (!player.isAudioAvailable()) {
