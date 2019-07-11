@@ -97,7 +97,7 @@ TagsEditor::_construct()
 
     // _sqlNavigator
     {
-        /// TODO:  _sqlNavigator.construct(&_model, ui.tvTags);
+        _sqlNavigator.construct(&_model, ui.tvTags);
         _sqlNavigator.last();
     }
 }

@@ -11,6 +11,7 @@
 
 #include "../Config.h"
 #include "../QtLib/Common.h"
+#include "SqlRelationalTableModelEx.h"
 
 #include "Main.h"
 //-------------------------------------------------------------------------------------------------
@@ -25,7 +26,7 @@ public:
 
 private:
     const QSqlDatabase &_db;
-    QSqlTableModel      _model;
+    qtlib::SqlRelationalTableModelEx _model;
     qtlib::SqlNavigator _sqlNavigator;
 
     void             _construct();

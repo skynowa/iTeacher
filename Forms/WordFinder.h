@@ -10,6 +10,7 @@
 
 #include "../Config.h"
 #include "../QtLib/Common.h"
+#include "SqlRelationalTableModelEx.h"
 //-------------------------------------------------------------------------------------------------
 class WordFinder :
     public QDialog
@@ -17,11 +18,11 @@ class WordFinder :
 public:
     Ui::UiWordFinder ui;
 
-                    WordFinder(QWidget *parent, QSqlTableModel *tableModel);
+                    WordFinder(QWidget *parent, qtlib::SqlRelationalTableModelEx *tableModel);
     virtual        ~WordFinder();
 
 private:
-    QSqlTableModel *_model;
+    qtlib::SqlRelationalTableModelEx *_model;
 
     void            _construct();
     void            _destruct();

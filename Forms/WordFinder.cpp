@@ -17,8 +17,8 @@
 
 //-------------------------------------------------------------------------------------------------
 WordFinder::WordFinder(
-    QWidget        *a_parent,
-    QSqlTableModel *a_tableModel
+    QWidget                          *a_parent,
+    qtlib::SqlRelationalTableModelEx *a_tableModel
 ) :
     QDialog(a_parent),
     _model (a_tableModel)
@@ -242,6 +242,6 @@ WordFinder::_saveAll()
         }
     }
 
-    /// TODO: qtlib::Utils::dbFilter(_model, DB_T_MAIN, fields, "", sqlStrWhere, sqlStrOrderBy);
+    // TODO: qtlib::Utils::dbFilter(_model, DB_T_MAIN, fields, "", sqlStrWhere, sqlStrOrderBy);
 }
 //-------------------------------------------------------------------------------------------------
