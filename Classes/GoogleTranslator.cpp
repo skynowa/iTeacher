@@ -283,38 +283,6 @@ GoogleTranslator::speech(
     // play audio file
     // TODO: GoogleTranslator::speech - QSound ???
     {
-    #if 0
-        Phonon::MediaObject *player = Phonon::createPlayer(
-                                            Phonon::MusicCategory,
-                                            Phonon::MediaSource(a_filePath));
-        qTEST_PTR(player);
-
-        // for signal slot mechanism
-        // connect(player, SIGNAL( finished() ),
-        //         player, SLOT  ( deleteLater() ));
-
-        player->play();
-
-        // wait for finish
-        for (bool bRv = true; bRv; ) {
-            Phonon::State state = player->state();
-            if (Phonon::LoadingState == state ||
-                Phonon::PlayingState == state)
-            {
-                bRv = true;
-            } else {
-                qTEST(Phonon::PausedState == state || Phonon::StoppedState == state);
-
-                bRv = false;
-            }
-
-            ::Utils::sleep(100);
-
-            QCoreApplication::processEvents(QEventLoop::ExcludeUserInputEvents);
-        }
-
-        qPTR_DELETE(player);
-    #else
         QMediaPlayer player;
         if (!player.isAudioAvailable()) {
             cQString msg = QString(QObject::tr("QMediaPlayer: audio is not available."));
@@ -326,7 +294,6 @@ GoogleTranslator::speech(
         player.setMedia(QUrl::fromLocalFile(a_filePath));
         player.setVolume(35);
         player.play();
-    #endif
     }
 }
 //-------------------------------------------------------------------------------------------------
