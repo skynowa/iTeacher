@@ -174,7 +174,7 @@ Main::_initMain()
 
     // Main
     {
-        /// TODO: setWindowTitle( qS2QS(xl::package::Application::info().get().name) );
+        setWindowTitle( qS2QS(xl::package::Application::info().get().name) );
         setGeometry(0, 0, APP_WIDTH, APP_HEIGHT);
         qtlib::Utils::widgetAlignCenter(this);
         _cboDictPath_reload();
