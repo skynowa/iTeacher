@@ -19,7 +19,7 @@
 
 ## Dictionary tags
 
-    1
+    1 <empty>
     2 poker
     3 hotel
     4 auto
