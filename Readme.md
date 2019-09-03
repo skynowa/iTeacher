@@ -15,7 +15,9 @@ Prerequisites:
 
 
 Dependencies:
-                Ubuntu: libphonon-dev
+    Ubuntu 18.04
+        sudo apt-get install qtbase5-dev qttools5-dev-tools qtmultimedia5-dev
+        sudo apt-get install qtcreator*
 
 
 Dictionary tags:
@@ -25,8 +27,3 @@ Dictionary tags:
     4 auto
     5 coding
     6 weather
-
-
-Ubuntu 18.04
-    sudo apt-get install qtbase5-dev qttools5-dev-tools qtmultimedia5-dev
-    sudo apt-get install qtcreator*
