@@ -1,5 +1,4 @@
-iTeacher - for learning english (or other) words.
-
+# iTeacher - for learning english (or other) words
 
 Platforms:      Windows, Linux, FreeBSD
 Architecture:   x86, x64
@@ -10,17 +9,14 @@ Jabber:         skynowa@jabber.ru
 Skype:          skynowa777
 Web:            https://bitbucket.org/skynowa/iteacher
 
+## Dependencies
 
-Prerequisites:
-
-
-Dependencies:
     Ubuntu 18.04
         sudo apt-get install qtbase5-dev qttools5-dev-tools qtmultimedia5-dev
         sudo apt-get install qtcreator*
 
+## Dictionary tags
 
-Dictionary tags:
     1
     2 poker
     3 hotel
