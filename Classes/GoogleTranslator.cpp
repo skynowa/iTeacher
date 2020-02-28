@@ -7,7 +7,10 @@
 #include "GoogleTranslator.h"
 
 #include <QDomDocument>
-#include <QMediaPlayer>
+
+#if OPTION_QMEDIA_PLAYER
+    #include <QMediaPlayer>
+#endif
 
 
 /**************************************************************************************************
@@ -283,6 +286,7 @@ GoogleTranslator::speech(
     // play audio file
     // TODO_VER: GoogleTranslator::speech - QSound ???
     {
+    #if OPTION_QMEDIA_PLAYER
         QMediaPlayer player;
         if (!player.isAudioAvailable()) {
             cQString msg = QString(QObject::tr("QMediaPlayer: audio is not available."));
@@ -294,6 +298,7 @@ GoogleTranslator::speech(
         player.setMedia(QUrl::fromLocalFile(a_filePath));
         player.setVolume(35);
         player.play();
+    #endif
     }
 }
 //-------------------------------------------------------------------------------------------------

@@ -107,6 +107,7 @@ const TableViewHeader tableViewHeaders[] = {
 #define  CFG_CLIPBOARD_IMPORT    "clipboard_import"
 
 // audio
+#define OPTION_QMEDIA_PLAYER     0
 #define AUDIO_TERM_FILE_NAME     "term.mp3"
 #define AUDIO_VALUE_FILE_NAME    "value.mp3"
 
