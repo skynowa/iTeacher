@@ -615,28 +615,31 @@ Main::importClipboard()
         qCHECK_DO(!bRv, return);
     }
 
-    qCHECK_DO(!_sqlNavigator.isValid(), return);
+    // insert data
+    {
+        qCHECK_DO(!_sqlNavigator.isValid(), return);
 
-    _sqlNavigator.insert();
+        _sqlNavigator.insert();
 
-    cQString   data = QApplication::clipboard()->text();
-    WordEditor dlgWordEditor(this, _model, &_sqlNavigator, true, data);
+        cQString   data = QApplication::clipboard()->text();
+        WordEditor dlgWordEditor(this, _model, &_sqlNavigator, true, data);
 
-    _dlgWordEditorOpened = &dlgWordEditor;
+        _dlgWordEditorOpened = &dlgWordEditor;
 
-    bRv = dlgWordEditor.isConstructed();
-    qCHECK_DO(!bRv, return);
+        bRv = dlgWordEditor.isConstructed();
+        qCHECK_DO(!bRv, return);
 
-    QDialog::DialogCode code = static_cast<QDialog::DialogCode>( dlgWordEditor.exec() );
-    switch (code) {
-    case QDialog::Rejected:
-        _sqlNavigator.remove();
-        break;
-    default:
-        break;
+        QDialog::DialogCode code = static_cast<QDialog::DialogCode>( dlgWordEditor.exec() );
+        switch (code) {
+        case QDialog::Rejected:
+            _sqlNavigator.remove();
+            break;
+        default:
+            break;
+        }
+
+        _dlgWordEditorOpened = Q_NULLPTR;
     }
-
-    _dlgWordEditorOpened = Q_NULLPTR;
 }
 //-------------------------------------------------------------------------------------------------
 void
