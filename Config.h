@@ -54,7 +54,8 @@ struct TableViewHeader
     const QVariant &value;
 };
 
-const TableViewHeader tableViewHeaders[] = {
+const TableViewHeader tableViewHeaders[]
+{
     {0, QObject::tr("Id")},
     {1, QObject::tr("Term")},
     {2, QObject::tr("Value")},

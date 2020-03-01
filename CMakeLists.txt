@@ -1,5 +1,5 @@
 #--------------------------------------------------------------------------------------------------
-# \file  CPackConfig.cmake
+# \file  CMakeLists.cmake
 # \brief
 #--------------------------------------------------------------------------------------------------
 
@@ -34,8 +34,8 @@ set(CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR})
 # If so, we are good. Otherwise we will post a warning of versions (<QT_OFFICIAL_VERSION)
 string(REGEX MATCH "^5\\.[3]\\.[0-1]+" QT_VERSION_MATCH "${Qt5Core_VERSION_STRING}")
     if (QT_VERSION_MATCH)
-      message(WARNING "Warning: You are using Qt ${Qt5Core_VERSION_STRING}. "
-                      "Officially supported version is Qt ${QT_OFFICIAL_VERSION}")
+    message(WARNING "Warning: You are using Qt ${Qt5Core_VERSION_STRING}. "
+                    "Officially supported version is Qt ${QT_OFFICIAL_VERSION}")
 endif()
 #--------------------------------------------------------------------------------------------------
 #
@@ -108,9 +108,7 @@ add_executable(${PROJECT_NAME}
 
 # TODO: ${XLIB_LIBRARIES}
 target_link_libraries(${PROJECT_NAME}
-    xLib_static xcb
-    X11 pthread rt m z dl)
-
+    xLib_static xcb X11 pthread rt m z dl ssh2)
 #--------------------------------------------------------------------------------------------------
 # install
 # if (CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT)

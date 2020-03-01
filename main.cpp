@@ -10,7 +10,7 @@
 #include "Forms/Main.h"
 //-------------------------------------------------------------------------------------------------
 class UserApplication :
-    public xl::package:: Application
+    public xl::package::Application
     /// user application
 {
 public:
@@ -39,24 +39,31 @@ int main(int argc, char *argv[])
     UserApplication xapplication(xT(APP_GUID), xT(""));
     xapplication.dirsCreate();
 
-//    xl::core::UserApplication::setName(APP_NAME);
-//    xl::core::UserApplication::setDecription(APP_DESCRIPTION);
-//    xl::core::UserApplication::setCopyrightYears(APP_COPYRIGHT_YEARS);
-//    xl::core::UserApplication::setUsage(APP_USAGE);
-//    xl::core::UserApplication::setHelp(APP_HELP);
-//    xl::core::UserApplication::setVersionMajor(APP_VERSION_MAJOR);
-//    xl::core::UserApplication::setVersionMinor(APP_VERSION_MINOR);
-//    xl::core::UserApplication::setVersionPatch(APP_VERSION_PATCH);
-//    xl::core::UserApplication::setVersionType(APP_VERSION_TYPE);
-//    xl::core::UserApplication::setVersionRevision(APP_VERSION_REVISION);
-//    xl::core::UserApplication::setVendorName(APP_VENDOR_NAME);
-//    xl::core::UserApplication::setVendorDomain(APP_VENDOR_DOMAIN);
-//    xl::core::UserApplication::setVendorAuthor(APP_VENDOR_AUTHOR);
-//    xl::core::UserApplication::setVendorUrl(APP_VENDOR_URL);
-//    xl::core::UserApplication::setVendorEmail(APP_VENDOR_EMAIL);
-//    xl::core::UserApplication::setVendorSkype(APP_VENDOR_SKYPE);
-//    xl::core::UserApplication::setVendorJabber(APP_VENDOR_JABBER);
-//    xlib::core::UserApplication::setVendorIcq(APP_VENDOR_ICQ);
+    // info
+    {
+        xl::package::ApplicationInfoData appInfoData;
+        appInfoData.name            = APP_NAME;
+        appInfoData.decription      = APP_DESCRIPTION;
+        appInfoData.copyrightYears  = APP_COPYRIGHT_YEARS;
+        appInfoData.usage           = APP_USAGE;
+        appInfoData.help            = APP_HELP;
+        appInfoData.versionMajor    = APP_VERSION_MAJOR;
+        appInfoData.versionMinor    = APP_VERSION_MINOR;
+        appInfoData.versionPatch    = APP_VERSION_PATCH;
+        appInfoData.versionType     = APP_VERSION_TYPE;
+        appInfoData.versionRevision = APP_VERSION_REVISION;
+        appInfoData.vendorName      = APP_VENDOR_NAME;
+        appInfoData.vendorDomain    = APP_VENDOR_DOMAIN;
+        appInfoData.vendorAuthor    = APP_VENDOR_AUTHOR;
+        appInfoData.vendorUrl       = APP_VENDOR_URL;
+        appInfoData.vendorEmail     = APP_VENDOR_EMAIL;
+        appInfoData.vendorSkype     = APP_VENDOR_SKYPE;
+        appInfoData.vendorJabber    = APP_VENDOR_JABBER;
+        appInfoData.vendorIcq       = APP_VENDOR_ICQ;
+
+        xl::package::ApplicationInfo info(appInfoData);
+        xapplication.setInfo(info);
+    }
 
     // qtlib::UserApplication
     qtlib::Application application(argc, argv, APP_GUID);
