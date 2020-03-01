@@ -174,7 +174,7 @@ Main::_initMain()
 
     // Main
     {
-        setWindowTitle( qS2QS(xl::package::Application::info().get().name) );
+        setWindowTitle( qS2QS(xl::package::Application::info().name) );
         setGeometry(0, 0, APP_WIDTH, APP_HEIGHT);
         qtlib::Utils::widgetAlignCenter(this);
         _cboDictPath_reload();
@@ -197,7 +197,7 @@ Main::_initMain()
 
         // _trayIcon
         _trayIcon.setIcon( windowIcon() );
-        _trayIcon.setToolTip( qS2QS(xl::package::Application::info().get().name) );
+        _trayIcon.setToolTip( qS2QS(xl::package::Application::info().name) );
         _trayIcon.setContextMenu(mnuTrayIcon);
         _trayIcon.show();
     }
@@ -430,7 +430,7 @@ Main::_initActions()
 void
 Main::createDb()
 {
-    cQString dbName = QInputDialog::getText(this, qS2QS(xl::package::Application::info().get().name),
+    cQString dbName = QInputDialog::getText(this, qS2QS(xl::package::Application::info().name),
         tr("New DB file path:"), QLineEdit::Normal, DB_FILE_EXT);
     qCHECK_DO(dbName.trimmed().isEmpty(), return);
 
@@ -465,7 +465,7 @@ Main::quickTranslateClipboard()
     // QMessageBox - only one instance
     QSharedMemory locker;
     {
-        cQString dlgGuid = qS2QS(xl::package::Application::info().get().name) + "_OnTranslateClipboard_guid";
+        cQString dlgGuid = qS2QS(xl::package::Application::info().name) + "_OnTranslateClipboard_guid";
 
         locker.setKey(dlgGuid);
 
@@ -477,7 +477,7 @@ Main::quickTranslateClipboard()
     }
 
     cQString title = QString("%1 - %2")
-                        .arg( qS2QS(xl::package::Application::info().get().name) )
+                        .arg( qS2QS(xl::package::Application::info().name) )
                         .arg( tr("Google Translator") );
 
     QString term;
@@ -588,7 +588,7 @@ Main::importCsv()
         cQString msg = QString(tr("File: %1\nImport CSV finished."))
                             .arg(filePath);
 
-        QMessageBox::information(this, qS2QS(xl::package::Application::info().get().name), msg);
+        QMessageBox::information(this, qS2QS(xl::package::Application::info().name), msg);
     }
 }
 //-------------------------------------------------------------------------------------------------
@@ -604,7 +604,7 @@ Main::importClipboard()
     // WordEditor - only one instance
     QSharedMemory locker;
     {
-        cQString dlgGuid = qS2QS(xl::package::Application::info().get().name) + "_dlgWordEditor_guid";
+        cQString dlgGuid = qS2QS(xl::package::Application::info().name) + "_dlgWordEditor_guid";
 
         locker.setKey(dlgGuid);
 
@@ -677,7 +677,7 @@ Main::exportCsv()
         cQString msg = QString(tr("File: %1\nExport CSV finished."))
                             .arg(filePath);
 
-        QMessageBox::information(this, qS2QS(xl::package::Application::info().get().name), msg);
+        QMessageBox::information(this, qS2QS(xl::package::Application::info().name), msg);
     }
 }
 //-------------------------------------------------------------------------------------------------
@@ -730,7 +730,7 @@ Main::exportPdf()
         cQString msg = QString(tr("File: %1\nExport PDF finished."))
                             .arg(filePath);
 
-        QMessageBox::information(this, qS2QS(xl::package::Application::info().get().name), msg);
+        QMessageBox::information(this, qS2QS(xl::package::Application::info().name), msg);
     }
 }
 //-------------------------------------------------------------------------------------------------
@@ -761,7 +761,7 @@ Main::exportClipboard()
         cQString msg = QString(tr("Text: \n%1\nExport Clipboard finished."))
                             .arg(sRv);
 
-        QMessageBox::information(this, qS2QS(xl::package::Application::info().get().name), msg);
+        QMessageBox::information(this, qS2QS(xl::package::Application::info().name), msg);
     }
 }
 //-------------------------------------------------------------------------------------------------
@@ -812,7 +812,7 @@ Main::to()
     cint minValue   = 1;
     cint maxValue   = _model->realRowCount();
 
-    cint targetRow  = QInputDialog::getInt(this, qS2QS(xl::package::Application::info().get().name),
+    cint targetRow  = QInputDialog::getInt(this, qS2QS(xl::package::Application::info().name),
         tr("Go to row:"), currentRow, minValue, maxValue) - 1;
 
     _sqlNavigator.goTo(targetRow);
@@ -1142,25 +1142,25 @@ void
 Main::about()
 {
     AboutData aboutData;
-    aboutData.appName              = qS2QS(xl::package::Application::info().get().name);
-    aboutData.appVersionFull       = qS2QS(xl::package::Application::info().get().versionFull());
-    aboutData.appDecription        = qS2QS(xl::package::Application::info().get().decription);
-    aboutData.appCopyrightYears    = qS2QS(xl::package::Application::info().get().copyrightYears);
-    aboutData.appUsage             = qS2QS(xl::package::Application::info().get().usage);
-    aboutData.appHelp              = qS2QS(xl::package::Application::info().get().help);
-    aboutData.appVersionMajor      = qS2QS(xl::package::Application::info().get().versionMajor);
-    aboutData.appVersionMinor      = qS2QS(xl::package::Application::info().get().versionMinor);
-    aboutData.appVersionPatch      = qS2QS(xl::package::Application::info().get().versionPatch);
-    aboutData.appVersionType       = qS2QS(xl::package::Application::info().get().versionType);
-    aboutData.appVersionRevision   = qS2QS(xl::package::Application::info().get().versionRevision);
-    aboutData.appVendorName        = qS2QS(xl::package::Application::info().get().vendorName);
-    aboutData.appVendorDomain      = qS2QS(xl::package::Application::info().get().vendorDomain);
-    aboutData.appVendorAuthor      = qS2QS(xl::package::Application::info().get().vendorAuthor);
-    aboutData.appVendorUrl         = qS2QS(xl::package::Application::info().get().vendorUrl);
-    aboutData.appVendorEmail       = qS2QS(xl::package::Application::info().get().vendorEmail);
-    aboutData.appVendorSkype       = qS2QS(xl::package::Application::info().get().vendorSkype);
-    aboutData.appVendorJabber      = qS2QS(xl::package::Application::info().get().vendorJabber);
-    aboutData.appVendorIcq         = qS2QS(xl::package::Application::info().get().vendorIcq);
+    aboutData.appName              = qS2QS(xl::package::Application::info().name);
+    aboutData.appVersionFull       = qS2QS(xl::package::Application::info().versionFull());
+    aboutData.appDecription        = qS2QS(xl::package::Application::info().decription);
+    aboutData.appCopyrightYears    = qS2QS(xl::package::Application::info().copyrightYears);
+    aboutData.appUsage             = qS2QS(xl::package::Application::info().usage);
+    aboutData.appHelp              = qS2QS(xl::package::Application::info().help);
+    aboutData.appVersionMajor      = qS2QS(xl::package::Application::info().versionMajor);
+    aboutData.appVersionMinor      = qS2QS(xl::package::Application::info().versionMinor);
+    aboutData.appVersionPatch      = qS2QS(xl::package::Application::info().versionPatch);
+    aboutData.appVersionType       = qS2QS(xl::package::Application::info().versionType);
+    aboutData.appVersionRevision   = qS2QS(xl::package::Application::info().versionRevision);
+    aboutData.appVendorName        = qS2QS(xl::package::Application::info().vendorName);
+    aboutData.appVendorDomain      = qS2QS(xl::package::Application::info().vendorDomain);
+    aboutData.appVendorAuthor      = qS2QS(xl::package::Application::info().vendorAuthor);
+    aboutData.appVendorUrl         = qS2QS(xl::package::Application::info().vendorUrl);
+    aboutData.appVendorEmail       = qS2QS(xl::package::Application::info().vendorEmail);
+    aboutData.appVendorSkype       = qS2QS(xl::package::Application::info().vendorSkype);
+    aboutData.appVendorJabber      = qS2QS(xl::package::Application::info().vendorJabber);
+    aboutData.appVendorIcq         = qS2QS(xl::package::Application::info().vendorIcq);
     aboutData.appDonatePayPal      = APP_DONATE_PAYPAL;
     aboutData.appDonateWebMoney    = APP_DONATE_WEBMONEY;
     aboutData.appDonateYandexMoney = APP_DONATE_YANDEXMONEY;
@@ -1682,7 +1682,7 @@ Main::_tagsIsEmpty()
     // report
     QMessageBox msgBox;
     msgBox.setIcon(QMessageBox::Question);
-    msgBox.setWindowTitle( qS2QS(xl::package::Application::info().get().name) );
+    msgBox.setWindowTitle( qS2QS(xl::package::Application::info().name) );
     msgBox.setText(tr("DB table: " DB_T_TAGS " is empty.\nAdd tags to Tags Editor?"));
     msgBox.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
     msgBox.setDefaultButton(QMessageBox::Yes);

@@ -41,28 +41,27 @@ int main(int argc, char *argv[])
 
     // info
     {
-        xl::package::ApplicationInfoData appInfoData;
-        appInfoData.name            = APP_NAME;
-        appInfoData.decription      = APP_DESCRIPTION;
-        appInfoData.copyrightYears  = APP_COPYRIGHT_YEARS;
-        appInfoData.usage           = APP_USAGE;
-        appInfoData.help            = APP_HELP;
-        appInfoData.versionMajor    = APP_VERSION_MAJOR;
-        appInfoData.versionMinor    = APP_VERSION_MINOR;
-        appInfoData.versionPatch    = APP_VERSION_PATCH;
-        appInfoData.versionType     = APP_VERSION_TYPE;
-        appInfoData.versionRevision = APP_VERSION_REVISION;
-        appInfoData.vendorName      = APP_VENDOR_NAME;
-        appInfoData.vendorDomain    = APP_VENDOR_DOMAIN;
-        appInfoData.vendorAuthor    = APP_VENDOR_AUTHOR;
-        appInfoData.vendorUrl       = APP_VENDOR_URL;
-        appInfoData.vendorEmail     = APP_VENDOR_EMAIL;
-        appInfoData.vendorSkype     = APP_VENDOR_SKYPE;
-        appInfoData.vendorJabber    = APP_VENDOR_JABBER;
-        appInfoData.vendorIcq       = APP_VENDOR_ICQ;
+        xl::package::ApplicationInfo appInfo;
+        appInfo.name            = APP_NAME;
+        appInfo.decription      = APP_DESCRIPTION;
+        appInfo.copyrightYears  = APP_COPYRIGHT_YEARS;
+        appInfo.usage           = APP_USAGE;
+        appInfo.help            = APP_HELP;
+        appInfo.versionMajor    = APP_VERSION_MAJOR;
+        appInfo.versionMinor    = APP_VERSION_MINOR;
+        appInfo.versionPatch    = APP_VERSION_PATCH;
+        appInfo.versionType     = APP_VERSION_TYPE;
+        appInfo.versionRevision = APP_VERSION_REVISION;
+        appInfo.vendorName      = APP_VENDOR_NAME;
+        appInfo.vendorDomain    = APP_VENDOR_DOMAIN;
+        appInfo.vendorAuthor    = APP_VENDOR_AUTHOR;
+        appInfo.vendorUrl       = APP_VENDOR_URL;
+        appInfo.vendorEmail     = APP_VENDOR_EMAIL;
+        appInfo.vendorSkype     = APP_VENDOR_SKYPE;
+        appInfo.vendorJabber    = APP_VENDOR_JABBER;
+        appInfo.vendorIcq       = APP_VENDOR_ICQ;
 
-        xl::package::ApplicationInfo info(appInfoData);
-        xapplication.setInfo(info);
+        xapplication.setInfo(appInfo);
     }
 
     // qtlib::UserApplication

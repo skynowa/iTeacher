@@ -145,7 +145,7 @@ WordEditor::_construct()
             QFileInfo info( _sqlNavigator->model()->database().databaseName() );
 
             cQString title = QString("%1 - %2")
-                                .arg( qS2QS(xl::package::Application::info().get().name) )
+                                .arg( qS2QS(xl::package::Application::info().name) )
                                 .arg( info.fileName() );
 
             setWindowTitle(title);

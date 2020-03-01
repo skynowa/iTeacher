@@ -76,7 +76,7 @@ Settings::_initMain()
 
     // Main
     {
-        setWindowTitle( qS2QS(xl::package::Application::info().get().name) );
+        setWindowTitle( qS2QS(xl::package::Application::info().name) );
         // setGeometry(0, 0, APP_WIDTH, APP_HEIGHT);
         qtlib::Utils::widgetAlignCenter(this);
     }
