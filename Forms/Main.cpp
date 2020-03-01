@@ -621,8 +621,10 @@ Main::importClipboard()
 
         _sqlNavigator.insert();
 
-        cQString   data = QApplication::clipboard()->text();
-        WordEditor dlgWordEditor(this, _model, &_sqlNavigator, true, data);
+        cbool      insertMode {true};
+        cQString   data       = QApplication::clipboard()->text();
+
+        WordEditor dlgWordEditor(this, _model, &_sqlNavigator, insertMode, data);
 
         _dlgWordEditorOpened = &dlgWordEditor;
 
