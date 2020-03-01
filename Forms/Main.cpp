@@ -627,6 +627,11 @@ Main::importClipboard()
         WordEditor dlgWordEditor(this, _model, &_sqlNavigator, insertMode, data);
 
         _dlgWordEditorOpened = &dlgWordEditor;
+        auto cleanup = xl::core::ScopeExit(
+            [&]
+            {
+                _dlgWordEditorOpened = Q_NULLPTR;
+            });
 
         bRv = dlgWordEditor.isConstructed();
         qCHECK_DO(!bRv, return);
@@ -639,8 +644,6 @@ Main::importClipboard()
         default:
             break;
         }
-
-        _dlgWordEditorOpened = Q_NULLPTR;
     }
 }
 //-------------------------------------------------------------------------------------------------
