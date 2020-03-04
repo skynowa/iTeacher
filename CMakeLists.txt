@@ -28,6 +28,12 @@ set(CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR})
 # set(CMAKE_MODULE_PATH ${XLIB_LOCATION}/CMake)
 # include(FindxLib)
 
+# CMakeLib - CMAKE_MODULE_PATH
+set(CMAKE_MAJOR_MINOR_VERSION "${CMAKE_MAJOR_VERSION}.${CMAKE_MINOR_VERSION}")
+set(CMAKE_DATA_DIR_DEFAULT    "/usr/share/cmake-${CMAKE_MAJOR_MINOR_VERSION}/Modules")
+set(CMAKE_MODULE_PATH         "${CMAKE_DATA_DIR_DEFAULT}/CMakeLib;${CMAKE_MODULE_PATH}")
+
+message("QT_QMAKE_EXECUTABLE: ${QT_QMAKE_EXECUTABLE}")
 #--------------------------------------------------------------------------------------------------
 # checks
 # Check if Qtversion is >=QT_OFFICIAL_VERSION.
@@ -39,15 +45,8 @@ string(REGEX MATCH "^5\\.[3]\\.[0-1]+" QT_VERSION_MATCH "${Qt5Core_VERSION_STRIN
 endif()
 #--------------------------------------------------------------------------------------------------
 #
-set(_QT5_MODULES Core Gui Widgets Sql Network Xml PrintSupport Concurrent)
-# Multimedia (as Config.h:OPTION_QMEDIA_PLAYER)
-
-foreach(COMPONENT ${_QT5_MODULES})
-    find_package(Qt5${COMPONENT} REQUIRED)
-    include_directories(${Qt5${COMPONENT}_INCLUDE_DIRS})
-    add_definitions(${Qt5${COMPONENT}_DEFINITIONS})
-    link_libraries(${Qt5${COMPONENT}_LIBRARIES})
-endforeach()
+find_package(xLib)
+find_package(Qt5)
 
 include_directories(
     ${XLIB_INCLUDES}
