@@ -748,7 +748,7 @@ Main::exportClipboard()
     QString         sRv;
     QModelIndexList indexes = _sqlNavigator.view()->selectionModel()->selectedRows();
 
-    Q_FOREACH (QModelIndex index, indexes) {
+    for (QModelIndex &index : indexes) {
         _sqlNavigator.view()->setFocus();
 
         cint targetRow = index.row();
