@@ -45,8 +45,8 @@ string(REGEX MATCH "^5\\.[3]\\.[0-1]+" QT_VERSION_MATCH "${Qt5Core_VERSION_STRIN
 endif()
 #--------------------------------------------------------------------------------------------------
 #
-find_package(xLib)
-find_package(Qt5)
+find_package(xLib) # REQUIRED
+find_package(Qt5 REQUIRED)
 
 include_directories(
     ${XLIB_INCLUDES}
