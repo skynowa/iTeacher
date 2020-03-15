@@ -1,5 +1,5 @@
 #--------------------------------------------------------------------------------------------------
-# \file  CMakeLists.cmake
+# \file  CMakeLists.txt
 # \brief
 #--------------------------------------------------------------------------------------------------
 
@@ -24,16 +24,10 @@ set(CMAKE_BUILD_TYPE "RelWithDebInfo")
 # modules
 set(CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR})
 
-# set(XLIB_LOCATION ${CMAKE_SOURCE_DIR}/xLib) # set for FindxLib
-# set(CMAKE_MODULE_PATH ${XLIB_LOCATION}/CMake)
-# include(FindxLib)
-
 # CMakeLib - CMAKE_MODULE_PATH
 set(CMAKE_MAJOR_MINOR_VERSION "${CMAKE_MAJOR_VERSION}.${CMAKE_MINOR_VERSION}")
 set(CMAKE_DATA_DIR_DEFAULT    "/usr/share/cmake-${CMAKE_MAJOR_MINOR_VERSION}/Modules")
 set(CMAKE_MODULE_PATH         "${CMAKE_DATA_DIR_DEFAULT}/CMakeLib;${CMAKE_MODULE_PATH}")
-
-message("QT_QMAKE_EXECUTABLE: ${QT_QMAKE_EXECUTABLE}")
 #--------------------------------------------------------------------------------------------------
 # checks
 # Check if Qtversion is >=QT_OFFICIAL_VERSION.
@@ -45,8 +39,17 @@ string(REGEX MATCH "^5\\.[3]\\.[0-1]+" QT_VERSION_MATCH "${Qt5Core_VERSION_STRIN
 endif()
 #--------------------------------------------------------------------------------------------------
 #
-find_package(xLib) # REQUIRED
-find_package(Qt5 REQUIRED)
+find_package(xLib REQUIRED)
+
+set(_QT5_MODULES Core Gui Widgets Sql Network Xml PrintSupport Concurrent)
+# Multimedia (as Config.h:OPTION_QMEDIA_PLAYER)
+
+foreach(COMPONENT ${_QT5_MODULES})
+    find_package(Qt5${COMPONENT} REQUIRED)
+    include_directories(${Qt5${COMPONENT}_INCLUDE_DIRS})
+    add_definitions(${Qt5${COMPONENT}_DEFINITIONS})
+    link_libraries(${Qt5${COMPONENT}_LIBRARIES})
+endforeach()
 
 include_directories(
     ${XLIB_INCLUDES}
@@ -106,8 +109,7 @@ add_executable(${PROJECT_NAME}
 )
 
 # TODO: ${XLIB_LIBRARIES}
-target_link_libraries(${PROJECT_NAME}
-    xLib_static xcb X11 pthread rt m z dl ssh2)
+target_link_libraries(${PROJECT_NAME} xLib_static xcb X11 pthread rt m z dl ssh2)
 #--------------------------------------------------------------------------------------------------
 # install
 # if (CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT)
