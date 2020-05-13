@@ -19,12 +19,12 @@ public:
     {
     }
 
-    int
+    ExitCode
     onRun() override
     {
         // Failer().bug();
 
-        return 0;
+        return ExitCode::Success;
     }
 
 private:
