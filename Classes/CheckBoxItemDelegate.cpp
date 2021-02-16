@@ -142,6 +142,6 @@ CheckBoxItemDelegate::paint(
 void
 CheckBoxItemDelegate::toggled()
 {
-    qDebug() << __FUNCTION__;
+    qTRACE_FUNC;
 }
 //-------------------------------------------------------------------------------------------------
