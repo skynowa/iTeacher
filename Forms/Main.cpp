@@ -41,9 +41,9 @@ Main::Main(
     QMainWindow               (a_parent, a_flags),
     _dlgWordEditorOpened      (Q_NULLPTR),
     _trayIcon                 (this),
-    _scShowHide               (this),
+    /// _scShowHide               (this),
     _scQuickClipboardTranslate(this),
-    _scImportClipboard        (this),
+    /// _scImportClipboard        (this),
     _isHideOnCLose            (false),
     _db                       (Q_NULLPTR),
     _model                    (Q_NULLPTR),
@@ -408,14 +408,14 @@ Main::_initActions()
 
     // global shortcut
     {
-        connect(&_scShowHide,               &qtlib::GlobalShortcut::sig_activated,
-                this,                       &Main::showHide);
+        /// connect(&_scShowHide,               &qtlib::GlobalShortcut::sig_activated,
+        ///         this,                       &Main::showHide);
 
-        connect(&_scQuickClipboardTranslate,&qtlib::GlobalShortcut::sig_activated,
-                this,                       &Main::quickTranslateClipboard);
+        connect(&_scQuickClipboardTranslate, &qtlib::GlobalShortcut::sig_activated,
+                this,                        &Main::quickTranslateClipboard);
 
-        connect(&_scImportClipboard,        &qtlib::GlobalShortcut::sig_activated,
-                this,                       &Main::importClipboard);
+        /// connect(&_scImportClipboard,        &qtlib::GlobalShortcut::sig_activated,
+        ///         this,                       &Main::importClipboard);
     }
 }
 //-------------------------------------------------------------------------------------------------
@@ -453,6 +453,11 @@ Main::createDb()
 void
 Main::quickTranslateClipboard()
 {
+    {
+        qTRACE_FUNC;
+        return;
+    }
+
     bool bRv = false;
 
     // TODO_VER: Main::quickTranslateClipboard - quick message
@@ -595,6 +600,11 @@ Main::importCsv()
 void
 Main::importClipboard()
 {
+    {
+        qTRACE_FUNC;
+        return;
+    }
+
     qCHECK_DO(_tagsIsEmpty(), return);
 
     bool bRv = false;
@@ -1033,6 +1043,10 @@ Main::search()
 void
 Main::showHide()
 {
+    {
+        qTRACE_FUNC;
+    }
+
     setVisible( !isVisible() );
 }
 //-------------------------------------------------------------------------------------------------
@@ -1594,9 +1608,9 @@ Main::_settingsLoad()
 
         // shortcuts
         {
-            _scShowHide.setShortcut( QKeySequence(shortcutShowHide) );
-            _scQuickClipboardTranslate.setShortcut( QKeySequence(shortcutQuickClipboardTranslate) );
-            _scImportClipboard.setShortcut( QKeySequence(shortcutClipboardImport) );
+            /// _scShowHide.setShortcut( QKeySequence(shortcutShowHide) );
+            _scQuickClipboardTranslate.set( QKeySequence(shortcutQuickClipboardTranslate) );
+            /// _scImportClipboard.setShortcut( QKeySequence(shortcutClipboardImport) );
         }
 
         ui.cboDictPath->setFocus();
@@ -1637,9 +1651,9 @@ Main::_settingsSave()
 
     // shortcuts
     settings.beginGroup(CFG_GROUP_SHORTCUTS);
-    settings.setValue(CFG_SHOW_HIDE,                 _scShowHide.shortcut().toString());
-    settings.setValue(CFG_QUICK_CLIPBOARD_TRANSLATE, _scQuickClipboardTranslate.shortcut().toString());
-    settings.setValue(CFG_CLIPBOARD_IMPORT,          _scImportClipboard.shortcut().toString());
+    /// settings.setValue(CFG_SHOW_HIDE,                 _scShowHide.shortcut().toString());
+    settings.setValue(CFG_QUICK_CLIPBOARD_TRANSLATE, _scQuickClipboardTranslate.get().toString());
+    /// settings.setValue(CFG_CLIPBOARD_IMPORT,          _scImportClipboard.shortcut().toString());
     settings.endGroup();
 }
 //-------------------------------------------------------------------------------------------------

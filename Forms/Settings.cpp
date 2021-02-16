@@ -234,9 +234,9 @@ Settings::_settingsSave()
 
         // shortcuts
         {
-            _wndMain->_scShowHide.setShortcut( ui.kedtAppShowHide->keySequence() );
-            _wndMain->_scQuickClipboardTranslate.setShortcut( ui.kedtQuickClipboardTranslate->keySequence() );
-            _wndMain->_scImportClipboard.setShortcut( ui.kedtImportClipboard->keySequence() );
+            /// _wndMain->_scShowHide.setShortcut( ui.kedtAppShowHide->keySequence() );
+            _wndMain->_scQuickClipboardTranslate.set( ui.kedtQuickClipboardTranslate->keySequence() );
+            /// _wndMain->_scImportClipboard.setShortcut( ui.kedtImportClipboard->keySequence() );
         }
     }
 }

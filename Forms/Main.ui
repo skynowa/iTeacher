@@ -72,7 +72,7 @@
      <x>0</x>
      <y>0</y>
      <width>760</width>
-     <height>27</height>
+     <height>20</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
@@ -329,9 +329,6 @@
    </property>
    <property name="text">
     <string>Search...</string>
-   </property>
-   <property name="shortcut">
-    <string>F3</string>
    </property>
   </action>
   <action name="actView_ZoomIn">

@@ -8,6 +8,81 @@
 #include <xLib/Package/Application.h>
 #include <QtLib/Application.h>
 #include "Forms/Main.h"
+
+#include <X11/Xlib.h>
+#include <xcb/xcb.h>
+//-------------------------------------------------------------------------------------------------
+class NativeFilter : public QAbstractNativeEventFilter {
+public:
+    bool nativeEventFilter(const QByteArray &eventType, void *message, long *result);
+};
+
+bool NativeFilter::nativeEventFilter(const QByteArray &a_eventType, void *a_message, long *a_result)
+{
+/* On Windows we interceot the click in the title bar. */
+/* If we wait for the minimize event, it is already too late. */
+#ifdef Q_OS_WIN
+    auto msg = static_cast<MSG *>(message);
+    // Filter out the event when the minimize button is pressed.
+    if (msg->message == WM_NCLBUTTONDOWN && msg->wParam == HTREDUCE)
+        return true;
+#endif
+
+/* Example macOS code from Qt doc, adapt to your need */
+#ifdef Q_OS_MACOS
+    if (eventType == "mac_generic_NSEvent") {
+        NSEvent *event = static_cast<NSEvent *>(message);
+        if ([event type] == NSKeyDown) {
+            // Handle key event
+            qDebug() << QString::fromNSString([event characters]);
+        }
+}
+#endif
+
+    qTRACE_SCOPE_FUNC;
+
+    qTEST(a_eventType.size() > 0);
+    qTEST_PTR(a_message);
+    qTEST_PTR(a_result);
+
+    Q_UNUSED(a_result);
+
+    xcb_key_press_event_t *kev {};
+
+    // qDebug() << qTRACE_VAR(a_eventType);
+
+    if (a_eventType == "xcb_generic_event_t") {
+        auto *event = static_cast<xcb_generic_event_t *>(a_message);
+        // qDebug() << qTRACE_VAR(event->response_type);
+        if ((event->response_type & 127) == XCB_KEY_PRESS) {
+            kev = static_cast<xcb_key_press_event_t *>(a_message);
+        }
+    }
+
+    if (kev != Q_NULLPTR) {
+        unsigned int keycode  {kev->detail};
+        unsigned int keystate {0};
+
+        if (kev->state & XCB_MOD_MASK_1) {
+            keystate |= Mod1Mask;
+        }
+        if (kev->state & XCB_MOD_MASK_CONTROL) {
+            keystate |= ControlMask;
+        }
+        if (kev->state & XCB_MOD_MASK_4) {
+            keystate |= Mod4Mask;
+        }
+        if (kev->state & XCB_MOD_MASK_SHIFT) {
+            keystate |= ShiftMask;
+        }
+
+        qDebug() << ">>> activateShortcut <<<";
+    }
+
+    return false;
+
+    return false;
+}
 //-------------------------------------------------------------------------------------------------
 class UserApplication :
     public xl::package::Application
@@ -24,7 +99,7 @@ public:
     {
         // Failer().bug();
 
-        return ExitCode::Success;
+        return static_cast<ExitCode>(0);
     }
 
 private:
@@ -77,6 +152,9 @@ int main(int argc, char *argv[])
 
         return EXIT_SUCCESS;
     }
+
+
+    application.installNativeEventFilter(new NativeFilter());
 
     qtlib::Application::setQuitOnLastWindowClosed(false);
 
