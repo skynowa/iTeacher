@@ -1608,9 +1608,9 @@ Main::_settingsLoad()
 
         // shortcuts
         {
-            /// _scShowHide.setShortcut( QKeySequence(shortcutShowHide) );
+            /// _scShowHide.set( QKeySequence(shortcutShowHide) );
             _scQuickClipboardTranslate.set( QKeySequence(shortcutQuickClipboardTranslate) );
-            /// _scImportClipboard.setShortcut( QKeySequence(shortcutClipboardImport) );
+            /// _scImportClipboard.set( QKeySequence(shortcutClipboardImport) );
         }
 
         ui.cboDictPath->setFocus();
@@ -1651,9 +1651,9 @@ Main::_settingsSave()
 
     // shortcuts
     settings.beginGroup(CFG_GROUP_SHORTCUTS);
-    /// settings.setValue(CFG_SHOW_HIDE,                 _scShowHide.shortcut().toString());
+    /// settings.setValue(CFG_SHOW_HIDE,                 _scShowHide.get().toString());
     settings.setValue(CFG_QUICK_CLIPBOARD_TRANSLATE, _scQuickClipboardTranslate.get().toString());
-    /// settings.setValue(CFG_CLIPBOARD_IMPORT,          _scImportClipboard.shortcut().toString());
+    /// settings.setValue(CFG_CLIPBOARD_IMPORT,          _scImportClipboard.get().toString());
     settings.endGroup();
 }
 //-------------------------------------------------------------------------------------------------
