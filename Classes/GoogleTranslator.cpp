@@ -325,20 +325,6 @@ GoogleTranslator::_replyParse(
     QString response;
     bool    isDictionaryText = false;
     {
-    #if 0
-        cQVariant httpStatusCode = a_reply->attribute(QNetworkRequest::HttpStatusCodeAttribute);
-        if ( !httpStatusCode.isValid() ) {
-            qDebug() << qTRACE_VAR(httpStatusCode);
-            return;
-        }
-
-        int status = httpStatusCode.toInt();
-        if (status != 200) {
-            cQString reason = a_reply->attribute(QNetworkRequest::HttpReasonPhraseAttribute).toString();
-            qDebug() << qTRACE_VAR(reason);
-        }
-    #endif
-
         if (a_reply->error() != QNetworkReply::NoError) {
             *a_textToBrief  = a_reply->errorString();
             *a_textToDetail = a_reply->errorString();
