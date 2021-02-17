@@ -93,9 +93,9 @@ add_executable(${PROJECT_NAME}
     QtLib/SignalGuard.cpp
 
     QtLib/GlobalShortcut/GlobalShortcut.cpp
-    QtLib/GlobalShortcut/ShortcutActivator.cpp
     QtLib/GlobalShortcut/x11/QxtX11ErrorHandler.cpp
     QtLib/GlobalShortcut/x11/QxtX11Data.cpp
+    QtLib/GlobalShortcut/x11/ShortcutActivator.cpp
 
     QtLib/Utils.cpp
     Classes/CenteredCheckBox.cpp
