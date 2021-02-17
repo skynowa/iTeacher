@@ -27,8 +27,6 @@
 #include <xLib/Fs/Path.h>
 #include <xLib/Fs/Finder.h>
 
-#include "../QtLib/GlobalShortcut/ShortcutActivator.h"
-
 
 /**************************************************************************************************
 *   public
@@ -147,18 +145,6 @@ Main::_construct()
     _initModel();
     _initActions();
     _settingsLoad();
-
-    // ShortcutActivator
-    {
-        ShortcutActivator *workerThread = new ShortcutActivator();
-
-        connect(workerThread, &ShortcutActivator::sig_activated,
-                this,         &Main::quickTranslateClipboard);
-        connect(workerThread, &ShortcutActivator::finished,
-                workerThread, &QObject::deleteLater);
-
-        workerThread->start();
-    }
 }
 //-------------------------------------------------------------------------------------------------
 void
@@ -425,8 +411,8 @@ Main::_initActions()
         /// connect(&_scShowHide,               &qtlib::GlobalShortcut::sig_activated,
         ///         this,                       &Main::showHide);
 
-        /// connect(&_scQuickClipboardTranslate, &qtlib::GlobalShortcut::sig_activated,
-        ///        this,                        &Main::quickTranslateClipboard);
+        connect(&_scQuickClipboardTranslate, &qtlib::GlobalShortcut::sig_activated,
+                this,                        &Main::quickTranslateClipboard);
 
         /// connect(&_scImportClipboard,        &qtlib::GlobalShortcut::sig_activated,
         ///         this,                       &Main::importClipboard);
