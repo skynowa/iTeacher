@@ -347,7 +347,7 @@ GoogleTranslator::_replyParse(
     bool    isDictionaryText = false;
     {
         cQVariant httpStatusCode = a_reply->attribute(QNetworkRequest::HttpStatusCodeAttribute);
-        if ( httpStatusCode.isValid() ) {
+        if ( !httpStatusCode.isValid() ) {
             qDebug() << qTRACE_VAR(httpStatusCode);
             return;
         }
