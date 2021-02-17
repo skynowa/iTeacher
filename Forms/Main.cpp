@@ -595,11 +595,6 @@ Main::importCsv()
 void
 Main::importClipboard()
 {
-    {
-        qTRACE_FUNC;
-        return;
-    }
-
     qCHECK_DO(_tagsIsEmpty(), return);
 
     bool bRv = false;
