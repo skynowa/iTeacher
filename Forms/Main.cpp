@@ -453,11 +453,6 @@ Main::createDb()
 void
 Main::quickTranslateClipboard()
 {
-    {
-        qTRACE_FUNC;
-        return;
-    }
-
     bool bRv = false;
 
     // TODO_VER: Main::quickTranslateClipboard - quick message
