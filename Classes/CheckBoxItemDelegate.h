@@ -13,21 +13,21 @@ class CheckBoxItemDelegate :
     public QStyledItemDelegate
 {
 public:
-    explicit         CheckBoxItemDelegate(QObject * parent = nullptr);
-    virtual         ~CheckBoxItemDelegate();
+    explicit  CheckBoxItemDelegate(QObject * parent = nullptr);
+    virtual  ~CheckBoxItemDelegate();
 
-    virtual QWidget *createEditor(QWidget *parent, const QStyleOptionViewItem &option,
-                        cQModelIndex &index) const Q_DECL_OVERRIDE;
-    virtual void     setEditorData(QWidget *editor, const QModelIndex &index) const Q_DECL_OVERRIDE;
-    virtual void     setModelData(QWidget *editor, QAbstractItemModel *model,
-                        cQModelIndex &index) const Q_DECL_OVERRIDE;
-    virtual void     updateEditorGeometry(QWidget *editor, const QStyleOptionViewItem &option,
-                        cQModelIndex &index) const Q_DECL_OVERRIDE;
-    virtual void     paint(QPainter *painter, const QStyleOptionViewItem &option,
-                        cQModelIndex &index) const Q_DECL_OVERRIDE;
+    QWidget *createEditor(QWidget *parent, const QStyleOptionViewItem &option, cQModelIndex &index)
+                const override;
+    void     setEditorData(QWidget *editor, const QModelIndex &index) const override;
+    void     setModelData(QWidget *editor, QAbstractItemModel *model, cQModelIndex &index)
+                const override;
+    void     updateEditorGeometry(QWidget *editor, const QStyleOptionViewItem &option,
+                cQModelIndex &index) const override;
+    void     paint(QPainter *painter, const QStyleOptionViewItem &option, cQModelIndex &index)
+                const override;
 
 private Q_SLOTS:
-    void             toggled();
+    void toggled();
 
 private:
     Q_OBJECT

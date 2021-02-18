@@ -21,7 +21,7 @@ public:
                  Settings(QWidget *parent, Main *wndMain);
 
 protected:
-    virtual void closeEvent(QCloseEvent *event) Q_DECL_OVERRIDE;
+    void         closeEvent(QCloseEvent *event) override;
 
 private:
     Ui::UiSettings ui;

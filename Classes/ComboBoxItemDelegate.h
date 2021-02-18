@@ -14,22 +14,21 @@ class ComboBoxItemDelegate :
     public QStyledItemDelegate
 {
 public:
-    explicit         ComboBoxItemDelegate(QObject * parent, QSqlTableModel *sqlModel);
-    virtual         ~ComboBoxItemDelegate();
+    explicit  ComboBoxItemDelegate(QObject * parent, QSqlTableModel *sqlModel);
+    virtual  ~ComboBoxItemDelegate();
 
-    virtual QWidget *createEditor(QWidget *parent, const QStyleOptionViewItem &option,
-                        cQModelIndex &index) const Q_DECL_OVERRIDE;
-    virtual void     setEditorData(QWidget *editor, cQModelIndex &index) const Q_DECL_OVERRIDE;
-    virtual void     setModelData(QWidget *editor, QAbstractItemModel *model,
-                        cQModelIndex &index) const Q_DECL_OVERRIDE;
-    virtual void     updateEditorGeometry(QWidget *editor,
-                        const QStyleOptionViewItem &option, cQModelIndex &index) const
-                        Q_DECL_OVERRIDE;
-    virtual void     paint(QPainter *painter, const QStyleOptionViewItem &option,
-                        cQModelIndex &index) const Q_DECL_OVERRIDE;
+    QWidget *createEditor(QWidget *parent, const QStyleOptionViewItem &option, cQModelIndex &index)
+                const override;
+    void     setEditorData(QWidget *editor, cQModelIndex &index) const override;
+    void     setModelData(QWidget *editor, QAbstractItemModel *model, cQModelIndex &index)
+                const override;
+    void     updateEditorGeometry(QWidget *editor, const QStyleOptionViewItem &option,
+                cQModelIndex &index) const override;
+    void     paint(QPainter *painter, const QStyleOptionViewItem &option, cQModelIndex &index)
+                const override;
 
 private:
-    QSqlTableModel  *_sqlModel;
+    QSqlTableModel *_sqlModel {};
 
     Q_OBJECT
     Q_DISABLE_COPY(ComboBoxItemDelegate)
