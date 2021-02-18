@@ -24,8 +24,8 @@ class Main :
     public QMainWindow
 {
 public:
-                    Main(QWidget *parent = nullptr, Qt::WindowFlags flags = Qt::Widget);
-    virtual        ~Main();
+             Main(QWidget *parent = nullptr, Qt::WindowFlags flags = Qt::Widget);
+    virtual ~Main();
 
 public Q_SLOTS:
     void receiveFromOtherApplication(cQStringList &message);
@@ -52,8 +52,6 @@ private:
     qtlib::GlobalShortcut _scImportClipboard;
     bool            _isHideOnCLose;
 
-    void            _construct();
-    void            _destruct();
     void            _initMain();
     void            _initModel();
     void            _initActions();
