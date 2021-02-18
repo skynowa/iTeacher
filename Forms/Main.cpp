@@ -39,16 +39,12 @@ Main::Main(
     Qt::WindowFlags  a_flags
 ) :
     QMainWindow               (a_parent, a_flags),
-    _dlgWordEditorOpened      (nullptr),
     _trayIcon                 (this),
     _scShowHide               (this),
     _scQuickClipboardTranslate(this),
     _scImportClipboard        (this),
     _isHideOnCLose            (false),
-    _db                       (nullptr),
-    _model                    (nullptr),
-    _sqlNavigator             (this),
-    _importExportOrder        (ieoUnknown)
+    _sqlNavigator             (this)
 {
     _construct();
 }
