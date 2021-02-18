@@ -407,14 +407,16 @@ Main::_initActions()
 
     // global shortcut
     {
+    #if 0
         connect(&_scShowHide,                &qtlib::GlobalShortcut::sig_activated,
                 this,                        &Main::showHide);
-
+    #endif
         connect(&_scQuickClipboardTranslate, &qtlib::GlobalShortcut::sig_activated,
                 this,                        &Main::quickTranslateClipboard);
-
+    #if 0
         connect(&_scImportClipboard,         &qtlib::GlobalShortcut::sig_activated,
                 this,                        &Main::importClipboard);
+    #endif
     }
 }
 //-------------------------------------------------------------------------------------------------
@@ -497,6 +499,8 @@ Main::quickTranslateClipboard()
             std::tstring_t langFrom;
             std::tstring_t langTo;
             translate.langsDetect(term.toStdString(), &langFrom, &langTo);
+            qDebug() << qTRACE_VAR(langFrom.data());
+            qDebug() << qTRACE_VAR(langTo.data());
 
             std::tstring_t textToBrief;
             std::tstring_t textToDetail;
