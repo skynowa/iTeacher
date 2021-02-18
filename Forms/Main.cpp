@@ -408,14 +408,14 @@ Main::_initActions()
 
     // global shortcut
     {
-        connect(&_scShowHide,               &qtlib::GlobalShortcut::sig_activated,
-                this,                       &Main::showHide);
+        connect(&_scShowHide,                &qtlib::GlobalShortcut::sig_activated,
+                this,                        &Main::showHide);
 
-        connect(&_scQuickClipboardTranslate,&qtlib::GlobalShortcut::sig_activated,
-                this,                       &Main::quickTranslateClipboard);
+        connect(&_scQuickClipboardTranslate, &qtlib::GlobalShortcut::sig_activated,
+                this,                        &Main::quickTranslateClipboard);
 
-        connect(&_scImportClipboard,        &qtlib::GlobalShortcut::sig_activated,
-                this,                       &Main::importClipboard);
+        connect(&_scImportClipboard,         &qtlib::GlobalShortcut::sig_activated,
+                this,                        &Main::importClipboard);
     }
 }
 //-------------------------------------------------------------------------------------------------
@@ -489,16 +489,55 @@ Main::quickTranslateClipboard()
         QString valueDetail;
         QString valueRaw;
 
-        // auto detect languages
-        GoogleTranslator::Language langFrom;
-        GoogleTranslator::Language langTo;
-        QString                    langCodeFrom;
-        QString                    langCodeTo;
+        QString langCodeFrom;
+        QString langCodeTo;
 
-        GoogleTranslator translator;
-        translator.languagesDetect(term, &langFrom, &langTo, &langCodeFrom, &langCodeTo);
-        translator.execute(GoogleTranslator::hrPost, term, langCodeFrom, langCodeTo, &valueBrief,
-            &valueDetail, &valueRaw);
+        if (0) {
+            // auto detect languages
+            GoogleTranslator::Language langFrom;
+            GoogleTranslator::Language langTo;
+            QString                    langCodeFrom;
+            QString                    langCodeTo;
+
+            GoogleTranslator translator;
+            translator.languagesDetect(term, &langFrom, &langTo, &langCodeFrom, &langCodeTo);
+            translator.execute(GoogleTranslator::hrPost, term, langCodeFrom, langCodeTo, &valueBrief,
+                &valueDetail, &valueRaw);
+        } else {
+            using namespace xl;
+            using namespace xl::package;
+
+            Translate translate;
+
+            std::tstring_t langFrom;
+            std::tstring_t langTo;
+            translate.langsDetect(term.toStdString(), &langFrom, &langTo);
+
+            std::tstring_t textToBrief;
+            std::tstring_t textToDetail;
+            std::tstring_t textToRaw;
+            translate.execute(term.toStdString(), langFrom, langTo, &textToBrief, &textToDetail,
+                &textToRaw);
+            xTEST(!textToBrief.empty());
+            xTEST(!textToDetail.empty());
+            xTEST(!textToRaw.empty());
+
+            // [out]
+            valueBrief   = QString::fromStdString(textToBrief);
+            valueDetail  = QString::fromStdString(textToDetail);
+            valueRaw     = QString::fromStdString(textToRaw);
+
+            langCodeFrom = QString::fromStdString(langFrom);
+            langCodeTo   = QString::fromStdString(langTo);
+        }
+
+    #if 0
+        qDebug() << qTRACE_VAR(valueBrief);
+        qDebug() << qTRACE_VAR(valueDetail);
+        qDebug() << qTRACE_VAR(valueRaw);
+        qDebug() << qTRACE_VAR(langCodeFrom);
+        qDebug() << qTRACE_VAR(langCodeTo);
+    #endif
 
         if ( isSystemTrayIconMessages ) {
             // QSystemTrayIcon doesn't support HTML

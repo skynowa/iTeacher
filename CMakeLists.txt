@@ -40,7 +40,10 @@ string(REGEX MATCH "^5\\.[3]\\.[0-1]+" QT_VERSION_MATCH "${Qt5Core_VERSION_STRIN
                     "Officially supported version is Qt ${QT_OFFICIAL_VERSION}")
 endif()
 #--------------------------------------------------------------------------------------------------
-#
+# find packages
+list(APPEND CMAKE_MODULE_PATH "${CMAKE_ROOT}/Modules/CMakeLib")
+message("CMAKE_MODULE_PATH: ${CMAKE_MODULE_PATH}")
+
 find_package(xLib REQUIRED)
 
 set(_QT5_MODULES Core Gui Widgets Sql Network Xml PrintSupport Concurrent)
@@ -55,7 +58,6 @@ endforeach()
 
 include_directories(
     ${XLIB_INCLUDES}
-    /usr/include/libxml2
     ${Qt5Gui_PRIVATE_INCLUDE_DIRS}
     ${CMAKE_SOURCE_DIR}/QtLib
     ${CMAKE_SOURCE_DIR}/QtLib/Ui
@@ -95,6 +97,7 @@ add_executable(${PROJECT_NAME}
     QtLib/GlobalShortcut/GlobalShortcut.cpp
     QtLib/GlobalShortcut/x11/QxtX11ErrorHandler.cpp
     QtLib/GlobalShortcut/x11/QxtX11Data.cpp
+    QtLib/GlobalShortcut/x11/ShortcutActivator.cpp
 
     QtLib/Utils.cpp
     Classes/CenteredCheckBox.cpp
@@ -113,7 +116,7 @@ add_executable(${PROJECT_NAME}
 )
 
 # TODO: ${XLIB_LIBRARIES}
-target_link_libraries(${PROJECT_NAME} xLib_static xcb X11 pthread rt m z dl ssh2)
+target_link_libraries(${PROJECT_NAME} ${cmXLIB_LIBRARIES} -lX11)
 #--------------------------------------------------------------------------------------------------
 # install
 # if (CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT)

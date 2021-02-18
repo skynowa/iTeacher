@@ -7,6 +7,9 @@
 #include "GoogleTranslator.h"
 
 #include <QDomDocument>
+#include <QJsonDocument>
+#include <QJsonObject>
+#include <QJsonArray>
 
 #if OPTION_QMEDIA_PLAYER
     #include <QMediaPlayer>
@@ -166,24 +169,26 @@ GoogleTranslator::execute(
     qTEST(a_textToDetail != Q_NULLPTR);
     qTEST_NA(a_textToRaw);
 
-    cQString              host  = QString("https://translate.google.com");
     QNetworkAccessManager manager;
     QNetworkRequest       request;
     QNetworkReply        *reply = Q_NULLPTR;
 
     switch (a_httpRequestType) {
-    case hrGet: {
+    case hrGet:
+        if (1) {
            /**
             * HTTP GET request:
             *
             * https://translate.google.com/m?text=cat&sl=en&tl=ru
             */
 
-            cQUrl url  = QString("%1/m?text=%2&sl=%3&tl=%4")
-                                .arg(host)
-                                .arg(a_textFrom)
-                                .arg(a_langFrom)
-                                .arg(a_langTo);
+            cQString host = QString("https://translate.google.com");
+
+            cQUrl url = QString("%1/m?text=%2&sl=%3&tl=%4")
+                            .arg(host)
+                            .arg(a_textFrom)
+                            .arg(a_langFrom)
+                            .arg(a_langTo);
             url.toEncoded();
 
             request.setUrl(url);
@@ -192,7 +197,8 @@ GoogleTranslator::execute(
             qTEST_PTR(reply);
         }
         break;
-    case hrPost: {
+    case hrPost:
+        if (1) {
            /**
             * HTTP POST request:
             *
@@ -208,6 +214,8 @@ GoogleTranslator::execute(
             * </form>
             */
 
+            cQString host = QString("https://translate.google.com");
+
             cQUrl url = QString("%1/m").arg(host);
             url.toEncoded();
 
@@ -219,13 +227,30 @@ GoogleTranslator::execute(
 
             request.setUrl(url);
             request.setHeader(QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded");
+            qDebug() << qTRACE_VAR(query.toString() );
+
+            reply = manager.post(request, query.toString(QUrl::FullyEncoded).toUtf8());
+            qTEST_PTR(reply);
+        }
+        else if (0) {
+            cQUrl url("https://google-translate1.p.rapidapi.com/language/translate/v2");
+
+            request.setUrl(url);
+            request.setRawHeader("content-type",    "application/x-www-form-urlencoded");
+            request.setRawHeader("x-rapidapi-key",  "54d6484885mshb43d91577483733p109493jsn80a5db5a2630");
+            request.setRawHeader("x-rapidapi-host", "google-translate1.p.rapidapi.com");
+
+            QUrlQuery query;
+            query.addQueryItem("source", a_langFrom);
+            query.addQueryItem("target", a_langTo);
+            query.addQueryItem("q",      a_textFrom);
+            qDebug() << qTRACE_VAR(query.toString());
 
             reply = manager.post(request, query.toString(QUrl::FullyEncoded).toUtf8());
             qTEST_PTR(reply);
         }
         break;
     case hrUnknown:
-    default:
         qTEST(false);
         break;
     }
@@ -344,53 +369,97 @@ GoogleTranslator::_replyParse(
 
         response = QString::fromUtf8(a_reply->readAll());
         qTEST(!response.isEmpty());
+        qDebug() << qTRACE_VAR(response);
 
         textToRaw        = response;
         isDictionaryText = response.contains("Dictionary:");
-
-        // qDebug() << qTRACE_VAR(response);
     }
 
-    // proccess response
-
-    {
-        response.replace("Dictionary:", "\n");
-        response.replace("<br>", "\n");
-    }
-
-    // parse response
-    {
-        QDomDocument document;
-        document.setContent(response);
-
-        QDomNodeList docList = document.elementsByTagName("div");
-        qTEST(docList.count() >= 3);
-
-        // out - textToBrief
-        textToBrief = docList.at(2).toElement().text();
-        qTEST(!textToBrief.isEmpty());
-
-        // out - textToDetail
-        if (isDictionaryText) {
-            textToDetail = docList.at(5).toElement().text();
-            qTEST(!textToDetail.isEmpty());
-        } else {
-            textToDetail = QObject::tr("n/a");
-        }
-    }
-
-    // out
-    {
-        a_textToBrief->swap(textToBrief);
-        a_textToDetail->swap(textToDetail);
-
-        if (a_textToRaw != Q_NULLPTR) {
-            a_textToRaw->swap(textToRaw);
+    // proccess response - https://translate.google.com/m
+    if (1) {
+        {
+            response.replace("Dictionary:", "\n");
+            response.replace("<br>", "\n");
         }
 
-        // qDebug() << qTRACE_VAR(*a_textToBrief);
-        // qDebug() << qTRACE_VAR(*a_textToDetail);
-        // qDebug() << qTRACE_VAR(*a_textToRaw);
+        // parse response
+        {
+            QDomDocument document;
+            document.setContent(response);
+
+            QDomNodeList docList = document.elementsByTagName("div");
+            qTEST(docList.count() >= 3);
+
+            // out - textToBrief
+            textToBrief = docList.at(2).toElement().text();
+            qTEST(!textToBrief.isEmpty());
+
+            // out - textToDetail
+            if (isDictionaryText) {
+                textToDetail = docList.at(5).toElement().text();
+                qTEST(!textToDetail.isEmpty());
+            } else {
+                textToDetail = QObject::tr("n/a");
+            }
+        }
+
+        // out
+        {
+            a_textToBrief->swap(textToBrief);
+            a_textToDetail->swap(textToDetail);
+
+            if (a_textToRaw != Q_NULLPTR) {
+                a_textToRaw->swap(textToRaw);
+            }
+
+            // qDebug() << qTRACE_VAR(*a_textToBrief);
+            // qDebug() << qTRACE_VAR(*a_textToDetail);
+            // qDebug() << qTRACE_VAR(*a_textToRaw);
+        }
+    }
+    // proccess response - rapidapi.com
+    else if (0) {
+       /**
+        QString response =
+            R"x(
+                {
+                    "data": {
+                        "translations": [
+                            {
+                                "translatedText": "Привет, мир!"
+                            }
+                        ]
+                    }
+                }
+            )x";
+        */
+
+        QJsonDocument document = QJsonDocument::fromJson( response.toUtf8() );
+        qDebug () << "document.isEmpty(): " << document.isEmpty() <<  endl;
+
+        qTEST(!document.isNull());
+        qTEST(!document.isObject());
+
+        QJsonObject obj = document.object();
+        qDebug () << "json obj : " <<obj <<  endl;
+
+        if ( obj.isEmpty() ) {
+            qDebug () << "Json object is  empty :" << endl;
+        }
+
+        QJsonValue data = obj["data"];
+        qDebug () << "data : " << data <<  endl;
+
+        QJsonArray translations = data["translations"].toArray();
+        qDebug () << "translations : " << translations <<  endl;
+
+        for (const auto & value : translations) {
+            QJsonObject obj = value.toObject();
+
+            QString text = obj["translatedText"].toString();
+
+            qDebug () << "text :" << text << endl;
+        }
     }
 }
 //-------------------------------------------------------------------------------------------------
