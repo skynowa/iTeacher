@@ -71,7 +71,7 @@ WordEditor::retranslate(
     WordEditor *a_dlgWordEditor
 )
 {
-    qCHECK_DO(a_dlgWordEditor == Q_NULLPTR, return);
+    qCHECK_DO(a_dlgWordEditor == nullptr, return);
 
     cQString data = QApplication::clipboard()->text();
 

@@ -24,7 +24,7 @@ class Main :
     public QMainWindow
 {
 public:
-                    Main(QWidget *parent = Q_NULLPTR, Qt::WindowFlags flags = Qt::Widget);
+                    Main(QWidget *parent = nullptr, Qt::WindowFlags flags = Qt::Widget);
     virtual        ~Main();
 
 public Q_SLOTS:

@@ -14,7 +14,7 @@
 
 //-------------------------------------------------------------------------------------------------
 ComboBoxItemDelegate::ComboBoxItemDelegate(
-    QObject        *a_parent /* = Q_NULLPTR */,
+    QObject        *a_parent /* = nullptr */,
     QSqlTableModel *a_sqlModel
 ) :
     QStyledItemDelegate(a_parent),
@@ -66,7 +66,7 @@ ComboBoxItemDelegate::setEditorData(
 ) const
 {
     QComboBox *comboBox = static_cast<QComboBox *>(a_editor);
-    if (comboBox != Q_NULLPTR) {
+    if (comboBox != nullptr) {
         cQString currentText = a_index.data(Qt::EditRole).toString();
 
         cint currentIndex = comboBox->findText(currentText);
@@ -86,7 +86,7 @@ ComboBoxItemDelegate::setModelData(
 ) const
 {
     QComboBox *comboBox = static_cast<QComboBox *>( a_editor );
-    if (comboBox != Q_NULLPTR) {
+    if (comboBox != nullptr) {
         a_model->setData(a_index, comboBox->currentText(), Qt::EditRole);
     } else {
         QStyledItemDelegate::setModelData(a_editor, a_model, a_index);

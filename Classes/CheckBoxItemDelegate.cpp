@@ -23,7 +23,7 @@ const bool defaultValue = false;
 }
 //-------------------------------------------------------------------------------------------------
 CheckBoxItemDelegate::CheckBoxItemDelegate(
-    QObject *a_parent /* = Q_NULLPTR */
+    QObject *a_parent /* = nullptr */
 ) :
     QStyledItemDelegate(a_parent)
 {

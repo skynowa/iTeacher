@@ -39,14 +39,14 @@ Main::Main(
     Qt::WindowFlags  a_flags
 ) :
     QMainWindow               (a_parent, a_flags),
-    _dlgWordEditorOpened      (Q_NULLPTR),
+    _dlgWordEditorOpened      (nullptr),
     _trayIcon                 (this),
     _scShowHide               (this),
     _scQuickClipboardTranslate(this),
     _scImportClipboard        (this),
     _isHideOnCLose            (false),
-    _db                       (Q_NULLPTR),
-    _model                    (Q_NULLPTR),
+    _db                       (nullptr),
+    _model                    (nullptr),
     _sqlNavigator             (this),
     _importExportOrder        (ieoUnknown)
 {
@@ -658,7 +658,7 @@ Main::importClipboard()
         auto cleanup = xl::core::ScopeExit(
             [&]
             {
-                _dlgWordEditorOpened = Q_NULLPTR;
+                _dlgWordEditorOpened = nullptr;
             });
 
         bRv = dlgWordEditor.isConstructed();
@@ -1404,7 +1404,7 @@ Main::_dbOpen(
             qTEST( dir.exists() );
         }
 
-        qTEST(_db == Q_NULLPTR);
+        qTEST(_db == nullptr);
 
         bool bRv = QSqlDatabase::isDriverAvailable("QSQLITE");
         qCHECK_DO(!bRv, qMSG(QSqlDatabase().lastError().text()); return);
@@ -1468,7 +1468,7 @@ Main::_dbOpen(
 
     // _model
     {
-        qTEST(_model == Q_NULLPTR);
+        qTEST(_model == nullptr);
 
         _model = new qtlib::SqlRelationalTableModelEx(this, *_db);
         _model->setTable(DB_T_MAIN);
@@ -1498,7 +1498,7 @@ void
 Main::_dbClose()
 {
     // _model
-    if (_model != Q_NULLPTR) {
+    if (_model != nullptr) {
         bool bRv = _model->submitAll();
         qCHECK_PTR(bRv, _model);
 
@@ -1506,7 +1506,7 @@ Main::_dbClose()
     }
 
     // _db
-    if (_db != Q_NULLPTR) {
+    if (_db != nullptr) {
         qTEST(_db->isOpen());
 
         cQString connectionName = _db->connectionName();
