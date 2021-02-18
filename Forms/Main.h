@@ -44,7 +44,7 @@ private:
     };
 
     Ui::UiMain      ui;
-    WordEditor *    _dlgWordEditorOpened;
+    WordEditor *    _dlgWordEditorOpened {};
     QSystemTrayIcon _trayIcon;
 
     qtlib::GlobalShortcut _scShowHide;
@@ -60,16 +60,16 @@ private:
     void            _cboDictPath_reload();
 
     // DB
-    QSqlDatabase   *_db;
-    qtlib::SqlRelationalTableModelEx *_model;
-    qtlib::SqlNavigator _sqlNavigator;
+    QSqlDatabase                     *_db {};
+    qtlib::SqlRelationalTableModelEx *_model {};
+    qtlib::SqlNavigator               _sqlNavigator;
 
     void            _dbOpen(cQString &filePath);
     void            _dbClose();
     void            _dbReopen(cQString &filePath);
 
     // settings
-    ImportExportOrder _importExportOrder;
+    ImportExportOrder _importExportOrder {ieoUnknown};
     void            _settingsLoad();
     void            _settingsSave();
 
