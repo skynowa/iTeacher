@@ -10,9 +10,11 @@
 #include "../QtLib/SignalGuard.h"
 #include "../QtLib/Application.h"
 #include "../Classes/Utils.h"
+#include "../Classes/GoogleTranslator.h"
 
 #include "TagsEditor.h"
 #include <xLib/Package/Application.h>
+#include <xLib/Package/Translate.h>
 
 
 /**************************************************************************************************
@@ -35,7 +37,6 @@ WordEditor::WordEditor(
     _currentRow   (a_sqlNavigator->view()->currentIndex().row()),
     _insertMode   (a_insertMode),
     _termNew      (a_termNew.trimmed()),
-    _translator   (),
     _plInfoDefault()
 {
     qTEST_PTR(a_parent);
@@ -362,9 +363,23 @@ WordEditor::_languagesAutoDetect()
     QString                    langCodeFrom;
     QString                    langCodeTo;
 
-    GoogleTranslator translator;
-    translator.languagesDetect(ui.tedtTerm->toPlainText(), &langFrom, &langTo, &langCodeFrom,
-        &langCodeTo);
+    if (0) {
+        GoogleTranslator translator;
+        translator.languagesDetect(ui.tedtTerm->toPlainText(), &langFrom, &langTo, &langCodeFrom,
+            &langCodeTo);
+    } else {
+        using namespace xl;
+        using namespace xl::package;
+
+        std::tstring_t _langCodeFrom;
+        std::tstring_t _langCodeTo;
+
+        Translate translator;
+        translator.langsDetect(ui.tedtTerm->toPlainText().toStdString(), &_langCodeFrom, &_langCodeTo);
+
+        langCodeFrom = QString::fromStdString(_langCodeFrom);
+        langCodeTo   = QString::fromStdString(_langCodeTo);
+    }
 
     // TODO_VER: QComboBox::findText: case-insensitive
     cint indexFrom = ui.cboLangFrom->findText(langCodeFrom);
@@ -481,8 +496,26 @@ WordEditor::translate()
         textFrom = textFrom.toLower();
     }
 
-    _translator.execute(GoogleTranslator::hrPost, textFrom, langFrom, langTo, &textToBrief,
-        &textToDetail, &textToRaw);
+    if (0) {
+        GoogleTranslator translator;
+        translator.execute(GoogleTranslator::hrPost, textFrom, langFrom, langTo, &textToBrief,
+            &textToDetail, &textToRaw);
+    } else {
+        using namespace xl;
+        using namespace xl::package;
+
+        Translate translate;
+
+        std::tstring_t _textToBrief;
+        std::tstring_t _textToDetail;
+        std::tstring_t _textToRaw;
+        translate.execute(textFrom.toStdString(), langFrom.toStdString(), langTo.toStdString(),
+            &_textToBrief, &_textToDetail, &_textToRaw);
+
+        textToBrief  = QString::fromStdString(_textToBrief);
+        textToDetail = QString::fromStdString(_textToDetail);
+        textToRaw    = QString::fromStdString(_textToRaw);
+    }
 
     ui.tedtTerm->setText(textFrom);
     ui.tedtValueBrief->setText(textToBrief);

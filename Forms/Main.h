@@ -48,9 +48,9 @@ private:
     WordEditor *    _dlgWordEditorOpened;
     QSystemTrayIcon _trayIcon;
 
-    /// qtlib::GlobalShortcut _scShowHide;
+    qtlib::GlobalShortcut _scShowHide;
     qtlib::GlobalShortcut _scQuickClipboardTranslate;
-    /// qtlib::GlobalShortcut _scImportClipboard;
+    qtlib::GlobalShortcut _scImportClipboard;
     bool            _isHideOnCLose;
 
     void            _construct();

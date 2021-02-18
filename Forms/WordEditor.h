@@ -10,7 +10,6 @@
 
 #include "../Config.h"
 #include "../QtLib/Common.h"
-#include "../Classes/GoogleTranslator.h"
 
 #include "Main.h"
 //-------------------------------------------------------------------------------------------------
@@ -38,7 +37,6 @@ private:
     cint             _currentRow;
     cbool            _insertMode;
     QString          _termNew;
-    GoogleTranslator _translator;
 
     QPalette         _plInfoDefault;
 
