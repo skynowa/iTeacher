@@ -25,7 +25,7 @@ protected:
 
 private:
     Ui::UiSettings ui;
-    Main        *_wndMain;
+    Main        *_wndMain {};
 
     void         _construct();
     void         _destruct();
