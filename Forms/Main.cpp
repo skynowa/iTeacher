@@ -409,8 +409,10 @@ Main::_initActions()
     {
         connect(&_scShowHide,                &qtlib::GlobalShortcut::sig_activated,
                 this,                        &Main::showHide);
+
         connect(&_scQuickClipboardTranslate, &qtlib::GlobalShortcut::sig_activated,
                 this,                        &Main::quickTranslateClipboard);
+
         connect(&_scImportClipboard,         &qtlib::GlobalShortcut::sig_activated,
                 this,                        &Main::importClipboard);
     }
