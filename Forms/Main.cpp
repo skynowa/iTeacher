@@ -407,16 +407,12 @@ Main::_initActions()
 
     // global shortcut
     {
-    #if 0
         connect(&_scShowHide,                &qtlib::GlobalShortcut::sig_activated,
                 this,                        &Main::showHide);
-    #endif
         connect(&_scQuickClipboardTranslate, &qtlib::GlobalShortcut::sig_activated,
                 this,                        &Main::quickTranslateClipboard);
-    #if 0
         connect(&_scImportClipboard,         &qtlib::GlobalShortcut::sig_activated,
                 this,                        &Main::importClipboard);
-    #endif
     }
 }
 //-------------------------------------------------------------------------------------------------
