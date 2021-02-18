@@ -10,7 +10,6 @@
 #include "../QtLib/SignalGuard.h"
 #include "../QtLib/Application.h"
 #include "../Classes/Utils.h"
-#include "../Classes/GoogleTranslator.h"
 
 #include "TagsEditor.h"
 #include <xLib/Package/Application.h>
@@ -358,23 +357,13 @@ WordEditor::_languagesAutoDetect()
 {
     qCHECK_DO(ui.tedtTerm->toPlainText().isEmpty(), return);
 
-    GoogleTranslator::Language langFrom;
-    GoogleTranslator::Language langTo;
-    QString                    langCodeFrom;
-    QString                    langCodeTo;
-
-    if (0) {
-        GoogleTranslator translator;
-        translator.languagesDetect(ui.tedtTerm->toPlainText(), &langFrom, &langTo, &langCodeFrom,
-            &langCodeTo);
-    } else {
-        using namespace xl;
-        using namespace xl::package;
-
+    QString langCodeFrom;
+    QString langCodeTo;
+    {
         std::tstring_t _langCodeFrom;
         std::tstring_t _langCodeTo;
 
-        Translate translator;
+        xl::package::Translate translator;
         translator.langsDetect(ui.tedtTerm->toPlainText().toStdString(), &_langCodeFrom, &_langCodeTo);
 
         langCodeFrom = QString::fromStdString(_langCodeFrom);
@@ -496,15 +485,8 @@ WordEditor::translate()
         textFrom = textFrom.toLower();
     }
 
-    if (0) {
-        GoogleTranslator translator;
-        translator.execute(GoogleTranslator::hrPost, textFrom, langFrom, langTo, &textToBrief,
-            &textToDetail, &textToRaw);
-    } else {
-        using namespace xl;
-        using namespace xl::package;
-
-        Translate translate;
+    {
+        xl::package:: Translate translate;
 
         std::tstring_t _textToBrief;
         std::tstring_t _textToDetail;
@@ -512,6 +494,7 @@ WordEditor::translate()
         translate.execute(textFrom.toStdString(), langFrom.toStdString(), langTo.toStdString(),
             &_textToBrief, &_textToDetail, &_textToRaw);
 
+        // [out]
         textToBrief  = QString::fromStdString(_textToBrief);
         textToDetail = QString::fromStdString(_textToDetail);
         textToRaw    = QString::fromStdString(_textToRaw);

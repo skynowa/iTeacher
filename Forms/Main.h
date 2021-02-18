@@ -15,7 +15,6 @@
 #include "../QtLib/Db/SqlNavigator.h"
 #include "../QtLib/Db/SqlRelationalTableModelEx.h"
 #include "../QtLib/GlobalShortcut/GlobalShortcut.h"
-#include "../Classes/GoogleTranslator.h"
 
 #include "ui_Main.h"
 //-------------------------------------------------------------------------------------------------
@@ -68,9 +67,6 @@ private:
     void            _dbOpen(cQString &filePath);
     void            _dbClose();
     void            _dbReopen(cQString &filePath);
-
-    // audio
-    GoogleTranslator _translator;
 
     // settings
     ImportExportOrder _importExportOrder;
