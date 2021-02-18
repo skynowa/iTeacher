@@ -9,8 +9,8 @@ cmake_minimum_required(VERSION 2.8)
 
 #--------------------------------------------------------------------------------------------------
 # options
-set(CMAKE_AUTOMOC ON)
-set(CMAKE_INCLUDE_CURRENT_DIR ON)
+set(CMAKE_AUTOMOC               ON)
+set(CMAKE_INCLUDE_CURRENT_DIR   ON)
 
 set(PROJECT_TYPE                "CXX")
 set(CMAKE_CXX_STANDARD          17)
@@ -63,8 +63,7 @@ include_directories(
     ${CMAKE_SOURCE_DIR}/QtLib/Ui
     ${CMAKE_SOURCE_DIR}/QtLib/Db
     ${CMAKE_SOURCE_DIR}/Classes
-    ${CMAKE_SOURCE_DIR}/Forms
-)
+    ${CMAKE_SOURCE_DIR}/Forms)
 
 qt5_wrap_ui(MOC_UI
     QtLib/Ui/About.ui
@@ -72,11 +71,9 @@ qt5_wrap_ui(MOC_UI
     Forms/WordEditor.ui
     Forms/WordFinder.ui
     Forms/TagsEditor.ui
-    Forms/Settings.ui
-)
+    Forms/Settings.ui)
 
-qt5_wrap_cpp(MOC_CPP
-)
+qt5_wrap_cpp(MOC_CPP)
 
 qt5_add_resources(RESOURCES Resources/App.qrc)
 
@@ -111,8 +108,7 @@ add_executable(${PROJECT_NAME}
     Forms/Settings.cpp
     ${MOC_UI}
     ${MOC_CPP}
-    ${RESOURCES}
-)
+    ${RESOURCES})
 
 # TODO: ${XLIB_LIBRARIES}
 target_link_libraries(${PROJECT_NAME} ${cmXLIB_LIBRARIES} -lX11)
@@ -136,8 +132,7 @@ install(
     TARGETS
         ${PROJECT_NAME}
     DESTINATION
-        ${CMAKE_INSTALL_PREFIX}
-)
+        ${CMAKE_INSTALL_PREFIX})
 
 # DLLs
 function(install_files)
@@ -163,8 +158,7 @@ install(
     FILES
         ${CMAKE_SOURCE_DIR}/Readme.md
     DESTINATION
-        ${CMAKE_INSTALL_PREFIX}/Doc
-)
+        ${CMAKE_INSTALL_PREFIX}/Doc)
 
 # Resources
 install(
@@ -172,7 +166,6 @@ install(
         ${CMAKE_SOURCE_DIR}/Resources/App.ico
         ${CMAKE_SOURCE_DIR}/Resources/App.png
     DESTINATION
-        ${CMAKE_INSTALL_PREFIX}/Resources
-)
+        ${CMAKE_INSTALL_PREFIX}/Resources)
 
 include(CMake/Package.cmake)
