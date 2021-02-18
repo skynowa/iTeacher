@@ -48,7 +48,6 @@ Main::Main(
     _db                       (Q_NULLPTR),
     _model                    (Q_NULLPTR),
     _sqlNavigator             (this),
-    _translator               (),
     _importExportOrder        (ieoUnknown)
 {
     _construct();
@@ -491,23 +490,9 @@ Main::quickTranslateClipboard()
 
         QString langCodeFrom;
         QString langCodeTo;
-
-        if (0) {
+        {
             // auto detect languages
-            GoogleTranslator::Language langFrom;
-            GoogleTranslator::Language langTo;
-            QString                    langCodeFrom;
-            QString                    langCodeTo;
-
-            GoogleTranslator translator;
-            translator.languagesDetect(term, &langFrom, &langTo, &langCodeFrom, &langCodeTo);
-            translator.execute(GoogleTranslator::hrPost, term, langCodeFrom, langCodeTo, &valueBrief,
-                &valueDetail, &valueRaw);
-        } else {
-            using namespace xl;
-            using namespace xl::package;
-
-            Translate translate;
+            xl::package::Translate translate;
 
             std::tstring_t langFrom;
             std::tstring_t langTo;
@@ -518,26 +503,28 @@ Main::quickTranslateClipboard()
             std::tstring_t textToRaw;
             translate.execute(term.toStdString(), langFrom, langTo, &textToBrief, &textToDetail,
                 &textToRaw);
-            xTEST(!textToBrief.empty());
-            xTEST(!textToDetail.empty());
-            xTEST(!textToRaw.empty());
+            qTEST(!textToBrief.empty());
+            qTEST(!textToDetail.empty());
+            qTEST(!textToRaw.empty());
 
             // [out]
-            valueBrief   = QString::fromStdString(textToBrief);
-            valueDetail  = QString::fromStdString(textToDetail);
-            valueRaw     = QString::fromStdString(textToRaw);
+            {
+                valueBrief   = QString::fromStdString(textToBrief);
+                valueDetail  = QString::fromStdString(textToDetail);
+                valueRaw     = QString::fromStdString(textToRaw);
 
-            langCodeFrom = QString::fromStdString(langFrom);
-            langCodeTo   = QString::fromStdString(langTo);
+                langCodeFrom = QString::fromStdString(langFrom);
+                langCodeTo   = QString::fromStdString(langTo);
+
+            #if 0
+                qDebug() << qTRACE_VAR(valueBrief);
+                qDebug() << qTRACE_VAR(valueDetail);
+                qDebug() << qTRACE_VAR(valueRaw);
+                qDebug() << qTRACE_VAR(langCodeFrom);
+                qDebug() << qTRACE_VAR(langCodeTo);
+            #endif
+            }
         }
-
-    #if 0
-        qDebug() << qTRACE_VAR(valueBrief);
-        qDebug() << qTRACE_VAR(valueDetail);
-        qDebug() << qTRACE_VAR(valueRaw);
-        qDebug() << qTRACE_VAR(langCodeFrom);
-        qDebug() << qTRACE_VAR(langCodeTo);
-    #endif
 
         if ( isSystemTrayIconMessages ) {
             // QSystemTrayIcon doesn't support HTML
@@ -1011,7 +998,15 @@ Main::playTerm()
             AUDIO_TERM_FILE_NAME;
     }
 
+    // TODO: playTerm - impl
+#if 0
     _translator.speech(text, LANG_EN, audioFilePath);
+#else
+    Q_UNUSED(text);
+    Q_UNUSED(audioFilePath);
+
+    qMSG_NOT_IMPL;
+#endif
 }
 //-------------------------------------------------------------------------------------------------
 void
@@ -1033,7 +1028,15 @@ Main::playValue()
             AUDIO_VALUE_FILE_NAME;
     }
 
+    // TODO: playValue - impl
+#if 0
     _translator.speech(text, LANG_RU, audioFilePath);
+#else
+    Q_UNUSED(text);
+    Q_UNUSED(audioFilePath);
+
+    qMSG_NOT_IMPL;
+#endif
 }
 //-------------------------------------------------------------------------------------------------
 void

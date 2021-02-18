@@ -103,7 +103,6 @@ add_executable(${PROJECT_NAME}
     Classes/CenteredCheckBox.cpp
     Classes/CheckBoxItemDelegate.cpp
     Classes/ComboBoxItemDelegate.cpp
-    Classes/GoogleTranslator.cpp
     Classes/Utils.cpp
     Forms/Main.cpp
     Forms/WordEditor.cpp
