@@ -21,7 +21,7 @@ set(CMAKE_BUILD_TYPE            "RelWithDebInfo")
     # Release (CMAKE_C_FLAGS_RELEASE or CMAKE_CXX_FLAGS_RELEASE)
     # RelWithDebInfo (CMAKE_C_FLAGS_RELWITHDEBINFO or CMAKE_CXX_FLAGS_RELWITHDEBINFO
     # MinSizeRel (CMAKE_C_FLAGS_MINSIZEREL or CMAKE_CXX_FLAGS_MINSIZEREL)
-
+set(QT_QMAKE_EXECUTABLE         "") # hide warning
 #--------------------------------------------------------------------------------------------------
 # modules
 set(CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR})
