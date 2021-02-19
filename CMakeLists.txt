@@ -82,30 +82,37 @@ set(CMAKE_CXX_FLAGS "${Qt5Widgets_EXECUTABLE_COMPILE_FLAGS}")
 
 add_executable(${PROJECT_NAME}
     Config.h
-
     main.cpp
+
+    # QtLib
     QtLib/Ui/About.cpp
     QtLib/Application.cpp
     QtLib/Db/SqlTableModelEx.cpp
     QtLib/Db/SqlRelationalTableModelEx.cpp
     QtLib/Db/SqlNavigator.cpp
     QtLib/SignalGuard.cpp
+    QtLib/Utils.cpp
 
+    # QtLib - GlobalShortcut
     QtLib/GlobalShortcut/GlobalShortcut.cpp
     QtLib/GlobalShortcut/x11/QxtX11ErrorHandler.cpp
     QtLib/GlobalShortcut/x11/QxtX11Data.cpp
     QtLib/GlobalShortcut/x11/ShortcutActivator.cpp
 
-    QtLib/Utils.cpp
+    ## Classes
     Classes/CenteredCheckBox.cpp
     Classes/CheckBoxItemDelegate.cpp
     Classes/ComboBoxItemDelegate.cpp
     Classes/Utils.cpp
+
+    # Forms
     Forms/Main.cpp
     Forms/WordEditor.cpp
     Forms/WordFinder.cpp
     Forms/TagsEditor.cpp
     Forms/Settings.cpp
+
+    # MOCs
     ${MOC_UI}
     ${MOC_CPP}
     ${RESOURCES})
