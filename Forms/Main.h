@@ -36,7 +36,7 @@ protected:
     void closeEvent(QCloseEvent *event) override;
 
 private:
-    enum ImportExportOrder
+    enum class ImportExportOrder
     {
         ieoUnknown   = 0,
         ieoTermValue = 1,
@@ -67,7 +67,7 @@ private:
     void            _dbReopen(cQString &filePath);
 
     // settings
-    ImportExportOrder _importExportOrder {ieoUnknown};
+    ImportExportOrder _importExportOrder {ImportExportOrder::ieoUnknown};
     void            _settingsLoad();
     void            _settingsSave();
 
