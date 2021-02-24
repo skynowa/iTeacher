@@ -52,28 +52,28 @@ private:
     qtlib::GlobalShortcut _scImportClipboard;
     bool            _isHideOnClose {};
 
-    void            _initMain();
-    void            _initModel();
-    void            _initActions();
-    void            _cboDictPath_reload();
+    void _initMain();
+    void _initModel();
+    void _initActions();
+    void _cboDictPath_reload();
 
     // DB
     QSqlDatabase                     *_db {};
     qtlib::SqlRelationalTableModelEx *_model {};
     qtlib::SqlNavigator               _sqlNavigator;
 
-    void            _dbOpen(cQString &filePath);
-    void            _dbClose();
-    void            _dbReopen(cQString &filePath);
+    void _dbOpen(cQString &filePath);
+    void _dbClose();
+    void _dbReopen(cQString &filePath);
 
     // settings
     ImportExportOrder _importExportOrder {ImportExportOrder::ieoUnknown};
-    void            _settingsLoad();
-    void            _settingsSave();
+    void _settingsLoad();
+    void _settingsSave();
 
     // utils
-    QString         _exportfileNameBuild(cQString &fileExt);
-    bool            _tagsIsEmpty();
+    QString _exportfileNameBuild(cQString &fileExt);
+    bool    _tagsIsEmpty();
 
     Q_OBJECT
     Q_DISABLE_COPY(Main)
