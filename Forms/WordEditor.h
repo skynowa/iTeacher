@@ -1,4 +1,4 @@
-/**
+A/**
  * \file   WordEditor.h
  * \brief
  */
@@ -19,51 +19,51 @@ class WordEditor :
 public:
     Ui::UiWordEditor ui;
 
-                     WordEditor(QWidget *parent, QSqlTableModel *tableModel,
-                         qtlib::SqlNavigator *sqlNavigator, cbool &inserMode,
-                         cQString &termNew = QString());
-    virtual         ~WordEditor();
+            WordEditor(QWidget *parent, QSqlTableModel *tableModel,
+                qtlib::SqlNavigator *sqlNavigator, cbool &inserMode,
+                cQString &termNew = QString());
+    virtual ~WordEditor();
 
-    bool             isConstructed() const;
-    void             setTerm(cQString &value);
+    bool isConstructed() const;
+    void setTerm(cQString &value);
 
     static
-    void             retranslate(WordEditor *dlgWordEditor);
+    void retranslate(WordEditor *dlgWordEditor);
 
 private:
-    bool             _isConstructed;
-    QSqlTableModel  *_model;
+    bool            _isConstructed;
+    QSqlTableModel *_model;
     qtlib::SqlNavigator *_sqlNavigator;
-    cint             _currentRow;
-    cbool            _insertMode;
-    QString          _termNew;
+    cint            _currentRow;
+    cbool           _insertMode;
+    QString         _termNew;
 
-    QPalette         _plInfoDefault;
+    QPalette        _plInfoDefault;
 
-    void             _construct();
-    void             _destruct();
+    void _construct();
+    void _destruct();
 
-    void             _resetAll();
-    void             _saveAll(QDialog::DialogCode *code);
+    void _resetAll();
+    void _saveAll(QDialog::DialogCode *code);
 
-    void             _settingsLoad();
-    void             _settingsSave();
+    void _settingsLoad();
+    void _settingsSave();
 
-    void             _languagesAutoDetect();
+    void _languagesAutoDetect();
         ///< auto detect translating languages
 
     Q_OBJECT
     Q_DISABLE_COPY(WordEditor)
 
 private Q_SLOTS:
-    void             pbtnLangsSwap_OnClicked();
-    void             tbtnTermCopy_OnClicked();
-    void             tbtnTermPaste_OnClicked();
-    void             tbtnTermValueSwap_OnClicked();
-    void             tbtnValueCopy_OnClicked();
-    void             translate();
-    bool             check();
-    void             pbtnTagsEdit_OnClicked();
-    void             bbxButtons_OnClicked(QAbstractButton *button);
+    void pbtnLangsSwap_OnClicked();
+    void tbtnTermCopy_OnClicked();
+    void tbtnTermPaste_OnClicked();
+    void tbtnTermValueSwap_OnClicked();
+    void tbtnValueCopy_OnClicked();
+    void translate();
+    bool check();
+    void pbtnTagsEdit_OnClicked();
+    void bbxButtons_OnClicked(QAbstractButton *button);
 };
 //-------------------------------------------------------------------------------------------------

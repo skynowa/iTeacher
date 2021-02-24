@@ -18,22 +18,22 @@ class WordFinder :
 public:
     Ui::UiWordFinder ui;
 
-                    WordFinder(QWidget *parent, qtlib::SqlRelationalTableModelEx *tableModel);
-    virtual        ~WordFinder();
+             WordFinder(QWidget *parent, qtlib::SqlRelationalTableModelEx *tableModel);
+    virtual ~WordFinder();
 
 private:
     qtlib::SqlRelationalTableModelEx *_model;
 
-    void            _construct();
-    void            _destruct();
+    void _construct();
+    void _destruct();
 
-    void            _resetAll();
-    void            _saveAll();
+    void _resetAll();
+    void _saveAll();
 
     Q_OBJECT
     Q_DISABLE_COPY(WordFinder)
 
 private Q_SLOTS:
-    void            bbxButtons_OnClicked(QAbstractButton *button);
+    void bbxButtons_OnClicked(QAbstractButton *button);
 };
 //-------------------------------------------------------------------------------------------------

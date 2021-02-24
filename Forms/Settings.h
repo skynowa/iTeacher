@@ -18,24 +18,24 @@ class Settings :
     public QDialog
 {
 public:
-                 Settings(QWidget *parent, Main *wndMain);
+         Settings(QWidget *parent, Main *wndMain);
 
 protected:
-    void         closeEvent(QCloseEvent *event) override;
+    void closeEvent(QCloseEvent *event) override;
 
 private:
-    Ui::UiSettings ui;
-    Main        *_wndMain {};
+    Ui::UiSettings  ui;
+    Main           *_wndMain {};
 
-    void         _construct();
-    void         _destruct();
-    void         _initMain();
+    void _construct();
+    void _destruct();
+    void _initMain();
 
-    void         _resetAll();
-    void         _saveAll();
+    void _resetAll();
+    void _saveAll();
 
-    void         _settingsLoad();
-    void         _settingsSave();
+    void _settingsLoad();
+    void _settingsSave();
 
     // friend class Ini;
 
@@ -43,7 +43,7 @@ private:
     Q_DISABLE_COPY(Settings)
 
 private Q_SLOTS:
-    void         bbxButtons_onClicked(QAbstractButton *button);
-    void         twGroups_onCurrentItemChanged(QTreeWidgetItem *current, QTreeWidgetItem *previous);
+    void bbxButtons_onClicked(QAbstractButton *button);
+    void twGroups_onCurrentItemChanged(QTreeWidgetItem *current, QTreeWidgetItem *previous);
 };
 //-------------------------------------------------------------------------------------------------
