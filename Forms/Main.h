@@ -82,53 +82,53 @@ private:
 
 private Q_SLOTS:
     // group "File"
-    void            createDb();
-    void            quickTranslateClipboard();
-    void            importCsv();
-    void            importClipboard();
-    void            exportCsv();
-    void            exportPdf();
-    void            exportClipboard();
-    void            exit();
+    void createDb();
+    void quickTranslateClipboard();
+    void importCsv();
+    void importClipboard();
+    void exportCsv();
+    void exportPdf();
+    void exportClipboard();
+    void exit();
 
     // group "Edit"
-    void            first();
-    void            prior();
-    void            next();
-    void            last();
-    void            to();
-    void            insert();
-    void            remove();
-    void            edit();
-    void            learned();
-    void            marked();
+    void first();
+    void prior();
+    void next();
+    void last();
+    void to();
+    void insert();
+    void remove();
+    void edit();
+    void learned();
+    void marked();
 
     // group "Audio"
-    void            playTerm();
-    void            playValue();
-    void            playTermValue();
+    void playTerm();
+    void playValue();
+    void playTermValue();
 
     // group "Find"
-    void            search();
+    void search();
 
     // group "View"
-    void            showHide();
-    void            zoomIn();
-    void            zoomOut();
-    void            zoomDefault();
+    void showHide();
+    void zoomIn();
+    void zoomOut();
+    void zoomDefault();
 
     // group "Options"
-    void            tagsEditor();
-    void            settings();
+    void tagsEditor();
+    void settings();
 
     // group "Help"
-    void            faq();
-    void            about();
+    void faq();
+    void about();
 
     // tray
-    void            trayActivated(QSystemTrayIcon::ActivationReason reason);
+    void trayActivated(QSystemTrayIcon::ActivationReason reason);
 
     // etc
-    void            cboDictPath_OnCurrentIndexChanged(const QString &arg);
+    void cboDictPath_OnCurrentIndexChanged(const QString &arg);
 };
 //-------------------------------------------------------------------------------------------------
