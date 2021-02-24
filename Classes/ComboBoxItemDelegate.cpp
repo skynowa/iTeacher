@@ -120,7 +120,7 @@ ComboBoxItemDelegate::paint(
 {
     cQString value = a_index.data().toString();
 
-    QStyleOptionViewItemV4 myOption = a_option;
+    QStyleOptionViewItem myOption = a_option;
     myOption.text = value;
 
     QApplication::style()->drawControl(QStyle::CE_ItemViewItem, &myOption, a_painter);
