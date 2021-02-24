@@ -283,6 +283,11 @@
        </property>
        <item>
         <property name="text">
+         <string>auto</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
          <string>ru</string>
         </property>
         <property name="icon">
@@ -345,6 +350,11 @@
          <height>16777215</height>
         </size>
        </property>
+       <item>
+        <property name="text">
+         <string>auto</string>
+        </property>
+       </item>
        <item>
         <property name="text">
          <string>en</string>
