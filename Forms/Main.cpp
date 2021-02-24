@@ -43,7 +43,6 @@ Main::Main(
     _scShowHide               (this),
     _scQuickClipboardTranslate(this),
     _scImportClipboard        (this),
-    _isHideOnCLose            (false),
     _sqlNavigator             (this)
 {
     _initMain();
