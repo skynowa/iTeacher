@@ -228,7 +228,7 @@ Settings::_settingsSave()
                 break;
             }
 
-            _wndMain->_isHideOnCLose = ui.chkHideOnClose->isChecked();
+            _wndMain->_isHideOnClose = ui.chkHideOnClose->isChecked();
         }
 
         // shortcuts

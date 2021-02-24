@@ -50,7 +50,7 @@ private:
     qtlib::GlobalShortcut _scShowHide;
     qtlib::GlobalShortcut _scQuickClipboardTranslate;
     qtlib::GlobalShortcut _scImportClipboard;
-    bool            _isHideOnCLose;
+    bool            _isHideOnClose {};
 
     void            _initMain();
     void            _initModel();

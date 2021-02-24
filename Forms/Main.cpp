@@ -119,7 +119,7 @@ Main::closeEvent(
     QCloseEvent *a_event
 )
 {
-    if (_isHideOnCLose) {
+    if (_isHideOnClose) {
         a_event->ignore();
         showHide();
     } else {
@@ -1617,7 +1617,7 @@ Main::_settingsLoad()
 
         // file
         _importExportOrder = importExportOrder;
-        _isHideOnCLose     = isHideOnCLose;
+        _isHideOnClose     = isHideOnCLose;
 
         // shortcuts
         {
@@ -1659,7 +1659,7 @@ Main::_settingsSave()
     // file
     settings.beginGroup(CFG_GROUP_FILE);
     settings.setValue(CFG_IMPORT_EXPORT_ORDER, static_cast<int>(_importExportOrder));
-    settings.setValue(CFG_HIDE_ON_CLOSE,       _isHideOnCLose);
+    settings.setValue(CFG_HIDE_ON_CLOSE,       _isHideOnClose);
     settings.endGroup();
 
     // shortcuts
