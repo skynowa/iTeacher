@@ -1,4 +1,4 @@
-A/**
+/**
  * \file   WordEditor.h
  * \brief
  */
