@@ -97,8 +97,8 @@ add_executable(${PROJECT_NAME}
 
     # QtLib - GlobalShortcut
     QtLib/GlobalShortcut/GlobalShortcut.cpp
-    QtLib/GlobalShortcut/x11/QxtX11ErrorHandler.cpp
-    QtLib/GlobalShortcut/x11/QxtX11Data.cpp
+    QtLib/GlobalShortcut/x11/X11ErrorHandler.cpp
+    QtLib/GlobalShortcut/x11/X11Data.cpp
     QtLib/GlobalShortcut/x11/ShortcutActivator.cpp
 
     ## Classes
