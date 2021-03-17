@@ -18,6 +18,8 @@
 
 #include "ui_Main.h"
 //-------------------------------------------------------------------------------------------------
+#define GLOBAL_SHORTCUTS_ALL 0
+//-------------------------------------------------------------------------------------------------
 class WordEditor;
 
 class Main :
@@ -48,8 +50,10 @@ private:
     QSystemTrayIcon _trayIcon;
 
     qtlib::GlobalShortcut _scShowHide;
+#if GLOBAL_SHORTCUTS_ALL
     qtlib::GlobalShortcut _scQuickClipboardTranslate;
     qtlib::GlobalShortcut _scImportClipboard;
+#endif
     bool            _isHideOnClose {};
 
     void _initMain();

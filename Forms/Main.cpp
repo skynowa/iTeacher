@@ -41,8 +41,10 @@ Main::Main(
     QMainWindow               (a_parent, a_flags),
     _trayIcon                 (this),
     _scShowHide               (this),
+#if GLOBAL_SHORTCUTS_ALL
     _scQuickClipboardTranslate(this),
     _scImportClipboard        (this),
+#endif
     _sqlNavigator             (this)
 {
     _initMain();
@@ -392,12 +394,13 @@ Main::_initActions()
     {
         connect(&_scShowHide,                &qtlib::GlobalShortcut::sig_activated,
                 this,                        &Main::showHide);
-
+    #if GLOBAL_SHORTCUTS_ALL
         connect(&_scQuickClipboardTranslate, &qtlib::GlobalShortcut::sig_activated,
                 this,                        &Main::quickTranslateClipboard);
 
         connect(&_scImportClipboard,         &qtlib::GlobalShortcut::sig_activated,
                 this,                        &Main::importClipboard);
+    #endif
     }
 }
 //-------------------------------------------------------------------------------------------------
@@ -1622,8 +1625,10 @@ Main::_settingsLoad()
         // shortcuts
         {
             _scShowHide.set( QKeySequence(shortcutShowHide) );
+        #if GLOBAL_SHORTCUTS_ALL
             _scQuickClipboardTranslate.set( QKeySequence(shortcutQuickClipboardTranslate) );
             _scImportClipboard.set( QKeySequence(shortcutClipboardImport) );
+        #endif
         }
 
         ui.cboDictPath->setFocus();
@@ -1665,8 +1670,10 @@ Main::_settingsSave()
     // shortcuts
     settings.beginGroup(CFG_GROUP_SHORTCUTS);
     settings.setValue(CFG_SHOW_HIDE,                 _scShowHide.get().toString());
+#if GLOBAL_SHORTCUTS_ALL
     settings.setValue(CFG_QUICK_CLIPBOARD_TRANSLATE, _scQuickClipboardTranslate.get().toString());
     settings.setValue(CFG_CLIPBOARD_IMPORT,          _scImportClipboard.get().toString());
+#endif
     settings.endGroup();
 }
 //-------------------------------------------------------------------------------------------------

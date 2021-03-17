@@ -234,8 +234,10 @@ Settings::_settingsSave()
         // shortcuts
         {
             _wndMain->_scShowHide.set( ui.kedtAppShowHide->keySequence() );
+        #if GLOBAL_SHORTCUTS_ALL
             _wndMain->_scQuickClipboardTranslate.set( ui.kedtQuickClipboardTranslate->keySequence() );
             _wndMain->_scImportClipboard.set( ui.kedtImportClipboard->keySequence() );
+        #endif
         }
     }
 }
