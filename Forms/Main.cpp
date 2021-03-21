@@ -40,11 +40,11 @@ Main::Main(
 ) :
     QMainWindow               (a_parent, a_flags),
     _trayIcon                 (this),
-    _scShowHide               (this),
 #if GLOBAL_SHORTCUTS_ALL
-    _scQuickClipboardTranslate(this),
+    _scShowHide               (this),
     _scImportClipboard        (this),
 #endif
+    _scQuickClipboardTranslate(this),
     _sqlNavigator             (this)
 {
     _initMain();
@@ -392,15 +392,16 @@ Main::_initActions()
 
     // global shortcut
     {
+    #if GLOBAL_SHORTCUTS_ALL
         connect(&_scShowHide,                &qtlib::GlobalShortcut::sig_activated,
                 this,                        &Main::showHide);
-    #if GLOBAL_SHORTCUTS_ALL
-        connect(&_scQuickClipboardTranslate, &qtlib::GlobalShortcut::sig_activated,
-                this,                        &Main::quickTranslateClipboard);
 
         connect(&_scImportClipboard,         &qtlib::GlobalShortcut::sig_activated,
                 this,                        &Main::importClipboard);
     #endif
+
+        connect(&_scQuickClipboardTranslate, &qtlib::GlobalShortcut::sig_activated,
+                this,                        &Main::quickTranslateClipboard);
     }
 }
 //-------------------------------------------------------------------------------------------------
@@ -1624,11 +1625,11 @@ Main::_settingsLoad()
 
         // shortcuts
         {
-            _scShowHide.set( QKeySequence(shortcutShowHide) );
         #if GLOBAL_SHORTCUTS_ALL
-            _scQuickClipboardTranslate.set( QKeySequence(shortcutQuickClipboardTranslate) );
+            _scShowHide.set( QKeySequence(shortcutShowHide) );
             _scImportClipboard.set( QKeySequence(shortcutClipboardImport) );
         #endif
+            _scQuickClipboardTranslate.set( QKeySequence(shortcutQuickClipboardTranslate) );
         }
 
         ui.cboDictPath->setFocus();
@@ -1669,11 +1670,11 @@ Main::_settingsSave()
 
     // shortcuts
     settings.beginGroup(CFG_GROUP_SHORTCUTS);
-    settings.setValue(CFG_SHOW_HIDE,                 _scShowHide.get().toString());
 #if GLOBAL_SHORTCUTS_ALL
-    settings.setValue(CFG_QUICK_CLIPBOARD_TRANSLATE, _scQuickClipboardTranslate.get().toString());
+    settings.setValue(CFG_SHOW_HIDE,                 _scShowHide.get().toString());
     settings.setValue(CFG_CLIPBOARD_IMPORT,          _scImportClipboard.get().toString());
 #endif
+    settings.setValue(CFG_QUICK_CLIPBOARD_TRANSLATE, _scQuickClipboardTranslate.get().toString());
     settings.endGroup();
 }
 //-------------------------------------------------------------------------------------------------

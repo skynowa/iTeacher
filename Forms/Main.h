@@ -49,11 +49,12 @@ private:
     WordEditor *    _dlgWordEditorOpened {};
     QSystemTrayIcon _trayIcon;
 
-    qtlib::GlobalShortcut _scShowHide;
 #if GLOBAL_SHORTCUTS_ALL
-    qtlib::GlobalShortcut _scQuickClipboardTranslate;
+    qtlib::GlobalShortcut _scShowHide;
     qtlib::GlobalShortcut _scImportClipboard;
 #endif
+    qtlib::GlobalShortcut _scQuickClipboardTranslate;
+
     bool            _isHideOnClose {};
 
     void _initMain();
