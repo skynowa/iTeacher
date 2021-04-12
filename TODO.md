@@ -1,4 +1,5 @@
 # TODOs
 
 - Pin translator on top
-- Trainer add
+- Trainer (UI + Console ) add
+- Auto-save new words
