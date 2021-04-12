@@ -91,6 +91,7 @@ private Q_SLOTS:
     void quickTranslateClipboard();
     void importCsv();
     void importClipboard();
+    void onClipboardChanged();
     void exportCsv();
     void exportPdf();
     void exportClipboard();

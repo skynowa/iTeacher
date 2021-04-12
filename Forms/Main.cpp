@@ -403,6 +403,15 @@ Main::_initActions()
         connect(&_scQuickClipboardTranslate, &qtlib::GlobalShortcut::sig_activated,
                 this,                        &Main::quickTranslateClipboard);
     }
+
+    // Clipboard
+    {
+        QClipboard *clipboard = QApplication::clipboard();
+        if (clipboard != nullptr) {
+            connect(clipboard, &QClipboard::dataChanged,
+                    this,      &Main::onClipboardChanged);
+        }
+    }
 }
 //-------------------------------------------------------------------------------------------------
 
@@ -663,6 +672,32 @@ Main::importClipboard()
             break;
         }
     }
+}
+//-------------------------------------------------------------------------------------------------
+void
+Main::onClipboardChanged()
+{
+    QClipboard *clipboard = QApplication::clipboard();
+    if (clipboard == nullptr) {
+        qDebug() << __FUNCTION__ << "clipboard - return";
+        return;
+    }
+
+    const QMimeData *mime = clipboard->mimeData(QClipboard::Mode::Selection);
+    if (mime == nullptr) {
+        qDebug() << __FUNCTION__ << "mime - return";
+        return;
+    }
+
+    if ( !mime->hasText() ) {
+        qDebug() << __FUNCTION__ << "hasText - return";
+        return;
+    }
+
+    qDebug() << __FUNCTION__ << ": OK";
+
+    // TODO: view text - impl
+    this->setWindowTitle( mime->text() );
 }
 //-------------------------------------------------------------------------------------------------
 void
