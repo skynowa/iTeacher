@@ -409,7 +409,8 @@ Main::_initActions()
         QClipboard *clipboard = QApplication::clipboard();
         if (clipboard != nullptr) {
             connect(clipboard, &QClipboard::dataChanged,
-                    this,      &Main::onClipboardChanged);
+                    /// this,      &Main::onClipboardChanged);
+                    this,      &Main::quickTranslateClipboard);
         }
     }
 }
@@ -456,6 +457,7 @@ Main::quickTranslateClipboard()
 #else
     cbool isSystemTrayIconMessages = false;
 #endif
+    qDebug() << qTRACE_VAR(isSystemTrayIconMessages);
 
     // QMessageBox - only one instance
     QSharedMemory locker;
