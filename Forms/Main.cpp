@@ -534,6 +534,15 @@ Main::quickTranslateClipboard()
             Q_UNUSED(valueDetail);
 
             // QSystemTrayIcon doesn't support HTML
+            const QString style =
+                    "QToolTip {"
+                        "border: 2px solid green;"
+                        "border-radius: 4px;"
+                        "padding: 2px;"
+                        "background-image: url(images/welcome.png);"
+                    "}";
+            qApp->setStyleSheet(style);
+
             text = QString(
                         "%1 -> %2\n\n"
                         "%3\n\n"
