@@ -539,7 +539,10 @@ Main::quickTranslateClipboard()
                         "border: 2px solid green;"
                         "border-radius: 4px;"
                         "padding: 2px;"
-                        "background-image: url(images/welcome.png);"
+                        "background-color: yellow;"
+                        "opacity: 200;"
+                        "font-weight: bold;"
+                        "font-size: 16px;"
                     "}";
             qApp->setStyleSheet(style);
 
@@ -592,6 +595,9 @@ Main::quickTranslateClipboard()
            QSYSTEM_TRAYICON_MESSAGE_TIMEOUT_MSEC);
         } else {
             QToolTip::showText(QCursor::pos(), text);
+
+            /// TODO: fix
+            /// qApp->setStyleSheet("");
         }
     } else {
         qDebug() << qTRACE_VAR(isSystemTrayIconMessages);
