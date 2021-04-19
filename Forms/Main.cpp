@@ -20,6 +20,7 @@
 #include <QPrinter>
 #include <QFuture>
 #include <QtConcurrent>
+#include <QToolTip>
 
 #include <xLib/Core/Const.h>
 #include <xLib/Core/String.h>
@@ -530,13 +531,14 @@ Main::quickTranslateClipboard()
         }
 
         if ( isSystemTrayIconMessages ) {
+            Q_UNUSED(valueDetail);
+
             // QSystemTrayIcon doesn't support HTML
             text = QString(
                         "%1 -> %2\n\n"
-                        "%1\n\n"
-                        "%2\n\n"
-                        "%3")
-                        .arg(term, valueBrief, valueDetail);
+                        "%3\n\n"
+                        "%4")
+                        .arg(langCodeFrom, langCodeTo, term, valueBrief);
         } else {
             text = QString(
                         "<style>"
@@ -552,6 +554,7 @@ Main::quickTranslateClipboard()
                         "<h4>%4</h4>"
                         "<pre>%5</pre>")
                         .arg(langCodeFrom, langCodeTo, term, valueBrief, valueDetail);
+
         }
     }
 
@@ -575,8 +578,12 @@ Main::quickTranslateClipboard()
 
     // show message
     if ( isSystemTrayIconMessages ) {
+        if (0) {
         _trayIcon.showMessage(title, text, QSystemTrayIcon::Information,
-            QSYSTEM_TRAYICON_MESSAGE_TIMEOUT_MSEC);
+           QSYSTEM_TRAYICON_MESSAGE_TIMEOUT_MSEC);
+        } else {
+            QToolTip::showText(QCursor::pos(), text);
+        }
     } else {
         qDebug() << qTRACE_VAR(isSystemTrayIconMessages);
 
