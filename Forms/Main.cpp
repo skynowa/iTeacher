@@ -533,19 +533,7 @@ Main::quickTranslateClipboard()
         if ( isSystemTrayIconMessages ) {
             Q_UNUSED(valueDetail);
 
-            // QSystemTrayIcon doesn't support HTML
-            const QString style =
-                    "QToolTip {"
-                        "border: 2px solid green;"
-                        "border-radius: 4px;"
-                        "padding: 2px;"
-                        "background-color: yellow;"
-                        "opacity: 200;"
-                        "font-weight: bold;"
-                        "font-size: 16px;"
-                    "}";
-            qApp->setStyleSheet(style);
-
+            // QSystemTrayIcon doesn't support HTML ???
             text = QString(
                         "%1 -> %2\n\n"
                         "%3\n\n"
@@ -595,9 +583,6 @@ Main::quickTranslateClipboard()
            QSYSTEM_TRAYICON_MESSAGE_TIMEOUT_MSEC);
         } else {
             QToolTip::showText(QCursor::pos(), text);
-
-            /// TODO: fix
-            /// qApp->setStyleSheet("");
         }
     } else {
         qDebug() << qTRACE_VAR(isSystemTrayIconMessages);
