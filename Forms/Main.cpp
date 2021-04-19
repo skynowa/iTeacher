@@ -452,13 +452,18 @@ Main::quickTranslateClipboard()
 {
     bool bRv = false;
 
-    // TODO_VER: Main::quickTranslateClipboard - quick message
-#if IS_SYSTEM_TRAY_ICON_MESSAGES
-    cbool isSystemTrayIconMessages = QSystemTrayIcon::supportsMessages();
-#else
-    cbool isSystemTrayIconMessages = false;
-#endif
-    qDebug() << qTRACE_VAR(isSystemTrayIconMessages);
+    bool isSystemTrayIconMessages {};
+    {
+        const bool option_isSystemTrayIconMessages {false};
+
+        if (option_isSystemTrayIconMessages) {
+            isSystemTrayIconMessages = QSystemTrayIcon::supportsMessages();
+        } else {
+            isSystemTrayIconMessages = false;
+        }
+
+        qDebug() << qTRACE_VAR(isSystemTrayIconMessages);
+    }
 
     // QMessageBox - only one instance
     QSharedMemory locker;
@@ -530,7 +535,7 @@ Main::quickTranslateClipboard()
             }
         }
 
-        if ( isSystemTrayIconMessages ) {
+        if (isSystemTrayIconMessages) {
             Q_UNUSED(valueDetail);
 
             // QSystemTrayIcon doesn't support HTML ???
@@ -562,14 +567,14 @@ Main::quickTranslateClipboard()
     bRv = iteacher::Utils::isTerminExists(_model->database(), term);
     if (bRv) {
         // term already exists
-        if ( isSystemTrayIconMessages ) {
+        if (isSystemTrayIconMessages) {
             text += QString(tr("\n\nTerm already exists"));
         } else {
             text += QString(tr("<br />Term already exists"));
         }
     } else {
         // ok, term is a new
-        if ( isSystemTrayIconMessages ) {
+        if (isSystemTrayIconMessages) {
             text += QString(tr("\n\nTerm is a new"));
         } else {
             text += QString(tr("<br />Term is a new"));
@@ -577,17 +582,17 @@ Main::quickTranslateClipboard()
     }
 
     // show message
-    if ( isSystemTrayIconMessages ) {
-        if (0) {
+    if (isSystemTrayIconMessages) {
         _trayIcon.showMessage(title, text, QSystemTrayIcon::Information,
            QSYSTEM_TRAYICON_MESSAGE_TIMEOUT_MSEC);
-        } else {
-            QToolTip::showText(QCursor::pos(), text);
-        }
     } else {
         qDebug() << qTRACE_VAR(isSystemTrayIconMessages);
 
-        QMessageBox::information(this, title, text);
+        if (0) {
+            QMessageBox::information(this, title, text);
+        } else {
+            QToolTip::showText(QCursor::pos(), text);
+        }
     }
 }
 //-------------------------------------------------------------------------------------------------
