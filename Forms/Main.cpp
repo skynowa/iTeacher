@@ -544,10 +544,10 @@ Main::quickTranslateClipboard()
             text = QString(
                         "<style>"
                             "h3 {"
-                                "color: #0000FF" // blue
+                                "color: blue"
                             "}"
                             "h4 {"
-                                "color: #FF0000" // red
+                                "color: red"
                             "}"
                         "</style>"
                         "<b>%1</b>"
