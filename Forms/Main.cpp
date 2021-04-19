@@ -528,12 +528,12 @@ Main::quickTranslateClipboard()
                 qDebug() << qTRACE_VAR(langCodeFrom);
                 qDebug() << qTRACE_VAR(langCodeTo);
             #endif
+
+                Q_UNUSED(valueDetail);
             }
         }
 
         if (option_msgType == MessageType::TrayIcon) {
-            Q_UNUSED(valueDetail);
-
             // QSystemTrayIcon doesn't support HTML ???
             text = QString(
                         "%1 -> %2\n\n"
@@ -550,12 +550,12 @@ Main::quickTranslateClipboard()
                                 "color: #FF0000" // red
                             "}"
                         "</style>"
-                        "<b>%1 -> %2</b>"
-                        "<h3>%3</h3>"
-                        "<h4>%4</h4>"
-                        "<pre>%5</pre>")
-                        .arg(langCodeFrom, langCodeTo, term, valueBrief, valueDetail);
-
+                        "<b>%1</b>"
+                        "<hr/>"
+                        "<b>%2 -> %3</b>"
+                        "<h3>%4</h3>"
+                        "<h4>%5</h4>")
+                        .arg(title, langCodeFrom, langCodeTo, term, valueBrief);
         }
     }
 
