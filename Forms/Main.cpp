@@ -851,12 +851,17 @@ Main::mute()
 
     // TODO: Main::onClipboardChanged()
 
+    auto *sender       {clipboard};
+    auto  senderSignal {&QClipboard::dataChanged};
+    auto *reciver      {this};
+    auto  reciverSlot  {&Main::quickTranslateClipboard};
+
     if (isMute) {
-        disconnect(clipboard, &QClipboard::dataChanged,
-                   this,      &Main::quickTranslateClipboard);
+        disconnect(sender,  senderSignal,
+                   reciver, reciverSlot);
     } else {
-        connect   (clipboard, &QClipboard::dataChanged,
-                   this,      &Main::quickTranslateClipboard);
+        connect   (sender,  senderSignal,
+                   reciver, reciverSlot);
     }
 }
 //-------------------------------------------------------------------------------------------------
