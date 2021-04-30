@@ -845,6 +845,7 @@ Main::mute()
 
     QClipboard *clipboard = QApplication::clipboard();
     if (clipboard == nullptr) {
+        qWarning() << qTRACE_VAR(clipboard);
         return;
     }
 
