@@ -683,6 +683,7 @@ Main::importClipboard()
     }
 }
 //-------------------------------------------------------------------------------------------------
+// TODO: Main::onClipboardChanged() - unused
 void
 Main::onClipboardChanged()
 {
@@ -849,8 +850,6 @@ Main::mute()
         return;
     }
 
-    // TODO: Main::onClipboardChanged()
-
     auto *sender       {clipboard};
     auto  senderSignal {&QClipboard::dataChanged};
     auto *reciver      {this};
@@ -859,9 +858,23 @@ Main::mute()
     if (isMute) {
         disconnect(sender,  senderSignal,
                    reciver, reciverSlot);
+
+        // tray icon - off
+        {
+            QPixmap pixmapOff = QIcon( windowIcon() )
+                    .pixmap(QSYSTEM_TRAYICON_SIZE, QIcon::Mode::Disabled, QIcon::State::Off);
+            QIcon iconOff(pixmapOff);
+            _trayIcon.setIcon(iconOff);
+        }
     } else {
-        connect   (sender,  senderSignal,
-                   reciver, reciverSlot);
+        connect(sender,  senderSignal,
+                reciver, reciverSlot);
+
+        // tray icon - on
+        {
+            QIcon iconOn( windowIcon() );
+            _trayIcon.setIcon(iconOn);
+        }
     }
 }
 //-------------------------------------------------------------------------------------------------
