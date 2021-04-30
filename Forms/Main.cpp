@@ -852,12 +852,12 @@ Main::mute()
 
     auto *sender       {clipboard};
     auto  senderSignal {&QClipboard::dataChanged};
-    auto *reciver      {this};
-    auto  reciverSlot  {&Main::quickTranslateClipboard};
+    auto *reciever     {this};
+    auto  recieverSlot {&Main::quickTranslateClipboard};
 
     if (isMute) {
-        disconnect(sender,  senderSignal,
-                   reciver, reciverSlot);
+        disconnect(sender,   senderSignal,
+                   reciever, recieverSlot);
 
         // tray icon - off
         {
@@ -867,8 +867,8 @@ Main::mute()
             _trayIcon.setIcon(iconOff);
         }
     } else {
-        connect(sender,  senderSignal,
-                reciver, reciverSlot);
+        connect(sender,   senderSignal,
+                reciever, recieverSlot);
 
         // tray icon - on
         {
