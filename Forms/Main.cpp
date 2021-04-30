@@ -1579,7 +1579,16 @@ Main::_dbClose()
     // _model
     if (_model != nullptr) {
         bool bRv = _model->submitAll();
-        qCHECK_PTR(bRv, _model);
+        if (!bRv &&
+            _model->lastError().text().contains("failed", Qt::CaseInsensitive))
+        {
+            // \see QtLib SqlRelationalTableModelEx::importCsv()
+
+            // lastError(): QSqlError("19", "Unable to fetch row", "UNIQUE constraint failed: t_main.f_main_term")
+            // qDebug() << qTRACE_VAR(lastError().text());
+        } else {
+            qCHECK_PTR(bRv, _model);
+        }
 
         qPTR_DELETE(_model);
     }
