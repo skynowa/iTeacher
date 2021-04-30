@@ -610,7 +610,8 @@ Main::importCsv()
     fieldNames.push_back(DB_F_MAIN_TAG);
 
     // import
-    _model->importCsv(filePath,  fieldNames, CSV_SEPARATOR, true);
+    QString infoMsg;
+    _model->importCsv(filePath,  fieldNames, CSV_SEPARATOR, true, &infoMsg);
 
     // "fire" cboDictPath
     {
@@ -621,8 +622,8 @@ Main::importCsv()
 
     // report
     {
-        cQString msg = QString(tr("File: %1\nImport CSV finished."))
-                            .arg(filePath);
+        cQString msg = QString(tr("File: %1\n\n%2\n\nImport CSV finished."))
+                            .arg(filePath, infoMsg);
 
         QMessageBox::information(this, qS2QS(xl::package::Application::info().name), msg);
     }
