@@ -843,8 +843,6 @@ Main::mute()
     static bool isMute {true};
     isMute = !isMute;
 
-    qDebug() << qTRACE_VAR(isMute);
-
     QClipboard *clipboard = QApplication::clipboard();
     if (clipboard == nullptr) {
         qWarning() << qTRACE_VAR(clipboard);
