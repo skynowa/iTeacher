@@ -1,6 +1,6 @@
 # TODOs
 
-- move new words to DB
+- [move new words to DB](https://docs.google.com/spreadsheets/d/1m8uh17iOzbM5aj8NWxBxTZbrDobUbOsJepj_sH9Uz_A/edit)
 - Pin translator on top
 - Trainer (UI + Console) add
 - Auto-save new words
