@@ -90,6 +90,7 @@ private Q_SLOTS:
     void createDb();
     void quickTranslateClipboard();
     void importCsv();
+    void importCsvClipboard();
     void importClipboard();
     void onClipboardChanged();
     void exportCsv();

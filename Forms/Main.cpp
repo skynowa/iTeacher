@@ -287,6 +287,9 @@ Main::_initActions()
         connect(ui.actFile_ImportCsv,       &QAction::triggered,
                 this,                       &Main::importCsv);
 
+        connect(ui.actFile_ImportCsvClipboard, &QAction::triggered,
+                this,                       &Main::importCsvClipboard);
+
         connect(ui.actFile_ImportClipboard, &QAction::triggered,
                 this,                       &Main::importClipboard);
 
@@ -611,7 +614,7 @@ Main::importCsv()
 
     // import
     QString infoMsg;
-    _model->importCsv(filePath,  fieldNames, CSV_SEPARATOR, true, &infoMsg);
+    _model->importCsv(filePath, fieldNames, CSV_SEPARATOR, true, &infoMsg);
 
     // "fire" cboDictPath
     {
@@ -624,6 +627,39 @@ Main::importCsv()
     {
         cQString msg = QString(tr("File: %1\n\n%2\n\nImport CSV finished."))
                             .arg(filePath, infoMsg);
+
+        QMessageBox::information(this, qS2QS(xl::package::Application::info().name), msg);
+    }
+}
+//-------------------------------------------------------------------------------------------------
+void
+Main::importCsvClipboard()
+{
+    qCHECK_DO(_tagsIsEmpty(), return);
+
+    // DB field names
+    QVector<QString> fieldNames;
+    fieldNames.push_back(DB_F_MAIN_TERM);
+    fieldNames.push_back(DB_F_MAIN_VALUE);
+    fieldNames.push_back(DB_F_MAIN_IS_LEARNED);
+    fieldNames.push_back(DB_F_MAIN_IS_MARKED);
+    fieldNames.push_back(DB_F_MAIN_TAG);
+
+    // import
+    QString infoMsg;
+    _model->importCsvClipboard(fieldNames, CSV_SEPARATOR, true, &infoMsg);
+
+    // "fire" cboDictPath
+    {
+        cint currentIndex = ui.cboDictPath->currentIndex();
+        ui.cboDictPath->setCurrentIndex(- 1);
+        ui.cboDictPath->setCurrentIndex(currentIndex);
+    }
+
+    // report
+    {
+        cQString msg = QString(tr("%1\n\nImport CSV clipboard finished."))
+                            .arg(infoMsg);
 
         QMessageBox::information(this, qS2QS(xl::package::Application::info().name), msg);
     }
