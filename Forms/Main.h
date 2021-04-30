@@ -55,7 +55,7 @@ private:
 #endif
     qtlib::GlobalShortcut _scQuickClipboardTranslate;
 
-    bool            _isHideOnClose {};
+    bool _isHideOnClose {};
 
     void _initMain();
     void _initModel();
@@ -95,6 +95,7 @@ private Q_SLOTS:
     void exportCsv();
     void exportPdf();
     void exportClipboard();
+    void mute();
     void exit();
 
     // group "Edit"

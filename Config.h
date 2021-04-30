@@ -112,6 +112,10 @@ const TableViewHeader tableViewHeaders[]
 #define AUDIO_TERM_FILE_NAME     "term.mp3"
 #define AUDIO_VALUE_FILE_NAME    "value.mp3"
 
+// tray
+#define QSYSTEM_TRAYICON_MESSAGE_TIMEOUT_MSEC 7000
+#define QSYSTEM_TRAYICON_SIZE    QSize(32, 32)
+
 // etc
 #define DB_FILE_EXT              ".db"
 #define CSV_SEPARATOR            "#"
@@ -120,5 +124,4 @@ const TableViewHeader tableViewHeaders[]
 #define TABLEVIEW_ROW_HEIGHT     20
 #define BUTTON_BOX_WIDTH         75
 #define TERM_MINIMIZED_SIZE_MAX  30
-#define QSYSTEM_TRAYICON_MESSAGE_TIMEOUT_MSEC 7000
 //-------------------------------------------------------------------------------------------------
