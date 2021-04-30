@@ -256,6 +256,8 @@ Main::_initModel()
         connect(ui.cboDictPath, SIGNAL( currentIndexChanged(const QString &) ),
                 this,           SLOT  ( cboDictPath_OnCurrentIndexChanged(const QString &) ));
 #endif
+
+        mute();
     }
 
     // fire cboDictPath

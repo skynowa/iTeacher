@@ -1,5 +1,6 @@
 # TODOs
 
+- move new words to DB
 - Pin translator on top
 - Trainer (UI + Console) add
 - Auto-save new words
