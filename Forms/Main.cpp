@@ -256,6 +256,8 @@ Main::_initModel()
         connect(ui.cboDictPath, SIGNAL( currentIndexChanged(const QString &) ),
                 this,           SLOT  ( cboDictPath_OnCurrentIndexChanged(const QString &) ));
 #endif
+        // connect signal
+        mute();
     }
 
     // fire cboDictPath
@@ -296,6 +298,9 @@ Main::_initActions()
 
         connect(ui.actFile_ExportClipboard, &QAction::triggered,
                 this,                       &Main::exportClipboard);
+
+        connect(ui.actFile_Mute,            &QAction::triggered,
+                this,                       &Main::mute);
 
         connect(ui.actFile_Exit,            &QAction::triggered,
                 this,                       &Main::exit);
@@ -403,16 +408,6 @@ Main::_initActions()
 
         connect(&_scQuickClipboardTranslate, &qtlib::GlobalShortcut::sig_activated,
                 this,                        &Main::quickTranslateClipboard);
-    }
-
-    // Clipboard
-    {
-        QClipboard *clipboard = QApplication::clipboard();
-        if (clipboard != nullptr) {
-            connect(clipboard, &QClipboard::dataChanged,
-                    /// this,      &Main::onClipboardChanged);
-                    this,      &Main::quickTranslateClipboard);
-        }
     }
 }
 //-------------------------------------------------------------------------------------------------
@@ -837,6 +832,30 @@ Main::exportClipboard()
                             .arg(sRv);
 
         QMessageBox::information(this, qS2QS(xl::package::Application::info().name), msg);
+    }
+}
+//-------------------------------------------------------------------------------------------------
+void
+Main::mute()
+{
+    static bool isMute {true};
+    isMute = !isMute;
+
+    qDebug() << qTRACE_VAR(isMute);
+
+    QClipboard *clipboard = QApplication::clipboard();
+    if (clipboard == nullptr) {
+        return;
+    }
+
+    // TODO: Main::onClipboardChanged()
+
+    if (isMute) {
+        disconnect(clipboard, &QClipboard::dataChanged,
+                   this,      &Main::quickTranslateClipboard);
+    } else {
+        connect   (clipboard, &QClipboard::dataChanged,
+                   this,      &Main::quickTranslateClipboard);
     }
 }
 //-------------------------------------------------------------------------------------------------
@@ -1372,8 +1391,10 @@ Main::trayActivated(
 {
     switch (a_reason) {
     case QSystemTrayIcon::DoubleClick:
-    case QSystemTrayIcon::Trigger:
         showHide();
+        break;
+    case QSystemTrayIcon::Trigger:
+        mute();
         break;
     case QSystemTrayIcon::MiddleClick:
         importClipboard();

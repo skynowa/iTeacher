@@ -72,7 +72,7 @@
      <x>0</x>
      <y>0</y>
      <width>760</width>
-     <height>27</height>
+     <height>22</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
@@ -90,6 +90,7 @@
     <addaction name="actFile_ExportPdf"/>
     <addaction name="actFile_ExportClipboard"/>
     <addaction name="separator"/>
+    <addaction name="actFile_Mute"/>
     <addaction name="actFile_Exit"/>
    </widget>
    <widget class="QMenu" name="menuEdit">
@@ -544,6 +545,11 @@
    </property>
    <property name="toolTip">
     <string>Quick Translate Clipboard</string>
+   </property>
+  </action>
+  <action name="actFile_Mute">
+   <property name="text">
+    <string>Mute</string>
    </property>
   </action>
  </widget>
