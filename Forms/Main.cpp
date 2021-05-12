@@ -730,9 +730,11 @@ Main::onClipboardChanged()
         return;
     }
 
-    qDebug() << qTRACE_VAR(clipboard->supportsSelection());
+    const auto mode = clipboard->supportsSelection() ?
+        QClipboard::Mode::Selection : QClipboard::Mode::Clipboard;
+    qDebug() << qTRACE_VAR(mode);
 
-    const QMimeData *mime = clipboard->mimeData(QClipboard::Mode::Selection);
+    const QMimeData *mime = clipboard->mimeData(mode);
     if (mime == nullptr) {
         qDebug() << __FUNCTION__ << "mime - return";
         return;
