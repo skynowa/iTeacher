@@ -480,10 +480,17 @@ Main::quickTranslateClipboard()
     QString term;
     QString text;
     {
-        // TODO: option or new method
-        const auto clipboardMode = (false ? QClipboard::Mode::Clipboard : QClipboard::Mode::Selection);
+        QClipboard *clipboard = QApplication::clipboard();
+        if (clipboard == nullptr) {
+            qDebug() << __FUNCTION__ << "clipboard - return";
+            return;
+        }
 
-        term = QApplication::clipboard()->text(clipboardMode).trimmed();
+        // TODO: option or new method
+        const auto mode = clipboard->supportsSelection() ?
+            QClipboard::Mode::Selection : QClipboard::Mode::Clipboard;
+
+        term = clipboard->text(mode).trimmed();
 
         QString valueBrief;
         QString valueDetail;
