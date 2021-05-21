@@ -397,6 +397,7 @@ Main::_initActions()
     {
         connect(&_trayIcon,                 &QSystemTrayIcon::activated,
                 this,                       &Main::trayActivated);
+        mute();
     }
 
     // global shortcut
