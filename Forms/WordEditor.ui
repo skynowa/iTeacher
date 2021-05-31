@@ -166,8 +166,17 @@
      </item>
      <item row="0" column="0">
       <widget class="QLabel" name="label_2">
+       <property name="font">
+        <font>
+         <weight>75</weight>
+         <bold>true</bold>
+        </font>
+       </property>
        <property name="text">
         <string>Term/Value</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignCenter</set>
        </property>
       </widget>
      </item>
@@ -234,102 +243,14 @@
    </item>
    <item row="0" column="1">
     <layout class="QGridLayout" name="gridLayout">
-     <item row="2" column="0" colspan="3">
-      <widget class="QPushButton" name="pbtnCheck">
-       <property name="text">
-        <string>Check</string>
-       </property>
-      </widget>
-     </item>
-     <item row="0" column="1">
-      <widget class="QPushButton" name="pbtnLangsSwap">
-       <property name="maximumSize">
-        <size>
-         <width>36</width>
-         <height>16777215</height>
-        </size>
-       </property>
-       <property name="text">
-        <string/>
-       </property>
-       <property name="icon">
-        <iconset>
-         <normalon>:/Menu/Menu/LangsSwap.png</normalon>
-        </iconset>
-       </property>
-      </widget>
-     </item>
-     <item row="5" column="0" colspan="3">
-      <widget class="QCheckBox" name="chkLowerCase">
-       <property name="text">
-        <string>Lower case</string>
-       </property>
-      </widget>
-     </item>
-     <item row="4" column="0" colspan="3">
-      <widget class="QCheckBox" name="chkIsMarked">
-       <property name="text">
-        <string>Marked</string>
-       </property>
-      </widget>
-     </item>
-     <item row="0" column="2">
-      <widget class="QComboBox" name="cboLangTo">
-       <property name="maximumSize">
-        <size>
-         <width>68</width>
-         <height>16777215</height>
-        </size>
-       </property>
-       <item>
-        <property name="text">
-         <string>auto</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>ru</string>
-        </property>
-        <property name="icon">
-         <iconset>
-          <normalon>:/Flags/Flags/ru.png</normalon>
-         </iconset>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>en</string>
-        </property>
-        <property name="icon">
-         <iconset>
-          <normalon>:/Flags/Flags/uk.png</normalon>
-         </iconset>
-        </property>
-       </item>
-      </widget>
-     </item>
-     <item row="7" column="0" colspan="3">
-      <widget class="QDialogButtonBox" name="bbxButtons">
-       <property name="standardButtons">
-        <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok|QDialogButtonBox::Reset</set>
-       </property>
-      </widget>
-     </item>
-     <item row="3" column="0" colspan="3">
+     <item row="3" column="0" colspan="2">
       <widget class="QCheckBox" name="chkIsLearned">
        <property name="text">
         <string>Learned</string>
        </property>
       </widget>
      </item>
-     <item row="1" column="0" colspan="3">
-      <widget class="QPushButton" name="pbtnTranslate">
-       <property name="text">
-        <string>Translate</string>
-       </property>
-      </widget>
-     </item>
-     <item row="6" column="0" colspan="3">
+     <item row="6" column="0" colspan="2">
       <spacer name="verticalSpacer_2">
        <property name="orientation">
         <enum>Qt::Vertical</enum>
@@ -342,39 +263,55 @@
        </property>
       </spacer>
      </item>
-     <item row="0" column="0">
-      <widget class="QComboBox" name="cboLangFrom">
-       <property name="maximumSize">
-        <size>
-         <width>68</width>
-         <height>16777215</height>
-        </size>
+     <item row="2" column="0" colspan="2">
+      <widget class="QPushButton" name="pbtnCheck">
+       <property name="text">
+        <string>Check</string>
        </property>
-       <item>
-        <property name="text">
-         <string>auto</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>en</string>
-        </property>
-        <property name="icon">
-         <iconset>
-          <normalon>:/Flags/Flags/uk.png</normalon>
-         </iconset>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>ru</string>
-        </property>
-        <property name="icon">
-         <iconset>
-          <normalon>:/Flags/Flags/ru.png</normalon>
-         </iconset>
-        </property>
-       </item>
+      </widget>
+     </item>
+     <item row="7" column="0" colspan="2">
+      <widget class="QDialogButtonBox" name="bbxButtons">
+       <property name="standardButtons">
+        <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok|QDialogButtonBox::Reset</set>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="0" colspan="2">
+      <widget class="QPushButton" name="pbtnTranslate">
+       <property name="text">
+        <string>Translate</string>
+       </property>
+      </widget>
+     </item>
+     <item row="5" column="0" colspan="2">
+      <widget class="QCheckBox" name="chkLowerCase">
+       <property name="text">
+        <string>Lower case</string>
+       </property>
+      </widget>
+     </item>
+     <item row="4" column="0" colspan="2">
+      <widget class="QCheckBox" name="chkIsMarked">
+       <property name="text">
+        <string>Marked</string>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="0" colspan="2">
+      <widget class="QLabel" name="lblActions">
+       <property name="font">
+        <font>
+         <weight>75</weight>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="text">
+        <string>Actions</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignCenter</set>
+       </property>
       </widget>
      </item>
     </layout>

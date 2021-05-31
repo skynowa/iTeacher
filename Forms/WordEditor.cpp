@@ -100,9 +100,6 @@ WordEditor::_construct()
 
     // signals
     {
-        connect(ui.pbtnLangsSwap, &QPushButton::clicked,
-                this,             &WordEditor::pbtnLangsSwap_OnClicked);
-
         connect(ui.tbtnTermCopy,  &QPushButton::clicked,
                 this,             &WordEditor::tbtnTermCopy_OnClicked);
 
@@ -229,9 +226,6 @@ WordEditor::_saveAll(
     QDialog::DialogCode *a_code
 )
 {
-    qTEST(!ui.cboLangFrom->currentText().isEmpty());
-    qTEST(ui.cboLangFrom->currentText() == LANG_EN || ui.cboLangFrom->currentText() == LANG_RU);
-
     qCHECK_DO(!check(), return);
 
     bool bRv        = false;
@@ -265,16 +259,9 @@ WordEditor::_saveAll(
 
     QSqlRecord record = _model->record(currentRow);
     {
-        int iRv = ui.cboLangFrom->currentText().compare(LANG_EN, Qt::CaseInsensitive);
-        if (iRv == 0) {
-            // en-ru
-            record.setValue(DB_F_MAIN_TERM,  ui.tedtTerm->toPlainText());
-            record.setValue(DB_F_MAIN_VALUE, ui.tedtValueBrief->toPlainText());
-        } else {
-            // ru-en
-            record.setValue(DB_F_MAIN_TERM,  ui.tedtValueBrief->toPlainText());
-            record.setValue(DB_F_MAIN_VALUE, ui.tedtTerm->toPlainText());
-        }
+        // en-ru
+        record.setValue(DB_F_MAIN_TERM,       ui.tedtTerm->toPlainText());
+        record.setValue(DB_F_MAIN_VALUE,      ui.tedtValueBrief->toPlainText());
 
         record.setValue(DB_F_MAIN_IS_LEARNED, ui.chkIsLearned->isChecked());
         record.setValue(DB_F_MAIN_IS_MARKED,  ui.chkIsMarked->isChecked());
@@ -352,35 +339,6 @@ WordEditor::_settingsSave()
     settings.endGroup();
 }
 //-------------------------------------------------------------------------------------------------
-void
-WordEditor::_languagesAutoDetect()
-{
-    qCHECK_DO(ui.tedtTerm->toPlainText().isEmpty(), return);
-
-    QString langCodeFrom;
-    QString langCodeTo;
-    {
-        std::tstring_t _langCodeFrom;
-        std::tstring_t _langCodeTo;
-
-        xl::package::Translate translator;
-        translator.langsDetect(ui.tedtTerm->toPlainText().toStdString(), &_langCodeFrom, &_langCodeTo);
-
-        langCodeFrom = QString::fromStdString(_langCodeFrom);
-        langCodeTo   = QString::fromStdString(_langCodeTo);
-    }
-
-    // TODO_VER: QComboBox::findText: case-insensitive
-    cint indexFrom = ui.cboLangFrom->findText(langCodeFrom);
-    qTEST(indexFrom > - 1);
-
-    cint indexTo   = ui.cboLangTo->findText(langCodeTo);
-    qTEST(indexTo > - 1);
-
-    ui.cboLangFrom->setCurrentIndex(indexFrom);
-    ui.cboLangTo->setCurrentIndex(indexTo);
-}
-//-------------------------------------------------------------------------------------------------
 
 
 /**************************************************************************************************
@@ -388,24 +346,6 @@ WordEditor::_languagesAutoDetect()
 *
 **************************************************************************************************/
 
-//-------------------------------------------------------------------------------------------------
-void
-WordEditor::pbtnLangsSwap_OnClicked()
-{
-    cQString textFrom  = ui.cboLangFrom->currentText();
-    cQString textTo    = ui.cboLangTo->currentText();
-
-    int      indexFrom = ui.cboLangFrom->findText(textTo);
-    qTEST(indexFrom > - 1);
-
-    int      indexTo   = ui.cboLangTo->findText(textFrom);
-    qTEST(indexTo > - 1);
-
-    ::qSwap(indexFrom, indexTo);
-
-    ui.cboLangFrom->setCurrentIndex(indexFrom);
-    ui.cboLangTo->setCurrentIndex(indexTo);
-}
 //-------------------------------------------------------------------------------------------------
 void
 WordEditor::tbtnTermCopy_OnClicked()
@@ -471,11 +411,8 @@ WordEditor::translate()
     QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
 
     check();
-    _languagesAutoDetect();
 
     QString  textFrom = ui.tedtTerm->toPlainText();
-    cQString langFrom = ui.cboLangFrom->currentText();
-    cQString langTo   = ui.cboLangTo->currentText();
     QString  textToBrief;
     QString  textToDetail;
     QString  textToRaw;
@@ -491,8 +428,10 @@ WordEditor::translate()
         std::tstring_t _textToBrief;
         std::tstring_t _textToDetail;
         std::tstring_t _textToRaw;
-        translate.execute(textFrom.toStdString(), langFrom.toStdString(), langTo.toStdString(),
-            &_textToBrief, &_textToDetail, &_textToRaw);
+        std::tstring_t _langFrom;
+        std::tstring_t _langTo;
+        translate.execute(textFrom.toStdString(), &_textToBrief, &_textToDetail, &_textToRaw,
+            &_langFrom, &_langTo);
 
         // [out]
         textToBrief  = QString::fromStdString(_textToBrief);

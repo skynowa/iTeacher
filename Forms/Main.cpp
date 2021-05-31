@@ -474,9 +474,14 @@ Main::quickTranslateClipboard()
         qCHECK_DO(!bRv, return);
     }
 
-    cQString title = QString("%1 - %2")
-                        .arg( qS2QS(xl::package::Application::info().name) )
-                        .arg( tr("Google Translator") );
+    QString title;
+    {
+        QFileInfo info( _sqlNavigator.model()->database().databaseName() );
+
+        title = QString("%1 - %2")
+                    .arg( qS2QS(xl::package::Application::info().name) )
+                    .arg( info.fileName() );
+    }
 
     QString term;
     QString text;
@@ -503,20 +508,18 @@ Main::quickTranslateClipboard()
             // auto detect languages
             xl::package::Translate translate;
 
-            std::tstring_t langFrom;
-            std::tstring_t langTo;
-            translate.langsDetect(term.toStdString(), &langFrom, &langTo);
-            qDebug() << qTRACE_VAR(langFrom.data());
-            qDebug() << qTRACE_VAR(langTo.data());
-
             std::tstring_t textToBrief;
             std::tstring_t textToDetail;
             std::tstring_t textToRaw;
-            translate.execute(term.toStdString(), langFrom, langTo, &textToBrief, &textToDetail,
-                &textToRaw);
+            std::tstring_t langFrom;
+            std::tstring_t langTo;
+            translate.execute(term.toStdString(), &textToBrief, &textToDetail,
+                &textToRaw, &langFrom, &langTo);
             qTEST(!textToBrief.empty());
             qTEST(!textToDetail.empty());
             qTEST(!textToRaw.empty());
+            qTEST(!langFrom.empty());
+            qTEST(!langTo.empty());
 
             // [out]
             {
@@ -542,10 +545,10 @@ Main::quickTranslateClipboard()
         if (option_msgType == MessageType::TrayIcon) {
             // QSystemTrayIcon doesn't support HTML ???
             text = QString(
-                        "%1 -> %2\n\n"
-                        "%3\n\n"
-                        "%4")
-                        .arg(langCodeFrom, langCodeTo, term, valueBrief);
+                        "%1 [%2 -> %3]\n\n"
+                        "%4\n\n"
+                        "%5")
+                        .arg(title, langCodeFrom, langCodeTo, term, valueBrief);
         } else {
             text = QString(
                         "<style>"
@@ -556,9 +559,8 @@ Main::quickTranslateClipboard()
                                 "color: red"
                             "}"
                         "</style>"
-                        "<b>%1</b>"
+                        "<b>%1</b> [<b>%2 -> %3</b>]"
                         "<hr/>"
-                        "<b>%2 -> %3</b>"
                         "<h3>%4</h3>"
                         "<h4>%5</h4>")
                         .arg(title, langCodeFrom, langCodeTo, term, valueBrief);

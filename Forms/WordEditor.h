@@ -49,14 +49,10 @@ private:
     void _settingsLoad();
     void _settingsSave();
 
-    void _languagesAutoDetect();
-        ///< auto detect translating languages
-
     Q_OBJECT
     Q_DISABLE_COPY(WordEditor)
 
 private Q_SLOTS:
-    void pbtnLangsSwap_OnClicked();
     void tbtnTermCopy_OnClicked();
     void tbtnTermPaste_OnClicked();
     void tbtnTermValueSwap_OnClicked();

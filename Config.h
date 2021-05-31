@@ -119,8 +119,6 @@ const TableViewHeader tableViewHeaders[]
 // etc
 #define DB_FILE_EXT              ".db"
 #define CSV_SEPARATOR            "#"
-#define LANG_EN                  "en"
-#define LANG_RU                  "ru"
 #define TABLEVIEW_ROW_HEIGHT     20
 #define BUTTON_BOX_WIDTH         75
 #define TERM_MINIMIZED_SIZE_MAX  30
