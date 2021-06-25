@@ -23,13 +23,13 @@
 - `QSound`
 - http://www.sfml-dev.org/
 
-## Trainer: add
+## Trainer
 
 - https://bitbucket.org/skynowa/teacher_vcl/src/2dfc86d6f080c17ff60b0f68fd8828c26af0ec5f/Forms/uDesk.h?at=master&fileviewer=file-view-default
 - https://bitbucket.org/skynowa/teacher_vcl/src/2dfc86d6f080c17ff60b0f68fd8828c26af0ec5f/Forms/uDesk.cpp?at=master&fileviewer=file-view-default
 - Show "Trainer" desk when termin exists
 
-## Translator: уточнить перевод (Yandex)
+## Translate suppliers (Yandex)
 
 - http://api.yandex.com/translate/doc/dg/reference/translate.xml
 - https://tech.yandex.ru/translate/doc/dg/reference/translate-docpage/
