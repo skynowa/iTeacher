@@ -10,6 +10,7 @@
 - ADD: Quick search
 - CMake: distrs (Win, Linux)
 - ADD: Word status - words for repeat
+- TableView - Ru column at 1-st position (ru -> en)
 
 - About: Donate credentials - add
 
