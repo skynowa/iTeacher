@@ -17,26 +17,26 @@
 - Print preview
 - CMake: distrs (Win, Linux)
 
-## FIX: voice feature
+## Voice
 
+- FIX: voice feature
 - `QSound`
 - http://www.sfml-dev.org/
 
-## Port
+## Trainer: add
 
-- QtQuick (+ Android)
+- https://bitbucket.org/skynowa/teacher_vcl/src/2dfc86d6f080c17ff60b0f68fd8828c26af0ec5f/Forms/uDesk.h?at=master&fileviewer=file-view-default
+- https://bitbucket.org/skynowa/teacher_vcl/src/2dfc86d6f080c17ff60b0f68fd8828c26af0ec5f/Forms/uDesk.cpp?at=master&fileviewer=file-view-default
+- Show "Trainer" desk when termin exists
 
 ## Translator: уточнить перевод (Yandex)
 
 - http://api.yandex.com/translate/doc/dg/reference/translate.xml
 - https://tech.yandex.ru/translate/doc/dg/reference/translate-docpage/
 
-## Trainer: add
+## Port
 
-- https://bitbucket.org/skynowa/teacher_vcl/src/2dfc86d6f080c17ff60b0f68fd8828c26af0ec5f/Forms/uDesk.h?at=master&fileviewer=file-view-default
-- https://bitbucket.org/skynowa/teacher_vcl/src/2dfc86d6f080c17ff60b0f68fd8828c26af0ec5f/Forms/uDesk.cpp?at=master&fileviewer=file-view-default
-
-- Show "Trainer" desk when termin exists
+- QtQuick (+ Android)
 
 ## FAQ
 
