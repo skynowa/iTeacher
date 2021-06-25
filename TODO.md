@@ -1,59 +1,62 @@
 # TODOs
 
+## Main
+
 - [move new words to DB](https://docs.google.com/spreadsheets/d/1m8uh17iOzbM5aj8NWxBxTZbrDobUbOsJepj_sH9Uz_A/edit)
+- `QTableView` - Ru column at 1-st position (ru -> en)
+- Word status - words for repeat
 - Pin translator on top
 - Trainer (UI + Console) add
 - Auto-save new words
-- [+] Mute mode
+- [x] Mute mode
 - Type translation (replace text)
 - Gui: Kurs NBU (Android)
-- ADD: Quick search
-- CMake: distrs (Win, Linux)
-- ADD: Word status - words for repeat
-- TableView - Ru column at 1-st position (ru -> en)
-
-- About: Donate credentials - add
-
-  - PayPal
-  - WebMoney
-  - YandexMoney
-  - Private24
-  - portmone (https://www.portmone.com.ua/r3/uk/kyivstar)
-  - https://easypay.ua/
-  - Карта Сбербанка: 4276849010114352
-  - Webmoney WMR: R288236286237
-  - Webmoney WMZ: Z515436890737
-  - Яндекс.Деньги: 41001497532966
-  - Western Union: Россия, Пермь, Мосин Андрей Владимирович
-  - Qiwi: +79519351658
-  - Rapida Online: 9519351658
-  - PayPal: superdusha@yandex.ru
-
-- Main: print preview
+- Quick search
 - DB: transcription - add
+- WordEditor - translating on edit, FIX
+- Print preview
+- CMake: distrs (Win, Linux)
 
-- FIX: voice feature
+## FIX: voice feature
 
-  - QSound
-  - http://www.sfml-dev.org/
+- `QSound`
+- http://www.sfml-dev.org/
 
-- Port -> QtQuick (+ Android)
+## Port
 
-- Translator: уточнить перевод (Yandex)
+- QtQuick (+ Android)
 
-  - http://api.yandex.com/translate/doc/dg/reference/translate.xml
-  - https://tech.yandex.ru/translate/doc/dg/reference/translate-docpage/
+## Translator: уточнить перевод (Yandex)
 
-- Trainer: add
+- http://api.yandex.com/translate/doc/dg/reference/translate.xml
+- https://tech.yandex.ru/translate/doc/dg/reference/translate-docpage/
 
-  - https://bitbucket.org/skynowa/teacher_vcl/src/2dfc86d6f080c17ff60b0f68fd8828c26af0ec5f/Forms/uDesk.h?at=master&fileviewer=file-view-default
-  - https://bitbucket.org/skynowa/teacher_vcl/src/2dfc86d6f080c17ff60b0f68fd8828c26af0ec5f/Forms/uDesk.cpp?at=master&fileviewer=file-view-default
+## Trainer: add
+
+- https://bitbucket.org/skynowa/teacher_vcl/src/2dfc86d6f080c17ff60b0f68fd8828c26af0ec5f/Forms/uDesk.h?at=master&fileviewer=file-view-default
+- https://bitbucket.org/skynowa/teacher_vcl/src/2dfc86d6f080c17ff60b0f68fd8828c26af0ec5f/Forms/uDesk.cpp?at=master&fileviewer=file-view-default
 
 - Show "Trainer" desk when termin exists
-- WordEditor - translating on edit, FIX
 
-- FAQ
+## FAQ
 
-  - https://github.com/AlexSnet/ASTranslator/
-  - http://code.google.com/p/quick-text-translator/
-  - http://code.google.com/p/lightlang/
+- https://github.com/AlexSnet/ASTranslator/
+- http://code.google.com/p/quick-text-translator/
+- http://code.google.com/p/lightlang/
+
+## About: Donate credentials - add
+
+- PayPal
+- WebMoney
+- YandexMoney
+- Private24
+- portmone (https://www.portmone.com.ua/r3/uk/kyivstar)
+- https://easypay.ua/
+- Карта Сбербанка: 4276849010114352
+- Webmoney WMR: R288236286237
+- Webmoney WMZ: Z515436890737
+- Яндекс.Деньги: 41001497532966
+- Western Union: Россия, Пермь, Мосин Андрей Владимирович
+- Qiwi: +79519351658
+- Rapida Online: 9519351658
+- PayPal: superdusha@yandex.ru
