@@ -2,7 +2,7 @@
 
 ## Main
 
-- [move new words to DB](https://docs.google.com/spreadsheets/d/1m8uh17iOzbM5aj8NWxBxTZbrDobUbOsJepj_sH9Uz_A/edit)
+- [Move new words to DB](https://docs.google.com/spreadsheets/d/1m8uh17iOzbM5aj8NWxBxTZbrDobUbOsJepj_sH9Uz_A/edit)
 - `QTableView` - Ru column at 1-st position (ru -> en)
 - Word status - words for repeat
 - Pin translator on top
