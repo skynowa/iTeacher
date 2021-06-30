@@ -3,12 +3,13 @@
 ## Main
 
 - [Move new words to DB](https://docs.google.com/spreadsheets/d/1m8uh17iOzbM5aj8NWxBxTZbrDobUbOsJepj_sH9Uz_A/edit)
+- Dictionaries ComboBox -> flat RadioButton
+- Hint classes
 - `QTableView` - Ru column at 1-st position (ru -> en)
 - Word status - words for repeat
 - Pin translator on top
 - Trainer (UI + Console) add
 - Auto-save new words
-- Dictionaries ComboBox -> flat RadioButton
 - [x] Mute mode
 - Translation in place (replace text)
 - Gui: Kurs NBU (Android)
