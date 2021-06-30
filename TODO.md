@@ -8,8 +8,9 @@
 - Pin translator on top
 - Trainer (UI + Console) add
 - Auto-save new words
+- Dictionaries ComboBox -> flat RadioButton
 - [x] Mute mode
-- Type translation (replace text)
+- Translation in place (replace text)
 - Gui: Kurs NBU (Android)
 - Quick search
 - DB: transcription - add
