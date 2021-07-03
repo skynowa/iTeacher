@@ -36,7 +36,7 @@ Hint::show() const
     // QMessageBox - only one instance
     QSharedMemory locker;
     {
-        cQString dlgGuid = qS2QS(xl::package::Application::info().name) + "_OnTranslateClipboard_guid";
+        cQString dlgGuid = qS2QS(xl::package::Application::info().name) + "_hint_guid";
 
         locker.setKey(dlgGuid);
 
