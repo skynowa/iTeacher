@@ -10,6 +10,7 @@
 #include "../QtLib/Application.h"
 #include "../Classes/CheckBoxItemDelegate.h"
 #include "../Classes/ComboBoxItemDelegate.h"
+#include "../Classes/Hint.h"
 #include "../Classes/Utils.h"
 #include "../Forms/WordEditor.h"
 #include "../Forms/WordFinder.h"
@@ -19,7 +20,6 @@
 
 #include <QPrinter>
 #include <QFuture>
-#include <QtConcurrent>
 #include <QToolTip>
 
 #include <xLib/Core/Const.h>
@@ -52,6 +52,12 @@ Main::Main(
     _initModel();
     _initActions();
     _settingsLoad();
+}
+//-------------------------------------------------------------------------------------------------
+QSystemTrayIcon &
+Main::trayIcon()
+{
+    return _trayIcon;
 }
 //-------------------------------------------------------------------------------------------------
 /*virtual*/
@@ -449,6 +455,10 @@ Main::createDb()
 void
 Main::quickTranslateClipboard()
 {
+#if 1
+    Hint hint(this, Hint::Type::ToolTip, _sqlNavigator.model()->database());
+    hint.show();
+#else
     enum class MessageType
     {
         TrayIcon   = 1,
@@ -602,6 +612,7 @@ Main::quickTranslateClipboard()
         QToolTip::showText(QCursor::pos(), text);
         break;
     }
+#endif
 }
 //-------------------------------------------------------------------------------------------------
 void

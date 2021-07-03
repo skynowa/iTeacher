@@ -29,6 +29,8 @@ public:
              Main(QWidget *parent = nullptr, Qt::WindowFlags flags = Qt::Widget);
     virtual ~Main();
 
+    QSystemTrayIcon &trayIcon();
+
 public Q_SLOTS:
     void receiveFromOtherApplication(cQStringList &message);
 
