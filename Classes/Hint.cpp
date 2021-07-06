@@ -72,9 +72,6 @@ Hint::show() const
         term = clipboard->text(mode).trimmed();
 
         QString valueBrief;
-        QString valueDetail;
-        QString valueRaw;
-
         QString langCodeFrom;
         QString langCodeTo;
         {
@@ -97,21 +94,8 @@ Hint::show() const
             // [out]
             {
                 valueBrief   = QString::fromStdString(textToBrief);
-                valueDetail  = QString::fromStdString(textToDetail);
-                valueRaw     = QString::fromStdString(textToRaw);
-
                 langCodeFrom = QString::fromStdString(langFrom);
                 langCodeTo   = QString::fromStdString(langTo);
-
-            #if 0
-                qDebug() << qTRACE_VAR(valueBrief);
-                qDebug() << qTRACE_VAR(valueDetail);
-                qDebug() << qTRACE_VAR(valueRaw);
-                qDebug() << qTRACE_VAR(langCodeFrom);
-                qDebug() << qTRACE_VAR(langCodeTo);
-            #endif
-
-                Q_UNUSED(valueDetail);
             }
         }
 
