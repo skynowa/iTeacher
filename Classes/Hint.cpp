@@ -88,35 +88,53 @@ Hint::show() const
         }
     }
 
+    // text (is term exists) - format
+    QString isTermExists;
+    {
+        bRv = iteacher::Utils::isTerminExists(_database, term);
+        isTermExists = (bRv) ? QString(tr("Exists")) : QString(tr("New"));
+    }
+
     QString title;
     {
-        QFileInfo info( _database.databaseName() );
+        cQString appName = qS2QS(xl::package::Application::info().name);
+        cQString dbName  = QFileInfo( _database.databaseName() ).fileName();
 
-        title = QString("%1 - %2")
-                    .arg( qS2QS(xl::package::Application::info().name) )
-                    .arg( info.fileName() );
+        switch (_type) {
+        case Type::TrayIcon:
+        case Type::MessageBox:
+            title = QString("%1 - %2 [%3 -> %4] %5")
+                        .arg(appName)
+                        .arg(dbName)
+                        .arg(langCodeFrom)
+                        .arg(langCodeTo)
+                        .arg(isTermExists);
+            break;
+        case Type::ToolTip:
+            title = QString("<b>%1 - %2</b> [<b>%3 -> %4</b>] %5")
+                        .arg(appName)
+                        .arg(dbName)
+                        .arg(langCodeFrom)
+                        .arg(langCodeTo)
+                        .arg(isTermExists);
+            break;
+        }
     }
 
     // text - format
     QString text;
     {
-        // text (is term exists) - format
-        QString isTermExists;
-        {
-            bRv = iteacher::Utils::isTerminExists(_database, term);
-            isTermExists = (bRv) ? QString(tr("Exists")) : QString(tr("New"));
-        }
-
-        if (_type == Type::TrayIcon ||
-            _type == Type::MessageBox)
-        {
+        switch (_type) {
+        case Type::TrayIcon:
+        case Type::MessageBox:
             // QSystemTrayIcon doesn't support HTML ???
             text = QString(
-                        "%1 [%2 -> %3] %4\n\n"
-                        "%5\n\n"
-                        "%6")
-                        .arg(title, langCodeFrom, langCodeTo, isTermExists, term, valueBrief);
-        } else {
+                        "%1\n\n"
+                        "%2\n\n"
+                        "%3")
+                        .arg(title, term, valueBrief);
+            break;
+        case Type::ToolTip:
             text = QString(
                         "<style>"
                             "h3 {"
@@ -128,11 +146,12 @@ Hint::show() const
                                 "text-align: center;"
                             "}"
                         "</style>"
-                        "<b>%1</b> [<b>%2 -> %3</b>] %4"
+                        "%1"
                         "<hr/>"
-                        "<h3>%5</h3>"
-                        "<h4>%6</h4>")
-                        .arg(title, langCodeFrom, langCodeTo, isTermExists, term, valueBrief);
+                        "<h3>%2</h3>"
+                        "<h4>%3</h4>")
+                        .arg(title, term, valueBrief);
+            break;
         }
     }
 
