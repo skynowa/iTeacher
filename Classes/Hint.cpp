@@ -132,10 +132,10 @@ Hint::show() const
         bRv = iteacher::Utils::isTerminExists(_database, term);
         if (bRv) {
             // term already exists
-            text += QString(tr("%1Term already exists")).arg(eol);
+            text += QString(tr("%1Term - exists")).arg(eol);
         } else {
             // ok, term is a new
-            text += QString(tr("%1Term is a new")).arg(eol);
+            text += QString(tr("%1Term - new")).arg(eol);
         }
     }
 
