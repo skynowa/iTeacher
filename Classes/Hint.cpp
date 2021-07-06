@@ -113,7 +113,7 @@ Hint::show() const
                         .arg(isTermExists);
             break;
         case Type::ToolTip:
-            title = QString("<b>%1 - %2</b> [<b>%3 -> %4</b>] %5")
+            title = QString("<b>%1 - %2</b> [<b>%3 -> %4</b>] <b class='term_exists'>%5</b>")
                         .arg(appName)
                         .arg(dbName)
                         .arg(langCodeFrom)
@@ -146,11 +146,15 @@ Hint::show() const
                                 "color: red;"
                                 "text-align: center;"
                             "}"
+                            ".term_exists {"
+                                "color: green;"
+                            "}"
                         "</style>"
                         "%1"
                         "<hr/>"
                         "<h3>%2</h3>"
-                        "<h4>%3</h4>")
+                        "<h4>%3</h4>"
+                        "<h5> </h5>")   // force EOL
                         .arg(title, term, valueBrief);
             break;
         }
