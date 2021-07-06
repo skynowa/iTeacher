@@ -83,6 +83,8 @@ Hint::show() const
         // [out]
         {
             valueBrief   = QString::fromStdString(textToBrief);
+            Q_UNUSED(textToDetail);
+            Q_UNUSED(textToRaw);
             langCodeFrom = QString::fromStdString(langFrom);
             langCodeTo   = QString::fromStdString(langTo);
         }
