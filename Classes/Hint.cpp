@@ -100,13 +100,20 @@ Hint::show() const
     // text - format
     QString text;
     {
+        // text (is term exists) - format
+        QString isTermExists;
+        {
+            bRv = iteacher::Utils::isTerminExists(_database, term);
+            isTermExists = (bRv) ? QString(tr("Exists")) : QString(tr("New"));
+        }
+
         if (_type == Type::TrayIcon) {
             // QSystemTrayIcon doesn't support HTML ???
             text = QString(
-                        "%1 [%2 -> %3]\n\n"
-                        "%4\n\n"
-                        "%5")
-                        .arg(title, langCodeFrom, langCodeTo, term, valueBrief);
+                        "%1 [%2 -> %3] %4\n\n"
+                        "%5\n\n"
+                        "%6")
+                        .arg(title, langCodeFrom, langCodeTo, isTermExists, term, valueBrief);
         } else {
             text = QString(
                         "<style>"
@@ -117,25 +124,11 @@ Hint::show() const
                                 "color: red"
                             "}"
                         "</style>"
-                        "<b>%1</b> [<b>%2 -> %3</b>]"
+                        "<b>%1</b> [<b>%2 -> %3</b>] %4"
                         "<hr/>"
-                        "<h3>%4</h3>"
-                        "<h4>%5</h4>")
-                        .arg(title, langCodeFrom, langCodeTo, term, valueBrief);
-        }
-    }
-
-    // text (is term exists) - format
-    {
-        cQString eol = (_type == Type::MessageBox) ? "\n\n" : "<br />";
-
-        bRv = iteacher::Utils::isTerminExists(_database, term);
-        if (bRv) {
-            // term already exists
-            text += QString(tr("%1Term - exists")).arg(eol);
-        } else {
-            // ok, term is a new
-            text += QString(tr("%1Term - new")).arg(eol);
+                        "<h3>%5</h3>"
+                        "<h4>%6</h4>")
+                        .arg(title, langCodeFrom, langCodeTo, isTermExists, term, valueBrief);
         }
     }
 
