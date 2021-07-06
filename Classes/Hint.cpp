@@ -57,7 +57,9 @@ Hint::show() const
     }
 
     QString term;
-    QString text;
+    QString valueBrief;
+    QString langCodeFrom;
+    QString langCodeTo;
     {
         QClipboard *clipboard = QApplication::clipboard();
         if (clipboard == nullptr) {
@@ -71,34 +73,33 @@ Hint::show() const
 
         term = clipboard->text(mode).trimmed();
 
-        QString valueBrief;
-        QString langCodeFrom;
-        QString langCodeTo;
+        // auto detect languages
+        xl::package::Translate translate;
+
+        std::tstring_t textToBrief;
+        std::tstring_t textToDetail;
+        std::tstring_t textToRaw;
+        std::tstring_t langFrom;
+        std::tstring_t langTo;
+        translate.execute(term.toStdString(), &textToBrief, &textToDetail,
+            &textToRaw, &langFrom, &langTo);
+        qTEST(!textToBrief.empty());
+        qTEST(!textToDetail.empty());
+        qTEST(!textToRaw.empty());
+        qTEST(!langFrom.empty());
+        qTEST(!langTo.empty());
+
+        // [out]
         {
-            // auto detect languages
-            xl::package::Translate translate;
-
-            std::tstring_t textToBrief;
-            std::tstring_t textToDetail;
-            std::tstring_t textToRaw;
-            std::tstring_t langFrom;
-            std::tstring_t langTo;
-            translate.execute(term.toStdString(), &textToBrief, &textToDetail,
-                &textToRaw, &langFrom, &langTo);
-            qTEST(!textToBrief.empty());
-            qTEST(!textToDetail.empty());
-            qTEST(!textToRaw.empty());
-            qTEST(!langFrom.empty());
-            qTEST(!langTo.empty());
-
-            // [out]
-            {
-                valueBrief   = QString::fromStdString(textToBrief);
-                langCodeFrom = QString::fromStdString(langFrom);
-                langCodeTo   = QString::fromStdString(langTo);
-            }
+            valueBrief   = QString::fromStdString(textToBrief);
+            langCodeFrom = QString::fromStdString(langFrom);
+            langCodeTo   = QString::fromStdString(langTo);
         }
+    }
 
+    // text - format
+    QString text;
+    {
         if (_type == Type::TrayIcon) {
             // QSystemTrayIcon doesn't support HTML ???
             text = QString(
@@ -124,7 +125,7 @@ Hint::show() const
         }
     }
 
-    // is term exists
+    // text (is term exists) - format
     {
         cQString eol = (_type == Type::MessageBox) ? "\n\n" : "<br />";
 
