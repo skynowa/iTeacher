@@ -107,7 +107,9 @@ Hint::show() const
             isTermExists = (bRv) ? QString(tr("Exists")) : QString(tr("New"));
         }
 
-        if (_type == Type::TrayIcon) {
+        if (_type == Type::TrayIcon ||
+            _type == Type::MessageBox)
+        {
             // QSystemTrayIcon doesn't support HTML ???
             text = QString(
                         "%1 [%2 -> %3] %4\n\n"
@@ -118,10 +120,12 @@ Hint::show() const
             text = QString(
                         "<style>"
                             "h3 {"
-                                "color: blue"
+                                "color: blue;"
+                                "text-align: center;"
                             "}"
                             "h4 {"
-                                "color: red"
+                                "color: red;"
+                                "text-align: center;"
                             "}"
                         "</style>"
                         "<b>%1</b> [<b>%2 -> %3</b>] %4"
