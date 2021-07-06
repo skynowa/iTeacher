@@ -455,7 +455,11 @@ Main::createDb()
 void
 Main::quickTranslateClipboard()
 {
-    Hint hint(this, Hint::Type::ToolTip, _sqlNavigator.model()->database());
+    Hint hint(this,
+              Hint::Type::ToolTip,
+              // Hint::Type::TrayIcon,
+              // Hint::Type::MessageBox,
+              _sqlNavigator.model()->database());
     hint.show();
 }
 //-------------------------------------------------------------------------------------------------

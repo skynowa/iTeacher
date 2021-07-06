@@ -47,15 +47,6 @@ Hint::show() const
         qCHECK_DO(!bRv, return);
     }
 
-    QString title;
-    {
-        QFileInfo info( _database.databaseName() );
-
-        title = QString("%1 - %2")
-                    .arg( qS2QS(xl::package::Application::info().name) )
-                    .arg( info.fileName() );
-    }
-
     QString term;
     QString valueBrief;
     QString langCodeFrom;
@@ -95,6 +86,15 @@ Hint::show() const
             langCodeFrom = QString::fromStdString(langFrom);
             langCodeTo   = QString::fromStdString(langTo);
         }
+    }
+
+    QString title;
+    {
+        QFileInfo info( _database.databaseName() );
+
+        title = QString("%1 - %2")
+                    .arg( qS2QS(xl::package::Application::info().name) )
+                    .arg( info.fileName() );
     }
 
     // text - format
