@@ -127,12 +127,11 @@ Hint::show() const
         switch (_type) {
         case Type::TrayIcon:
         case Type::MessageBox:
-            // QSystemTrayIcon doesn't support HTML ???
+            // TODO: QSystemTrayIcon doesn't support HTML ???
             text = QString(
                         "%1\n\n"
-                        "%2\n\n"
-                        "%3")
-                        .arg(title, term, valueBrief);
+                        "%2")
+                        .arg(term, valueBrief);
             break;
         case Type::ToolTip:
             text = QString(
