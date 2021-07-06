@@ -125,20 +125,16 @@ Hint::show() const
     }
 
     // is term exists
-    bRv = iteacher::Utils::isTerminExists(_database, term);
-    if (bRv) {
-        // term already exists
-        if (_type == Type::TrayIcon) {
-            text += QString(tr("\n\nTerm already exists"));
+    {
+        cQString eol = (_type == Type::MessageBox) ? "\n\n" : "<br />";
+
+        bRv = iteacher::Utils::isTerminExists(_database, term);
+        if (bRv) {
+            // term already exists
+            text += QString(tr("%1Term already exists")).arg(eol);
         } else {
-            text += QString(tr("<br />Term already exists"));
-        }
-    } else {
-        // ok, term is a new
-        if (_type == Type::TrayIcon) {
-            text += QString(tr("\n\nTerm is a new"));
-        } else {
-            text += QString(tr("<br />Term is a new"));
+            // ok, term is a new
+            text += QString(tr("%1Term is a new")).arg(eol);
         }
     }
 
