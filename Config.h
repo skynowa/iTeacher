@@ -113,7 +113,7 @@ const TableViewHeader tableViewHeaders[]
 #define AUDIO_VALUE_FILE_NAME    "value.mp3"
 
 // tray
-#define QSYSTEM_TRAYICON_MESSAGE_TIMEOUT_MSEC 5000
+#define QSYSTEM_TRAYICON_MESSAGE_TIMEOUT_MSEC 3000
 #define QSYSTEM_TRAYICON_SIZE    QSize(32, 32)
 
 // etc

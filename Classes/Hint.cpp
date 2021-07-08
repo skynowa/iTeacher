@@ -141,10 +141,12 @@ Hint::show() const
                             "h3 {"
                                 "color: blue;"
                                 "text-align: center;"
+                                "font-size: 18px;"
                             "}"
                             "h4 {"
                                 "color: red;"
                                 "text-align: center;"
+                                "font-size: 16px;"
                             "}"
                             ".term_exists {"
                                 "color: green;"
@@ -179,7 +181,8 @@ Hint::show() const
         QMessageBox::information(nullptr, title, text);
         break;
     case Type::ToolTip:
-        QToolTip::showText(QCursor::pos(), text);
+        QToolTip::showText(QCursor::pos(), text, nullptr, QRect(),
+            QSYSTEM_TRAYICON_MESSAGE_TIMEOUT_MSEC);
         break;
     }
 }
