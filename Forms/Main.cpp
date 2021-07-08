@@ -456,9 +456,9 @@ void
 Main::quickTranslateClipboard()
 {
     Hint hint(this,
-        // Hint::Type::ToolTip,
+        Hint::Type::ToolTip,
         // Hint::Type::TrayIcon,
-        Hint::Type::MessageBox,
+        // Hint::Type::MessageBox,
         _sqlNavigator.model()->database(),
         HINT_TIMEOUT_MSEC);
     hint.show();
