@@ -20,7 +20,8 @@ public:
         ToolTip    = 3
     };
 
-    explicit Hint(QObject *parent, const Type type, const QSqlDatabase &database);
+    explicit Hint(QObject *parent, const Type type, const QSqlDatabase &database,
+                const int timeoutMs);
 
     void show() const;
 
@@ -33,5 +34,6 @@ private:
 
     const Type          _type {};
     const QSqlDatabase &_database;
+    const int           _timeoutMs {};
 };
 //-------------------------------------------------------------------------------------------------

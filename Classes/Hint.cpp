@@ -20,11 +20,13 @@
 Hint::Hint(
     QObject            *a_parent,
     const Type          a_type,
-    const QSqlDatabase &a_database
+    const QSqlDatabase &a_database,
+    const int           a_timeoutMs
 ) :
-    QObject  {a_parent},
-    _type    {a_type},
-    _database{a_database}
+    QObject   {a_parent},
+    _type     {a_type},
+    _database {a_database},
+    _timeoutMs{a_timeoutMs}
 {
 }
 //-------------------------------------------------------------------------------------------------
@@ -173,16 +175,27 @@ Hint::show() const
             auto *mainWnd = static_cast<Main *>( this->parent() );
             qTEST_PTR(mainWnd);
 
-            mainWnd->trayIcon().showMessage(title, text, QSystemTrayIcon::Information,
-                QSYSTEM_TRAYICON_MESSAGE_TIMEOUT_MSEC);
+            mainWnd->trayIcon().showMessage(title, text, QSystemTrayIcon::Information, _timeoutMs);
         }
         break;
     case Type::MessageBox:
+    #if 0
         QMessageBox::information(nullptr, title, text);
+    #else
+        {
+            QMessageBox msgBox;
+            msgBox.setIcon(QMessageBox::Information);
+            msgBox.setWindowTitle(title);
+            msgBox.setText(text);
+            msgBox.setStandardButtons(QMessageBox::Ok);
+
+            QTimer::singleShot(_timeoutMs, &msgBox, SLOT(close()));
+            msgBox.exec();
+        }
+    #endif
         break;
     case Type::ToolTip:
-        QToolTip::showText(QCursor::pos(), text, nullptr, QRect(),
-            QSYSTEM_TRAYICON_MESSAGE_TIMEOUT_MSEC);
+        QToolTip::showText(QCursor::pos(), text, nullptr, QRect(), _timeoutMs);
         break;
     }
 }
