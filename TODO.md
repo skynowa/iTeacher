@@ -24,8 +24,8 @@
 
 ## Voice
 
+- [!] `QSound`
 - FIX: voice feature
-- `QSound`
 - http://www.sfml-dev.org/
 
 ## Trainer
