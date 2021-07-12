@@ -987,8 +987,17 @@ Main::playTerm()
     }
 
     // TODO: playTerm - impl
-#if 0
-    _translator.speech(text, LANG_EN, audioFilePath);
+#if OPTION_QSOUND
+    qTRACE_FUNC;
+
+    /// _translator.speech(text, LANG_EN, audioFilePath);
+
+    audioFilePath = "/home/skynowa/Dropbox/Music/Bomb_Has_Been_Planted_CSGO.wav";
+    qTEST(QFile::exists(audioFilePath));
+    qTEST(QFileInfo(audioFilePath).completeSuffix() == "wav");
+
+    QSound sound(audioFilePath);
+    sound.play();
 #else
     Q_UNUSED(text);
     Q_UNUSED(audioFilePath);
@@ -1017,8 +1026,10 @@ Main::playValue()
     }
 
     // TODO: playValue - impl
-#if 0
-    _translator.speech(text, LANG_RU, audioFilePath);
+#if OPTION_QSOUND
+    qTRACE_FUNC;
+
+    /// _translator.speech(text, LANG_RU, audioFilePath);
 #else
     Q_UNUSED(text);
     Q_UNUSED(audioFilePath);

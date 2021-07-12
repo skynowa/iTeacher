@@ -47,7 +47,7 @@ message("CMAKE_MODULE_PATH: ${CMAKE_MODULE_PATH}")
 find_package(xLib REQUIRED)
 find_package(LibXml2 REQUIRED)
 
-set(_QT5_MODULES Core Gui Widgets Sql Network Xml PrintSupport Concurrent)
+set(_QT5_MODULES Core Gui Widgets Sql Network Xml PrintSupport Concurrent Multimedia)
 # Multimedia (as Config.h:OPTION_QMEDIA_PLAYER)
 
 foreach(COMPONENT ${_QT5_MODULES})
