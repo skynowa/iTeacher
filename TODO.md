@@ -12,11 +12,12 @@
 - Trainer (UI + Console) add
 - Auto-save new words
 - Translation in place (replace text)
-- Gui: Kurs NBU (Android)
+- UI: Kurs NBU (Android)
 - Quick search
 - DB: transcription - add
 - WordEditor - translating on edit, FIX
 - Print preview
+- UI langs support - rm
 - CMake: distrs (Win, Linux)
 - [x] Hint classes
 - [x] Mute mode
