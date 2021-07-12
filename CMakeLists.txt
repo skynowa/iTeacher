@@ -118,7 +118,11 @@ add_executable(${PROJECT_NAME}
     # MOCs
     ${MOC_UI}
     ${MOC_CPP}
-    ${RESOURCES})
+    ${RESOURCES}
+
+    # Doc
+    Readme.md
+    TODO.md)
 
 # TODO: ${XLIB_LIBRARIES}
 target_link_libraries(${PROJECT_NAME} ${cmXLIB_LIBRARIES} -lX11)
