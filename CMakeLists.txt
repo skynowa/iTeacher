@@ -29,7 +29,10 @@ set(CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR})
 # CMakeLib - CMAKE_MODULE_PATH
 set(CMAKE_MAJOR_MINOR_VERSION "${CMAKE_MAJOR_VERSION}.${CMAKE_MINOR_VERSION}")
 set(CMAKE_DATA_DIR_DEFAULT    "/usr/share/cmake-${CMAKE_MAJOR_MINOR_VERSION}/Modules")
-set(CMAKE_MODULE_PATH         "${CMAKE_DATA_DIR_DEFAULT}/CMakeLib;${CMAKE_MODULE_PATH}")
+set(CMAKE_MODULE_PATH
+    "${CMAKE_DATA_DIR_DEFAULT}/CMakeLib;"
+    "${CMAKE_DATA_DIR_DEFAULT}/CMakeLib/Qt;"
+    "${CMAKE_MODULE_PATH}")
 #--------------------------------------------------------------------------------------------------
 # checks
 # Check if Qtversion is >=QT_OFFICIAL_VERSION.
@@ -46,21 +49,7 @@ message("CMAKE_MODULE_PATH: ${CMAKE_MODULE_PATH}")
 
 find_package(xLib REQUIRED)
 find_package(LibXml2 REQUIRED)
-
-set(_QT5_MODULES Core Gui Widgets Sql Network Xml PrintSupport Concurrent)
-# Multimedia - as Config.h:OPTION_QTMULTIMEDIA
-
-foreach(COMPONENT ${_QT5_MODULES})
-    find_package(Qt5${COMPONENT} REQUIRED)
-
-    if ("${COMPONENT}" STREQUAL "Widgets")
-        message("Qt5Widgets version: ${Qt5Widgets_VERSION_STRING}")
-    endif()
-
-    include_directories(${Qt5${COMPONENT}_INCLUDE_DIRS})
-    add_definitions(${Qt5${COMPONENT}_DEFINITIONS})
-    link_libraries(${Qt5${COMPONENT}_LIBRARIES})
-endforeach()
+find_package(Qt5 REQUIRED)
 
 include_directories(
     ${LIBXML2_INCLUDE_DIR}
