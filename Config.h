@@ -6,9 +6,16 @@
 
 #pragma once
 
+//-------------------------------------------------------------------------------------------------
+// Options
+#define OPTION_QTMULTIMEDIA 0 // TODO: QSound
+//-------------------------------------------------------------------------------------------------
 #include <Qt>
 #include <QVariant>
-#include <QSound>
+
+#if OPTION_QTMULTIMEDIA
+    #include <QSound>
+#endif
 //-------------------------------------------------------------------------------------------------
 // main window
 #define APP_NAME                 "iTeacher"
@@ -123,7 +130,4 @@ const TableViewHeader tableViewHeaders[]
 #define TABLEVIEW_ROW_HEIGHT     20
 #define BUTTON_BOX_WIDTH         75
 #define TERM_MINIMIZED_SIZE_MAX  30
-//-------------------------------------------------------------------------------------------------
-// Options
-#define OPTION_QSOUND 0 // TODO: QSound
 //-------------------------------------------------------------------------------------------------
