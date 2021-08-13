@@ -42,7 +42,7 @@ public slots:
 private:
     Q_OBJECT
 
-    const int           _timeoutMs {3000};
+    static constexpr int _timeoutMs {3 * 1000};
 
     const Type          _type {};
     const QSqlDatabase &_database;

@@ -166,28 +166,35 @@ Hint::show() const
                         .arg(term, valueBrief);
             break;
         case Type::ToolTip:
+            constexpr std::size_t termFontSize  {24};
+            constexpr std::size_t valueFontSize {termFontSize - 2};
+
             text = QString(
                         "<style>"
                             "h3 {"
                                 "color: blue;"
                                 "text-align: center;"
-                                "font-size: 18px;"
+                                "font-size: %1px;"
                             "}"
                             "h4 {"
                                 "color: red;"
                                 "text-align: center;"
-                                "font-size: 16px;"
+                                "font-size: %2px;"
                             "}"
                             ".term_exists {"
                                 "color: green;"
                             "}"
                         "</style>"
-                        "%1"
+                        "%3"
                         "<hr/>"
-                        "<h3>%2</h3>"
-                        "<h4>%3</h4>"
+                        "<h3>%4</h3>"
+                        "<h4>%5</h4>"
                         "<h5> </h5>")   // force EOL
-                        .arg(title, term, valueBrief);
+                        .arg(termFontSize)
+                        .arg(valueFontSize)
+                        .arg(title)
+                        .arg(term)
+                        .arg(valueBrief);
             break;
         }
     }
