@@ -29,8 +29,8 @@ public:
     Q_DISABLE_COPY(Hint)
 
     static Hint trayIcon(QObject *parent, const QSqlDatabase &database);
-    static Hint messageBox(QObject *parent, const QSqlDatabase &database);
-    static Hint toolTip(QObject *parent, const QSqlDatabase &database);
+    static Hint messageBox(const QSqlDatabase &database);
+    static Hint toolTip(const QSqlDatabase &database);
 ///@}
 
     void show() const;
