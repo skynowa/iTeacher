@@ -214,11 +214,9 @@ Hint::show() const
         }
         break;
     case Type::MessageBox:
-    #if 0
-        QMessageBox::information(nullptr, title, text);
-    #else
         {
             QMessageBox msgBox;
+            msgBox.setParent(nullptr);
             msgBox.setIcon(QMessageBox::Information);
             msgBox.setWindowTitle(title);
             msgBox.setText(text);
@@ -227,7 +225,6 @@ Hint::show() const
             QTimer::singleShot(_timeoutMs, &msgBox, SLOT(close()));
             msgBox.exec();
         }
-    #endif
         break;
     case Type::ToolTip:
         QToolTip::showText(QCursor::pos(), text, nullptr, QRect(), _timeoutMs);
