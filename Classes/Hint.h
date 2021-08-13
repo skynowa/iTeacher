@@ -35,10 +35,6 @@ public:
 
     void show() const;
 
-signals:
-
-public slots:
-
 private:
     Q_OBJECT
 
