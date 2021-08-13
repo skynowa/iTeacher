@@ -216,7 +216,7 @@ Hint::show() const
     case Type::MessageBox:
         {
             QMessageBox msgBox;
-            msgBox.setParent(nullptr);
+            msgBox.setParent( static_cast<QWidget *>(nullptr) );
             msgBox.setIcon(QMessageBox::Information);
             msgBox.setWindowTitle(title);
             msgBox.setText(text);
