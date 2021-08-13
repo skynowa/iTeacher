@@ -26,7 +26,7 @@ public:
     Hint() = delete;
     explicit Hint(QObject *parent, const Type type, const QSqlDatabase &database);
 
-    Q_DISABLE_COPY(Hint);
+    Q_DISABLE_COPY(Hint)
 
     static Hint trayIcon(QObject *parent, const QSqlDatabase &database);
     static Hint messageBox(QObject *parent, const QSqlDatabase &database);
