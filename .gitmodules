@@ -1,6 +1,6 @@
 [submodule "QtLib"]
 	path = QtLib
-	url = git@bitbucket.org:skynowa/qtlib.git
+	url = git@github.com:skynowa/QtLib.git
 [submodule "xLib"]
 	path = xLib
 	url = git@bitbucket.org:skynowa/xlib.git
