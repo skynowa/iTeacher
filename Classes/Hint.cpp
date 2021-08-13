@@ -20,14 +20,42 @@
 Hint::Hint(
     QObject            *a_parent,
     const Type          a_type,
-    const QSqlDatabase &a_database,
-    const int           a_timeoutMs
+    const QSqlDatabase &a_database
 ) :
     QObject   {a_parent},
     _type     {a_type},
-    _database {a_database},
-    _timeoutMs{a_timeoutMs}
+    _database {a_database}
 {
+}
+//-------------------------------------------------------------------------------------------------
+/* static */
+Hint
+Hint::trayIcon(
+    QObject            *a_parent,
+    const QSqlDatabase &a_database
+)
+{
+    return Hint(a_parent, Type::TrayIcon, a_database);
+}
+//-------------------------------------------------------------------------------------------------
+/* static */
+Hint
+Hint::messageBox(
+    QObject            *a_parent,
+    const QSqlDatabase &a_database
+)
+{
+    return Hint(a_parent, Type::MessageBox, a_database);
+}
+//-------------------------------------------------------------------------------------------------
+/* static */
+Hint
+Hint::toolTip(
+    QObject            *a_parent,
+    const QSqlDatabase &a_database
+)
+{
+    return Hint(a_parent, Type::ToolTip, a_database);
 }
 //-------------------------------------------------------------------------------------------------
 void
