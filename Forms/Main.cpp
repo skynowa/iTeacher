@@ -11,7 +11,6 @@
 #include "../Classes/CheckBoxItemDelegate.h"
 #include "../Classes/ComboBoxItemDelegate.h"
 #include "../Classes/Hint.h"
-#include "../Classes/Utils.h"
 #include "../Forms/WordEditor.h"
 #include "../Forms/WordFinder.h"
 #include "../Forms/TagsEditor.h"
@@ -58,6 +57,38 @@ QSystemTrayIcon &
 Main::trayIcon()
 {
     return _trayIcon;
+}
+//-------------------------------------------------------------------------------------------------
+/* static */
+bool
+Main::isTerminExists(
+    const QSqlTableModel &a_model,
+    cQString             &a_term
+)
+{
+    qTEST_NA(a_model);
+    qTEST(!a_term.isEmpty())
+
+    bool      bRv = false;
+    QSqlQuery qryQuery( a_model.database() );
+
+    cQString sql =
+        "SELECT COUNT(*) AS f_records_count "
+            "FROM  " + a_model.tableName() + " "
+            "WHERE " DB_F_MAIN_TERM " LIKE :term";
+
+    qryQuery.prepare(sql);
+    qryQuery.bindValue(":term", a_term.trimmed());
+
+    bRv = qryQuery.exec();
+    qCHECK_REF(bRv, qryQuery);
+
+    bRv = qryQuery.next();
+    qCHECK_REF(bRv, qryQuery);
+
+    bRv = qryQuery.value(0).toBool();
+
+    return bRv;
 }
 //-------------------------------------------------------------------------------------------------
 /*virtual*/
@@ -200,11 +231,7 @@ Main::_initModel()
     // open DB
     {
         if (ui.cboDictPath->currentText().isEmpty()) {
-            cQString dictPath = qS2QS(xl::package::Application::dbDirPath()) + QDir::separator() +
-                DB_FILE_NAME_EMPTY;
-
-            _dbOpen(dictPath);
-            _cboDictPath_reload();
+            createDb();
         } else {
             cQString dictPath = qS2QS(xl::package::Application::dbDirPath()) + QDir::separator() +
                 ui.cboDictPath->currentText();
@@ -215,12 +242,14 @@ Main::_initModel()
 
     // _model
     {
-        qTEST_PTR(_model);
+        qTEST_NA(_model);
     }
 
     // tvInfo
     {
-        ui.tvInfo->setModel(_model);
+        if (_model != nullptr) {
+            ui.tvInfo->setModel(_model);
+        }
         ui.tvInfo->viewport()->installEventFilter(this);
 
         ui.tvInfo->horizontalHeader()->setStretchLastSection(true);
@@ -455,7 +484,7 @@ Main::createDb()
 void
 Main::quickTranslateClipboard()
 {
-    auto hint = Hint::toolTip(_sqlNavigator.model()->database());
+    auto hint = Hint::toolTip(*_sqlNavigator.model());
     hint.show();
 }
 //-------------------------------------------------------------------------------------------------
@@ -1236,7 +1265,7 @@ Main::cboDictPath_OnCurrentIndexChanged(
 
             cQString sql =
                 "SELECT COUNT(*) AS f_records_count "
-                "   FROM  " DB_T_MAIN ";";
+                "   FROM  " + _model->tableName() + ";";
 
             bool bRv = qryWordsAll.exec(sql);
             qCHECK_REF(bRv, qryWordsAll);
@@ -1253,7 +1282,7 @@ Main::cboDictPath_OnCurrentIndexChanged(
 
             cQString sql =
                 "SELECT COUNT(*) AS f_records_count "
-                "   FROM  " DB_T_MAIN " "
+                "   FROM  " + _model->tableName() + " "
                 "   WHERE " DB_F_MAIN_IS_LEARNED " = 1;";
 
             bool bRv = qryWordsLearned.exec(sql);
@@ -1271,7 +1300,7 @@ Main::cboDictPath_OnCurrentIndexChanged(
 
             cQString sql =
                 "SELECT COUNT(*) AS f_records_count "
-                "   FROM  " DB_T_MAIN " "
+                "   FROM  " + _model->tableName() + " "
                 "   WHERE " DB_F_MAIN_IS_LEARNED " = 0;";
 
             bool bRv = qryWordsNotLearned.exec(sql);
@@ -1382,6 +1411,9 @@ Main::_dbOpen(
 
     QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
 
+    cQString &tableName = QFileInfo(a_filePath).baseName();
+    qDebug() << qTRACE_VAR(tableName);
+
     // _db
     {
         // prepare DB directory
@@ -1436,13 +1468,15 @@ Main::_dbOpen(
             qCHECK_REF(bRv, qryTags);
         }
 
-        // create DB - DB_T_MAIN
+        // create DB
         {
+            qTEST(_model == nullptr);
+
             QSqlQuery qryMain(*_db);
 
             cQString sql =
                 "CREATE TABLE IF NOT EXISTS "
-                "    " DB_T_MAIN
+                "    " + tableName +
                 "( "
                 "    " DB_F_MAIN_ID         " integer PRIMARY KEY AUTOINCREMENT UNIQUE, "
                 "    " DB_F_MAIN_TERM       " varchar(255) UNIQUE, "
@@ -1465,7 +1499,7 @@ Main::_dbOpen(
         qTEST(_model == nullptr);
 
         _model = new qtlib::SqlRelationalTableModelEx(this, *_db);
-        _model->setTable(DB_T_MAIN);
+        _model->setTable(tableName);
         _model->setJoinMode(QSqlRelationalTableModel::LeftJoin);
         _model->setRelation(5, QSqlRelation(DB_T_TAGS, DB_F_TAGS_ID, DB_F_TAGS_NAME));
 

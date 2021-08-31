@@ -7,7 +7,7 @@
 #pragma once
 
 #include "../Config.h"
-#include <QSqlDatabase>
+#include <QSqlTableModel>
 #include <QSize>
 //-------------------------------------------------------------------------------------------------
 class Hint :
@@ -24,13 +24,13 @@ public:
 ///@name ctors, dtor
 ///@{
     Hint() = delete;
-    explicit Hint(QObject *parent, const Type type, const QSqlDatabase &database);
+    explicit Hint(QObject *parent, const Type type, const QSqlTableModel &model);
 
     Q_DISABLE_COPY(Hint)
 
-    static Hint trayIcon(QObject *parent, const QSqlDatabase &database);
-    static Hint messageBox(const QSqlDatabase &database);
-    static Hint toolTip(const QSqlDatabase &database);
+    static Hint trayIcon(QObject *parent, const QSqlTableModel &model);
+    static Hint messageBox(const QSqlTableModel &model);
+    static Hint toolTip(const QSqlTableModel &model);
 ///@}
 
     void show() const;
@@ -40,7 +40,7 @@ private:
 
     static constexpr int _timeoutMs {3 * 1000};
 
-    const Type          _type {};
-    const QSqlDatabase &_database;
+    const Type            _type {};
+    const QSqlTableModel &_model;
 };
 //-------------------------------------------------------------------------------------------------

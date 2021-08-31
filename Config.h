@@ -45,16 +45,14 @@
 #define APP_WIDTH                700
 #define APP_HEIGHT               600
 #define APP_FONT_SIZE_DEFAULT    9
-#define DB_FILE_NAME_EMPTY       "db_empty.db"
 
-// DB table - t_main
-#define DB_T_MAIN                "t_main"
-#define DB_F_MAIN_ID             "f_main_id"
-#define DB_F_MAIN_TERM           "f_main_term"
-#define DB_F_MAIN_VALUE          "f_main_value"
-#define DB_F_MAIN_IS_LEARNED     "f_main_is_learned"
-#define DB_F_MAIN_IS_MARKED      "f_main_is_marked"
-#define DB_F_MAIN_TAG            "f_main_tag"
+// DB table
+#define DB_F_MAIN_ID             "ID"
+#define DB_F_MAIN_TERM           "Term"
+#define DB_F_MAIN_VALUE          "Value"
+#define DB_F_MAIN_IS_LEARNED     "Learned"
+#define DB_F_MAIN_IS_MARKED      "Marked"
+#define DB_F_MAIN_TAG            "Tag"
 
 struct TableViewHeader
 {
@@ -79,10 +77,10 @@ const TableViewHeader tableViewHeaders[]
 #define TVMAIN_COLUMN_WIDTH_4    70
 #define TVMAIN_COLUMN_WIDTH_5    100
 
-// DB table - t_tags
-#define DB_T_TAGS                "t_tags"
-#define DB_F_TAGS_ID             "f_tags_id"
-#define DB_F_TAGS_NAME           "f_tags_name"
+// DB table - Tags
+#define DB_T_TAGS                "Tags"
+#define DB_F_TAGS_ID             "ID"
+#define DB_F_TAGS_NAME           "Name"
 #define DB_ALL_TAGS_ID           "1"
 
 #define TVTAGS_COLUMN_WIDTH_0    50

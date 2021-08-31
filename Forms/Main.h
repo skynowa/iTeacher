@@ -16,6 +16,8 @@
 #include "../QtLib/Db/SqlRelationalTableModelEx.h"
 #include "../QtLib/GlobalShortcut/GlobalShortcut.h"
 
+#include <QSqlTableModel>
+
 #include "ui_Main.h"
 //-------------------------------------------------------------------------------------------------
 #define GLOBAL_SHORTCUTS_ALL 1
@@ -30,6 +32,9 @@ public:
     virtual ~Main();
 
     QSystemTrayIcon &trayIcon();
+
+    static
+    bool isTerminExists(const QSqlTableModel &model, cQString &term);
 
 public Q_SLOTS:
     void receiveFromOtherApplication(cQStringList &message);

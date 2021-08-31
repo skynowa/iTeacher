@@ -9,7 +9,6 @@
 #include "../QtLib/Utils.h"
 #include "../QtLib/SignalGuard.h"
 #include "../QtLib/Application.h"
-#include "../Classes/Utils.h"
 
 #include "TagsEditor.h"
 #include <xLib/Package/Application.h>
@@ -479,7 +478,7 @@ WordEditor::check()
     }
 
     // is term exists
-    bRv = iteacher::Utils::isTerminExists(_model->database(), ui.tedtTerm->toPlainText());
+    bRv = Main::isTerminExists(*_model, ui.tedtTerm->toPlainText());
     if (bRv && _insertMode) {
         // insert: term already exists (false)
         msg = QString(tr("Term '%1' already exists")).arg(termMinimized);
