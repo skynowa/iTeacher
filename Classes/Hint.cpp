@@ -18,42 +18,42 @@
 
 //-------------------------------------------------------------------------------------------------
 Hint::Hint(
-    QObject            *a_parent,
-    const Type          a_type,
-    const QSqlDatabase &a_database
+    QObject              *a_parent,
+    const Type            a_type,
+    const QSqlTableModel &a_model
 ) :
-    QObject  {a_parent},
-    _type    {a_type},
-    _database{a_database}
+    QObject{a_parent},
+    _type  {a_type},
+    _model {a_model}
 {
 }
 //-------------------------------------------------------------------------------------------------
 /* static */
 Hint
 Hint::trayIcon(
-    QObject            *a_parent,
-    const QSqlDatabase &a_database
+    QObject              *a_parent,
+    const QSqlTableModel &a_model
 )
 {
-    return Hint(a_parent, Type::TrayIcon, a_database);
+    return Hint(a_parent, Type::TrayIcon, a_model);
 }
 //-------------------------------------------------------------------------------------------------
 /* static */
 Hint
 Hint::messageBox(
-    const QSqlDatabase &a_database
+    const QSqlTableModel &a_model
 )
 {
-    return Hint(nullptr, Type::MessageBox, a_database);
+    return Hint(nullptr, Type::MessageBox, a_model);
 }
 //-------------------------------------------------------------------------------------------------
 /* static */
 Hint
 Hint::toolTip(
-    const QSqlDatabase &a_database
+    const QSqlTableModel &a_model
 )
 {
-    return Hint(nullptr, Type::ToolTip, a_database);
+    return Hint(nullptr, Type::ToolTip, a_model);
 }
 //-------------------------------------------------------------------------------------------------
 void
@@ -121,14 +121,14 @@ Hint::show() const
     // text (is term exists) - format
     QString isTermExists;
     {
-        bRv = iteacher::Utils::isTerminExists(_database, term);
+        bRv = Main::isTerminExists(_model, term);
         isTermExists = (bRv) ? QString(tr("Exists")) : QString(tr("New"));
     }
 
     QString title;
     {
         cQString appName = qS2QS(xl::package::Application::info().name);
-        cQString dbName  = QFileInfo( _database.databaseName() ).fileName();
+        cQString dbName  = QFileInfo( _model.database().databaseName() ).fileName();
 
         switch (_type) {
         case Type::TrayIcon:

@@ -242,6 +242,6 @@ WordFinder::_saveAll()
         }
     }
 
-    _model->filter(DB_T_MAIN, fields, "", sqlStrWhere, sqlStrOrderBy);
+    _model->filter(fields, "", sqlStrWhere, sqlStrOrderBy);
 }
 //-------------------------------------------------------------------------------------------------
