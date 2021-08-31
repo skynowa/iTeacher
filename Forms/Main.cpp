@@ -659,12 +659,12 @@ Main::exportCsv()
         QVector<QString> fieldNames;
 
         switch (_importExportOrder) {
-        case ImportExportOrder::ieoTermValue:
+        case ImportExportOrder::TermValue:
         default:
             fieldNames.push_back(DB_F_MAIN_TERM);
             fieldNames.push_back(DB_F_MAIN_VALUE);
             break;
-        case ImportExportOrder::ieoValueTerm:
+        case ImportExportOrder::ValueTerm:
             fieldNames.push_back(DB_F_MAIN_VALUE);
             fieldNames.push_back(DB_F_MAIN_TERM);
             break;
@@ -704,14 +704,14 @@ Main::exportPdf()
 
     for (int i = 0; i < realRowCount; ++ i) {
         switch (_importExportOrder) {
-        case ImportExportOrder::ieoTermValue:
+        case ImportExportOrder::TermValue:
         default:
             html.push_back( _model->record(i).value(DB_F_MAIN_TERM).toString() );
             html.push_back("\n - ");
             html.push_back( _model->record(i).value(DB_F_MAIN_VALUE).toString() );
             html.push_back("<br>");
             break;
-        case ImportExportOrder::ieoValueTerm:
+        case ImportExportOrder::ValueTerm:
             html.push_back( _model->record(i).value(DB_F_MAIN_VALUE).toString() );
             html.push_back("\n - ");
             html.push_back( _model->record(i).value(DB_F_MAIN_TERM).toString() );
@@ -1601,7 +1601,7 @@ Main::_settingsLoad()
     int         columnWidth3    = 0;
     int         columnWidth4    = 0;
     int         columnWidth5    = 0;
-    ImportExportOrder importExportOrder {ImportExportOrder::ieoUnknown};
+    ImportExportOrder importExportOrder {ImportExportOrder::Unknown};
     bool        isHideOnCLose   = false;
     QString     shortcutShowHide;
     QString     shortcutQuickClipboardTranslate;
@@ -1629,7 +1629,7 @@ Main::_settingsLoad()
         settings.endGroup();
 
         settings.beginGroup(CFG_GROUP_FILE);
-        importExportOrder = static_cast<ImportExportOrder>( settings.value(CFG_IMPORT_EXPORT_ORDER, static_cast<int>(ImportExportOrder::ieoTermValue)).toInt() );
+        importExportOrder = static_cast<ImportExportOrder>( settings.value(CFG_IMPORT_EXPORT_ORDER, static_cast<int>(ImportExportOrder::TermValue)).toInt() );
         isHideOnCLose     = settings.value(CFG_HIDE_ON_CLOSE, false).toBool();
         settings.endGroup();
 

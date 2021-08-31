@@ -125,7 +125,7 @@ void
 Settings::_settingsLoad()
 {
     // load settings from INI
-    Main::ImportExportOrder importExportOrder {Main::ImportExportOrder::ieoUnknown};
+    Main::ImportExportOrder importExportOrder {Main::ImportExportOrder::Unknown};
     bool    isHideOnCLose  = false;
     QString shortcutShowHide;
     QString shortcutQuickClipboardTranslate;
@@ -134,7 +134,7 @@ Settings::_settingsLoad()
         QSettings settings(qS2QS(xl::package::Application::configPath()), QSettings::IniFormat, this);
 
         settings.beginGroup(CFG_GROUP_FILE);
-        importExportOrder = static_cast<Main::ImportExportOrder>( settings.value(CFG_IMPORT_EXPORT_ORDER, static_cast<int>(Main::ImportExportOrder::ieoTermValue)).toInt() );
+        importExportOrder = static_cast<Main::ImportExportOrder>( settings.value(CFG_IMPORT_EXPORT_ORDER, static_cast<int>(Main::ImportExportOrder::TermValue)).toInt() );
         isHideOnCLose     = settings.value(CFG_HIDE_ON_CLOSE, false).toBool();
         settings.endGroup();
 
@@ -151,13 +151,13 @@ Settings::_settingsLoad()
         // file
         {
             switch (importExportOrder) {
-            case Main::ImportExportOrder::ieoTermValue:
+            case Main::ImportExportOrder::TermValue:
                 ui.chkImportExportOrder->setChecked(true);
                 break;
-            case Main::ImportExportOrder::ieoValueTerm:
+            case Main::ImportExportOrder::ValueTerm:
                 ui.chkImportExportOrder->setChecked(false);
                 break;
-            case Main::ImportExportOrder::ieoUnknown:
+            case Main::ImportExportOrder::Unknown:
             default:
                 qTEST(false);
                 break;
@@ -188,10 +188,10 @@ Settings::_settingsSave()
             Qt::CheckState state = ui.chkImportExportOrder->checkState();
             switch (state) {
             case Qt::Checked:
-                settings.setValue(CFG_IMPORT_EXPORT_ORDER, static_cast<int>(Main::ImportExportOrder::ieoTermValue));
+                settings.setValue(CFG_IMPORT_EXPORT_ORDER, static_cast<int>(Main::ImportExportOrder::TermValue));
                 break;
             case Qt::Unchecked:
-                settings.setValue(CFG_IMPORT_EXPORT_ORDER, static_cast<int>(Main::ImportExportOrder::ieoValueTerm));
+                settings.setValue(CFG_IMPORT_EXPORT_ORDER, static_cast<int>(Main::ImportExportOrder::ValueTerm));
                 break;
             case Qt::PartiallyChecked:
             default:
@@ -217,10 +217,10 @@ Settings::_settingsSave()
             Qt::CheckState state = ui.chkImportExportOrder->checkState();
             switch (state) {
             case Qt::Checked:
-                _wndMain->_importExportOrder = Main::ImportExportOrder::ieoTermValue;
+                _wndMain->_importExportOrder = Main::ImportExportOrder::TermValue;
                 break;
             case Qt::Unchecked:
-                _wndMain->_importExportOrder = Main::ImportExportOrder::ieoValueTerm;
+                _wndMain->_importExportOrder = Main::ImportExportOrder::ValueTerm;
                 break;
             case Qt::PartiallyChecked:
             default:

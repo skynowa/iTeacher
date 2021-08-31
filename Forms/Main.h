@@ -47,9 +47,9 @@ protected:
 private:
     enum class ImportExportOrder
     {
-        ieoUnknown   = 0,
-        ieoTermValue = 1,
-        ieoValueTerm = 2
+        Unknown   = 0,
+        TermValue = 1,
+        ValueTerm = 2
     };
 
     Ui::UiMain      ui;
@@ -79,7 +79,7 @@ private:
     void _dbReopen(cQString &filePath);
 
     // settings
-    ImportExportOrder _importExportOrder {ImportExportOrder::ieoUnknown};
+    ImportExportOrder _importExportOrder {ImportExportOrder::Unknown};
     void _settingsLoad();
     void _settingsSave();
 
