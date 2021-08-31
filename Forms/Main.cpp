@@ -69,7 +69,7 @@ Main::isTerminExists(
     qTEST_NA(a_model);
     qTEST(!a_term.isEmpty())
 
-    bool      bRv = false;
+    bool      bRv {};
     QSqlQuery qryQuery( a_model.database() );
 
     cQString sql =

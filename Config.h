@@ -47,6 +47,7 @@
 #define APP_FONT_SIZE_DEFAULT    9
 
 // DB table
+#define DB_FILE_EXT              ".db"
 #define DB_F_MAIN_ID             "ID"
 #define DB_F_MAIN_TERM           "Term"
 #define DB_F_MAIN_VALUE          "Value"
@@ -122,7 +123,6 @@ const TableViewHeader tableViewHeaders[]
 #define QSYSTEM_TRAYICON_SIZE    QSize(32, 32)
 
 // etc
-#define DB_FILE_EXT              ".db"
 #define CSV_SEPARATOR            "#"
 #define TABLEVIEW_ROW_HEIGHT     20
 #define BUTTON_BOX_WIDTH         75
