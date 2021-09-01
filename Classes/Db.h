@@ -45,6 +45,6 @@ private:
     cQString                          _filePath;
     QSqlDatabase                     *_db {};
     qtlib::SqlRelationalTableModelEx *_model {};
-    qtlib::SqlNavigator               _sqlNavigator;
+    /// qtlib::SqlNavigator               _sqlNavigator;
 };
 //-------------------------------------------------------------------------------------------------

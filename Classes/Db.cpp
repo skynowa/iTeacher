@@ -16,8 +16,8 @@ Db::Db(
     QObject  *a_parent,
     cQString &a_filePath
 ) :
-    QObject      (a_parent),
-    _sqlNavigator(this)
+    QObject  (a_parent),
+    _filePath{a_filePath}
 {
 }
 //-------------------------------------------------------------------------------------------------
@@ -132,7 +132,7 @@ Db::open()
     // _sqlNavigator
     {
         /// _sqlNavigator.construct(_model, ui.tvInfo);
-        _sqlNavigator.last();
+        /// _sqlNavigator.last();
     }
 
     QApplication::restoreOverrideCursor();
