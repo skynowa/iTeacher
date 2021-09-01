@@ -429,8 +429,8 @@ Main::_initActions()
                 this,           &Main::cboDictPath_OnCurrentIndexChanged);
     }
 
-    // _sqlNavigator
-    {
+    // TODO: _sqlNavigator
+    if (0) {
         _sqlNavigator.construct(_model, ui.tvInfo);
         _sqlNavigator.last();
     }
