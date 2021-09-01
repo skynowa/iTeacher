@@ -28,11 +28,11 @@ class Db :
     public QObject
 {
 public:
-    explicit Db(QObject *parent = nullptr);
+    explicit Db(QObject *parent, cQString &filePath);
 
-    void open(cQString &a_filePath);
+    void open();
     void close();
-    void reopen(cQString &filePath);
+    void reopen();
 
 signals:
 
@@ -42,6 +42,7 @@ private:
     Q_OBJECT
 
     // DB
+    cQString                          _filePath;
     QSqlDatabase                     *_db {};
     qtlib::SqlRelationalTableModelEx *_model {};
     qtlib::SqlNavigator               _sqlNavigator;

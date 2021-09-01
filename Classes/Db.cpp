@@ -13,23 +13,22 @@
 
 //-------------------------------------------------------------------------------------------------
 Db::Db(
-    QObject *parent
+    QObject  *a_parent,
+    cQString &a_filePath
 ) :
-    QObject      (parent),
+    QObject      (a_parent),
     _sqlNavigator(this)
 {
 }
 //-------------------------------------------------------------------------------------------------
 void
-Db::open(
-    cQString &a_filePath
-)
+Db::open()
 {
     bool bRv {};
 
     QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
 
-    cQString &tableName = QFileInfo(a_filePath).baseName();
+    cQString &tableName = QFileInfo(_filePath).baseName();
     qDebug() << qTRACE_VAR(tableName);
 
     // _db
@@ -54,7 +53,7 @@ Db::open(
         qCHECK_DO(!bRv, qMSG(QSqlDatabase().lastError().text()); return);
 
         _db = new QSqlDatabase(QSqlDatabase::addDatabase("QSQLITE"));
-        _db->setDatabaseName(a_filePath);
+        _db->setDatabaseName(_filePath);
 
         bRv = _db->open();
         qCHECK_PTR(bRv, _db);
@@ -175,12 +174,10 @@ Db::close()
 }
 //-------------------------------------------------------------------------------------------------
 void
-Db::reopen(
-    cQString &a_filePath
-)
+Db::reopen()
 {
     close();
-    open(a_filePath);
+    open();
 
     // _model
     _model->select();
