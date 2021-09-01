@@ -153,10 +153,15 @@ Db::reopen()
     qTRACE_FUNC;
 
     close();
+    qTEST(_db == nullptr);
+
     open();
+    qTEST_PTR(_db);
+
+    /// _initModel();
+    /// qTEST_PTR(_model);
 
     // _model
-    _model->select();
     /// ui.tvInfo->setModel(_model);
 }
 //-------------------------------------------------------------------------------------------------
