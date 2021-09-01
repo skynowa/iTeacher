@@ -62,8 +62,8 @@ Main::trayIcon()
 /* static */
 bool
 Main::isTerminExists(
-    const QSqlTableModel &a_model,
-    cQString             &a_term
+    cQSqlTableModel &a_model,
+    cQString        &a_term
 )
 {
     qTEST_NA(a_model);

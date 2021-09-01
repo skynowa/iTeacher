@@ -34,7 +34,7 @@ public:
     QSystemTrayIcon &trayIcon();
 
     static
-    bool isTerminExists(const QSqlTableModel &model, cQString &term);
+    bool isTerminExists(cQSqlTableModel &model, cQString &term);
 
 public Q_SLOTS:
     void receiveFromOtherApplication(cQStringList &message);

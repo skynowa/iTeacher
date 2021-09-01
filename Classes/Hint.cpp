@@ -18,9 +18,9 @@
 
 //-------------------------------------------------------------------------------------------------
 Hint::Hint(
-    QObject              *a_parent,
-    const Type            a_type,
-    const QSqlTableModel &a_model
+    QObject         *a_parent,
+    const Type       a_type,
+    cQSqlTableModel &a_model
 ) :
     QObject{a_parent},
     _type  {a_type},
@@ -31,8 +31,8 @@ Hint::Hint(
 /* static */
 Hint
 Hint::trayIcon(
-    QObject              *a_parent,
-    const QSqlTableModel &a_model
+    QObject         *a_parent,
+    cQSqlTableModel &a_model
 )
 {
     return Hint(a_parent, Type::TrayIcon, a_model);
@@ -41,7 +41,7 @@ Hint::trayIcon(
 /* static */
 Hint
 Hint::messageBox(
-    const QSqlTableModel &a_model
+    cQSqlTableModel &a_model
 )
 {
     return Hint(nullptr, Type::MessageBox, a_model);
@@ -50,7 +50,7 @@ Hint::messageBox(
 /* static */
 Hint
 Hint::toolTip(
-    const QSqlTableModel &a_model
+    cQSqlTableModel &a_model
 )
 {
     return Hint(nullptr, Type::ToolTip, a_model);
