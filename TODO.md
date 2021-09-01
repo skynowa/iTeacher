@@ -2,23 +2,24 @@
 
 ## Main
 
-- [Move new words to DB](https://docs.google.com/spreadsheets/d/1m8uh17iOzbM5aj8NWxBxTZbrDobUbOsJepj_sH9Uz_A/edit)
-- Dictionaries ComboBox -> flat RadioButton
-- Random tern on startup
-- Translation order: ru -> en
-- `QTableView` - Ru column at 1-st position (ru -> en)
-- Word status - words for repeat
-- Pin translator on top
-- Trainer (UI + Console) add
-- Auto-save new words
-- Translation in place (replace text)
-- UI: Kurs NBU (Android)
-- Quick search
-- DB: transcription - add
-- WordEditor - translating on edit, FIX
-- Print preview
-- UI langs support - rm
-- CMake: distrs (Win, Linux)
+- [ ] Qt 5 -> 6
+- [ ] Word status - Repeat, Marked, Learned
+- [ ] [Move new words to DB](https://docs.google.com/spreadsheets/d/1m8uh17iOzbM5aj8NWxBxTZbrDobUbOsJepj_sH9Uz_A/edit)
+- [ ] Dictionaries ComboBox -> flat RadioButton
+- [ ] Random tern on startup
+- [ ] Translation order: ru -> en
+- [ ] `QTableView` - Ru column at 1-st position (ru -> en)
+- [ ] Pin translator on top
+- [ ] Trainer (UI + Console) add
+- [ ] Auto-save new words
+- [ ] Translation in place (replace text)
+- [ ] UI: Kurs NBU (Android)
+- [ ] Quick search
+- [ ] DB: transcription - add
+- [ ] WordEditor - translating on edit, FIX
+- [ ] Print preview
+- [ ] UI langs support - rm
+- [ ] CMake: distrs (Win, Linux)
 - [x] Hint classes
 - [x] Mute mode
 
