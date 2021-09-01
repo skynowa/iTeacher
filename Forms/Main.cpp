@@ -1406,8 +1406,6 @@ Main::_dbOpen(
 {
     bool bRv {};
 
-    QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
-
     cQString &tableName = QFileInfo(a_filePath).baseName();
     qDebug() << qTRACE_VAR(tableName);
 
@@ -1514,8 +1512,6 @@ Main::_dbOpen(
         _sqlNavigator.construct(_model, ui.tvInfo);
         _sqlNavigator.last();
     }
-
-    QApplication::restoreOverrideCursor();
 }
 //-------------------------------------------------------------------------------------------------
 void
