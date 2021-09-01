@@ -28,7 +28,8 @@ class Db :
     public QObject
 {
 public:
-    explicit Db(QObject *parent, cQString &filePath);
+    explicit Db(QObject *parent, cQString &filePath, qtlib::SqlRelationalTableModelEx *model,
+                QTableView *tableView);
 
     void open();
     void close();
@@ -44,5 +45,10 @@ private:
     // DB
     cQString      _filePath;
     QSqlDatabase *_db {};
+    qtlib::SqlRelationalTableModelEx *_model {};
+    QTableView   *_tableView {};
+
+    void _openModel();
+    void _closeModel();
 };
 //-------------------------------------------------------------------------------------------------

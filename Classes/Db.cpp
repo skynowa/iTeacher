@@ -13,12 +13,20 @@
 
 //-------------------------------------------------------------------------------------------------
 Db::Db(
-    QObject  *a_parent,
-    cQString &a_filePath
+    QObject                          *a_parent,
+    cQString                         &a_filePath,
+    qtlib::SqlRelationalTableModelEx *a_model,
+    QTableView                       *a_tableView
 ) :
-    QObject  (a_parent),
-    _filePath{a_filePath}
+    QObject   (a_parent),
+    _filePath {a_filePath},
+    _model    {a_model},
+    _tableView{a_tableView}
 {
+    qTEST_PTR(a_parent);
+    qTEST(!a_filePath.isEmpty())
+    qTEST_PTR(_model);
+    qTEST_PTR(a_tableView);
 }
 //-------------------------------------------------------------------------------------------------
 void
@@ -114,20 +122,21 @@ Db::close()
 {
     qTRACE_FUNC;
 
-    // _db
-    if (_db != nullptr) {
-        qTEST(_db->isOpen());
-
-        cQString connectionName = _db->connectionName();
-
-        _db->close();
-        qTEST(!_db->isOpen());
-
-        qPTR_DELETE(_db);
-        qTEST(_db == nullptr);
-
-        QSqlDatabase::removeDatabase(connectionName);
+    if (_db == nullptr) {
+        return;
     }
+
+    qTEST(_db->isOpen());
+
+    cQString connectionName = _db->connectionName();
+
+    _db->close();
+    qTEST(!_db->isOpen());
+
+    qPTR_DELETE(_db);
+    qTEST(_db == nullptr);
+
+    QSqlDatabase::removeDatabase(connectionName);
 }
 //-------------------------------------------------------------------------------------------------
 void
@@ -135,16 +144,75 @@ Db::reopen()
 {
     qTRACE_FUNC;
 
+    _closeModel();
+    qTEST(_model == nullptr);
+
     close();
     qTEST(_db == nullptr);
 
     open();
     qTEST_PTR(_db);
 
-    /// _initModel();
-    /// qTEST_PTR(_model);
+    _openModel();
+    qTEST_PTR(_model);
+
+    _tableView->setModel(_model);
+}
+//-------------------------------------------------------------------------------------------------
+void
+Db::_openModel()
+{
+    if ( _filePath.isEmpty() ) {
+        qTEST(_model == nullptr);
+        /// createDb();
+        qTEST(_model == nullptr);
+
+        return;
+    }
+
+    cQString dictPath = qS2QS(xl::package::Application::dbDirPath()) + QDir::separator() + _filePath;
 
     // _model
-    /// ui.tvInfo->setModel(_model);
+    {
+        qTEST(_model == nullptr);
+
+        cQString &tableName = QFileInfo(dictPath).baseName();
+        qTEST(!tableName.isEmpty());
+
+        _model = new qtlib::SqlRelationalTableModelEx(this, *_db);
+        _model->setTable(tableName);
+        _model->setJoinMode(QSqlRelationalTableModel::LeftJoin);
+        _model->setRelation(5, QSqlRelation(DB_T_TAGS, DB_F_TAGS_ID, DB_F_TAGS_NAME));
+
+        for (const auto &it_tableViewHeader : ::tableViewHeaders) {
+            _model->setHeaderData(it_tableViewHeader.section, Qt::Horizontal,
+                it_tableViewHeader.value, Qt::DisplayRole);
+        }
+
+        _model->setEditStrategy(QSqlTableModel::OnManualSubmit);
+        _model->select();
+    }
+}
+//-------------------------------------------------------------------------------------------------
+void
+Db::_closeModel()
+{
+    if (_model == nullptr) {
+        return;
+    }
+
+    bool bRv = _model->submitAll();
+    if (!bRv &&
+        _model->lastError().text().contains("failed", Qt::CaseInsensitive))
+    {
+        // \see QtLib SqlRelationalTableModelEx::importCsv()
+
+        // lastError(): QSqlError("19", "Unable to fetch row", "UNIQUE constraint failed: t_main.f_main_term")
+        // qDebug() << qTRACE_VAR(lastError().text());
+    } else {
+        qCHECK_PTR(bRv, _model);
+    }
+
+    qPTR_DELETE(_model);
 }
 //-------------------------------------------------------------------------------------------------

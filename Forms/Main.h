@@ -65,7 +65,6 @@ private:
     bool _isHideOnClose {};
 
     void _initMain();
-    void _initModel();
     void _initActions();
     void _cboDictPath_reload();
 

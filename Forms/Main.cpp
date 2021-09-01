@@ -230,42 +230,6 @@ Main::_initMain()
 }
 //-------------------------------------------------------------------------------------------------
 void
-Main::_initModel()
-{
-    if ( ui.cboDictPath->currentText().isEmpty() ) {
-        qTEST(_model == nullptr);
-        createDb();
-        qTEST(_model == nullptr);
-
-        return;
-    }
-
-    cQString dictPath = qS2QS(xl::package::Application::dbDirPath()) + QDir::separator() +
-        ui.cboDictPath->currentText();
-
-    // _model
-    {
-        qTEST(_model == nullptr);
-
-        cQString &tableName = QFileInfo(dictPath).baseName();
-        qTEST(!tableName.isEmpty());
-
-        _model = new qtlib::SqlRelationalTableModelEx(this, *_db);
-        _model->setTable(tableName);
-        _model->setJoinMode(QSqlRelationalTableModel::LeftJoin);
-        _model->setRelation(5, QSqlRelation(DB_T_TAGS, DB_F_TAGS_ID, DB_F_TAGS_NAME));
-
-        for (const auto &it_tableViewHeader : ::tableViewHeaders) {
-            _model->setHeaderData(it_tableViewHeader.section, Qt::Horizontal,
-                it_tableViewHeader.value, Qt::DisplayRole);
-        }
-
-        _model->setEditStrategy(QSqlTableModel::OnManualSubmit);
-        _model->select();
-    }
-}
-//-------------------------------------------------------------------------------------------------
-void
 Main::_initActions()
 {
     // group "File"
@@ -1545,12 +1509,6 @@ Main::_dbReopen(
 
     _dbOpen(a_filePath);
     qTEST_PTR(_db);
-
-    _initModel();
-    qTEST_PTR(_model);
-
-    // _model
-    ui.tvInfo->setModel(_model);
 }
 //-------------------------------------------------------------------------------------------------
 
