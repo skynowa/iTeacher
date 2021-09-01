@@ -51,9 +51,8 @@ Main::Main(
 
     cQString dictPath = qS2QS(xl::package::Application::dbDirPath()) + QDir::separator() +
         ui.cboDictPath->currentText();
-    _dbOpen(dictPath); // _db
+    _dbReopen(dictPath); // _db
 
-    _initModel();
     _initActions();
     _settingsLoad();
 }
