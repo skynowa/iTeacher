@@ -1262,8 +1262,8 @@ Main::cboDictPath_OnCurrentIndexChanged(
             QSqlQuery qryWordsAll(*_db);
 
             cQString sql =
-                "SELECT COUNT(*) AS f_records_count "
-                "   FROM  " + _model->tableName() + ";";
+                "SELECT COUNT(*) "
+                "FROM  " + _model->tableName() + ";";
 
             bool bRv = qryWordsAll.exec(sql);
             qCHECK_REF(bRv, qryWordsAll);
@@ -1279,9 +1279,9 @@ Main::cboDictPath_OnCurrentIndexChanged(
             QSqlQuery qryWordsLearned(*_db);
 
             cQString sql =
-                "SELECT COUNT(*) AS f_records_count "
-                "   FROM  " + _model->tableName() + " "
-                "   WHERE " DB_F_MAIN_IS_LEARNED " = 1;";
+                "SELECT COUNT(*) "
+                "FROM  " + _model->tableName() + " "
+                "WHERE " DB_F_MAIN_IS_LEARNED " = 1;";
 
             bool bRv = qryWordsLearned.exec(sql);
             qCHECK_REF(bRv, qryWordsLearned);
@@ -1297,9 +1297,9 @@ Main::cboDictPath_OnCurrentIndexChanged(
             QSqlQuery qryWordsNotLearned(*_db);
 
             cQString sql =
-                "SELECT COUNT(*) AS f_records_count "
-                "   FROM  " + _model->tableName() + " "
-                "   WHERE " DB_F_MAIN_IS_LEARNED " = 0;";
+                "SELECT COUNT(*) "
+                "FROM  " + _model->tableName() + " "
+                "WHERE " DB_F_MAIN_IS_LEARNED " = 0;";
 
             bool bRv = qryWordsNotLearned.exec(sql);
             qCHECK_REF(bRv, qryWordsNotLearned);
