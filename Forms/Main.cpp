@@ -967,7 +967,7 @@ Main::marked()
 {
     qCHECK_DO(_sqlNavigator.view()->currentIndex().row() < 0, return);
 
-    bool bRv = false;
+    bool bRv {};
 
     cint currentRow = _sqlNavigator.view()->currentIndex().row();
 
@@ -1274,7 +1274,7 @@ Main::cboDictPath_OnCurrentIndexChanged(
             wordsAll = qryWordsAll.value(0).toInt();
         }
 
-        int wordsLearned = 0;
+        int wordsLearned {};
         {
             QSqlQuery qryWordsLearned(*_db);
 
@@ -1292,7 +1292,7 @@ Main::cboDictPath_OnCurrentIndexChanged(
             wordsLearned = qryWordsLearned.value(0).toInt();
         }
 
-        int wordsNotLearned = 0;
+        int wordsNotLearned {};
         {
             QSqlQuery qryWordsNotLearned(*_db);
 
