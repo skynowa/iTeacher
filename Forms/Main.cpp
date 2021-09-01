@@ -1549,9 +1549,13 @@ Main::_dbReopen(
     qTRACE_FUNC;
 
     _dbClose();
+    qTEST(_db == nullptr);
+
     _dbOpen(a_filePath);
+    qTEST_PTR(_db);
 
     _initModel();
+    qTEST_PTR(_model);
 
     // _model
     ui.tvInfo->setModel(_model);
