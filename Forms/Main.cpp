@@ -417,14 +417,14 @@ Main::_initActions()
         ui.tvInfo->setItemDelegateForColumn(4, new CheckBoxItemDelegate(ui.tvInfo));
         // ui.tvInfo->setItemDelegateForColumn(5, new ComboBoxItemDelegate(ui.tvInfo, _model));
 
+        connect(ui.tvInfo, &QTableView::doubleClicked,
+                this,      &Main::edit);
+
         ui.tvInfo->show();
     }
 
     // slots
     {
-        connect(ui.tvInfo,      &QTableView::doubleClicked,
-                this,           &Main::edit);
-
         connect(ui.cboDictPath, static_cast<void (QComboBox::*)(const QString &)>(&QComboBox::currentIndexChanged),
                 this,           &Main::cboDictPath_OnCurrentIndexChanged);
 
