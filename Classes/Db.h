@@ -30,6 +30,7 @@ class Db :
 public:
     Db(QObject *parent, cQString &filePath, qtlib::SqlRelationalTableModelEx *model,
         QTableView *tableView);
+    ~Db();
 
     void reopen();
 
