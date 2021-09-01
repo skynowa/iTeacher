@@ -264,6 +264,9 @@ Main::_initModel()
         _model->setEditStrategy(QSqlTableModel::OnManualSubmit);
         _model->select();
     }
+
+    // _model
+    ui.tvInfo->setModel(_model);
 }
 //-------------------------------------------------------------------------------------------------
 void
@@ -1552,10 +1555,6 @@ Main::_dbReopen(
     _dbOpen(a_filePath);
 
     _initModel();
-
-    // _model
-    _model->select();
-    ui.tvInfo->setModel(_model);
 }
 //-------------------------------------------------------------------------------------------------
 
