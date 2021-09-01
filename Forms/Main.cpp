@@ -444,8 +444,8 @@ Main::_initActions()
 
     // tray
     {
-        connect(&_trayIcon,                 &QSystemTrayIcon::activated,
-                this,                       &Main::trayActivated);
+        connect(&_trayIcon, &QSystemTrayIcon::activated,
+                this,       &Main::trayActivated);
         mute();
     }
 
