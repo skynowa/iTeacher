@@ -425,13 +425,8 @@ Main::_initActions()
         connect(ui.tvInfo,      &QTableView::doubleClicked,
                 this,           &Main::edit);
 
-#if 0
-        connect(ui.cboDictPath, &QComboBox::currentIndexChanged,
+        connect(ui.cboDictPath, static_cast<void (QComboBox::*)(const QString &)>(&QComboBox::currentIndexChanged),
                 this,           &Main::cboDictPath_OnCurrentIndexChanged);
-#else
-        connect(ui.cboDictPath, SIGNAL( currentIndexChanged(const QString &) ),
-                this,           SLOT  ( cboDictPath_OnCurrentIndexChanged(const QString &) ));
-#endif
 
         mute();
     }
