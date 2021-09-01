@@ -425,7 +425,7 @@ Main::_initActions()
 
     // slots
     {
-        connect(ui.cboDictPath, static_cast<void (QComboBox::*)(const QString &)>(&QComboBox::currentIndexChanged),
+        connect(ui.cboDictPath, qOverload<const QString &>(&QComboBox::currentIndexChanged),
                 this,           &Main::cboDictPath_OnCurrentIndexChanged);
     }
 
