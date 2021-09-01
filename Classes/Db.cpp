@@ -24,6 +24,8 @@ Db::Db(
 void
 Db::open()
 {
+    qTRACE_FUNC;
+
     bool bRv {};
 
     cQString &tableName = QFileInfo(_filePath).baseName();
@@ -84,8 +86,6 @@ Db::open()
 
         // create DB
         {
-            qTEST(_model == nullptr);
-
             QSqlQuery qryMain(*_db);
 
             cQString sql =
@@ -107,36 +107,13 @@ Db::open()
             qCHECK_REF(bRv, qryMain);
         }
     }
-
-    // _model
-    {
-        qTEST(_model == nullptr);
-
-        _model = new qtlib::SqlRelationalTableModelEx(this, *_db);
-        _model->setTable(tableName);
-        _model->setJoinMode(QSqlRelationalTableModel::LeftJoin);
-        _model->setRelation(5, QSqlRelation(DB_T_TAGS, DB_F_TAGS_ID, DB_F_TAGS_NAME));
-
-        for (size_t i = 0; i < qARRAY_LENGTH(::tableViewHeaders); ++ i) {
-            _model->setHeaderData(::tableViewHeaders[i].section, Qt::Horizontal,
-                ::tableViewHeaders[i].value, Qt::DisplayRole);
-        }
-
-        _model->setEditStrategy(QSqlTableModel::OnManualSubmit);
-
-        _model->select();
-    }
-
-    // _sqlNavigator
-    {
-        /// _sqlNavigator.construct(_model, ui.tvInfo);
-        /// _sqlNavigator.last();
-    }
 }
 //-------------------------------------------------------------------------------------------------
 void
 Db::close()
 {
+    qTRACE_FUNC;
+
     // _model
     if (_model != nullptr) {
         bool bRv = _model->submitAll();
@@ -164,6 +141,7 @@ Db::close()
         qTEST(!_db->isOpen());
 
         qPTR_DELETE(_db);
+        qTEST(_db == nullptr);
 
         QSqlDatabase::removeDatabase(connectionName);
     }
@@ -172,6 +150,8 @@ Db::close()
 void
 Db::reopen()
 {
+    qTRACE_FUNC;
+
     close();
     open();
 
