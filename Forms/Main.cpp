@@ -249,6 +249,7 @@ Main::_initModel()
         qTEST(_model == nullptr);
 
         cQString &tableName = QFileInfo(dictPath).baseName();
+        qTEST(!tableName.isEmpty());
 
         _model = new qtlib::SqlRelationalTableModelEx(this, *_db);
         _model->setTable(tableName);
