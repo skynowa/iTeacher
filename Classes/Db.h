@@ -28,11 +28,9 @@ class Db :
     public QObject
 {
 public:
-    explicit Db(QObject *parent, cQString &filePath, qtlib::SqlRelationalTableModelEx *model,
-                QTableView *tableView);
+    Db(QObject *parent, cQString &filePath, qtlib::SqlRelationalTableModelEx *model,
+        QTableView *tableView);
 
-    void open();
-    void close();
     void reopen();
 
 signals:
@@ -42,11 +40,13 @@ public slots:
 private:
     Q_OBJECT
 
-    // DB
-    cQString      _filePath;
-    QSqlDatabase *_db {};
+    cQString                          _filePath;
+    QSqlDatabase                     *_db {};
     qtlib::SqlRelationalTableModelEx *_model {};
-    QTableView   *_tableView {};
+    QTableView                       *_tableView {};
+
+    void open();
+    void close();
 
     void _openModel();
     void _closeModel();
