@@ -233,36 +233,35 @@ Main::_initMain()
 void
 Main::_initModel()
 {
-    // open DB
+    if ( ui.cboDictPath->currentText().isEmpty() ) {
+        qTEST(_model == nullptr);
+        createDb();
+        qTEST(_model == nullptr);
+
+        return;
+    }
+
+    cQString dictPath = qS2QS(xl::package::Application::dbDirPath()) + QDir::separator() +
+        ui.cboDictPath->currentText();
+
+    // _model
     {
-        if (ui.cboDictPath->currentText().isEmpty()) {
-            createDb();
-        } else {
-            cQString dictPath = qS2QS(xl::package::Application::dbDirPath()) + QDir::separator() +
-                ui.cboDictPath->currentText();
+        qTEST(_model == nullptr);
 
-            // _model
-            {
-                qTEST(_model == nullptr);
+        cQString &tableName = QFileInfo(dictPath).baseName();
 
-                cQString &tableName = QFileInfo(dictPath).baseName();
+        _model = new qtlib::SqlRelationalTableModelEx(this, *_db);
+        _model->setTable(tableName);
+        _model->setJoinMode(QSqlRelationalTableModel::LeftJoin);
+        _model->setRelation(5, QSqlRelation(DB_T_TAGS, DB_F_TAGS_ID, DB_F_TAGS_NAME));
 
-                _model = new qtlib::SqlRelationalTableModelEx(this, *_db);
-                _model->setTable(tableName);
-                _model->setJoinMode(QSqlRelationalTableModel::LeftJoin);
-                _model->setRelation(5, QSqlRelation(DB_T_TAGS, DB_F_TAGS_ID, DB_F_TAGS_NAME));
-
-                for (size_t i = 0; i < qARRAY_LENGTH(::tableViewHeaders); ++ i) {
-                    _model->setHeaderData(::tableViewHeaders[i].section, Qt::Horizontal,
-                        ::tableViewHeaders[i].value, Qt::DisplayRole);
-                }
-
-                _model->setEditStrategy(QSqlTableModel::OnManualSubmit);
-                _model->select();
-            }
+        for (size_t i = 0; i < qARRAY_LENGTH(::tableViewHeaders); ++ i) {
+            _model->setHeaderData(::tableViewHeaders[i].section, Qt::Horizontal,
+                ::tableViewHeaders[i].value, Qt::DisplayRole);
         }
 
-        qTEST_NA(_model);
+        _model->setEditStrategy(QSqlTableModel::OnManualSubmit);
+        _model->select();
     }
 }
 //-------------------------------------------------------------------------------------------------
