@@ -1083,7 +1083,6 @@ Main::search()
     qCHECK_DO(!_sqlNavigator.isValid(), return);
 
     WordFinder dlgWordFinder(this, _model);
-
     dlgWordFinder.exec();
 }
 //-------------------------------------------------------------------------------------------------
@@ -1193,7 +1192,6 @@ void
 Main::settings()
 {
     Settings dlgSettings(this, this);
-
     (int)dlgSettings.exec();
 }
 //-------------------------------------------------------------------------------------------------
