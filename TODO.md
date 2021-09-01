@@ -51,3 +51,12 @@
 - https://github.com/AlexSnet/ASTranslator/
 - http://code.google.com/p/quick-text-translator/
 - http://code.google.com/p/lightlang/
+
+## UI
+
+- [ ] Cursor
+
+```c++
+QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
+QApplication::restoreOverrideCursor();
+```
