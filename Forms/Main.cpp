@@ -427,8 +427,6 @@ Main::_initActions()
     {
         connect(ui.cboDictPath, static_cast<void (QComboBox::*)(const QString &)>(&QComboBox::currentIndexChanged),
                 this,           &Main::cboDictPath_OnCurrentIndexChanged);
-
-        mute();
     }
 
     // _sqlNavigator
