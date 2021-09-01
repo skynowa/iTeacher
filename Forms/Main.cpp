@@ -51,7 +51,9 @@ Main::Main(
 
     cQString dictPath = qS2QS(xl::package::Application::dbDirPath()) + QDir::separator() +
         ui.cboDictPath->currentText();
-    _dbReopen(dictPath); // _db
+
+    _myDb = new Db(this, dictPath, _model, ui.tvInfo);
+    _myDb->reopen();
 
     _initActions();
     _settingsLoad();
@@ -99,7 +101,6 @@ Main::isTerminExists(
 Main::~Main()
 {
     _settingsSave();
-    _dbClose();
 }
 //-------------------------------------------------------------------------------------------------
 
@@ -439,7 +440,11 @@ Main::createDb()
 
     // reopen DB
     {
-        _dbReopen(dictPath);
+        qPTR_DELETE(_myDb);
+
+        _myDb = new Db(this, dictPath, _model, ui.tvInfo);
+        _myDb->reopen();
+
         _cboDictPath_reload();
     }
 
@@ -1258,7 +1263,12 @@ Main::cboDictPath_OnCurrentIndexChanged(
     {
         cQString dictPath = qS2QS(xl::package::Application::dbDirPath()) + QDir::separator() + a_arg;
 
-        _dbReopen(dictPath);
+        qPTR_DELETE(_myDb);
+
+        _myDb = new Db(this, dictPath, _model, ui.tvInfo);
+        _myDb->reopen();
+
+        qTEST_PTR(_db);
     }
 
     // words info
@@ -1359,156 +1369,6 @@ Main::_cboDictPath_reload()
 
         ui.cboDictPath->addItem(dict);
     }
-}
-//-------------------------------------------------------------------------------------------------
-
-
-/**************************************************************************************************
-*   private: DB
-*
-**************************************************************************************************/
-
-//-------------------------------------------------------------------------------------------------
-void
-Main::_dbOpen(
-    cQString &a_filePath
-)
-{
-    qTRACE_FUNC;
-
-    bool bRv {};
-
-    cQString &tableName = QFileInfo(a_filePath).baseName();
-    qDebug() << qTRACE_VAR(tableName);
-
-    // _db
-    {
-        // prepare DB directory
-        {
-            QDir dir;
-            dir.setPath( qS2QS(xl::package::Application::dbDirPath()) );
-
-            bRv = dir.exists();
-            if (!bRv) {
-                bRv = QDir().mkpath( qS2QS(xl::package::Application::dbDirPath()) );
-                qTEST(bRv);
-            }
-
-            qTEST( dir.exists() );
-        }
-
-        qTEST(_db == nullptr);
-
-        bRv = QSqlDatabase::isDriverAvailable("QSQLITE");
-        qCHECK_DO(!bRv, qMSG(QSqlDatabase().lastError().text()); return);
-
-        _db = new QSqlDatabase(QSqlDatabase::addDatabase("QSQLITE"));
-        _db->setDatabaseName(a_filePath);
-
-        bRv = _db->open();
-        qCHECK_PTR(bRv, _db);
-
-        // DB pragma
-        {
-            QSqlQuery qryPragma(*_db);
-
-            cQString sql = "PRAGMA foreign_keys = ON";
-
-            bRv = qryPragma.exec(sql);
-            qCHECK_REF(bRv, qryPragma);
-        }
-
-        // create DB - DB_T_TAGS
-        {
-            QSqlQuery qryTags(*_db);
-
-            cQString sql =
-                "CREATE TABLE IF NOT EXISTS "
-                "    " DB_T_TAGS
-                "( "
-                "    " DB_F_TAGS_ID   " integer PRIMARY KEY AUTOINCREMENT UNIQUE, "
-                "    " DB_F_TAGS_NAME " varchar(255) DEFAULT '' UNIQUE "
-                ")";
-
-            bRv = qryTags.exec(sql);
-            qCHECK_REF(bRv, qryTags);
-        }
-
-        // create DB
-        {
-            QSqlQuery qryMain(*_db);
-
-            cQString sql =
-                "CREATE TABLE IF NOT EXISTS "
-                "    " + tableName +
-                "( "
-                "    " DB_F_MAIN_ID         " integer PRIMARY KEY AUTOINCREMENT UNIQUE, "
-                "    " DB_F_MAIN_TERM       " varchar(255) UNIQUE, "
-                "    " DB_F_MAIN_VALUE      " varchar(255) DEFAULT '', "
-                "    " DB_F_MAIN_IS_LEARNED " integer      DEFAULT 0, "
-                "    " DB_F_MAIN_IS_MARKED  " integer      DEFAULT 0, "
-                "    " DB_F_MAIN_TAG        " integer      DEFAULT 1, "
-                " "
-                "    FOREIGN KEY (" DB_F_MAIN_TAG ") REFERENCES " DB_T_TAGS "(" DB_F_TAGS_ID ") "
-                "    ON UPDATE CASCADE "
-                ")";
-
-            bRv = qryMain.exec(sql);
-            qCHECK_REF(bRv, qryMain);
-        }
-    }
-}
-//-------------------------------------------------------------------------------------------------
-void
-Main::_dbClose()
-{
-    qTRACE_FUNC;
-
-    // _model
-    if (_model != nullptr) {
-        bool bRv = _model->submitAll();
-        if (!bRv &&
-            _model->lastError().text().contains("failed", Qt::CaseInsensitive))
-        {
-            // \see QtLib SqlRelationalTableModelEx::importCsv()
-
-            // lastError(): QSqlError("19", "Unable to fetch row", "UNIQUE constraint failed: t_main.f_main_term")
-            // qDebug() << qTRACE_VAR(lastError().text());
-        } else {
-            qCHECK_PTR(bRv, _model);
-        }
-
-        qPTR_DELETE(_model);
-    }
-
-    // _db
-    if (_db != nullptr) {
-        qTEST(_db->isOpen());
-
-        cQString connectionName = _db->connectionName();
-
-        _db->close();
-        qTEST(!_db->isOpen());
-
-        qPTR_DELETE(_db);
-        qTEST(_db == nullptr);
-
-        QSqlDatabase::removeDatabase(connectionName);
-    }
-}
-//-------------------------------------------------------------------------------------------------
-void
-Main::_dbReopen(
-    cQString &a_filePath
-)
-{
-    qTRACE_FUNC;
-
-    _dbClose();
-    qTEST(_db == nullptr);
-
-    _dbOpen(a_filePath);
-    qTEST_PTR(_db);
 }
 //-------------------------------------------------------------------------------------------------
 

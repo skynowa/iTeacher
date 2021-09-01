@@ -25,7 +25,7 @@ Db::Db(
 {
     qTEST_PTR(a_parent);
     qTEST(!a_filePath.isEmpty())
-    qTEST_PTR(_model);
+    /// qTEST_PTR(_model);
     qTEST_PTR(a_tableView);
 }
 //-------------------------------------------------------------------------------------------------

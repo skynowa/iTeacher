@@ -17,6 +17,7 @@
 #include "../QtLib/GlobalShortcut/GlobalShortcut.h"
 
 #include <QSqlTableModel>
+#include <Classes/Db.h>
 
 #include "ui_Main.h"
 //-------------------------------------------------------------------------------------------------
@@ -72,10 +73,7 @@ private:
     QSqlDatabase                     *_db {};
     qtlib::SqlRelationalTableModelEx *_model {};
     qtlib::SqlNavigator               _sqlNavigator;
-
-    void _dbOpen(cQString &filePath);
-    void _dbClose();
-    void _dbReopen(cQString &filePath);
+    Db                               *_myDb {};
 
     // settings
     ImportExportOrder _importExportOrder {ImportExportOrder::Unknown};
