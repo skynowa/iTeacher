@@ -48,6 +48,11 @@ Main::Main(
     _sqlNavigator             (this)
 {
     _initMain();
+
+    cQString dictPath = qS2QS(xl::package::Application::dbDirPath()) + QDir::separator() +
+        ui.cboDictPath->currentText();
+    _dbOpen(dictPath); // _db
+
     _initModel();
     _initActions();
     _settingsLoad();
@@ -236,75 +241,28 @@ Main::_initModel()
             cQString dictPath = qS2QS(xl::package::Application::dbDirPath()) + QDir::separator() +
                 ui.cboDictPath->currentText();
 
-            _dbOpen(dictPath);
-        }
-    }
+            // _model
+            {
+                qTEST(_model == nullptr);
 
-    // _model
-    {
+                cQString &tableName = QFileInfo(dictPath).baseName();
+
+                _model = new qtlib::SqlRelationalTableModelEx(this, *_db);
+                _model->setTable(tableName);
+                _model->setJoinMode(QSqlRelationalTableModel::LeftJoin);
+                _model->setRelation(5, QSqlRelation(DB_T_TAGS, DB_F_TAGS_ID, DB_F_TAGS_NAME));
+
+                for (size_t i = 0; i < qARRAY_LENGTH(::tableViewHeaders); ++ i) {
+                    _model->setHeaderData(::tableViewHeaders[i].section, Qt::Horizontal,
+                        ::tableViewHeaders[i].value, Qt::DisplayRole);
+                }
+
+                _model->setEditStrategy(QSqlTableModel::OnManualSubmit);
+                _model->select();
+            }
+        }
+
         qTEST_NA(_model);
-    }
-
-    // tvInfo
-    {
-        if (_model != nullptr) {
-            ui.tvInfo->setModel(_model);
-        }
-        ui.tvInfo->viewport()->installEventFilter(this);
-
-        ui.tvInfo->horizontalHeader()->setStretchLastSection(true);
-        ui.tvInfo->hideColumn(0); // don't show the DB_F_MAIN_ID
-        ui.tvInfo->setColumnWidth(0, TVMAIN_COLUMN_WIDTH_0);
-        ui.tvInfo->setColumnWidth(1, TVMAIN_COLUMN_WIDTH_1);
-        ui.tvInfo->setColumnWidth(2, TVMAIN_COLUMN_WIDTH_2);
-        ui.tvInfo->setColumnWidth(3, TVMAIN_COLUMN_WIDTH_3);
-        ui.tvInfo->setColumnWidth(4, TVMAIN_COLUMN_WIDTH_4);
-        ui.tvInfo->setColumnWidth(5, TVMAIN_COLUMN_WIDTH_5);
-        ui.tvInfo->verticalHeader()->setVisible(true);
-        ui.tvInfo->verticalHeader()->setDefaultSectionSize(TABLEVIEW_ROW_HEIGHT);
-
-        ui.tvInfo->setEditTriggers(QAbstractItemView::NoEditTriggers);
-        ui.tvInfo->setSelectionBehavior(QAbstractItemView::SelectRows);
-        ui.tvInfo->setSelectionMode(QAbstractItemView::ExtendedSelection);
-        ui.tvInfo->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
-        ui.tvInfo->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
-        ui.tvInfo->setAlternatingRowColors(true);
-        ui.tvInfo->setStyleSheet("alternate-background-color: white; background-color: gray;");
-        ui.tvInfo->setSortingEnabled(true);
-        ui.tvInfo->sortByColumn(0, Qt::AscendingOrder);
-        ui.tvInfo->setItemDelegateForColumn(3, new CheckBoxItemDelegate(ui.tvInfo));
-        ui.tvInfo->setItemDelegateForColumn(4, new CheckBoxItemDelegate(ui.tvInfo));
-        // ui.tvInfo->setItemDelegateForColumn(5, new ComboBoxItemDelegate(ui.tvInfo, _model));
-
-        ui.tvInfo->show();
-    }
-
-    // slots
-    {
-        connect(ui.tvInfo,      &QTableView::doubleClicked,
-                this,           &Main::edit);
-
-#if 0
-        connect(ui.cboDictPath, &QComboBox::currentIndexChanged,
-                this,           &Main::cboDictPath_OnCurrentIndexChanged);
-#else
-        connect(ui.cboDictPath, SIGNAL( currentIndexChanged(const QString &) ),
-                this,           SLOT  ( cboDictPath_OnCurrentIndexChanged(const QString &) ));
-#endif
-
-        mute();
-    }
-
-    // fire cboDictPath
-    {
-        ui.cboDictPath->setCurrentIndex(- 1);
-        ui.cboDictPath->setCurrentIndex(0);
-    }
-
-    // _sqlNavigator
-    {
-        _sqlNavigator.construct(_model, ui.tvInfo);
-        _sqlNavigator.last();
     }
 }
 //-------------------------------------------------------------------------------------------------
@@ -426,6 +384,62 @@ Main::_initActions()
 
         connect(ui.actHelp_About,           &QAction::triggered,
                 this,                       &Main::about);
+    }
+
+    // tvInfo
+    {
+        if (_model != nullptr) {
+            ui.tvInfo->setModel(_model);
+        }
+        ui.tvInfo->viewport()->installEventFilter(this);
+
+        ui.tvInfo->horizontalHeader()->setStretchLastSection(true);
+        ui.tvInfo->hideColumn(0); // don't show the DB_F_MAIN_ID
+        ui.tvInfo->setColumnWidth(0, TVMAIN_COLUMN_WIDTH_0);
+        ui.tvInfo->setColumnWidth(1, TVMAIN_COLUMN_WIDTH_1);
+        ui.tvInfo->setColumnWidth(2, TVMAIN_COLUMN_WIDTH_2);
+        ui.tvInfo->setColumnWidth(3, TVMAIN_COLUMN_WIDTH_3);
+        ui.tvInfo->setColumnWidth(4, TVMAIN_COLUMN_WIDTH_4);
+        ui.tvInfo->setColumnWidth(5, TVMAIN_COLUMN_WIDTH_5);
+        ui.tvInfo->verticalHeader()->setVisible(true);
+        ui.tvInfo->verticalHeader()->setDefaultSectionSize(TABLEVIEW_ROW_HEIGHT);
+
+        ui.tvInfo->setEditTriggers(QAbstractItemView::NoEditTriggers);
+        ui.tvInfo->setSelectionBehavior(QAbstractItemView::SelectRows);
+        ui.tvInfo->setSelectionMode(QAbstractItemView::ExtendedSelection);
+        ui.tvInfo->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
+        ui.tvInfo->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
+        ui.tvInfo->setAlternatingRowColors(true);
+        ui.tvInfo->setStyleSheet("alternate-background-color: white; background-color: gray;");
+        ui.tvInfo->setSortingEnabled(true);
+        ui.tvInfo->sortByColumn(0, Qt::AscendingOrder);
+        ui.tvInfo->setItemDelegateForColumn(3, new CheckBoxItemDelegate(ui.tvInfo));
+        ui.tvInfo->setItemDelegateForColumn(4, new CheckBoxItemDelegate(ui.tvInfo));
+        // ui.tvInfo->setItemDelegateForColumn(5, new ComboBoxItemDelegate(ui.tvInfo, _model));
+
+        ui.tvInfo->show();
+    }
+
+    // slots
+    {
+        connect(ui.tvInfo,      &QTableView::doubleClicked,
+                this,           &Main::edit);
+
+#if 0
+        connect(ui.cboDictPath, &QComboBox::currentIndexChanged,
+                this,           &Main::cboDictPath_OnCurrentIndexChanged);
+#else
+        connect(ui.cboDictPath, SIGNAL( currentIndexChanged(const QString &) ),
+                this,           SLOT  ( cboDictPath_OnCurrentIndexChanged(const QString &) ));
+#endif
+
+        mute();
+    }
+
+    // _sqlNavigator
+    {
+        _sqlNavigator.construct(_model, ui.tvInfo);
+        _sqlNavigator.last();
     }
 
     // tray
@@ -1404,6 +1418,8 @@ Main::_dbOpen(
     cQString &a_filePath
 )
 {
+    qTRACE_FUNC;
+
     bool bRv {};
 
     cQString &tableName = QFileInfo(a_filePath).baseName();
@@ -1464,8 +1480,6 @@ Main::_dbOpen(
 
         // create DB
         {
-            qTEST(_model == nullptr);
-
             QSqlQuery qryMain(*_db);
 
             cQString sql =
@@ -1487,36 +1501,13 @@ Main::_dbOpen(
             qCHECK_REF(bRv, qryMain);
         }
     }
-
-    // _model
-    {
-        qTEST(_model == nullptr);
-
-        _model = new qtlib::SqlRelationalTableModelEx(this, *_db);
-        _model->setTable(tableName);
-        _model->setJoinMode(QSqlRelationalTableModel::LeftJoin);
-        _model->setRelation(5, QSqlRelation(DB_T_TAGS, DB_F_TAGS_ID, DB_F_TAGS_NAME));
-
-        for (size_t i = 0; i < qARRAY_LENGTH(::tableViewHeaders); ++ i) {
-            _model->setHeaderData(::tableViewHeaders[i].section, Qt::Horizontal,
-                ::tableViewHeaders[i].value, Qt::DisplayRole);
-        }
-
-        _model->setEditStrategy(QSqlTableModel::OnManualSubmit);
-
-        _model->select();
-    }
-
-    // _sqlNavigator
-    {
-        _sqlNavigator.construct(_model, ui.tvInfo);
-        _sqlNavigator.last();
-    }
 }
 //-------------------------------------------------------------------------------------------------
 void
 Main::_dbClose()
 {
+    qTRACE_FUNC;
+
     // _model
     if (_model != nullptr) {
         bool bRv = _model->submitAll();
@@ -1544,6 +1535,7 @@ Main::_dbClose()
         qTEST(!_db->isOpen());
 
         qPTR_DELETE(_db);
+        qTEST(_db == nullptr);
 
         QSqlDatabase::removeDatabase(connectionName);
     }
@@ -1554,8 +1546,12 @@ Main::_dbReopen(
     cQString &a_filePath
 )
 {
+    qTRACE_FUNC;
+
     _dbClose();
     _dbOpen(a_filePath);
+
+    _initModel();
 
     // _model
     _model->select();
