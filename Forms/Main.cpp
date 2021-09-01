@@ -1381,11 +1381,10 @@ Main::_cboDictPath_reload()
     qCHECK_DO(! QDir( qS2QS(xl::package::Application::dbDirPath()) ).exists(), return);
 
     std::vec_tstring_t dicts;
-
     xl::fs::Finder::files(xl::package::Application::dbDirPath(), xT("*") xT(DB_FILE_EXT), true, &dicts);
 
-    for (auto &it : dicts) {
-        cQString dict = qS2QS( it.erase(0, (xl::package::Application::dbDirPath() +
+    for (auto &it_dict : dicts) {
+        cQString dict = qS2QS( it_dict.erase(0, (xl::package::Application::dbDirPath() +
             xl::core::Const::slash()).size()) );
 
         ui.cboDictPath->addItem(dict);
@@ -1405,7 +1404,7 @@ Main::_dbOpen(
     cQString &a_filePath
 )
 {
-    bool bRv = false;
+    bool bRv {};
 
     QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
 
@@ -1430,7 +1429,7 @@ Main::_dbOpen(
 
         qTEST(_db == nullptr);
 
-        bool bRv = QSqlDatabase::isDriverAvailable("QSQLITE");
+        bRv = QSqlDatabase::isDriverAvailable("QSQLITE");
         qCHECK_DO(!bRv, qMSG(QSqlDatabase().lastError().text()); return);
 
         _db = new QSqlDatabase(QSqlDatabase::addDatabase("QSQLITE"));
@@ -1443,8 +1442,7 @@ Main::_dbOpen(
         {
             QSqlQuery qryPragma(*_db);
 
-            cQString sql =
-                "PRAGMA foreign_keys = ON";
+            cQString sql = "PRAGMA foreign_keys = ON";
 
             bRv = qryPragma.exec(sql);
             qCHECK_REF(bRv, qryPragma);
@@ -1751,13 +1749,13 @@ Main::_exportfileNameBuild(
 bool
 Main::_tagsIsEmpty()
 {
-    int tagsSize = 0;
+    int tagsSize {};
     {
         QSqlQuery qryTags(*_db);
 
         cQString sql =
-            "SELECT COUNT(*) AS f_records_count "
-            "   FROM  " DB_T_TAGS ";";
+            "SELECT COUNT(*) "
+            "FROM  " DB_T_TAGS ";";
 
         bool bRv = qryTags.exec(sql);
         qCHECK_REF(bRv, qryTags);
