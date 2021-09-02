@@ -190,18 +190,15 @@ Db::_open()
 
         // DB pragma
         {
-            QSqlQuery query(*_db);
-
             cQString sql = "PRAGMA foreign_keys = ON";
 
+            QSqlQuery query(*_db);
             bRv = query.exec(sql);
             qCHECK_REF(bRv, query);
         }
 
         // create DB - DB_T_TAGS
         {
-            QSqlQuery query(*_db);
-
             cQString sql =
                 "CREATE TABLE IF NOT EXISTS "
                 "    " DB_T_TAGS
@@ -210,14 +207,13 @@ Db::_open()
                 "    " DB_F_TAGS_NAME " varchar(255) DEFAULT '' UNIQUE "
                 ")";
 
+            QSqlQuery query(*_db);
             bRv = query.exec(sql);
             qCHECK_REF(bRv, query);
         }
 
         // create DB
         {
-            QSqlQuery query(*_db);
-
             cQString sql =
                 "CREATE TABLE IF NOT EXISTS "
                 "    " + tableName +
@@ -233,6 +229,7 @@ Db::_open()
                 "    ON UPDATE CASCADE "
                 ")";
 
+            QSqlQuery query(*_db);
             bRv = query.exec(sql);
             qCHECK_REF(bRv, query);
         }
