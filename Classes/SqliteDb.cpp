@@ -16,17 +16,17 @@
 SqliteDb::SqliteDb(
     QObject    *a_parent,   ///<
     cQString   &a_filePath, ///<
-    QTableView *a_tableView ///<
+    QTableView *a_view      ///<
 ) :
-    QObject      (a_parent),
-    _filePath    {a_filePath},
-    _tableView   {a_tableView},
-    _sqlNavigator(a_parent)
+    QObject   (a_parent),
+    _filePath {a_filePath},
+    _view     {a_view},
+    _navigator(a_parent)
 {
     qTEST_PTR(a_parent);
     qTEST(!a_filePath.isEmpty())
-    qTEST_PTR(a_tableView);
-    qTEST_NA(_sqlNavigator);
+    qTEST_PTR(a_view);
+    qTEST_NA(_navigator);
 }
 //-------------------------------------------------------------------------------------------------
 SqliteDb::~SqliteDb()
@@ -55,15 +55,15 @@ SqliteDb::model()
 QTableView *
 SqliteDb::view()
 {
-    qTEST_PTR(_tableView);
-    return _tableView;
+    qTEST_PTR(_view);
+    return _view;
 }
 //-------------------------------------------------------------------------------------------------
 qtlib::SqlNavigator &
 SqliteDb::navigator()
 {
-    qTEST(_sqlNavigator.isValid());
-    return _sqlNavigator;
+    qTEST(_navigator.isValid());
+    return _navigator;
 }
 //-------------------------------------------------------------------------------------------------
 void
@@ -81,10 +81,10 @@ SqliteDb::reopen()
     _modelOpen();
     qTEST_PTR(_model);
 
-    _tableView->setModel(_model.get());
+    _view->setModel(_model.get());
 
-    _sqlNavigator.construct(model(), view());
-    _sqlNavigator.last();
+    _navigator.construct(model(), view());
+    _navigator.last();
 }
 //-------------------------------------------------------------------------------------------------
 std::size_t

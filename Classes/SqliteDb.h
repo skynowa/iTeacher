@@ -22,7 +22,7 @@ class SqliteDb :
     public QObject
 {
 public:
-    SqliteDb(QObject *parent, cQString &filePath, QTableView *tableView);
+    SqliteDb(QObject *parent, cQString &filePath, QTableView *view);
    ~SqliteDb();
 
     QSqlDatabase                     *db();
@@ -42,10 +42,10 @@ private:
     Q_OBJECT
 
     cQString                          _filePath;
-    std::unique_ptr<QSqlDatabase>                     _db;
+    std::unique_ptr<QSqlDatabase>     _db;
     std::unique_ptr<qtlib::SqlRelationalTableModelEx> _model;
-    QTableView                       *_tableView {};
-    qtlib::SqlNavigator               _sqlNavigator;
+    QTableView                       *_view {};
+    qtlib::SqlNavigator               _navigator;
 
     void  _dbOpen();
     void  _dbClose();
