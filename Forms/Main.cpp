@@ -71,7 +71,7 @@ Main::isTerminExists(
     QSqlQuery qryQuery( a_model.database() );
 
     cQString sql =
-        "SELECT COUNT(1) "
+        "SELECT count(1) "
         "FROM  " + a_model.tableName() + " "
         "WHERE " DB_F_MAIN_TERM " LIKE :term";
 

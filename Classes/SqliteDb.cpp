@@ -91,7 +91,7 @@ std::size_t
 SqliteDb::wordsAll() const
 {
     cQString sql =
-        "SELECT COUNT(*) "
+        "SELECT count(*) "
         "FROM  " + _model->tableName() + ";";
 
     return _queryCount(sql);
@@ -101,7 +101,7 @@ std::size_t
 SqliteDb::wordsLearned() const
 {
     cQString sql =
-        "SELECT COUNT(*) "
+        "SELECT count(*) "
         "FROM  " + _model->tableName() + " "
         "WHERE " DB_F_MAIN_IS_LEARNED " = 1;";
 
@@ -112,7 +112,7 @@ std::size_t
 SqliteDb::wordsNotLearned() const
 {
     cQString sql =
-        "SELECT COUNT(*) "
+        "SELECT count(*) "
         "FROM  " + _model->tableName() + " "
         "WHERE " DB_F_MAIN_IS_LEARNED " = 0;";
 
@@ -123,7 +123,7 @@ bool
 SqliteDb::isTagsEmpty() const
 {
     cQString sql =
-        "SELECT COUNT(*) "
+        "SELECT count(*) "
         "FROM  " DB_T_TAGS ";";
 
     return (_queryCount(sql) == 0);
@@ -137,7 +137,7 @@ SqliteDb::isTerminExists(
     qTEST(!a_term.isEmpty())
 
     cQString sql =
-        "SELECT COUNT(*) "
+        "SELECT count(*) "
         "FROM  " + _model->tableName() + " "
         "WHERE " DB_F_MAIN_TERM " = " + a_term.trimmed();
 
