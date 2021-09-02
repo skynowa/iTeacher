@@ -318,7 +318,6 @@ SqliteDb::_queryCount(
     bool bRv {};
 
     QSqlQuery query(*_db);
-
     bRv = query.exec(a_sql);
     qCHECK_REF(bRv, query);
 
