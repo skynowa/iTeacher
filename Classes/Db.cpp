@@ -216,7 +216,7 @@ Db::_open()
 
         // create DB
         {
-            QSqlQuery qryMain(*_db);
+            QSqlQuery query(*_db);
 
             cQString sql =
                 "CREATE TABLE IF NOT EXISTS "
@@ -233,8 +233,8 @@ Db::_open()
                 "    ON UPDATE CASCADE "
                 ")";
 
-            bRv = qryMain.exec(sql);
-            qCHECK_REF(bRv, qryMain);
+            bRv = query.exec(sql);
+            qCHECK_REF(bRv, query);
         }
     }
 }
