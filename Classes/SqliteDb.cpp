@@ -31,10 +31,10 @@ SqliteDb::SqliteDb(
 //-------------------------------------------------------------------------------------------------
 SqliteDb::~SqliteDb()
 {
-    _closeModel();
+    _modelClose();
     qTEST(_model == nullptr);
 
-    _close();
+    _dbClose();
     qTEST(_db == nullptr);
 }
 //-------------------------------------------------------------------------------------------------
@@ -69,16 +69,16 @@ SqliteDb::navigator()
 void
 SqliteDb::reopen()
 {
-    _closeModel();
+    _modelClose();
     qTEST(_model == nullptr);
 
-    _close();
+    _dbClose();
     qTEST(_db == nullptr);
 
-    _open();
+    _dbOpen();
     qTEST_PTR(_db);
 
-    _openModel();
+    _modelOpen();
     qTEST_PTR(_model);
 
     _tableView->setModel(_model.get());
@@ -153,7 +153,7 @@ SqliteDb::isTerminExists(
 
 //-------------------------------------------------------------------------------------------------
 void
-SqliteDb::_open()
+SqliteDb::_dbOpen()
 {
     qTRACE_FUNC;
 
@@ -238,7 +238,7 @@ SqliteDb::_open()
 }
 //-------------------------------------------------------------------------------------------------
 void
-SqliteDb::_close()
+SqliteDb::_dbClose()
 {
     qTRACE_FUNC;
 
@@ -260,7 +260,7 @@ SqliteDb::_close()
 }
 //-------------------------------------------------------------------------------------------------
 void
-SqliteDb::_openModel()
+SqliteDb::_modelOpen()
 {
     if ( _filePath.isEmpty() ) {
         qTEST(_model == nullptr);
@@ -293,7 +293,7 @@ SqliteDb::_openModel()
 }
 //-------------------------------------------------------------------------------------------------
 void
-SqliteDb::_closeModel()
+SqliteDb::_modelClose()
 {
     if (_model == nullptr) {
         return;

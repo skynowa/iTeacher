@@ -47,11 +47,11 @@ private:
     QTableView                       *_tableView {};
     qtlib::SqlNavigator               _sqlNavigator;
 
-    void  _open();
-    void  _close();
+    void  _dbOpen();
+    void  _dbClose();
 
-    void  _openModel();
-    void  _closeModel();
+    void  _modelOpen();
+    void  _modelClose();
 
     ulong _queryCount(cQString &sql) const;
 };
