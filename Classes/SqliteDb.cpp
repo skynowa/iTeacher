@@ -262,10 +262,7 @@ void
 SqliteDb::_modelOpen()
 {
     if ( _filePath.isEmpty() ) {
-        qTEST(_model == nullptr);
-        /// createDb();
-        qTEST(_model == nullptr);
-
+        qDebug() << qTRACE_VAR(_filePath.isEmpty());
         return;
     }
 
