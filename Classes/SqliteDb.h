@@ -1,5 +1,5 @@
 /**
- * \file  Db.h
+ * \file  SqliteDb.h
  * \brief
  */
 
@@ -18,12 +18,12 @@
 
 #include "../Config.h"
 //-------------------------------------------------------------------------------------------------
-class Db :
+class SqliteDb :
     public QObject
 {
 public:
-    Db(QObject *parent, cQString &filePath, QTableView *tableView);
-   ~Db();
+    SqliteDb(QObject *parent, cQString &filePath, QTableView *tableView);
+   ~SqliteDb();
 
     QSqlDatabase                     *db();
     qtlib::SqlRelationalTableModelEx *model();

@@ -100,7 +100,7 @@ add_executable(${PROJECT_NAME}
     Classes/CheckBoxItemDelegate.cpp
     Classes/ComboBoxItemDelegate.cpp
     Classes/Hint.cpp
-    Classes/Db.cpp
+    Classes/SqliteDb.cpp
 
     # Forms
     Forms/Main.cpp

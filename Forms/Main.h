@@ -17,7 +17,7 @@
 #include "../QtLib/GlobalShortcut/GlobalShortcut.h"
 
 #include <QSqlTableModel>
-#include <Classes/Db.h>
+#include <Classes/SqliteDb.h>
 
 #include "ui_Main.h"
 //-------------------------------------------------------------------------------------------------
@@ -69,8 +69,8 @@ private:
     void _initActions();
     void _cboDictPath_reload();
 
-    // DB
-    std::unique_ptr<Db> _db;
+    // SQLite DB
+    std::unique_ptr<SqliteDb> _db;
 
     // settings
     ImportExportOrder _importExportOrder {ImportExportOrder::Unknown};

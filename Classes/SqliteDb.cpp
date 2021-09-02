@@ -1,9 +1,10 @@
 /**
- * \file  Db.cpp
+ * \file  SqliteDb.cpp
  * \brief
  */
 
-#include "Db.h"
+
+#include "SqliteDb.h"
 
 
 /**************************************************************************************************
@@ -12,7 +13,7 @@
 **************************************************************************************************/
 
 //-------------------------------------------------------------------------------------------------
-Db::Db(
+SqliteDb::SqliteDb(
     QObject    *a_parent,   ///<
     cQString   &a_filePath, ///<
     QTableView *a_tableView ///<
@@ -28,7 +29,7 @@ Db::Db(
     qTEST_NA(_sqlNavigator);
 }
 //-------------------------------------------------------------------------------------------------
-Db::~Db()
+SqliteDb::~SqliteDb()
 {
     _closeModel();
     qTEST(_model == nullptr);
@@ -38,35 +39,35 @@ Db::~Db()
 }
 //-------------------------------------------------------------------------------------------------
 QSqlDatabase *
-Db::db()
+SqliteDb::db()
 {
     qTEST(_db);
     return _db.get();
 }
 //-------------------------------------------------------------------------------------------------
 qtlib::SqlRelationalTableModelEx *
-Db::model()
+SqliteDb::model()
 {
     qTEST(_model);
     return _model.get();
 }
 //-------------------------------------------------------------------------------------------------
 QTableView *
-Db::view()
+SqliteDb::view()
 {
     qTEST_PTR(_tableView);
     return _tableView;
 }
 //-------------------------------------------------------------------------------------------------
 qtlib::SqlNavigator &
-Db::navigator()
+SqliteDb::navigator()
 {
     qTEST(_sqlNavigator.isValid());
     return _sqlNavigator;
 }
 //-------------------------------------------------------------------------------------------------
 void
-Db::reopen()
+SqliteDb::reopen()
 {
     _closeModel();
     qTEST(_model == nullptr);
@@ -87,7 +88,7 @@ Db::reopen()
 }
 //-------------------------------------------------------------------------------------------------
 std::size_t
-Db::wordsAll() const
+SqliteDb::wordsAll() const
 {
     cQString sql =
         "SELECT COUNT(*) "
@@ -97,7 +98,7 @@ Db::wordsAll() const
 }
 //-------------------------------------------------------------------------------------------------
 std::size_t
-Db::wordsLearned() const
+SqliteDb::wordsLearned() const
 {
     cQString sql =
         "SELECT COUNT(*) "
@@ -108,7 +109,7 @@ Db::wordsLearned() const
 }
 //-------------------------------------------------------------------------------------------------
 std::size_t
-Db::wordsNotLearned() const
+SqliteDb::wordsNotLearned() const
 {
     cQString sql =
         "SELECT COUNT(*) "
@@ -119,7 +120,7 @@ Db::wordsNotLearned() const
 }
 //-------------------------------------------------------------------------------------------------
 bool
-Db::isTagsEmpty() const
+SqliteDb::isTagsEmpty() const
 {
     cQString sql =
         "SELECT COUNT(*) "
@@ -129,7 +130,7 @@ Db::isTagsEmpty() const
 }
 //-------------------------------------------------------------------------------------------------
 bool
-Db::isTerminExists(
+SqliteDb::isTerminExists(
     cQString &a_term
 ) const
 {
@@ -152,7 +153,7 @@ Db::isTerminExists(
 
 //-------------------------------------------------------------------------------------------------
 void
-Db::_open()
+SqliteDb::_open()
 {
     qTRACE_FUNC;
 
@@ -237,7 +238,7 @@ Db::_open()
 }
 //-------------------------------------------------------------------------------------------------
 void
-Db::_close()
+SqliteDb::_close()
 {
     qTRACE_FUNC;
 
@@ -259,7 +260,7 @@ Db::_close()
 }
 //-------------------------------------------------------------------------------------------------
 void
-Db::_openModel()
+SqliteDb::_openModel()
 {
     if ( _filePath.isEmpty() ) {
         qTEST(_model == nullptr);
@@ -292,7 +293,7 @@ Db::_openModel()
 }
 //-------------------------------------------------------------------------------------------------
 void
-Db::_closeModel()
+SqliteDb::_closeModel()
 {
     if (_model == nullptr) {
         return;
@@ -314,7 +315,7 @@ Db::_closeModel()
 }
 //-------------------------------------------------------------------------------------------------
 std::size_t
-Db::_queryCount(
+SqliteDb::_queryCount(
     cQString &a_sql
 ) const
 {
