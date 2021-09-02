@@ -272,13 +272,11 @@ Db::_openModel()
         return;
     }
 
-    cQString dictPath = qS2QS(xl::package::Application::dbDirPath()) + QDir::separator() + _filePath;
-
     // _model
     {
         qTEST(_model == nullptr);
 
-        cQString &tableName = QFileInfo(dictPath).baseName();
+        cQString &tableName = QFileInfo(_filePath).baseName();
         qTEST(!tableName.isEmpty());
 
         _model.reset(new qtlib::SqlRelationalTableModelEx(this, *_db));
