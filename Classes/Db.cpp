@@ -190,17 +190,17 @@ Db::_open()
 
         // DB pragma
         {
-            QSqlQuery qryPragma(*_db);
+            QSqlQuery query(*_db);
 
             cQString sql = "PRAGMA foreign_keys = ON";
 
-            bRv = qryPragma.exec(sql);
-            qCHECK_REF(bRv, qryPragma);
+            bRv = query.exec(sql);
+            qCHECK_REF(bRv, query);
         }
 
         // create DB - DB_T_TAGS
         {
-            QSqlQuery qryTags(*_db);
+            QSqlQuery query(*_db);
 
             cQString sql =
                 "CREATE TABLE IF NOT EXISTS "
@@ -210,8 +210,8 @@ Db::_open()
                 "    " DB_F_TAGS_NAME " varchar(255) DEFAULT '' UNIQUE "
                 ")";
 
-            bRv = qryTags.exec(sql);
-            qCHECK_REF(bRv, qryTags);
+            bRv = query.exec(sql);
+            qCHECK_REF(bRv, query);
         }
 
         // create DB

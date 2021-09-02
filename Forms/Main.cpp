@@ -1396,8 +1396,6 @@ Main::_settingsLoad()
             ui.tvInfo->verticalHeader()->setDefaultSectionSize(tableRowHeight);
         }
 
-        /// TODO: _db->navigator().goTo(tableCurrentRow);
-
         {
             ui.tvInfo->setColumnWidth(0, columnWidth0);
             ui.tvInfo->setColumnWidth(1, columnWidth1);
