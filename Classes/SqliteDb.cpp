@@ -26,7 +26,6 @@ SqliteDb::SqliteDb(
     qTEST_PTR(a_parent);
     qTEST(!a_filePath.isEmpty())
     qTEST_PTR(a_view);
-    qTEST_NA(_navigator);
 }
 //-------------------------------------------------------------------------------------------------
 SqliteDb::~SqliteDb()
