@@ -119,13 +119,28 @@ Db::wordsNotLearned() const
 }
 //-------------------------------------------------------------------------------------------------
 bool
-Db::tagsIsEmpty() const
+Db::isTagsEmpty() const
 {
     cQString sql =
         "SELECT COUNT(*) "
         "FROM  " DB_T_TAGS ";";
 
     return (_queryCount(sql) == 0);
+}
+//-------------------------------------------------------------------------------------------------
+bool
+Db::isTerminExists(
+    cQString &a_term
+) const
+{
+    qTEST(!a_term.isEmpty())
+
+    cQString sql =
+        "SELECT COUNT(*) "
+        "FROM  " + _model->tableName() + " "
+        "WHERE " DB_F_MAIN_TERM " = " + a_term.trimmed();
+
+    return (_queryCount(sql) > 0);
 }
 //-------------------------------------------------------------------------------------------------
 

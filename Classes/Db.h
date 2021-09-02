@@ -35,7 +35,8 @@ public:
     std::size_t wordsAll() const;
     std::size_t wordsLearned() const;
     std::size_t wordsNotLearned() const;
-    bool        tagsIsEmpty() const;
+    bool        isTerminExists(cQString &term) const;
+    bool        isTagsEmpty() const;
 
 private:
     Q_OBJECT

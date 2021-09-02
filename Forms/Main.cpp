@@ -1492,7 +1492,7 @@ Main::_exportfileNameBuild(
 bool
 Main::_tagsIsEmpty()
 {
-    qCHECK_RET(!_db->tagsIsEmpty(), false);
+    qCHECK_RET(!_db->isTagsEmpty(), false);
 
     // report
     QMessageBox msgBox;
