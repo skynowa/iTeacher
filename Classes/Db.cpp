@@ -1,5 +1,5 @@
 /**
- * \file
+ * \file  Db.cpp
  * \brief
  */
 
@@ -7,26 +7,25 @@
 
 
 /**************************************************************************************************
-*   private: DB
+*   public
 *
 **************************************************************************************************/
 
 //-------------------------------------------------------------------------------------------------
 Db::Db(
-    QObject                          *a_parent,
-    cQString                         &a_filePath,
-    qtlib::SqlRelationalTableModelEx *a_model,
-    QTableView                       *a_tableView
+    QObject    *a_parent,   ///<
+    cQString   &a_filePath, ///<
+    QTableView *a_tableView ///<
 ) :
-    QObject   (a_parent),
-    _filePath {a_filePath},
-    _model    {a_model},
-    _tableView{a_tableView}
+    QObject      (a_parent),
+    _filePath    {a_filePath},
+    _tableView   {a_tableView},
+    _sqlNavigator(a_parent)
 {
     qTEST_PTR(a_parent);
     qTEST(!a_filePath.isEmpty())
-    /// qTEST_PTR(_model);
     qTEST_PTR(a_tableView);
+    qTEST_NA(_sqlNavigator);
 }
 //-------------------------------------------------------------------------------------------------
 Db::~Db()
@@ -34,12 +33,111 @@ Db::~Db()
     _closeModel();
     qTEST(_model == nullptr);
 
-    close();
+    _close();
     qTEST(_db == nullptr);
 }
 //-------------------------------------------------------------------------------------------------
+QSqlDatabase *
+Db::db()
+{
+    qTEST(_db);
+    return _db.get();
+}
+//-------------------------------------------------------------------------------------------------
+qtlib::SqlRelationalTableModelEx *
+Db::model()
+{
+    qTEST(_model);
+    return _model.get();
+}
+//-------------------------------------------------------------------------------------------------
+QTableView *
+Db::view()
+{
+    qTEST_PTR(_tableView);
+    return _tableView;
+}
+//-------------------------------------------------------------------------------------------------
+qtlib::SqlNavigator &
+Db::navigator()
+{
+    qTEST(_sqlNavigator.isValid());
+    return _sqlNavigator;
+}
+//-------------------------------------------------------------------------------------------------
 void
-Db::open()
+Db::reopen()
+{
+    _closeModel();
+    qTEST(_model == nullptr);
+
+    _close();
+    qTEST(_db == nullptr);
+
+    _open();
+    qTEST_PTR(_db);
+
+    _openModel();
+    qTEST_PTR(_model);
+
+    _tableView->setModel(_model.get());
+
+    _sqlNavigator.construct(model(), view());
+    _sqlNavigator.last();
+}
+//-------------------------------------------------------------------------------------------------
+std::size_t
+Db::wordsAll() const
+{
+    cQString sql =
+        "SELECT COUNT(*) "
+        "FROM  " + _model->tableName() + ";";
+
+    return _queryCount(sql);
+}
+//-------------------------------------------------------------------------------------------------
+std::size_t
+Db::wordsLearned() const
+{
+    cQString sql =
+        "SELECT COUNT(*) "
+        "FROM  " + _model->tableName() + " "
+        "WHERE " DB_F_MAIN_IS_LEARNED " = 1;";
+
+    return _queryCount(sql);
+}
+//-------------------------------------------------------------------------------------------------
+std::size_t
+Db::wordsNotLearned() const
+{
+    cQString sql =
+        "SELECT COUNT(*) "
+        "FROM  " + _model->tableName() + " "
+        "WHERE " DB_F_MAIN_IS_LEARNED " = 0;";
+
+    return _queryCount(sql);
+}
+//-------------------------------------------------------------------------------------------------
+bool
+Db::tagsIsEmpty() const
+{
+    cQString sql =
+        "SELECT COUNT(*) "
+        "FROM  " DB_T_TAGS ";";
+
+    return (_queryCount(sql) == 0);
+}
+//-------------------------------------------------------------------------------------------------
+
+
+/**************************************************************************************************
+*   private
+*
+**************************************************************************************************/
+
+//-------------------------------------------------------------------------------------------------
+void
+Db::_open()
 {
     qTRACE_FUNC;
 
@@ -69,7 +167,7 @@ Db::open()
         bRv = QSqlDatabase::isDriverAvailable("QSQLITE");
         qCHECK_DO(!bRv, qMSG(QSqlDatabase().lastError().text()); return);
 
-        _db = new QSqlDatabase(QSqlDatabase::addDatabase("QSQLITE"));
+        _db.reset(new QSqlDatabase(QSqlDatabase::addDatabase("QSQLITE")));
         _db->setDatabaseName(_filePath);
 
         bRv = _db->open();
@@ -127,7 +225,7 @@ Db::open()
 }
 //-------------------------------------------------------------------------------------------------
 void
-Db::close()
+Db::_close()
 {
     qTRACE_FUNC;
 
@@ -142,30 +240,10 @@ Db::close()
     _db->close();
     qTEST(!_db->isOpen());
 
-    qPTR_DELETE(_db);
-    qTEST(_db == nullptr);
+    _db.reset();
+    qTEST(_db.get() == nullptr);
 
     QSqlDatabase::removeDatabase(connectionName);
-}
-//-------------------------------------------------------------------------------------------------
-void
-Db::reopen()
-{
-    qTRACE_FUNC;
-
-    _closeModel();
-    qTEST(_model == nullptr);
-
-    close();
-    qTEST(_db == nullptr);
-
-    open();
-    qTEST_PTR(_db);
-
-    _openModel();
-    qTEST_PTR(_model);
-
-    _tableView->setModel(_model);
 }
 //-------------------------------------------------------------------------------------------------
 void
@@ -188,7 +266,7 @@ Db::_openModel()
         cQString &tableName = QFileInfo(dictPath).baseName();
         qTEST(!tableName.isEmpty());
 
-        _model = new qtlib::SqlRelationalTableModelEx(this, *_db);
+        _model.reset(new qtlib::SqlRelationalTableModelEx(this, *_db));
         _model->setTable(tableName);
         _model->setJoinMode(QSqlRelationalTableModel::LeftJoin);
         _model->setRelation(5, QSqlRelation(DB_T_TAGS, DB_F_TAGS_ID, DB_F_TAGS_NAME));
@@ -222,6 +300,24 @@ Db::_closeModel()
         qCHECK_PTR(bRv, _model);
     }
 
-    qPTR_DELETE(_model);
+    _model.reset();
+}
+//-------------------------------------------------------------------------------------------------
+std::size_t
+Db::_queryCount(
+    cQString &a_sql
+) const
+{
+    bool bRv {};
+
+    QSqlQuery query(*_db);
+
+    bRv = query.exec(a_sql);
+    qCHECK_REF(bRv, query);
+
+    bRv = query.next();
+    qCHECK_REF(bRv, query);
+
+    return query.value(0).toULongLong();
 }
 //-------------------------------------------------------------------------------------------------
