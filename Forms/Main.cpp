@@ -422,7 +422,7 @@ Main::createDb()
 
     // reopen DB
     {
-        _db.reset(new Db(this, dictPath, ui.tvInfo));
+        _db.reset(new SqliteDb(this, dictPath, ui.tvInfo));
         _db->reopen();
 
         _cboDictPath_reload();
@@ -1244,7 +1244,7 @@ Main::cboDictPath_OnCurrentIndexChanged(
     {
         cQString dictPath = qS2QS(xl::package::Application::dbDirPath()) + QDir::separator() + a_arg;
 
-        _db.reset(new Db(this, dictPath, ui.tvInfo));
+        _db.reset(new SqliteDb(this, dictPath, ui.tvInfo));
         _db->reopen();
     }
 
