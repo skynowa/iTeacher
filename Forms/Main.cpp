@@ -47,13 +47,6 @@ Main::Main(
     _scQuickClipboardTranslate(this)
 {
     _initMain();
-
-    cQString dictPath = qS2QS(xl::package::Application::dbDirPath()) + QDir::separator() +
-        ui.cboDictPath->currentText();
-
-    _db.reset(new Db(this, dictPath, ui.tvInfo));
-    _db->reopen();
-
     _initActions();
     _settingsLoad();
 }
@@ -1382,7 +1375,13 @@ Main::_settingsLoad()
         // main
         resize(size);
         move(position);
+
+        if (dictionaryNum == 0) {
+            // Fire event "OnCurrentIndexChanged"
+            ui.cboDictPath->setCurrentIndex(-1);
+        }
         ui.cboDictPath->setCurrentIndex(dictionaryNum);
+
         setVisible(visible);
 
         // table
@@ -1397,7 +1396,7 @@ Main::_settingsLoad()
             ui.tvInfo->verticalHeader()->setDefaultSectionSize(tableRowHeight);
         }
 
-        _db->navigator().goTo(tableCurrentRow);
+        /// TODO: _db->navigator().goTo(tableCurrentRow);
 
         {
             ui.tvInfo->setColumnWidth(0, columnWidth0);
