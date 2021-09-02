@@ -70,10 +70,7 @@ private:
     void _cboDictPath_reload();
 
     // DB
-    QSqlDatabase                     *_db {};
-    qtlib::SqlRelationalTableModelEx *_model {};
-    qtlib::SqlNavigator               _sqlNavigator;
-    Db                               *_myDb {};
+    std::unique_ptr<Db> _db;
 
     // settings
     ImportExportOrder _importExportOrder {ImportExportOrder::Unknown};

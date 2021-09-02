@@ -1,5 +1,5 @@
 /**
- * \file
+ * \file  Db.h
  * \brief
  */
 
@@ -8,19 +8,13 @@
 
 //-------------------------------------------------------------------------------------------------
 #include <QtLib/Common.h>
-#include "../QtLib/Common.h"
-#include "../QtLib/Utils.h"
-#include "../QtLib/Db/SqlNavigator.h"
-#include "../QtLib/Db/SqlRelationalTableModelEx.h"
-#include "../QtLib/GlobalShortcut/GlobalShortcut.h"
+#include <QtLib/Utils.h>
+#include <QtLib/Db/SqlNavigator.h>
+#include <QtLib/Db/SqlRelationalTableModelEx.h>
 #include <QObject>
 
 #include <xLib/Core/Core.h>
-#include <xLib/Core/Const.h>
-#include <xLib/Core/String.h>
 #include <xLib/Package/Application.h>
-#include <xLib/Fs/Path.h>
-#include <xLib/Fs/Finder.h>
 
 #include "../Config.h"
 //-------------------------------------------------------------------------------------------------
@@ -28,28 +22,36 @@ class Db :
     public QObject
 {
 public:
-    Db(QObject *parent, cQString &filePath, qtlib::SqlRelationalTableModelEx *model,
-        QTableView *tableView);
-    ~Db();
+    Db(QObject *parent, cQString &filePath, QTableView *tableView);
+   ~Db();
+
+    QSqlDatabase                     *db();
+    qtlib::SqlRelationalTableModelEx *model();
+    QTableView                       *view();
+    qtlib::SqlNavigator              &navigator();
 
     void reopen();
 
-signals:
-
-public slots:
+    std::size_t wordsAll() const;
+    std::size_t wordsLearned() const;
+    std::size_t wordsNotLearned() const;
+    bool        tagsIsEmpty() const;
 
 private:
     Q_OBJECT
 
     cQString                          _filePath;
-    QSqlDatabase                     *_db {};
-    qtlib::SqlRelationalTableModelEx *_model {};
+    std::unique_ptr<QSqlDatabase>                     _db;
+    std::unique_ptr<qtlib::SqlRelationalTableModelEx> _model;
     QTableView                       *_tableView {};
+    qtlib::SqlNavigator               _sqlNavigator;
 
-    void open();
-    void close();
+    void  _open();
+    void  _close();
 
-    void _openModel();
-    void _closeModel();
+    void  _openModel();
+    void  _closeModel();
+
+    ulong _queryCount(cQString &sql) const;
 };
 //-------------------------------------------------------------------------------------------------

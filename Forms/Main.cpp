@@ -44,16 +44,15 @@ Main::Main(
     _scShowHide               (this),
     _scImportClipboard        (this),
 #endif
-    _scQuickClipboardTranslate(this),
-    _sqlNavigator             (this)
+    _scQuickClipboardTranslate(this)
 {
     _initMain();
 
     cQString dictPath = qS2QS(xl::package::Application::dbDirPath()) + QDir::separator() +
         ui.cboDictPath->currentText();
 
-    _myDb = new Db(this, dictPath, _model, ui.tvInfo);
-    _myDb->reopen();
+    _db.reset(new Db(this, dictPath, ui.tvInfo));
+    _db->reopen();
 
     _initActions();
     _settingsLoad();
@@ -352,11 +351,7 @@ Main::_initActions()
 
     // tvInfo
     {
-        if (_model != nullptr) {
-            ui.tvInfo->setModel(_model);
-        }
         ui.tvInfo->viewport()->installEventFilter(this);
-
         ui.tvInfo->horizontalHeader()->setStretchLastSection(true);
         ui.tvInfo->hideColumn(0); // don't show the DB_F_MAIN_ID
         ui.tvInfo->setColumnWidth(0, TVMAIN_COLUMN_WIDTH_0);
@@ -379,7 +374,7 @@ Main::_initActions()
         ui.tvInfo->sortByColumn(0, Qt::AscendingOrder);
         ui.tvInfo->setItemDelegateForColumn(3, new CheckBoxItemDelegate(ui.tvInfo));
         ui.tvInfo->setItemDelegateForColumn(4, new CheckBoxItemDelegate(ui.tvInfo));
-        // ui.tvInfo->setItemDelegateForColumn(5, new ComboBoxItemDelegate(ui.tvInfo, _model));
+        // ui.tvInfo->setItemDelegateForColumn(5, new ComboBoxItemDelegate(ui.tvInfo, _db->model()));
 
         connect(ui.tvInfo, &QTableView::doubleClicked,
                 this,      &Main::edit);
@@ -391,12 +386,6 @@ Main::_initActions()
     {
         connect(ui.cboDictPath, qOverload<const QString &>(&QComboBox::currentIndexChanged),
                 this,           &Main::cboDictPath_OnCurrentIndexChanged);
-    }
-
-    // TODO: _sqlNavigator
-    if (0) {
-        _sqlNavigator.construct(_model, ui.tvInfo);
-        _sqlNavigator.last();
     }
 
     // tray
@@ -440,10 +429,8 @@ Main::createDb()
 
     // reopen DB
     {
-        qPTR_DELETE(_myDb);
-
-        _myDb = new Db(this, dictPath, _model, ui.tvInfo);
-        _myDb->reopen();
+        _db.reset(new Db(this, dictPath, ui.tvInfo));
+        _db->reopen();
 
         _cboDictPath_reload();
     }
@@ -459,7 +446,7 @@ Main::createDb()
 void
 Main::quickTranslateClipboard()
 {
-    auto hint = Hint::toolTip(*_sqlNavigator.model());
+    auto hint = Hint::toolTip( *_db->model() );
     hint.show();
 }
 //-------------------------------------------------------------------------------------------------
@@ -483,7 +470,7 @@ Main::importCsv()
 
     // import
     QString infoMsg;
-    _model->importCsv(filePath, fieldNames, CSV_SEPARATOR, true, &infoMsg);
+    _db->model()->importCsv(filePath, fieldNames, CSV_SEPARATOR, true, &infoMsg);
 
     // "fire" cboDictPath
     {
@@ -516,7 +503,7 @@ Main::importCsvClipboard()
 
     // import
     QString infoMsg;
-    _model->importCsvClipboard(fieldNames, CSV_SEPARATOR, true, &infoMsg);
+    _db->model()->importCsvClipboard(fieldNames, CSV_SEPARATOR, true, &infoMsg);
 
     // "fire" cboDictPath
     {
@@ -559,14 +546,14 @@ Main::importClipboard()
 
     // insert data
     {
-        qCHECK_DO(!_sqlNavigator.isValid(), return);
+        qCHECK_DO(!_db->navigator().isValid(), return);
 
-        _sqlNavigator.insert();
+        _db->navigator().insert();
 
         cbool     insertMode {true};
         cQString &data       = QApplication::clipboard()->text();
 
-        WordEditor dlgWordEditor(this, _model, &_sqlNavigator, insertMode, data);
+        WordEditor dlgWordEditor(this, _db->model(), &_db->navigator(), insertMode, data);
 
         _dlgWordEditorOpened = &dlgWordEditor;
         auto cleanup = xl::core::ScopeExit(
@@ -581,7 +568,7 @@ Main::importClipboard()
         QDialog::DialogCode code = static_cast<QDialog::DialogCode>( dlgWordEditor.exec() );
         switch (code) {
         case QDialog::Rejected:
-            _sqlNavigator.remove();
+            _db->navigator().remove();
             break;
         default:
             break;
@@ -650,7 +637,7 @@ Main::exportCsv()
         fieldNames.push_back(DB_F_MAIN_TAG);
 
         // import
-        _model->exportCsv(filePath, fieldNames, CSV_SEPARATOR, true);
+        _db->model()->exportCsv(filePath, fieldNames, CSV_SEPARATOR, true);
     }
 
     // report
@@ -675,21 +662,21 @@ Main::exportPdf()
 
 
     // file -> DB
-    cint realRowCount = _model->realRowCount();
+    cint realRowCount = _db->model()->realRowCount();
 
     for (int i = 0; i < realRowCount; ++ i) {
         switch (_importExportOrder) {
         case ImportExportOrder::TermValue:
         default:
-            html.push_back( _model->record(i).value(DB_F_MAIN_TERM).toString() );
+            html.push_back( _db->model()->record(i).value(DB_F_MAIN_TERM).toString() );
             html.push_back("\n - ");
-            html.push_back( _model->record(i).value(DB_F_MAIN_VALUE).toString() );
+            html.push_back( _db->model()->record(i).value(DB_F_MAIN_VALUE).toString() );
             html.push_back("<br>");
             break;
         case ImportExportOrder::ValueTerm:
-            html.push_back( _model->record(i).value(DB_F_MAIN_VALUE).toString() );
+            html.push_back( _db->model()->record(i).value(DB_F_MAIN_VALUE).toString() );
             html.push_back("\n - ");
-            html.push_back( _model->record(i).value(DB_F_MAIN_TERM).toString() );
+            html.push_back( _db->model()->record(i).value(DB_F_MAIN_TERM).toString() );
             html.push_back("<br>");
             break;
         }
@@ -719,19 +706,19 @@ void
 Main::exportClipboard()
 {
     QString         sRv;
-    QModelIndexList indexes = _sqlNavigator.view()->selectionModel()->selectedRows();
+    QModelIndexList indexes = _db->view()->selectionModel()->selectedRows();
 
     for (QModelIndex &index : indexes) {
-        _sqlNavigator.view()->setFocus();
+        _db->view()->setFocus();
 
         cint targetRow = index.row();
 
-        sRv += _model->record(targetRow).value(DB_F_MAIN_ID).toString() + CSV_SEPARATOR;
-        sRv += _model->record(targetRow).value(DB_F_MAIN_TERM).toString() + CSV_SEPARATOR;
-        sRv += _model->record(targetRow).value(DB_F_MAIN_VALUE).toString() + CSV_SEPARATOR;
-        sRv += _model->record(targetRow).value(DB_F_MAIN_IS_LEARNED).toString() + CSV_SEPARATOR;
-        sRv += _model->record(targetRow).value(DB_F_MAIN_IS_MARKED).toString() + CSV_SEPARATOR;
-        sRv += _model->record(targetRow).value(DB_F_MAIN_TAG).toString();
+        sRv += _db->model()->record(targetRow).value(DB_F_MAIN_ID).toString() + CSV_SEPARATOR;
+        sRv += _db->model()->record(targetRow).value(DB_F_MAIN_TERM).toString() + CSV_SEPARATOR;
+        sRv += _db->model()->record(targetRow).value(DB_F_MAIN_VALUE).toString() + CSV_SEPARATOR;
+        sRv += _db->model()->record(targetRow).value(DB_F_MAIN_IS_LEARNED).toString() + CSV_SEPARATOR;
+        sRv += _db->model()->record(targetRow).value(DB_F_MAIN_IS_MARKED).toString() + CSV_SEPARATOR;
+        sRv += _db->model()->record(targetRow).value(DB_F_MAIN_TAG).toString();
         sRv += "\n";
     }
 
@@ -803,51 +790,51 @@ Main::exit()
 void
 Main::first()
 {
-    _sqlNavigator.first();
+    _db->navigator().first();
 }
 //-------------------------------------------------------------------------------------------------
 void
 Main::prior()
 {
-    _sqlNavigator.prior();
+    _db->navigator().prior();
 }
 //-------------------------------------------------------------------------------------------------
 void
 Main::next()
 {
-    _sqlNavigator.next();
+    _db->navigator().next();
 }
 //-------------------------------------------------------------------------------------------------
 void
 Main::last()
 {
-    _sqlNavigator.last();
+    _db->navigator().last();
 }
 //-------------------------------------------------------------------------------------------------
 void
 Main::to()
 {
-    qCHECK_DO(_sqlNavigator.view()->currentIndex().row() < 0, return);
+    qCHECK_DO(_db->view()->currentIndex().row() < 0, return);
 
-    cint currentRow = _sqlNavigator.view()->currentIndex().row() + 1;
+    cint currentRow = _db->view()->currentIndex().row() + 1;
     cint minValue   = 1;
-    cint maxValue   = _model->realRowCount();
+    cint maxValue   = _db->model()->realRowCount();
 
     cint targetRow  = QInputDialog::getInt(this, qS2QS(xl::package::Application::info().name),
         tr("Go to row:"), currentRow, minValue, maxValue) - 1;
 
-    _sqlNavigator.goTo(targetRow);
+    _db->navigator().goTo(targetRow);
 }
 //-------------------------------------------------------------------------------------------------
 void
 Main::insert()
 {
     qCHECK_DO(_tagsIsEmpty(),            return);
-    qCHECK_DO(!_sqlNavigator.isValid(), return);
+    qCHECK_DO(!_db->navigator().isValid(), return);
 
-    _sqlNavigator.insert();
+    _db->navigator().insert();
 
-    WordEditor dlgWordEditor(this, _model, &_sqlNavigator, true);
+    WordEditor dlgWordEditor(this, _db->model(), &_db->navigator(), true);
 
     bool bRv = dlgWordEditor.isConstructed();
     qCHECK_DO(!bRv, return);
@@ -855,7 +842,7 @@ Main::insert()
     QDialog::DialogCode code = static_cast<QDialog::DialogCode>( dlgWordEditor.exec() );
     switch (code) {
     case QDialog::Rejected:
-        _sqlNavigator.remove();
+        _db->navigator().remove();
         break;
     default:
         break;
@@ -865,13 +852,13 @@ Main::insert()
 void
 Main::remove()
 {
-    qCHECK_DO(_sqlNavigator.view()->currentIndex().row() < 0, return);
+    qCHECK_DO(_db->view()->currentIndex().row() < 0, return);
 
     QString text;
     QString informativeText;
     {
-        cint       currentRow = _sqlNavigator.view()->currentIndex().row();
-        QSqlRecord record     = _sqlNavigator.model()->record(currentRow);
+        cint       currentRow = _db->view()->currentIndex().row();
+        QSqlRecord record     = _db->model()->record(currentRow);
 
         cQString   wordTerm   = record.value(DB_F_MAIN_TERM).toString();
         cQString   wordValue  = record.value(DB_F_MAIN_VALUE).toString();
@@ -894,7 +881,7 @@ Main::remove()
     int iRv = msgBox.exec();
     switch (iRv) {
     case QMessageBox::Yes:
-        _sqlNavigator.remove();
+        _db->navigator().remove();
         break;
     case QMessageBox::Cancel:
     default:
@@ -905,10 +892,10 @@ Main::remove()
 void
 Main::edit()
 {
-    qCHECK_DO(_sqlNavigator.view()->currentIndex().row() < 0, return);
+    qCHECK_DO(_db->view()->currentIndex().row() < 0, return);
 
     // show edit dialog
-    WordEditor dlgWordEditor(this, _model, &_sqlNavigator, false);
+    WordEditor dlgWordEditor(this, _db->model(), &_db->navigator(), false);
 
     bool bRv = dlgWordEditor.isConstructed();
     qCHECK_DO(!bRv, return);
@@ -919,43 +906,43 @@ Main::edit()
 void
 Main::learned()
 {
-    qCHECK_DO(_sqlNavigator.view()->currentIndex().row() < 0, return);
+    qCHECK_DO(_db->view()->currentIndex().row() < 0, return);
 
     bool bRv = false;
 
-    cint currentRow = _sqlNavigator.view()->currentIndex().row();
+    cint currentRow = _db->view()->currentIndex().row();
 
-    QSqlRecord record = _model->record(currentRow);
+    QSqlRecord record = _db->model()->record(currentRow);
     record.setValue(DB_F_MAIN_IS_LEARNED, !record.value(DB_F_MAIN_IS_LEARNED).toBool() );
 
-    bRv = _model->setRecord(currentRow, record);
-    qCHECK_PTR(bRv, _model);
+    bRv = _db->model()->setRecord(currentRow, record);
+    qCHECK_PTR(bRv, _db->model());
 
-    bRv = _model->submitAll();
+    bRv = _db->model()->submitAll();
     qTEST(bRv);
 
-    _sqlNavigator.goTo(currentRow);
+    _db->navigator().goTo(currentRow);
 }
 //-------------------------------------------------------------------------------------------------
 void
 Main::marked()
 {
-    qCHECK_DO(_sqlNavigator.view()->currentIndex().row() < 0, return);
+    qCHECK_DO(_db->view()->currentIndex().row() < 0, return);
 
     bool bRv {};
 
-    cint currentRow = _sqlNavigator.view()->currentIndex().row();
+    cint currentRow = _db->view()->currentIndex().row();
 
-    QSqlRecord record = _model->record(currentRow);
+    QSqlRecord record = _db->model()->record(currentRow);
     record.setValue(DB_F_MAIN_IS_MARKED,  !record.value(DB_F_MAIN_IS_MARKED).toBool() );
 
-    bRv = _model->setRecord(currentRow, record);
-    qCHECK_PTR(bRv, _model);
+    bRv = _db->model()->setRecord(currentRow, record);
+    qCHECK_PTR(bRv, _db->model());
 
-    bRv = _model->submitAll();
+    bRv = _db->model()->submitAll();
     qTEST(bRv);
 
-    _sqlNavigator.goTo(currentRow);
+    _db->navigator().goTo(currentRow);
 }
 //-------------------------------------------------------------------------------------------------
 
@@ -969,12 +956,12 @@ Main::marked()
 void
 Main::playTerm()
 {
-    qCHECK_DO(_sqlNavigator.view()->currentIndex().row() < 0, return);
+    qCHECK_DO(_db->view()->currentIndex().row() < 0, return);
 
     QString text;
     {
         cint       currentRow = ui.tvInfo->currentIndex().row();
-        QSqlRecord record     = _model->record(currentRow);
+        QSqlRecord record     = _db->model()->record(currentRow);
 
         text = record.value(DB_F_MAIN_TERM).toString();
     }
@@ -1008,12 +995,12 @@ Main::playTerm()
 void
 Main::playValue()
 {
-    qCHECK_DO(_sqlNavigator.view()->currentIndex().row() < 0, return);
+    qCHECK_DO(_db->view()->currentIndex().row() < 0, return);
 
     QString text;
     {
         cint       currentRow = ui.tvInfo->currentIndex().row();
-        QSqlRecord record     = _model->record(currentRow);
+        QSqlRecord record     = _db->model()->record(currentRow);
 
         text = record.value(DB_F_MAIN_VALUE).toString();
     }
@@ -1055,9 +1042,9 @@ Main::playTermValue()
 void
 Main::search()
 {
-    qCHECK_DO(!_sqlNavigator.isValid(), return);
+    qCHECK_DO(!_db->navigator().isValid(), return);
 
-    WordFinder dlgWordFinder(this, _model);
+    WordFinder dlgWordFinder(this, _db->model());
     dlgWordFinder.exec();
 }
 //-------------------------------------------------------------------------------------------------
@@ -1151,15 +1138,14 @@ Main::zoomDefault()
 void
 Main::tagsEditor()
 {
-    TagsEditor dlgTagsEditor(this, *_db);
-
+    TagsEditor dlgTagsEditor(this, *_db->db());
     (int)dlgTagsEditor.exec();
 
     // refresh table
     {
-        cint currentRow = _sqlNavigator.view()->currentIndex().row();
-        _sqlNavigator.model()->select();
-        _sqlNavigator.goTo(currentRow);
+        cint currentRow = _db->view()->currentIndex().row();
+        _db->model()->select();
+        _db->navigator().goTo(currentRow);
     }
 }
 //-------------------------------------------------------------------------------------------------
@@ -1257,74 +1243,23 @@ Main::cboDictPath_OnCurrentIndexChanged(
     const QString &a_arg
 )
 {
+    qTRACE_SCOPE_FUNC;
+
     qCHECK_DO(a_arg.isEmpty(), return);
 
     // reopen DB
     {
         cQString dictPath = qS2QS(xl::package::Application::dbDirPath()) + QDir::separator() + a_arg;
 
-        qPTR_DELETE(_myDb);
-
-        _myDb = new Db(this, dictPath, _model, ui.tvInfo);
-        _myDb->reopen();
-
-        qTEST_PTR(_db);
+        _db.reset(new Db(this, dictPath, ui.tvInfo));
+        _db->reopen();
     }
 
     // words info
     {
-        int wordsAll = 0;
-        {
-            QSqlQuery qryWordsAll(*_db);
-
-            cQString sql =
-                "SELECT COUNT(*) "
-                "FROM  " + _model->tableName() + ";";
-
-            bool bRv = qryWordsAll.exec(sql);
-            qCHECK_REF(bRv, qryWordsAll);
-
-            bRv = qryWordsAll.next();
-            qCHECK_REF(bRv, qryWordsAll);
-
-            wordsAll = qryWordsAll.value(0).toInt();
-        }
-
-        int wordsLearned {};
-        {
-            QSqlQuery qryWordsLearned(*_db);
-
-            cQString sql =
-                "SELECT COUNT(*) "
-                "FROM  " + _model->tableName() + " "
-                "WHERE " DB_F_MAIN_IS_LEARNED " = 1;";
-
-            bool bRv = qryWordsLearned.exec(sql);
-            qCHECK_REF(bRv, qryWordsLearned);
-
-            bRv = qryWordsLearned.next();
-            qCHECK_REF(bRv, qryWordsLearned);
-
-            wordsLearned = qryWordsLearned.value(0).toInt();
-        }
-
-        int wordsNotLearned {};
-        {
-            QSqlQuery qryWordsNotLearned(*_db);
-
-            cQString sql =
-                "SELECT COUNT(*) "
-                "FROM  " + _model->tableName() + " "
-                "WHERE " DB_F_MAIN_IS_LEARNED " = 0;";
-
-            bool bRv = qryWordsNotLearned.exec(sql);
-            qCHECK_REF(bRv, qryWordsNotLearned);
-
-            bRv = qryWordsNotLearned.next();
-            qCHECK_REF(bRv, qryWordsNotLearned);
-
-            wordsNotLearned = qryWordsNotLearned.value(0).toInt();
-        }
+        cint wordsAll        = _db->wordsAll();
+        cint wordsLearned    = _db->wordsLearned();
+        cint wordsNotLearned = _db->wordsNotLearned();
 
         cQString dictInfo = QString(
             tr("&nbsp;&nbsp;&nbsp;<b>All</b>: %1 (%2)"
@@ -1457,10 +1392,13 @@ Main::_settingsLoad()
 
             ui.tvInfo->setFont(font);
         }
+
         {
             ui.tvInfo->verticalHeader()->setDefaultSectionSize(tableRowHeight);
         }
-        _sqlNavigator.goTo(tableCurrentRow);
+
+        _db->navigator().goTo(tableCurrentRow);
+
         {
             ui.tvInfo->setColumnWidth(0, columnWidth0);
             ui.tvInfo->setColumnWidth(1, columnWidth1);
@@ -1534,9 +1472,9 @@ Main::_exportfileNameBuild(
     cQString &a_fileExt
 )
 {
-    qCHECK_RET(_model->rowCount() <= 0, QString());
+    qCHECK_RET(_db->model()->rowCount() <= 0, QString());
 
-    cQString tag = _model->record(0).value(DB_F_MAIN_TAG).toString().trimmed();
+    cQString tag = _db->model()->record(0).value(DB_F_MAIN_TAG).toString().trimmed();
 
     QString baseName;
     {
@@ -1554,24 +1492,7 @@ Main::_exportfileNameBuild(
 bool
 Main::_tagsIsEmpty()
 {
-    int tagsSize {};
-    {
-        QSqlQuery qryTags(*_db);
-
-        cQString sql =
-            "SELECT COUNT(*) "
-            "FROM  " DB_T_TAGS ";";
-
-        bool bRv = qryTags.exec(sql);
-        qCHECK_REF(bRv, qryTags);
-
-        bRv = qryTags.next();
-        qCHECK_REF(bRv, qryTags);
-
-        tagsSize = qryTags.value(0).toInt();
-    }
-
-    qCHECK_RET(tagsSize > 0, false);
+    qCHECK_RET(!_db->tagsIsEmpty(), false);
 
     // report
     QMessageBox msgBox;
