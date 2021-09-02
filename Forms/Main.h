@@ -17,6 +17,7 @@
 #include "../QtLib/GlobalShortcut/GlobalShortcut.h"
 
 #include <QSqlTableModel>
+#include <Classes/SqliteDb.h>
 
 #include "ui_Main.h"
 //-------------------------------------------------------------------------------------------------
@@ -65,18 +66,11 @@ private:
     bool _isHideOnClose {};
 
     void _initMain();
-    void _initModel();
     void _initActions();
     void _cboDictPath_reload();
 
-    // DB
-    QSqlDatabase                     *_db {};
-    qtlib::SqlRelationalTableModelEx *_model {};
-    qtlib::SqlNavigator               _sqlNavigator;
-
-    void _dbOpen(cQString &filePath);
-    void _dbClose();
-    void _dbReopen(cQString &filePath);
+    // SQLite DB
+    std::unique_ptr<SqliteDb> _db;
 
     // settings
     ImportExportOrder _importExportOrder {ImportExportOrder::Unknown};
