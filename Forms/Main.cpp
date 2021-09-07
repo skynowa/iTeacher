@@ -729,7 +729,7 @@ Main::exportClipboard()
 void
 Main::mute()
 {
-    static bool isMute {true};
+    static bool isMute {false};
     isMute = !isMute;
 
     QClipboard *clipboard = QApplication::clipboard();
