@@ -20,8 +20,8 @@
 - [ ] Print preview
 - [ ] UI langs support - rm
 - [ ] CMake: distrs (Win, Linux)
-- [x] Hint classes
-- [x] Mute mode
+- [+] Hint classes
+- [+] Mute mode
 
 ## Voice
 
