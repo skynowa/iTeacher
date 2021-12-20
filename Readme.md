@@ -1,5 +1,7 @@
 # iTeacher - for learning english (or other) words
 
+![GitHub Watchers](https://img.shields.io/github/watchers/skynowa/xLib)
+
 ## About
 
     Platforms:      Windows, Linux, FreeBSD
