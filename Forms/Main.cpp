@@ -615,7 +615,6 @@ Main::exportCsv()
 
         switch (_importExportOrder) {
         case ImportExportOrder::TermValue:
-        default:
             fieldNames.push_back(DB_F_MAIN_TERM);
             fieldNames.push_back(DB_F_MAIN_VALUE);
             break;
@@ -660,7 +659,6 @@ Main::exportPdf()
     for (int i = 0; i < realRowCount; ++ i) {
         switch (_importExportOrder) {
         case ImportExportOrder::TermValue:
-        default:
             html.push_back( _db->model()->record(i).value(DB_F_MAIN_TERM).toString() );
             html.push_back("\n - ");
             html.push_back( _db->model()->record(i).value(DB_F_MAIN_VALUE).toString() );
@@ -1330,7 +1328,7 @@ Main::_settingsLoad()
     int         columnWidth3    = 0;
     int         columnWidth4    = 0;
     int         columnWidth5    = 0;
-    ImportExportOrder importExportOrder {ImportExportOrder::Unknown};
+    auto        importExportOrder {ImportExportOrder::TermValue};
     bool        isHideOnCLose   = false;
     QString     shortcutShowHide;
     QString     shortcutQuickClipboardTranslate;

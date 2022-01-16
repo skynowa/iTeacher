@@ -48,7 +48,6 @@ protected:
 private:
     enum class ImportExportOrder
     {
-        Unknown   = 0,
         TermValue = 1,
         ValueTerm = 2
     };
@@ -73,7 +72,7 @@ private:
     std::unique_ptr<SqliteDb> _db;
 
     // settings
-    ImportExportOrder _importExportOrder {ImportExportOrder::Unknown};
+    ImportExportOrder _importExportOrder {ImportExportOrder::TermValue};
     void _settingsLoad();
     void _settingsSave();
 

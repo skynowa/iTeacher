@@ -125,7 +125,7 @@ void
 Settings::_settingsLoad()
 {
     // load settings from INI
-    Main::ImportExportOrder importExportOrder {Main::ImportExportOrder::Unknown};
+    auto    importExportOrder {Main::ImportExportOrder::TermValue};
     bool    isHideOnCLose  = false;
     QString shortcutShowHide;
     QString shortcutQuickClipboardTranslate;
@@ -156,10 +156,6 @@ Settings::_settingsLoad()
                 break;
             case Main::ImportExportOrder::ValueTerm:
                 ui.chkImportExportOrder->setChecked(false);
-                break;
-            case Main::ImportExportOrder::Unknown:
-            default:
-                qTEST(false);
                 break;
             }
 
