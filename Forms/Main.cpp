@@ -346,6 +346,7 @@ Main::_initActions()
     {
         ui.tvInfo->viewport()->installEventFilter(this);
         ui.tvInfo->horizontalHeader()->setStretchLastSection(true);
+        ui.tvInfo->horizontalHeader()->setSectionsMovable(true);
         ui.tvInfo->hideColumn(0); // don't show the DB_F_MAIN_ID
         ui.tvInfo->setColumnWidth(0, TVMAIN_COLUMN_WIDTH_0);
         ui.tvInfo->setColumnWidth(1, TVMAIN_COLUMN_WIDTH_1);
