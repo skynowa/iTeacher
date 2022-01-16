@@ -186,7 +186,7 @@ Main::_initMain()
         #if defined(Q_OS_ANDROID)
             _appDir = QDir::homePath();
         #else
-            _appDir  = qS2QS(xl::package::Application::dirPath());
+            _appDir = qS2QS(xl::package::Application::dirPath());
         #endif
     #endif
     }
