@@ -54,6 +54,7 @@
 - https://github.com/AlexSnet/ASTranslator/
 - http://code.google.com/p/quick-text-translator/
 - http://code.google.com/p/lightlang/
+- [ ] [Как упорядочить все, что я учу в одном документе?](https://www.youtube.com/watch?v=4lhSxVysohM)
 
 ## UI
 
