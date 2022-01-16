@@ -2,6 +2,7 @@
 
 ## Main
 
+- [ ] Config: URL to My Google Docs
 - [ ] Detail (full) translation
 - [ ] Qt 5 -> 6
 - [ ] Word status - Repeat, Marked, Learned
