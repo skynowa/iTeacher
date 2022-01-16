@@ -875,7 +875,6 @@ Main::remove()
         _db->navigator().remove();
         break;
     case QMessageBox::Cancel:
-    default:
         break;
     }
 }
@@ -1215,8 +1214,6 @@ Main::trayActivated(
         break;
     case QSystemTrayIcon::MiddleClick:
         importClipboard();
-        break;
-    default:
         break;
     }
 }
