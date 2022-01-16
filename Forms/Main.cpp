@@ -49,6 +49,9 @@ Main::Main(
     _initMain();
     _initActions();
     _settingsLoad();
+
+    // TODO: review
+    ui.tvInfo->horizontalHeader()->swapSections(2, 1);
 }
 //-------------------------------------------------------------------------------------------------
 QSystemTrayIcon &
