@@ -2,6 +2,7 @@
 
 ## Main
 
+- [ ] Detail (full) translation
 - [ ] Qt 5 -> 6
 - [ ] Word status - Repeat, Marked, Learned
 - [ ] Random term on startup
