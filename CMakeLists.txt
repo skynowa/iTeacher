@@ -97,6 +97,7 @@ add_executable(${PROJECT_NAME}
 
     ## Classes
     Classes/CenteredCheckBox.cpp
+    Classes/ColorItemDelegate.cpp
     Classes/CheckBoxItemDelegate.cpp
     Classes/ComboBoxItemDelegate.cpp
     Classes/Hint.cpp

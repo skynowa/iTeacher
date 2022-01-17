@@ -8,6 +8,7 @@
 
 #include "../QtLib/Utils.h"
 #include "../QtLib/Application.h"
+#include "../Classes/ColorItemDelegate.h"
 #include "../Classes/CheckBoxItemDelegate.h"
 #include "../Classes/ComboBoxItemDelegate.h"
 #include "../Classes/Hint.h"
@@ -368,15 +369,13 @@ Main::_initActions()
         ui.tvInfo->setAlternatingRowColors(true);
         ui.tvInfo->setStyleSheet(
             "alternate-background-color: white;"
-            "background-color:           gray;"
+            "background-color:           lightGray;"
             "gridline-color:             black;"
             "selection-background-color: black;"
         );
-
-        // TODO: ui.tvInfo->setBackgroundRole()
-
         ui.tvInfo->setSortingEnabled(true);
         ui.tvInfo->sortByColumn(0, Qt::AscendingOrder);
+        ui.tvInfo->setItemDelegateForColumn(2, new BlackWhiteItemDelegate(ui.tvInfo));
         ui.tvInfo->setItemDelegateForColumn(3, new CheckBoxItemDelegate(ui.tvInfo));
         ui.tvInfo->setItemDelegateForColumn(4, new CheckBoxItemDelegate(ui.tvInfo));
         // ui.tvInfo->setItemDelegateForColumn(5, new ComboBoxItemDelegate(ui.tvInfo, _db->model()));
