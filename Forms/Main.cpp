@@ -366,7 +366,15 @@ Main::_initActions()
         ui.tvInfo->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
         ui.tvInfo->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
         ui.tvInfo->setAlternatingRowColors(true);
-        ui.tvInfo->setStyleSheet("alternate-background-color: white; background-color: gray;");
+        ui.tvInfo->setStyleSheet(
+            "alternate-background-color: white;"
+            "background-color:           gray;"
+            "gridline-color:             black;"
+            "selection-background-color: black;"
+        );
+
+        // TODO: ui.tvInfo->setBackgroundRole()
+
         ui.tvInfo->setSortingEnabled(true);
         ui.tvInfo->sortByColumn(0, Qt::AscendingOrder);
         ui.tvInfo->setItemDelegateForColumn(3, new CheckBoxItemDelegate(ui.tvInfo));
