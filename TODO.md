@@ -30,10 +30,10 @@
 ## Voice
 
 - [!] `QSound`
-- FIX: voice feature
-- Voice on translate
-- `QSound`
-- http://www.sfml-dev.org/
+- [ ] FIX: voice feature
+- [ ] Voice on translate
+- [ ] `QSound`
+- [ ] http://www.sfml-dev.org/
 
 ## Trainer
 
@@ -43,18 +43,20 @@
 
 ## Translation suppliers (Yandex)
 
-- http://api.yandex.com/translate/doc/dg/reference/translate.xml
-- https://tech.yandex.ru/translate/doc/dg/reference/translate-docpage/
+- [ ] http://api.yandex.com/translate/doc/dg/reference/translate.xml
+- [ ] https://tech.yandex.ru/translate/doc/dg/reference/translate-docpage/
+- [ ] https://dictionary.cambridge.org/
 
 ## Port
 
-- QtQuick (+ Android)
+- [ ] QtQuick (+ Android)
 
 ## FAQ
 
-- https://github.com/AlexSnet/ASTranslator/
-- http://code.google.com/p/quick-text-translator/
-- http://code.google.com/p/lightlang/
+- [ ] https://github.com/AlexSnet/ASTranslator/
+- [ ] http://code.google.com/p/quick-text-translator/
+- [ ] http://code.google.com/p/lightlang/
+- [ ] [StarDict](http://stardict-4.sourceforge.net/index_en.php)
 - [ ] [Как упорядочить все, что я учу в одном документе?](https://www.youtube.com/watch?v=4lhSxVysohM)
 
 ## UI
