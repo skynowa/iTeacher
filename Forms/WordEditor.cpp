@@ -111,6 +111,9 @@ WordEditor::_construct()
         connect(ui.tbtnTermValueSwap, &QPushButton::clicked,
                 this,             &WordEditor::tbtnTermValueSwap_OnClicked);
 
+        connect(ui.tbtnReset,     &QPushButton::clicked,
+                this,             &WordEditor::tbtnReset_OnClicked);
+
         connect(ui.pbtnTranslate, &QPushButton::clicked,
                 this,             &WordEditor::translate);
 
@@ -369,6 +372,12 @@ WordEditor::tbtnTermValueSwap_OnClicked()
 }
 //-------------------------------------------------------------------------------------------------
 void
+WordEditor::tbtnReset_OnClicked()
+{
+    _resetAll();
+}
+//-------------------------------------------------------------------------------------------------
+void
 WordEditor::tbtnValueCopy_OnClicked()
 {
     QApplication::clipboard()->setText( ui.tedtValueBrief->toPlainText() );
@@ -538,9 +547,6 @@ WordEditor::bbxButtons_OnClicked(
 
     QDialogButtonBox::StandardButton type = ui.bbxButtons->standardButton(a_button);
     switch (type) {
-    case QDialogButtonBox::Reset:
-        _resetAll();
-        break;
     case QDialogButtonBox::Cancel:
         close();
         break;
