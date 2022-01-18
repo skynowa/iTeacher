@@ -1411,6 +1411,11 @@ Main::_settingsLoad()
             ui.tvInfo->setColumnWidth(5, columnWidth5);
         }
 
+        // navigator
+        {
+            _db->navigator().goTo(tableCurrentRow);
+        }
+
         // file
         _importExportOrder = importExportOrder;
         _isHideOnClose     = isHideOnCLose;
