@@ -17,11 +17,11 @@ class CenteredCheckBox :
     Q_DISABLE_COPY(CenteredCheckBox)
 
 public:
-    explicit   CenteredCheckBox(QWidget *parent = nullptr);
+    explicit   CenteredCheckBox(QWidget *parent);
 
     QCheckBox *checkBox() const;
 
 private:
-    QCheckBox *_checkBox;
+    QCheckBox *_checkBox {};
 };
 //-------------------------------------------------------------------------------------------------

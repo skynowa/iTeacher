@@ -13,8 +13,8 @@ class CheckBoxItemDelegate :
     public QStyledItemDelegate
 {
 public:
-    explicit  CheckBoxItemDelegate(QObject * parent = nullptr);
-    virtual  ~CheckBoxItemDelegate();
+    explicit  CheckBoxItemDelegate(QObject * parent);
+    virtual  ~CheckBoxItemDelegate() = default;
 
     QWidget *createEditor(QWidget *parent, const QStyleOptionViewItem &option, cQModelIndex &index)
                 const override;

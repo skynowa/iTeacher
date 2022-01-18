@@ -14,8 +14,8 @@ class ComboBoxItemDelegate :
     public QStyledItemDelegate
 {
 public:
-    explicit  ComboBoxItemDelegate(QObject * parent, QSqlTableModel *sqlModel);
-    virtual  ~ComboBoxItemDelegate();
+    explicit  ComboBoxItemDelegate(QObject *parent, QSqlTableModel *sqlModel);
+    virtual  ~ComboBoxItemDelegate() = default;
 
     QWidget *createEditor(QWidget *parent, const QStyleOptionViewItem &option, cQModelIndex &index)
                 const override;

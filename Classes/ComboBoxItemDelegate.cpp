@@ -14,15 +14,11 @@
 
 //-------------------------------------------------------------------------------------------------
 ComboBoxItemDelegate::ComboBoxItemDelegate(
-    QObject        *a_parent /* = nullptr */,
+    QObject        *a_parent,
     QSqlTableModel *a_sqlModel
 ) :
     QStyledItemDelegate(a_parent),
     _sqlModel          (a_sqlModel)
-{
-}
-//-------------------------------------------------------------------------------------------------
-ComboBoxItemDelegate::~ComboBoxItemDelegate()
 {
 }
 //-------------------------------------------------------------------------------------------------
