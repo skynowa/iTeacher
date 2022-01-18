@@ -59,15 +59,15 @@ include_directories(
     ${CMAKE_SOURCE_DIR}/QtLib/Ui
     ${CMAKE_SOURCE_DIR}/QtLib/Db
     ${CMAKE_SOURCE_DIR}/Classes
-    ${CMAKE_SOURCE_DIR}/Forms)
+    ${CMAKE_SOURCE_DIR}/Ui)
 
 qt5_wrap_ui(MOC_UI
     QtLib/Ui/About.ui
-    Forms/Main.ui
-    Forms/WordEditor.ui
-    Forms/WordFinder.ui
-    Forms/TagsEditor.ui
-    Forms/Settings.ui)
+    Ui/Main.ui
+    Ui/WordEditor.ui
+    Ui/WordFinder.ui
+    Ui/TagsEditor.ui
+    Ui/Settings.ui)
 
 qt5_wrap_cpp(MOC_CPP)
 
@@ -103,12 +103,12 @@ add_executable(${PROJECT_NAME}
     Classes/Hint.cpp
     Classes/SqliteDb.cpp
 
-    # Forms
-    Forms/Main.cpp
-    Forms/WordEditor.cpp
-    Forms/WordFinder.cpp
-    Forms/TagsEditor.cpp
-    Forms/Settings.cpp
+    # Ui
+    Ui/Main.cpp
+    Ui/WordEditor.cpp
+    Ui/WordFinder.cpp
+    Ui/TagsEditor.cpp
+    Ui/Settings.cpp
 
     # MOCs
     ${MOC_UI}

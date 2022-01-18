@@ -7,7 +7,7 @@
 #include <xLib/xLib.h>
 #include <xLib/Package/Application.h>
 #include <QtLib/Application.h>
-#include "Forms/Main.h"
+#include "Ui/Main.h"
 //-------------------------------------------------------------------------------------------------
 class UserApplication :
     public xl::package::Application

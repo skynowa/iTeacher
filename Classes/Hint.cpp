@@ -13,7 +13,7 @@
 #include "../QtLib/Utils.h"
 #include <QtConcurrent>
 #include <QToolTip>
-#include "Forms/Main.h"
+#include "Ui/Main.h"
 #include "Utils.h"
 
 //-------------------------------------------------------------------------------------------------
