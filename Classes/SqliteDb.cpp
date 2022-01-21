@@ -14,6 +14,19 @@
 
 //-------------------------------------------------------------------------------------------------
 SqliteDb::SqliteDb(
+    QObject   *a_parent,   ///<
+    cQString  &a_filePath  ///<
+) :
+    QObject   (a_parent),
+    _filePath {a_filePath},
+    _view     {nullptr},
+    _navigator(a_parent)
+{
+    qTEST_PTR(a_parent);
+    qTEST(!a_filePath.isEmpty())
+}
+//-------------------------------------------------------------------------------------------------
+SqliteDb::SqliteDb(
     QObject    *a_parent,   ///<
     cQString   &a_filePath, ///<
     QTableView *a_view      ///<
@@ -80,10 +93,12 @@ SqliteDb::reopen()
     _modelOpen();
     qTEST_PTR(_model);
 
-    _view->setModel(_model.get());
+    if (view() != nullptr) {
+        view()->setModel(_model.get());
 
-    _navigator.construct(model(), view());
-    _navigator.last();
+        _navigator.construct(model(), view());
+        _navigator.last();
+    }
 }
 //-------------------------------------------------------------------------------------------------
 std::size_t
@@ -141,6 +156,27 @@ SqliteDb::isTerminExists(
         "WHERE " DB_F_MAIN_TERM " = " + a_term.trimmed();
 
     return (_queryCount(sql) > 0);
+}
+//-------------------------------------------------------------------------------------------------
+QSqlRecord
+SqliteDb::randomRow() const
+{
+    bool bRv {};
+
+    cQString sql =
+        "SELECT * "
+        "FROM  " + _model->tableName() + " "
+        "ORDER BY RANDOM() "
+        "LIMIT 1;";
+
+    QSqlQuery query(*_db);
+    bRv = query.exec(sql);
+    qCHECK_REF(bRv, query);
+
+    bRv = query.next();
+    qCHECK_REF(bRv, query);
+
+    return query.record();
 }
 //-------------------------------------------------------------------------------------------------
 
