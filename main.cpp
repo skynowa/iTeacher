@@ -81,20 +81,14 @@ int main(int argc, char *argv[])
 
     qtlib::Application::setQuitOnLastWindowClosed(false);
 
-    {
-        Trainer trainer(nullptr);
-        trainer.exec();
-    }
-
+#if 1
+    Trainer trainer(nullptr);
+    trainer.show();
+#else
     Main dlgMain;
-    // show window on CFG_VISIBLE option
+#endif
 
-    application.connect(&application, &qtlib::Application::sig_messageAvailable,
-                        &dlgMain,     &Main::receiveFromOtherApplication);
-
-    int exitCode = application.exec();
-
-    return exitCode;
+    return application.exec();
 }
 //-------------------------------------------------------------------------------------------------
 /**
