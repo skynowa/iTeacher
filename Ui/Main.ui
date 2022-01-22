@@ -1,0 +1,571 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>UiMain</class>
+ <widget class="QMainWindow" name="UiMain">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>760</width>
+    <height>403</height>
+   </rect>
+  </property>
+  <property name="windowIcon">
+   <iconset resource="../Resources/App.qrc">
+    <normaloff>:/App.png</normaloff>:/App.png</iconset>
+  </property>
+  <widget class="QWidget" name="centralWidget">
+   <layout class="QGridLayout" name="gridLayout">
+    <item row="0" column="0">
+     <layout class="QVBoxLayout" name="verticalLayout">
+      <item>
+       <layout class="QHBoxLayout" name="horizontalLayout">
+        <item>
+         <widget class="QLabel" name="label_2">
+          <property name="text">
+           <string>&lt;b&gt;Dictionary:&lt;/b&gt;</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QComboBox" name="cboDictPath">
+          <property name="font">
+           <font>
+            <weight>75</weight>
+            <bold>true</bold>
+           </font>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLabel" name="lblDictInfo">
+          <property name="text">
+           <string/>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <spacer name="horizontalSpacer">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>40</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <widget class="QTableView" name="tvInfo"/>
+      </item>
+     </layout>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QMenuBar" name="menuBar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>760</width>
+     <height>22</height>
+    </rect>
+   </property>
+   <widget class="QMenu" name="menuFile">
+    <property name="title">
+     <string>File</string>
+    </property>
+    <addaction name="actFile_CreateDb"/>
+    <addaction name="separator"/>
+    <addaction name="actFile_QuickTranslateClipboard"/>
+    <addaction name="separator"/>
+    <addaction name="actFile_ImportCsv"/>
+    <addaction name="actFile_ImportCsvClipboard"/>
+    <addaction name="actFile_ImportClipboard"/>
+    <addaction name="separator"/>
+    <addaction name="actFile_ExportCsv"/>
+    <addaction name="actFile_ExportPdf"/>
+    <addaction name="actFile_ExportClipboard"/>
+    <addaction name="separator"/>
+    <addaction name="actFile_Mute"/>
+    <addaction name="actFile_Exit"/>
+   </widget>
+   <widget class="QMenu" name="menuEdit">
+    <property name="title">
+     <string>Edit</string>
+    </property>
+    <addaction name="actEdit_First"/>
+    <addaction name="actEdit_Prior"/>
+    <addaction name="actEdit_Next"/>
+    <addaction name="actEdit_Last"/>
+    <addaction name="actEdit_To"/>
+    <addaction name="separator"/>
+    <addaction name="actEdit_Insert"/>
+    <addaction name="actEdit_Delete"/>
+    <addaction name="actEdit_Edit"/>
+    <addaction name="actEdit_Learned"/>
+    <addaction name="actEdit_Marked"/>
+    <addaction name="separator"/>
+   </widget>
+   <widget class="QMenu" name="menuView">
+    <property name="title">
+     <string>View</string>
+    </property>
+    <addaction name="actView_ShowHide"/>
+    <addaction name="separator"/>
+    <addaction name="actView_ZoomIn"/>
+    <addaction name="actView_ZoomOut"/>
+    <addaction name="actView_ZoomDefault"/>
+   </widget>
+   <widget class="QMenu" name="menuOptions">
+    <property name="title">
+     <string>Options</string>
+    </property>
+    <addaction name="actOptions_TagsEditor"/>
+    <addaction name="actOptions_Settings"/>
+   </widget>
+   <widget class="QMenu" name="menuHelp">
+    <property name="title">
+     <string>Help</string>
+    </property>
+    <addaction name="actHelp_About"/>
+   </widget>
+   <widget class="QMenu" name="menuFind">
+    <property name="title">
+     <string>Find</string>
+    </property>
+    <addaction name="actFind_Search"/>
+   </widget>
+   <widget class="QMenu" name="menuAudio">
+    <property name="title">
+     <string>Audio</string>
+    </property>
+    <addaction name="actEdit_PlayTermValue"/>
+    <addaction name="actEdit_PlayTerm"/>
+    <addaction name="actEdit_PlayValue"/>
+   </widget>
+   <addaction name="menuFile"/>
+   <addaction name="menuEdit"/>
+   <addaction name="menuAudio"/>
+   <addaction name="menuFind"/>
+   <addaction name="menuView"/>
+   <addaction name="menuOptions"/>
+   <addaction name="menuHelp"/>
+  </widget>
+  <widget class="QToolBar" name="toolBar">
+   <property name="windowTitle">
+    <string>toolBar</string>
+   </property>
+   <attribute name="toolBarArea">
+    <enum>TopToolBarArea</enum>
+   </attribute>
+   <attribute name="toolBarBreak">
+    <bool>false</bool>
+   </attribute>
+   <addaction name="actFile_Exit"/>
+   <addaction name="actFile_ImportClipboard"/>
+   <addaction name="separator"/>
+   <addaction name="actEdit_First"/>
+   <addaction name="actEdit_Prior"/>
+   <addaction name="actEdit_Next"/>
+   <addaction name="actEdit_Last"/>
+   <addaction name="actEdit_To"/>
+   <addaction name="separator"/>
+   <addaction name="actEdit_PlayTermValue"/>
+   <addaction name="actEdit_PlayTerm"/>
+   <addaction name="actEdit_PlayValue"/>
+   <addaction name="separator"/>
+   <addaction name="actEdit_Insert"/>
+   <addaction name="actEdit_Delete"/>
+   <addaction name="actEdit_Edit"/>
+   <addaction name="actEdit_Learned"/>
+   <addaction name="actEdit_Marked"/>
+   <addaction name="separator"/>
+   <addaction name="actFind_Search"/>
+   <addaction name="separator"/>
+   <addaction name="actView_ShowHide"/>
+   <addaction name="separator"/>
+   <addaction name="actOptions_TagsEditor"/>
+   <addaction name="actOptions_Settings"/>
+  </widget>
+  <action name="actFile_CreateDb">
+   <property name="icon">
+    <iconset resource="../Resources/App.qrc">
+     <normaloff>:/Menu/Menu/createDb.png</normaloff>:/Menu/Menu/createDb.png</iconset>
+   </property>
+   <property name="text">
+    <string>Create Db...</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+N</string>
+   </property>
+  </action>
+  <action name="actFile_ImportCsv">
+   <property name="icon">
+    <iconset resource="../Resources/App.qrc">
+     <normaloff>:/Menu/Menu/ImportCsv.png</normaloff>:/Menu/Menu/ImportCsv.png</iconset>
+   </property>
+   <property name="text">
+    <string>Import CSV...</string>
+   </property>
+   <property name="toolTip">
+    <string>Import CSV</string>
+   </property>
+  </action>
+  <action name="actFile_ExportCsv">
+   <property name="icon">
+    <iconset resource="../Resources/App.qrc">
+     <normaloff>:/Menu/Menu/exportCsv.png</normaloff>:/Menu/Menu/exportCsv.png</iconset>
+   </property>
+   <property name="text">
+    <string>Export CSV...</string>
+   </property>
+  </action>
+  <action name="actFile_ExportPdf">
+   <property name="icon">
+    <iconset resource="../Resources/App.qrc">
+     <normaloff>:/Menu/Menu/exportPdf.png</normaloff>:/Menu/Menu/exportPdf.png</iconset>
+   </property>
+   <property name="text">
+    <string>Export PDF...</string>
+   </property>
+  </action>
+  <action name="actFile_Exit">
+   <property name="icon">
+    <iconset resource="../Resources/App.qrc">
+     <normaloff>:/Menu/Menu/Exit.png</normaloff>:/Menu/Menu/Exit.png</iconset>
+   </property>
+   <property name="text">
+    <string>Exit</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Q</string>
+   </property>
+  </action>
+  <action name="actEdit_First">
+   <property name="icon">
+    <iconset resource="../Resources/App.qrc">
+     <normaloff>:/Menu/Menu/First.png</normaloff>:/Menu/Menu/First.png</iconset>
+   </property>
+   <property name="text">
+    <string>First</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Home</string>
+   </property>
+  </action>
+  <action name="actEdit_Next">
+   <property name="icon">
+    <iconset resource="../Resources/App.qrc">
+     <normaloff>:/Menu/Menu/Next.png</normaloff>:/Menu/Menu/Next.png</iconset>
+   </property>
+   <property name="text">
+    <string>Next</string>
+   </property>
+  </action>
+  <action name="actEdit_Last">
+   <property name="icon">
+    <iconset resource="../Resources/App.qrc">
+     <normaloff>:/Menu/Menu/Last.png</normaloff>:/Menu/Menu/Last.png</iconset>
+   </property>
+   <property name="text">
+    <string>Last</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+End</string>
+   </property>
+  </action>
+  <action name="actEdit_Insert">
+   <property name="icon">
+    <iconset resource="../Resources/App.qrc">
+     <normaloff>:/Menu/Menu/Insert.png</normaloff>:/Menu/Menu/Insert.png</iconset>
+   </property>
+   <property name="text">
+    <string>Insert</string>
+   </property>
+   <property name="shortcut">
+    <string>Ins</string>
+   </property>
+  </action>
+  <action name="actEdit_Delete">
+   <property name="icon">
+    <iconset resource="../Resources/App.qrc">
+     <normaloff>:/Menu/Menu/Delete.png</normaloff>:/Menu/Menu/Delete.png</iconset>
+   </property>
+   <property name="text">
+    <string>Delete</string>
+   </property>
+   <property name="shortcut">
+    <string>Del</string>
+   </property>
+  </action>
+  <action name="actEdit_Prior">
+   <property name="icon">
+    <iconset resource="../Resources/App.qrc">
+     <normaloff>:/Menu/Menu/Prior.png</normaloff>:/Menu/Menu/Prior.png</iconset>
+   </property>
+   <property name="text">
+    <string>Prior</string>
+   </property>
+  </action>
+  <action name="actEdit_Edit">
+   <property name="icon">
+    <iconset resource="../Resources/App.qrc">
+     <normaloff>:/Menu/Menu/Edit.png</normaloff>:/Menu/Menu/Edit.png</iconset>
+   </property>
+   <property name="text">
+    <string>Edit</string>
+   </property>
+   <property name="shortcut">
+    <string>F2</string>
+   </property>
+  </action>
+  <action name="actFind_Search">
+   <property name="icon">
+    <iconset resource="../Resources/App.qrc">
+     <normaloff>:/Menu/Menu/Search.png</normaloff>:/Menu/Menu/Search.png</iconset>
+   </property>
+   <property name="text">
+    <string>Search...</string>
+   </property>
+   <property name="shortcut">
+    <string>F3</string>
+   </property>
+  </action>
+  <action name="actView_ZoomIn">
+   <property name="icon">
+    <iconset resource="../Resources/App.qrc">
+     <normaloff>:/Menu/Menu/ZoomIn.png</normaloff>:/Menu/Menu/ZoomIn.png</iconset>
+   </property>
+   <property name="text">
+    <string>Zoom In</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl++</string>
+   </property>
+  </action>
+  <action name="actView_ZoomOut">
+   <property name="icon">
+    <iconset resource="../Resources/App.qrc">
+     <normaloff>:/Menu/Menu/ZoomOut.png</normaloff>:/Menu/Menu/ZoomOut.png</iconset>
+   </property>
+   <property name="text">
+    <string>Zoom Out</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+-</string>
+   </property>
+  </action>
+  <action name="actView_ZoomDefault">
+   <property name="icon">
+    <iconset resource="../Resources/App.qrc">
+     <normaloff>:/Menu/Menu/ZoomDefault.png</normaloff>:/Menu/Menu/ZoomDefault.png</iconset>
+   </property>
+   <property name="text">
+    <string>Zoom Default</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+.</string>
+   </property>
+  </action>
+  <action name="actOptions_Settings">
+   <property name="icon">
+    <iconset resource="../Resources/App.qrc">
+     <normaloff>:/Menu/Menu/Options.png</normaloff>:/Menu/Menu/Options.png</iconset>
+   </property>
+   <property name="text">
+    <string>Settings...</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+P</string>
+   </property>
+  </action>
+  <action name="actHelp_Faq">
+   <property name="icon">
+    <iconset resource="../Resources/App.qrc">
+     <normaloff>:/Menu/Menu/Faq.png</normaloff>:/Menu/Menu/Faq.png</iconset>
+   </property>
+   <property name="text">
+    <string>FAQ</string>
+   </property>
+   <property name="toolTip">
+    <string>FAQ</string>
+   </property>
+  </action>
+  <action name="actHelp_About">
+   <property name="icon">
+    <iconset resource="../Resources/App.qrc">
+     <normaloff>:/Menu/Menu/About.png</normaloff>:/Menu/Menu/About.png</iconset>
+   </property>
+   <property name="text">
+    <string>About</string>
+   </property>
+  </action>
+  <action name="actEdit_To">
+   <property name="icon">
+    <iconset resource="../Resources/App.qrc">
+     <normaloff>:/Menu/Menu/GoTo.png</normaloff>:/Menu/Menu/GoTo.png</iconset>
+   </property>
+   <property name="text">
+    <string>To...</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+G</string>
+   </property>
+  </action>
+  <action name="actFile_ImportClipboard">
+   <property name="icon">
+    <iconset resource="../Resources/App.qrc">
+     <normaloff>:/Menu/Menu/ImportClipboard.png</normaloff>:/Menu/Menu/ImportClipboard.png</iconset>
+   </property>
+   <property name="text">
+    <string>Import Clipboard...</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+V</string>
+   </property>
+  </action>
+  <action name="actEdit_PlayTerm">
+   <property name="icon">
+    <iconset resource="../Resources/App.qrc">
+     <normaloff>:/Menu/Menu/PlaySound.png</normaloff>:/Menu/Menu/PlaySound.png</iconset>
+   </property>
+   <property name="text">
+    <string>Play Term</string>
+   </property>
+   <property name="toolTip">
+    <string>Play Term</string>
+   </property>
+  </action>
+  <action name="actEdit_PlayValue">
+   <property name="icon">
+    <iconset resource="../Resources/App.qrc">
+     <normaloff>:/Menu/Menu/PlaySound.png</normaloff>:/Menu/Menu/PlaySound.png</iconset>
+   </property>
+   <property name="text">
+    <string>Play Value</string>
+   </property>
+   <property name="toolTip">
+    <string>Play Value</string>
+   </property>
+  </action>
+  <action name="actEdit_PlayTermValue">
+   <property name="icon">
+    <iconset resource="../Resources/App.qrc">
+     <normaloff>:/Menu/Menu/PlaySound.png</normaloff>:/Menu/Menu/PlaySound.png</iconset>
+   </property>
+   <property name="text">
+    <string>Play Term and Value</string>
+   </property>
+   <property name="toolTip">
+    <string>Play Term and Value</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+P</string>
+   </property>
+  </action>
+  <action name="actEdit_Learned">
+   <property name="icon">
+    <iconset resource="../Resources/App.qrc">
+     <normaloff>:/Menu/Menu/Learned.png</normaloff>:/Menu/Menu/Learned.png</iconset>
+   </property>
+   <property name="text">
+    <string>Learned</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+L</string>
+   </property>
+  </action>
+  <action name="actEdit_Marked">
+   <property name="icon">
+    <iconset resource="../Resources/App.qrc">
+     <normaloff>:/Menu/Menu/Marked.png</normaloff>:/Menu/Menu/Marked.png</iconset>
+   </property>
+   <property name="text">
+    <string>Marked</string>
+   </property>
+   <property name="toolTip">
+    <string>Marked</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+M</string>
+   </property>
+  </action>
+  <action name="actView_ShowHide">
+   <property name="icon">
+    <iconset resource="../Resources/App.qrc">
+     <normaloff>:/Menu/Menu/ShowHide.png</normaloff>:/Menu/Menu/ShowHide.png</iconset>
+   </property>
+   <property name="text">
+    <string>Show/Hide</string>
+   </property>
+   <property name="toolTip">
+    <string>Show/Hide</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+H</string>
+   </property>
+  </action>
+  <action name="actOptions_TagsEditor">
+   <property name="icon">
+    <iconset resource="../Resources/App.qrc">
+     <normaloff>:/Menu/Menu/TagsEditor.png</normaloff>:/Menu/Menu/TagsEditor.png</iconset>
+   </property>
+   <property name="text">
+    <string>Tags Editor...</string>
+   </property>
+   <property name="toolTip">
+    <string>Tags Editor...</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+T</string>
+   </property>
+  </action>
+  <action name="actFile_ExportClipboard">
+   <property name="icon">
+    <iconset resource="../Resources/App.qrc">
+     <normaloff>:/Menu/Menu/ExportClipboard.png</normaloff>:/Menu/Menu/ExportClipboard.png</iconset>
+   </property>
+   <property name="text">
+    <string>Export Clipboard</string>
+   </property>
+   <property name="toolTip">
+    <string>Export Clipboard</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+C</string>
+   </property>
+  </action>
+  <action name="actFile_QuickTranslateClipboard">
+   <property name="text">
+    <string>Quick Translate Clipboard...</string>
+   </property>
+   <property name="toolTip">
+    <string>Quick Translate Clipboard</string>
+   </property>
+  </action>
+  <action name="actFile_Mute">
+   <property name="text">
+    <string>Mute</string>
+   </property>
+  </action>
+  <action name="actFile_ImportCsvClipboard">
+   <property name="icon">
+    <iconset resource="../Resources/App.qrc">
+     <normaloff>:/Menu/Menu/ImportClipboard.png</normaloff>:/Menu/Menu/ImportClipboard.png</iconset>
+   </property>
+   <property name="text">
+    <string>Import CSV Clipboard</string>
+   </property>
+  </action>
+ </widget>
+ <layoutdefault spacing="6" margin="11"/>
+ <resources>
+  <include location="../Resources/App.qrc"/>
+ </resources>
+ <connections/>
+</ui>

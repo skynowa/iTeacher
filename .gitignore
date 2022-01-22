@@ -6,7 +6,6 @@
 Bin
 Distr
 Temp
-Ui
 xLib_makefile_gcc
 xLib_eclipse_gcc
 xLib_android_makefile_gcc
