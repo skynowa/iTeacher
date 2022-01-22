@@ -165,25 +165,12 @@ SqliteDb::randomRow() const
 
     bool bRv {};
 
-    QString sql;
-
-    if (option_notLearned) {
-        sql =
-            "SELECT * "
-            "FROM "
-            "( "
-                "SELECT * FROM " + _model->tableName() + " "
-                "WHERE " DB_F_MAIN_IS_LEARNED " = 0 "
-            ") "
-            "ORDER BY RANDOM() "
-            "LIMIT 1";
-    } else {
-        sql =
-            "SELECT * "
-            "FROM  " + _model->tableName() + " "
-            "ORDER BY RANDOM() "
-            "LIMIT 1;";
-    }
+    cQString sql =
+        "SELECT * "
+        "FROM  " + _model->tableName() + " " +
+        (option_notLearned ? "WHERE " DB_F_MAIN_IS_LEARNED " = 0 " : "") +
+        "ORDER BY RANDOM() "
+        "LIMIT 1;";
 
     QSqlQuery query(*_db);
     bRv = query.exec(sql);
