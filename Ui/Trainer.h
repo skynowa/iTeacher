@@ -34,7 +34,7 @@ private:
 
 private Q_SLOTS:
     // group "Main"
-    void randomRow();
+    void randomRow() const;
     void exit();
 };
 //-------------------------------------------------------------------------------------------------

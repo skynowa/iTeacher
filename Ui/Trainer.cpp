@@ -13,6 +13,13 @@
 **************************************************************************************************/
 
 //-------------------------------------------------------------------------------------------------
+namespace
+{
+
+const bool option_termValueSwap {true};
+
+}
+//-------------------------------------------------------------------------------------------------
 Trainer::Trainer(
     QWidget         *a_parent,
     Qt::WindowFlags  a_flags
@@ -58,7 +65,7 @@ Trainer::_initMain()
 void
 Trainer::_initActions()
 {
-    // group "File"
+    // group "Main"
     {
         connect(_ui.actMain_RandomRow, &QAction::triggered,
                 this,                  &Trainer::randomRow);
@@ -77,25 +84,22 @@ Trainer::_initActions()
 
 //-------------------------------------------------------------------------------------------------
 void
-Trainer::randomRow()
+Trainer::randomRow() const
 {
-    QSqlRecord record = _db->randomRow();
-
-    qDebug() << qTRACE_VAR(record);
+    const QSqlRecord record = _db->randomRow();
 
     cQString term = QString("%1")
-        .arg(record.value(DB_F_MAIN_TERM).toString());
+                        .arg(record.value(DB_F_MAIN_TERM).toString());
 
     cQString value = QString("%1")
-            .arg(record.value(DB_F_MAIN_VALUE).toString());
+                        .arg(record.value(DB_F_MAIN_VALUE).toString());
 
     cQString status = QString("Tag: %1, Marked: %2, Learned: %3\n")
-            .arg(record.value(DB_F_MAIN_TAG).toString())
-            .arg(record.value(DB_F_MAIN_IS_MARKED ).toString())
-            .arg(record.value(DB_F_MAIN_IS_MARKED).toString());
+                        .arg(record.value(DB_F_MAIN_TAG).toString())
+                        .arg(record.value(DB_F_MAIN_IS_MARKED ).toString())
+                        .arg(record.value(DB_F_MAIN_IS_MARKED).toString());
 
-    const bool option_termValueSwap {true};
-    if (option_termValueSwap) {
+    if (::option_termValueSwap) {
         _ui.lblTerm->setText(value);
         _ui.lblValue->setText(term);
     } else {

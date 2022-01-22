@@ -61,7 +61,7 @@
        </font>
       </property>
       <property name="text">
-       <string>TextLabel</string>
+       <string>lblValue</string>
       </property>
       <property name="alignment">
        <set>Qt::AlignHCenter|Qt::AlignTop</set>
