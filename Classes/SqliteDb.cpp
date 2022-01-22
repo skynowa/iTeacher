@@ -164,10 +164,21 @@ SqliteDb::randomRow() const
     bool bRv {};
 
     cQString sql =
+    #if 0
         "SELECT * "
         "FROM  " + _model->tableName() + " "
         "ORDER BY RANDOM() "
         "LIMIT 1;";
+    #else
+        "SELECT * "
+        "FROM "
+        "( "
+            "SELECT * FROM " + _model->tableName() + " "
+            "WHERE " DB_F_MAIN_IS_LEARNED " = 0 "
+        ") "
+        "ORDER BY RANDOM() "
+        "LIMIT 1";
+    #endif
 
     QSqlQuery query(*_db);
     bRv = query.exec(sql);

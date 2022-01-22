@@ -99,10 +99,10 @@ Trainer::randomRow() const
     cQString value = QString("%1")
                         .arg(record.value(DB_F_MAIN_VALUE).toString());
 
-    cQString status = QString("Tag: %1, Marked: %2, Learned: %3\n")
-                        .arg(record.value(DB_F_MAIN_TAG).toString())
-                        .arg(record.value(DB_F_MAIN_IS_MARKED ).toString())
-                        .arg(record.value(DB_F_MAIN_IS_MARKED).toString());
+    cQString status = QString("Learned: %1, Marked: %2, Tag: %3\n")
+                        .arg(record.value(DB_F_MAIN_IS_LEARNED).toString())
+                        .arg(record.value(DB_F_MAIN_IS_MARKED).toString())
+                        .arg(record.value(DB_F_MAIN_TAG).toString());
 
     if (::option_termValueSwap) {
         _ui.lblTerm->setText(value);
