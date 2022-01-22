@@ -93,7 +93,7 @@ SqliteDb::reopen()
     _modelOpen();
     qTEST_PTR(_model);
 
-    if (view() != nullptr) {
+    if (_view != nullptr) {
         view()->setModel(_model.get());
 
         _navigator.construct(model(), view());

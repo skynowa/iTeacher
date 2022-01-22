@@ -58,7 +58,12 @@
       <property name="font">
        <font>
         <pointsize>18</pointsize>
+        <weight>75</weight>
+        <bold>true</bold>
        </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">font-weight: bold;  color: red;</string>
       </property>
       <property name="text">
        <string>lblValue</string>
@@ -94,22 +99,20 @@
    </property>
    <widget class="QMenu" name="menuFile">
     <property name="title">
-     <string>File</string>
+     <string>Main</string>
     </property>
+    <addaction name="separator"/>
+    <addaction name="separator"/>
+    <addaction name="separator"/>
+    <addaction name="separator"/>
     <addaction name="actMain_RandomRow"/>
-    <addaction name="separator"/>
-    <addaction name="separator"/>
-    <addaction name="separator"/>
-    <addaction name="separator"/>
+    <addaction name="actMain_Learn"/>
+    <addaction name="actMain_Mark"/>
     <addaction name="actMain_Exit"/>
    </widget>
    <addaction name="menuFile"/>
   </widget>
   <action name="actMain_RandomRow">
-   <property name="icon">
-    <iconset resource="../Resources/App.qrc">
-     <normaloff>:/Menu/Menu/createDb.png</normaloff>:/Menu/Menu/createDb.png</iconset>
-   </property>
    <property name="text">
     <string>Random row</string>
    </property>
@@ -130,6 +133,28 @@
    </property>
    <property name="shortcut">
     <string>Ctrl+Q</string>
+   </property>
+  </action>
+  <action name="actMain_Learn">
+   <property name="text">
+    <string>Learn</string>
+   </property>
+   <property name="toolTip">
+    <string>Learn</string>
+   </property>
+   <property name="shortcut">
+    <string>L</string>
+   </property>
+  </action>
+  <action name="actMain_Mark">
+   <property name="text">
+    <string>Mark</string>
+   </property>
+   <property name="toolTip">
+    <string>Mark</string>
+   </property>
+   <property name="shortcut">
+    <string>M</string>
    </property>
   </action>
  </widget>

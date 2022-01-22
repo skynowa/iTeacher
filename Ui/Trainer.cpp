@@ -69,7 +69,12 @@ Trainer::_initActions()
     {
         connect(_ui.actMain_RandomRow, &QAction::triggered,
                 this,                  &Trainer::randomRow);
-
+        connect(_ui.actMain_Learn,     &QAction::triggered,
+                this,                  &Trainer::learn);
+        connect(_ui.actMain_Mark,      &QAction::triggered,
+                this,                  &Trainer::mark);
+        // connect(_ui.actMain_Xxxx,      &QAction::triggered,
+        //         this,                  &Trainer::xxxxx);
         connect(_ui.actMain_Exit,      &QAction::triggered,
                 this,                  &Trainer::exit);
     }
@@ -109,6 +114,24 @@ Trainer::randomRow() const
 
     _ui.lblStatus->setText(status);
 }
+//-------------------------------------------------------------------------------------------------
+void
+Trainer::learn() const
+{
+    qTRACE_SCOPE_FUNC;
+}
+//-------------------------------------------------------------------------------------------------
+void
+Trainer::mark() const
+{
+    qTRACE_SCOPE_FUNC;
+}
+//-------------------------------------------------------------------------------------------------
+//void
+//Trainer::xxxxx() const
+//{
+//    qTRACE_SCOPE_FUNC
+//}
 //-------------------------------------------------------------------------------------------------
 void
 Trainer::exit()

@@ -35,6 +35,9 @@ private:
 private Q_SLOTS:
     // group "Main"
     void randomRow() const;
+    void learn() const;
+    void mark() const;
+    // void xxxxx() const;
     void exit();
 };
 //-------------------------------------------------------------------------------------------------
