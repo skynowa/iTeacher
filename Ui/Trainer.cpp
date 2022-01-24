@@ -104,21 +104,30 @@ Trainer::randomRow() const
                         .arg(record.value(DB_F_MAIN_IS_MARKED).toString())
                         .arg(record.value(DB_F_MAIN_TAG).toString());
 
-    cQString sepGroupWords   {";"};
-    cQString sepGroupWordsNl {"\n\n"};
+    struct Separators
+    {
+        cQString groupWords   {";"};
+        cQString groupWordsNl {"\n\n"};
 
-    cQString sepWords        {","};
-    cQString sepWordsNl      {"\n"};
+        cQString words        {","};
+        cQString wordsNl      {"\n"};
+    };
+
+    Separators seps;
 
     // term
     QString termFromated;
-    termFromated = term.split(sepGroupWords).join(sepGroupWordsNl);
-    termFromated = termFromated.split(sepWords).join(sepWordsNl);
+    {
+        termFromated = term.split(seps.groupWords).join(seps.groupWordsNl);
+        termFromated = termFromated.split(seps.words).join(seps.wordsNl);
+    }
 
     // value
     QString valueFromated;
-    valueFromated = value.split(sepGroupWords).join(sepGroupWordsNl);
-    valueFromated = valueFromated.split(sepWords).join(sepWordsNl);
+    {
+        valueFromated = value.split(seps.groupWords).join(seps.groupWordsNl);
+        valueFromated = valueFromated.split(seps.words).join(seps.wordsNl);
+    }
 
     if (::option_termValueSwap) {
         _ui.lblTerm->setText(valueFromated);
