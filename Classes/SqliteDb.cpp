@@ -182,6 +182,30 @@ SqliteDb::randomRow() const
     return query.record();
 }
 //-------------------------------------------------------------------------------------------------
+QSqlRecord
+SqliteDb::findByField(
+    cQString &a_name,
+    cQString &a_value
+) const
+{
+    bool bRv {};
+
+    cQString sql =
+        "SELECT * "
+        "FROM  " DB_T_TAGS " "
+        "WHERE " + a_name + "=" + a_value + " " +
+        "LIMIT 1";
+
+    QSqlQuery query(*_db);
+    bRv = query.exec(sql);
+    qCHECK_REF(bRv, query);
+
+    bRv = query.next();
+    qCHECK_REF(bRv, query);
+
+    return query.record();
+}
+//-------------------------------------------------------------------------------------------------
 
 
 /**************************************************************************************************

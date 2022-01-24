@@ -99,10 +99,9 @@ Trainer::randomRow() const
     cQString value = QString("%1")
                         .arg(record.value(DB_F_MAIN_VALUE).toString());
 
-    cQString status = QString("Learned: %1, Marked: %2, Tag: %3\n")
-                        .arg(record.value(DB_F_MAIN_IS_LEARNED).toString())
-                        .arg(record.value(DB_F_MAIN_IS_MARKED).toString())
-                        .arg(record.value(DB_F_MAIN_TAG).toString());
+    cQString tagId   = record.value(DB_F_MAIN_TAG).toString();
+    cQString learned = record.value(DB_F_MAIN_IS_LEARNED).toString();
+    cQString marked  = record.value(DB_F_MAIN_IS_MARKED).toString();
 
     struct Separators
     {
@@ -127,6 +126,22 @@ Trainer::randomRow() const
     {
         valueFromated = value.split(seps.groupWords).join(seps.groupWordsNl);
         valueFromated = valueFromated.split(seps.words).join(seps.wordsNl);
+    }
+
+    // status
+    QString status;
+    {
+        const QSqlRecord statusRecord = _db->findByField("ID", tagId);
+
+        QString tagName = statusRecord.value(DB_F_TAGS_NAME).toString();
+        if ( tagName.isEmpty() ) {
+            tagName = "-";
+        }
+
+        status = QString("Learned: %1, Marked: %2, Tag: %3\n")
+                    .arg(learned)
+                    .arg(marked)
+                    .arg(tagName);
     }
 
     if (::option_termValueSwap) {

@@ -39,6 +39,7 @@ public:
     bool        isTerminExists(cQString &term) const;
     bool        isTagsEmpty() const;
     QSqlRecord  randomRow() const;
+    QSqlRecord  findByField(cQString &name, cQString &value) const;
 
 private:
     Q_OBJECT
