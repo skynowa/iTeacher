@@ -104,12 +104,28 @@ Trainer::randomRow() const
                         .arg(record.value(DB_F_MAIN_IS_MARKED).toString())
                         .arg(record.value(DB_F_MAIN_TAG).toString());
 
+    cQString sepGroupWords   {";"};
+    cQString sepGroupWordsNl {"\n\n"};
+
+    cQString sepWords        {","};
+    cQString sepWordsNl      {"\n"};
+
+    // term
+    QString termFromated;
+    termFromated = term.split(sepGroupWords).join(sepGroupWordsNl);
+    termFromated = termFromated.split(sepWords).join(sepWordsNl);
+
+    // value
+    QString valueFromated;
+    valueFromated = value.split(sepGroupWords).join(sepGroupWordsNl);
+    valueFromated = valueFromated.split(sepWords).join(sepWordsNl);
+
     if (::option_termValueSwap) {
-        _ui.lblTerm->setText(value);
-        _ui.lblValue->setText(term);
+        _ui.lblTerm->setText(valueFromated);
+        _ui.lblValue->setText(termFromated);
     } else {
-        _ui.lblTerm->setText(term);
-        _ui.lblValue->setText(value);
+        _ui.lblTerm->setText(termFromated);
+        _ui.lblValue->setText(valueFromated);
     }
 
     _ui.lblStatus->setText(status);
