@@ -209,6 +209,12 @@ Main::_initMain()
     } else {
         // mnuTrayIcon
         QMenu *mnuTrayIcon = new QMenu(this);
+
+        // Quick menu
+        mnuTrayIcon->addAction(ui.actFile_Exit);
+
+        // Main menu
+        mnuTrayIcon->addSeparator();
         mnuTrayIcon->addMenu(ui.menuFile);
         mnuTrayIcon->addMenu(ui.menuEdit);
         mnuTrayIcon->addMenu(ui.menuAudio);
@@ -216,7 +222,6 @@ Main::_initMain()
         mnuTrayIcon->addMenu(ui.menuView);
         mnuTrayIcon->addMenu(ui.menuOptions);
         mnuTrayIcon->addMenu(ui.menuHelp);
-        mnuTrayIcon->addSeparator();
 
         // _trayIcon
         _trayIcon.setIcon( windowIcon() );
