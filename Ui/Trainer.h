@@ -20,7 +20,7 @@ class Trainer :
 {
 public:
              Trainer(QWidget *parent, Qt::WindowFlags flags = Qt::Widget);
-    virtual ~Trainer() = default;
+    virtual ~Trainer();
 
 protected:
     bool eventFilter(QObject *object, QEvent *event) final;
@@ -34,6 +34,10 @@ private:
 
     void _initMain();
     void _initActions();
+
+    // settings
+    void _settingsLoad();
+    void _settingsSave();
 
 private Q_SLOTS:
     // group "Main"

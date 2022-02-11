@@ -28,6 +28,13 @@ Trainer::Trainer(
 {
     _initMain();
     _initActions();
+    _settingsLoad();
+}
+//-------------------------------------------------------------------------------------------------
+/* virtual */
+Trainer::~Trainer()
+{
+    _settingsSave();
 }
 //-------------------------------------------------------------------------------------------------
 
@@ -114,6 +121,49 @@ Trainer::_initActions()
         _ui.lblTerm->installEventFilter(this);
         _ui.lblValue->installEventFilter(this);
     }
+}
+//-------------------------------------------------------------------------------------------------
+
+/**************************************************************************************************
+*   settings
+*
+**************************************************************************************************/
+
+//-------------------------------------------------------------------------------------------------
+void
+Trainer::_settingsLoad()
+{
+    // Load
+    QSize  size;
+    QPoint position;
+    {
+        QSettings settings(qS2QS(xl::package::Application::configPath()), QSettings::IniFormat, this);
+
+        // main
+        settings.beginGroup(CFG_TRAINER_GROUP_MAIN);
+        size     = settings.value(CFG_TRAINER_SIZE,     QSize(APP_WIDTH, APP_HEIGHT)).toSize();
+        position = settings.value(CFG_TRAINER_POSITION, QPoint(200, 200)).toPoint();
+        settings.endGroup();
+    }
+
+    // Apply
+    {
+        // main
+        resize(size);
+        move(position);
+    }
+}
+//-------------------------------------------------------------------------------------------------
+void
+Trainer::_settingsSave()
+{
+    QSettings settings(qS2QS(xl::package::Application::configPath()), QSettings::IniFormat, this);
+
+    // main
+    settings.beginGroup(CFG_TRAINER_GROUP_MAIN);
+    settings.setValue(CFG_TRAINER_SIZE,     size());
+    settings.setValue(CFG_TRAINER_POSITION, pos());
+    settings.endGroup();
 }
 //-------------------------------------------------------------------------------------------------
 
