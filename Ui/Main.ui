@@ -72,7 +72,7 @@
      <x>0</x>
      <y>0</y>
      <width>760</width>
-     <height>22</height>
+     <height>20</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
@@ -126,6 +126,7 @@
      <string>Options</string>
     </property>
     <addaction name="actOptions_TagsEditor"/>
+    <addaction name="actOptions_Trainer"/>
     <addaction name="actOptions_Settings"/>
    </widget>
    <widget class="QMenu" name="menuHelp">
@@ -522,7 +523,7 @@
     <string>Tags Editor...</string>
    </property>
    <property name="shortcut">
-    <string>Ctrl+T</string>
+    <string>Ctrl+E</string>
    </property>
   </action>
   <action name="actFile_ExportClipboard">
@@ -560,6 +561,14 @@
    </property>
    <property name="text">
     <string>Import CSV Clipboard</string>
+   </property>
+  </action>
+  <action name="actOptions_Trainer">
+   <property name="text">
+    <string>Trainer</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+T</string>
    </property>
   </action>
  </widget>

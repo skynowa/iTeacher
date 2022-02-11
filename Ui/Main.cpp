@@ -15,6 +15,7 @@
 #include "../Ui/WordEditor.h"
 #include "../Ui/WordFinder.h"
 #include "../Ui/TagsEditor.h"
+#include "../Ui/Trainer.h"
 #include "../Ui/Settings.h"
 #include <QtLib/Ui/About.h>
 
@@ -337,6 +338,9 @@ Main::_initActions()
     {
         connect(ui.actOptions_TagsEditor,   &QAction::triggered,
                 this,                       &Main::tagsEditor);
+
+        connect(ui.actOptions_Trainer,      &QAction::triggered,
+                this,                       &Main::trainer);
 
         connect(ui.actOptions_Settings,     &QAction::triggered,
                 this,                       &Main::settings);
@@ -1153,6 +1157,13 @@ Main::tagsEditor()
         _db->model()->select();
         _db->navigator().goTo(currentRow);
     }
+}
+//-------------------------------------------------------------------------------------------------
+void
+Main::trainer()
+{
+    Trainer trainer(this);
+    trainer.show();
 }
 //-------------------------------------------------------------------------------------------------
 void
