@@ -22,8 +22,12 @@ public:
              Trainer(QWidget *parent, Qt::WindowFlags flags = Qt::Widget);
     virtual ~Trainer();
 
+signals:
+    void closed();
+
 protected:
     bool eventFilter(QObject *object, QEvent *event) final;
+    void closeEvent(QCloseEvent *bar) final;
 
 private:
     Q_OBJECT
