@@ -22,6 +22,7 @@ class SqliteDb :
     public QObject
 {
 public:
+    SqliteDb(QObject *parent, cQString &filePath);
     SqliteDb(QObject *parent, cQString &filePath, QTableView *view);
    ~SqliteDb();
 
@@ -37,6 +38,8 @@ public:
     std::size_t wordsNotLearned() const;
     bool        isTerminExists(cQString &term) const;
     bool        isTagsEmpty() const;
+    QSqlRecord  randomRow() const;
+    QSqlRecord  findByField(cQString &name, cQString &value) const;
 
 private:
     Q_OBJECT

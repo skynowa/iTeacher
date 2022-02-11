@@ -67,7 +67,8 @@ qt5_wrap_ui(MOC_UI
     Ui/WordEditor.ui
     Ui/WordFinder.ui
     Ui/TagsEditor.ui
-    Ui/Settings.ui)
+    Ui/Settings.ui
+    Ui/Trainer.ui)
 
 qt5_wrap_cpp(MOC_CPP)
 
@@ -109,6 +110,7 @@ add_executable(${PROJECT_NAME}
     Ui/WordFinder.cpp
     Ui/TagsEditor.cpp
     Ui/Settings.cpp
+    Ui/Trainer.cpp
 
     # MOCs
     ${MOC_UI}

@@ -114,6 +114,11 @@ const TableViewHeader tableViewHeaders[]
 #define  CFG_QUICK_CLIPBOARD_TRANSLATE "quick_clipboard_translate"
 #define  CFG_CLIPBOARD_IMPORT    "clipboard_import"
 
+// QSettings (Trainer)
+#define  CFG_TRAINER_GROUP_MAIN  "trainer"
+#define  CFG_TRAINER_SIZE        "size"
+#define  CFG_TRAINER_POSITION    "position"
+
 // audio
 #define OPTION_QMEDIA_PLAYER     0
 #define AUDIO_TERM_FILE_NAME     "term.mp3"

@@ -8,6 +8,7 @@
 #include <xLib/Package/Application.h>
 #include <QtLib/Application.h>
 #include "Ui/Main.h"
+#include "Ui/Trainer.h"
 //-------------------------------------------------------------------------------------------------
 class UserApplication :
     public xl::package::Application
@@ -80,15 +81,19 @@ int main(int argc, char *argv[])
 
     qtlib::Application::setQuitOnLastWindowClosed(false);
 
+    // Trainer
+    {
+        Trainer trainer(nullptr);
+        trainer.show();
+
+        QEventLoop loop;
+        QObject::connect(&trainer, SIGNAL(closed()), &loop, SLOT(quit()));
+        loop.exec();
+    }
+
     Main dlgMain;
-    // show window on CFG_VISIBLE option
 
-    application.connect(&application, &qtlib::Application::sig_messageAvailable,
-                        &dlgMain,     &Main::receiveFromOtherApplication);
-
-    int exitCode = application.exec();
-
-    return exitCode;
+    return application.exec();
 }
 //-------------------------------------------------------------------------------------------------
 /**
