@@ -22,6 +22,9 @@ public:
              Trainer(QWidget *parent, Qt::WindowFlags flags = Qt::Widget);
     virtual ~Trainer() = default;
 
+protected:
+    bool eventFilter(QObject *object, QEvent *event) final;
+
 private:
     Q_OBJECT
     Q_DISABLE_COPY(Trainer)

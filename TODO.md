@@ -6,6 +6,7 @@
 - [ ] Detail (full) translation
 - [ ] Qt 5 -> 6
 - [ ] Word status - Repeat, Marked, Learned
+- [+] QLabel with Mouse actions
 - [ ] Random term on startup
 - [ ] Trainer (UI + Console) add
 - [ ] UI langs support - rm
