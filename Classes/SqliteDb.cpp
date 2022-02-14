@@ -14,32 +14,32 @@
 
 //-------------------------------------------------------------------------------------------------
 SqliteDb::SqliteDb(
-    QObject   *a_parent,   ///<
-    cQString  &a_filePath  ///<
+    QObject   *a_parent,    ///< Parent objec
+    cQString  &a_dbPath     ///< DB file path
 ) :
     QObject   (a_parent),
-    _filePath {a_filePath},
+    _dbPath   {a_dbPath},
     _view     {nullptr},
     _navigator(a_parent)
 {
     qTEST_PTR(a_parent);
-    qTEST(!a_filePath.isEmpty());
-    qTEST(QFile(a_filePath).exists());
+    qTEST(!a_dbPath.isEmpty());
+    qTEST(QFile(a_dbPath).exists());
 }
 //-------------------------------------------------------------------------------------------------
 SqliteDb::SqliteDb(
     QObject    *a_parent,   ///<
-    cQString   &a_filePath, ///<
+    cQString   &a_dbPath,   ///<
     QTableView *a_view      ///<
 ) :
     QObject   (a_parent),
-    _filePath {a_filePath},
+    _dbPath   {a_dbPath},
     _view     {a_view},
     _navigator(a_parent)
 {
     qTEST_PTR(a_parent);
-    qTEST(!a_filePath.isEmpty());
-    qTEST(QDir(a_filePath).exists());
+    qTEST(!a_dbPath.isEmpty());
+    qTEST(QDir(a_dbPath).exists());
     qTEST_PTR(a_view);
 }
 //-------------------------------------------------------------------------------------------------
@@ -223,7 +223,7 @@ SqliteDb::_dbOpen()
 
     bool bRv {};
 
-    cQString &tableName = QFileInfo(_filePath).baseName();
+    cQString &tableName = QFileInfo(_dbPath).baseName();
     qDebug() << qTRACE_VAR(tableName);
 
     // _db
@@ -248,7 +248,7 @@ SqliteDb::_dbOpen()
         qCHECK_DO(!bRv, qMSG(QSqlDatabase().lastError().text()); return);
 
         _db.reset(new QSqlDatabase(QSqlDatabase::addDatabase("QSQLITE")));
-        _db->setDatabaseName(_filePath);
+        _db->setDatabaseName(_dbPath);
 
         bRv = _db->open();
         qCHECK_PTR(bRv, _db);
@@ -326,8 +326,8 @@ SqliteDb::_dbClose()
 void
 SqliteDb::_modelOpen()
 {
-    if ( _filePath.isEmpty() ) {
-        qWarning() << qTRACE_VAR(_filePath.isEmpty());
+    if ( _dbPath.isEmpty() ) {
+        qWarning() << qTRACE_VAR(_dbPath.isEmpty());
         return;
     }
 
@@ -335,7 +335,7 @@ SqliteDb::_modelOpen()
     {
         qTEST(_model == nullptr);
 
-        cQString &tableName = QFileInfo(_filePath).baseName();
+        cQString &tableName = QFileInfo(_dbPath).baseName();
         qTEST(!tableName.isEmpty());
 
         _model.reset(new qtlib::SqlRelationalTableModelEx(this, *_db));
