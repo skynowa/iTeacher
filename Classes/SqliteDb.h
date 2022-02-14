@@ -16,7 +16,7 @@
 #include <xLib/Core/Core.h>
 #include <xLib/Package/Application.h>
 
-#include "../Config.h"
+#include "Config.h"
 //-------------------------------------------------------------------------------------------------
 class SqliteDb :
     public QObject

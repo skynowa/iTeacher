@@ -82,7 +82,7 @@ set(CMAKE_CXX_FLAGS "${Qt5Widgets_EXECUTABLE_COMPILE_FLAGS}")
 
 add_executable(${PROJECT_NAME}
     # Main
-    ${ROOT_DIR}/Config.h
+    Config.h
     Main.cpp
 
     # QtLib

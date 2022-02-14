@@ -6,7 +6,7 @@
 
 #pragma once
 
-#include "../Config.h"
+#include "Config.h"
 #include <QtLib/Application.h>
 #include <QSqlTableModel>
 #include <QSize>

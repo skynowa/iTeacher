@@ -8,7 +8,7 @@
 
 #include <QStyledItemDelegate>
 #include "../QtLib/Common.h"
-#include "../Config.h"
+#include "Config.h"
 //-------------------------------------------------------------------------------------------------
 class ComboBoxItemDelegate :
     public QStyledItemDelegate
