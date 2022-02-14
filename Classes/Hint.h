@@ -8,6 +8,7 @@
 
 #include "Config.h"
 #include <QtLib/Application.h>
+#include <QtLib/Db/SqlRelationalTableModelEx.h>
 #include <QSqlTableModel>
 #include <QSize>
 //-------------------------------------------------------------------------------------------------
@@ -25,13 +26,13 @@ public:
 ///@name ctors, dtor
 ///@{
     Hint() = delete;
-    explicit Hint(QObject *parent, const Type type, cQSqlTableModel &model);
+    explicit Hint(QObject *parent, const Type type, const qtlib::SqlRelationalTableModelEx &model);
 
     Q_DISABLE_COPY(Hint)
 
-    static Hint trayIcon(QObject *parent, cQSqlTableModel &model);
-    static Hint messageBox(cQSqlTableModel &model);
-    static Hint toolTip(cQSqlTableModel &model);
+    static Hint trayIcon(QObject *parent, const qtlib::SqlRelationalTableModelEx &model);
+    static Hint messageBox(const qtlib::SqlRelationalTableModelEx &model);
+    static Hint toolTip(const qtlib::SqlRelationalTableModelEx &model);
 ///@}
 
     void show() const;
@@ -41,7 +42,7 @@ private:
 
     static constexpr int _timeoutMs {3 * 1000};
 
-    const Type       _type {};
-    cQSqlTableModel &_model;
+    const Type                              _type {};
+    const qtlib::SqlRelationalTableModelEx &_model;
 };
 //-------------------------------------------------------------------------------------------------
