@@ -4,7 +4,7 @@
 #--------------------------------------------------------------------------------------------------
 
 
-project(iTeacher)
+project(Trainer)
 cmake_minimum_required(VERSION 2.8)
 
 #--------------------------------------------------------------------------------------------------
@@ -62,12 +62,6 @@ include_directories(
     ${CMAKE_SOURCE_DIR}/Ui)
 
 qt5_wrap_ui(MOC_UI
-    QtLib/Ui/About.ui
-    Ui/Main.ui
-    Ui/WordEditor.ui
-    Ui/WordFinder.ui
-    Ui/TagsEditor.ui
-    Ui/Settings.ui
     Ui/Trainer.ui)
 
 qt5_wrap_cpp(MOC_CPP)
@@ -98,19 +92,9 @@ add_executable(${PROJECT_NAME}
     QtLib/GlobalShortcut/x11/ShortcutActivator.cpp
 
     ## Classes
-    Classes/CenteredCheckBox.cpp
-    Classes/ColorItemDelegate.cpp
-    Classes/CheckBoxItemDelegate.cpp
-    Classes/ComboBoxItemDelegate.cpp
-    Classes/Hint.cpp
     Classes/SqliteDb.cpp
 
     # Ui
-    Ui/Main.cpp
-    Ui/WordEditor.cpp
-    Ui/WordFinder.cpp
-    Ui/TagsEditor.cpp
-    Ui/Settings.cpp
     Ui/Trainer.cpp
 
     # MOCs
@@ -125,62 +109,3 @@ add_executable(${PROJECT_NAME}
 # TODO: ${XLIB_LIBRARIES}
 target_link_libraries(${PROJECT_NAME} ${cmXLIB_LIBRARIES} -lX11)
 #--------------------------------------------------------------------------------------------------
-# install
-# if (CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT)
-    set(CMAKE_INSTALL_PREFIX ".")
-# else()
-#     set(CMAKE_INSTALL_PREFIX ${CMAKE_SOURCE_DIR}/Bin)
-# endif()
-
-foreach(QT5_MODULE ${_QT5_MODULES})
-    GET_TARGET_PROPERTY(DLL Qt5::${QT5_MODULE} LOCATION_${CMAKE_BUILD_TYPE})
-    LIST(APPEND DLLS_REQUIRED "${DLL}")
-
-    # message("Qt5::${QT5_MODULE} - ${DLL}\n")
-endforeach()
-
-# target
-install(
-    TARGETS
-        ${PROJECT_NAME}
-    DESTINATION
-        ${CMAKE_INSTALL_PREFIX})
-
-# DLLs
-function(install_files)
-    foreach(FILE ${ARGV})
-        get_filename_component(NAME_NEW ${FILE} NAME_WE)
-
-        if     (ENV_WIN)
-            set(NAME_NEW ${NAME_NEW}.dll)
-        elseif (ENV_UNIX)
-            set(NAME_NEW ${NAME_NEW}.so)
-        elseif (ENV_APPLE)
-            set(NAME_NEW ${NAME_NEW}.dylib)
-        endif()
-
-        install(FILES ${FILE} DESTINATION ${CMAKE_INSTALL_PREFIX}/Libs RENAME ${NAME_NEW})
-    endforeach()
-endfunction()
-
-install_files(${DLLS_REQUIRED})
-
-# Doc
-install(
-    FILES
-        ${CMAKE_SOURCE_DIR}/Readme.md
-    DESTINATION
-        ${CMAKE_INSTALL_PREFIX}/Doc)
-
-# Resources
-install(
-    FILES
-        ${CMAKE_SOURCE_DIR}/Resources/App.ico
-        ${CMAKE_SOURCE_DIR}/Resources/App.png
-    DESTINATION
-        ${CMAKE_INSTALL_PREFIX}/Resources)
-
-include(CMake/Package.cmake)
-#--------------------------------------------------------------------------------------------------
-# Targets
-include(Trainer.cmake)

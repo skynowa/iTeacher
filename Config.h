@@ -19,6 +19,7 @@
 //-------------------------------------------------------------------------------------------------
 // main window
 #define APP_NAME                 "iTeacher"
+#define APP_TRAINER_NAME         "Trainer"
 #define APP_DESCRIPTION          "Learning foreign words"
 #define APP_COPYRIGHT_YEARS      QString("2000-%1").arg( QDate::currentDate().year() ).toStdString()
 #define APP_USAGE                ""
@@ -42,6 +43,7 @@
 #define APP_DONATE_PRIVATE24     ""
 
 #define APP_GUID                 APP_NAME"_simple_guid"
+#define APP_TRAINER_GUID         APP_TRAINER_NAME"_simple_guid"
 #define APP_WIDTH                700
 #define APP_HEIGHT               600
 #define APP_FONT_SIZE_DEFAULT    9

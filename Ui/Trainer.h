@@ -13,8 +13,6 @@
 
 #include "ui_Trainer.h"
 //-------------------------------------------------------------------------------------------------
-class WordEditor;
-
 class Trainer :
     public QMainWindow
 {
@@ -27,7 +25,6 @@ signals:
 
 protected:
     bool eventFilter(QObject *object, QEvent *event) final;
-    void closeEvent(QCloseEvent *bar) final;
 
 private:
     Q_OBJECT
