@@ -179,8 +179,6 @@ install(
         ${CMAKE_SOURCE_DIR}/Resources/App.png
     DESTINATION
         ${CMAKE_INSTALL_PREFIX}/Resources)
-
-include(CMake/Package.cmake)
 #--------------------------------------------------------------------------------------------------
 # Targets
 include(Trainer.cmake)
