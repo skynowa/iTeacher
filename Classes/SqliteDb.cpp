@@ -39,7 +39,7 @@ SqliteDb::SqliteDb(
 {
     qTEST_PTR(a_parent);
     qTEST(!a_dbPath.isEmpty());
-    qTEST(QDir(a_dbPath).exists());
+    qTEST(QFile(a_dbPath).exists());
     qTEST_PTR(a_view);
 }
 //-------------------------------------------------------------------------------------------------
