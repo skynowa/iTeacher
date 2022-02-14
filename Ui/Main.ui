@@ -72,7 +72,7 @@
      <x>0</x>
      <y>0</y>
      <width>760</width>
-     <height>20</height>
+     <height>22</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
@@ -126,7 +126,6 @@
      <string>Options</string>
     </property>
     <addaction name="actOptions_TagsEditor"/>
-    <addaction name="actOptions_Trainer"/>
     <addaction name="actOptions_Settings"/>
    </widget>
    <widget class="QMenu" name="menuHelp">
@@ -574,6 +573,7 @@
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <resources>
+  <include location="../Resources/App.qrc"/>
   <include location="../Resources/App.qrc"/>
  </resources>
  <connections/>

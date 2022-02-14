@@ -127,7 +127,6 @@ private Q_SLOTS:
 
     // group "Options"
     void tagsEditor();
-    void trainer();
     void settings();
 
     // group "Help"

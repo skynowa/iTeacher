@@ -81,16 +81,6 @@ int main(int argc, char *argv[])
 
     qtlib::Application::setQuitOnLastWindowClosed(false);
 
-    // Trainer
-    {
-        Trainer trainer(nullptr);
-        trainer.show();
-
-        QEventLoop loop;
-        QObject::connect(&trainer, SIGNAL(closed()), &loop, SLOT(quit()));
-        loop.exec();
-    }
-
     Main dlgMain;
 
     return application.exec();
