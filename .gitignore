@@ -2,7 +2,7 @@
 
 
 ##### dirs #####
-Projects/build-*
+Projects/*_build
 
 ##### files #####
 CMakeLists.txt.user
