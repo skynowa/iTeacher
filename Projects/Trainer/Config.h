@@ -28,8 +28,8 @@
 
 struct TableViewHeader
 {
-    int             section;
-    const QVariant &value;
+    int            section;
+    const QVariant value;
 };
 
 const TableViewHeader tableViewHeaders[]

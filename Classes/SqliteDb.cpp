@@ -343,9 +343,8 @@ SqliteDb::_modelOpen()
         _model->setJoinMode(QSqlRelationalTableModel::LeftJoin);
         _model->setRelation(5, QSqlRelation(DB_T_TAGS, DB_F_TAGS_ID, DB_F_TAGS_NAME));
 
-        for (const auto &it_tableViewHeader : ::tableViewHeaders) {
-            _model->setHeaderData(it_tableViewHeader.section, Qt::Horizontal,
-                it_tableViewHeader.value, Qt::DisplayRole);
+        for (const auto &[it_section, it_value] : ::tableViewHeaders) {
+            _model->setHeaderData(it_section, Qt::Horizontal, it_value, Qt::DisplayRole);
         }
 
         _model->setEditStrategy(QSqlTableModel::OnManualSubmit);
