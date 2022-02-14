@@ -78,8 +78,9 @@ qt5_add_resources(RESOURCES Resources/App.qrc)
 set(CMAKE_CXX_FLAGS "${Qt5Widgets_EXECUTABLE_COMPILE_FLAGS}")
 
 add_executable(${PROJECT_NAME}
+    # Main
     Config.h
-    main.cpp
+    iTeacher.cpp
 
     # QtLib
     QtLib/Ui/About.cpp

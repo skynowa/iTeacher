@@ -1,6 +1,6 @@
 /**
- * \file  main.cpp
- * \brief main window
+ * \file  iTeacher.cpp
+ * \brief iTeacher application
  */
 
 
