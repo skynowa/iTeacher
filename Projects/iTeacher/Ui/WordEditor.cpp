@@ -45,7 +45,6 @@ WordEditor::WordEditor(
     _construct();
 }
 //-------------------------------------------------------------------------------------------------
-/* virtual */
 WordEditor::~WordEditor()
 {
     _destruct();

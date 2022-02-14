@@ -24,7 +24,7 @@ class SqliteDb :
 public:
     SqliteDb(QObject *parent, cQString &dbPath);
     SqliteDb(QObject *parent, cQString &dbPath, QTableView *view);
-   ~SqliteDb() final;
+    ~SqliteDb() final;
 
     QSqlDatabase                     *db();
     qtlib::SqlRelationalTableModelEx *model();

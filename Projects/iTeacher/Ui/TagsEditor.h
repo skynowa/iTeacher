@@ -21,19 +21,20 @@ class TagsEditor :
 public:
     Ui::UiTagsEditor ui;
 
-             TagsEditor(QWidget *parent, const QSqlDatabase &db);
-    virtual ~TagsEditor();
+    TagsEditor(QWidget *parent, const QSqlDatabase &db);
+    ~TagsEditor() final;
+
+    Q_DISABLE_COPY(TagsEditor)
 
 private:
+    Q_OBJECT
+
     const QSqlDatabase               &_db;
     qtlib::SqlRelationalTableModelEx  _model;
     qtlib::SqlNavigator               _sqlNavigator;
 
     void _construct();
     void _destruct();
-
-    Q_OBJECT
-    Q_DISABLE_COPY(TagsEditor)
 
 private Q_SLOTS:
     void insert();

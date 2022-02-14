@@ -29,8 +29,10 @@ class Main :
     public QMainWindow
 {
 public:
-             Main(QWidget *parent = nullptr, Qt::WindowFlags flags = Qt::Widget);
-    virtual ~Main();
+    Main(QWidget *parent = nullptr, Qt::WindowFlags flags = Qt::Widget);
+    ~Main() final;
+
+    Q_DISABLE_COPY(Main)
 
     QSystemTrayIcon &trayIcon();
 
@@ -79,9 +81,6 @@ private:
     // utils
     QString _exportfileNameBuild(cQString &fileExt);
     bool    _tagsIsEmpty();
-
-    Q_OBJECT
-    Q_DISABLE_COPY(Main)
 
     friend class Settings;
 

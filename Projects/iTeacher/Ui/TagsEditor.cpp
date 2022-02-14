@@ -31,7 +31,6 @@ TagsEditor::TagsEditor(
     _construct();
 }
 //-------------------------------------------------------------------------------------------------
-/* virtual */
 TagsEditor::~TagsEditor()
 {
     _destruct();

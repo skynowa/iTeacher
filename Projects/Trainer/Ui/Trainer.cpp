@@ -31,7 +31,6 @@ Trainer::Trainer(
     _settingsLoad();
 }
 //-------------------------------------------------------------------------------------------------
-/* virtual */
 Trainer::~Trainer()
 {
     _settingsSave();

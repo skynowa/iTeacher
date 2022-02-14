@@ -17,10 +17,9 @@ class Trainer :
     public QMainWindow
 {
 public:
-             Trainer(QWidget *parent, Qt::WindowFlags flags = Qt::Widget);
-    virtual ~Trainer();
+    Trainer(QWidget *parent, Qt::WindowFlags flags = Qt::Widget);
+    ~Trainer() final;
 
-    Q_OBJECT
     Q_DISABLE_COPY(Trainer)
 
 signals:
@@ -30,6 +29,8 @@ protected:
     bool eventFilter(QObject *object, QEvent *event) final;
 
 private:
+    Q_OBJECT
+
     Ui::UiTrainer             _ui;
     std::unique_ptr<SqliteDb> _db;
 

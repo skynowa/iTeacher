@@ -18,12 +18,17 @@ class Settings :
     public QDialog
 {
 public:
-         Settings(QWidget *parent, Main *wndMain);
+    Settings(QWidget *parent, Main *wndMain);
+    ~Settings() final;
+
+    Q_DISABLE_COPY(Settings)
 
 protected:
     void closeEvent(QCloseEvent *event) override;
 
 private:
+    Q_OBJECT
+
     Ui::UiSettings  ui;
     Main           *_wndMain {};
 
@@ -36,11 +41,6 @@ private:
 
     void _settingsLoad();
     void _settingsSave();
-
-    // friend class Ini;
-
-    Q_OBJECT
-    Q_DISABLE_COPY(Settings)
 
 private Q_SLOTS:
     void bbxButtons_onClicked(QAbstractButton *button);

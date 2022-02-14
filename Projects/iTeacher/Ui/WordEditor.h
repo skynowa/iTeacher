@@ -19,10 +19,11 @@ class WordEditor :
 public:
     Ui::UiWordEditor ui;
 
-            WordEditor(QWidget *parent, QSqlTableModel *tableModel,
-                qtlib::SqlNavigator *sqlNavigator, cbool &inserMode,
-                cQString &termNew = QString());
-    virtual ~WordEditor();
+    WordEditor(QWidget *parent, QSqlTableModel *tableModel, qtlib::SqlNavigator *sqlNavigator,
+                cbool &inserMode, cQString &termNew = QString());
+    ~WordEditor() final;
+
+    Q_DISABLE_COPY(WordEditor)
 
     bool isConstructed() const;
     void setTerm(cQString &value);
@@ -31,6 +32,8 @@ public:
     void retranslate(WordEditor *dlgWordEditor);
 
 private:
+    Q_OBJECT
+
     bool            _isConstructed;
     QSqlTableModel *_model;
     qtlib::SqlNavigator *_sqlNavigator;
@@ -48,9 +51,6 @@ private:
 
     void _settingsLoad();
     void _settingsSave();
-
-    Q_OBJECT
-    Q_DISABLE_COPY(WordEditor)
 
 private Q_SLOTS:
     void tbtnTermCopy_OnClicked();

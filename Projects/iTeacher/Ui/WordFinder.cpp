@@ -28,7 +28,6 @@ WordFinder::WordFinder(
     _construct();
 }
 //-------------------------------------------------------------------------------------------------
-/*virtual*/
 WordFinder::~WordFinder()
 {
     _destruct();
