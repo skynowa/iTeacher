@@ -6,7 +6,6 @@
 
 project(iTeacher)
 cmake_minimum_required(VERSION 2.8)
-
 #--------------------------------------------------------------------------------------------------
 # options
 set(CMAKE_AUTOMOC               ON)
@@ -43,6 +42,9 @@ string(REGEX MATCH "^5\\.[3]\\.[0-1]+" QT_VERSION_MATCH "${Qt5Core_VERSION_STRIN
                     "Officially supported version is Qt ${QT_OFFICIAL_VERSION}")
 endif()
 #--------------------------------------------------------------------------------------------------
+# TODO: Vars
+set(ROOT_DIR "/home/skynowa/Projects/iTeacher")
+#--------------------------------------------------------------------------------------------------
 # find packages
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_ROOT}/Modules/CMakeLib")
 message("CMAKE_MODULE_PATH: ${CMAKE_MODULE_PATH}")
@@ -55,14 +57,15 @@ include_directories(
     ${LIBXML2_INCLUDE_DIR}
     ${XLIB_INCLUDES}
     ${Qt5Gui_PRIVATE_INCLUDE_DIRS}
-    ${CMAKE_SOURCE_DIR}/QtLib
-    ${CMAKE_SOURCE_DIR}/QtLib/Ui
-    ${CMAKE_SOURCE_DIR}/QtLib/Db
-    ${CMAKE_SOURCE_DIR}/Classes
-    ${CMAKE_SOURCE_DIR}/Ui)
+    ${ROOT_DIR}
+    ${ROOT_DIR}/QtLib
+    ${ROOT_DIR}/QtLib/Ui
+    ${ROOT_DIR}/QtLib/Db
+    ${ROOT_DIR}/Classes
+    ${ROOT_DIR}/Ui)
 
 qt5_wrap_ui(MOC_UI
-    QtLib/Ui/About.ui
+    ${ROOT_DIR}/QtLib/Ui/About.ui
     Ui/Main.ui
     Ui/WordEditor.ui
     Ui/WordFinder.ui
@@ -71,38 +74,39 @@ qt5_wrap_ui(MOC_UI
 
 qt5_wrap_cpp(MOC_CPP)
 
-qt5_add_resources(RESOURCES Resources/App.qrc)
+qt5_add_resources(RESOURCES
+    ${ROOT_DIR}/Resources/App.qrc)
 
 # Add -fPIE
 set(CMAKE_CXX_FLAGS "${Qt5Widgets_EXECUTABLE_COMPILE_FLAGS}")
 
 add_executable(${PROJECT_NAME}
     # Main
-    Config.h
-    ${PROJECT_NAME}.cpp
+    ${ROOT_DIR}/Config.h
+    Main.cpp
 
     # QtLib
-    QtLib/Ui/About.cpp
-    QtLib/Application.cpp
-    QtLib/Db/SqlTableModelEx.cpp
-    QtLib/Db/SqlRelationalTableModelEx.cpp
-    QtLib/Db/SqlNavigator.cpp
-    QtLib/SignalGuard.cpp
-    QtLib/Utils.cpp
+    ${ROOT_DIR}/QtLib/Ui/About.cpp
+    ${ROOT_DIR}/QtLib/Application.cpp
+    ${ROOT_DIR}/QtLib/Db/SqlTableModelEx.cpp
+    ${ROOT_DIR}/QtLib/Db/SqlRelationalTableModelEx.cpp
+    ${ROOT_DIR}/QtLib/Db/SqlNavigator.cpp
+    ${ROOT_DIR}/QtLib/SignalGuard.cpp
+    ${ROOT_DIR}/QtLib/Utils.cpp
 
     # QtLib - GlobalShortcut
-    QtLib/GlobalShortcut/GlobalShortcut.cpp
-    QtLib/GlobalShortcut/x11/X11ErrorHandler.cpp
-    QtLib/GlobalShortcut/x11/X11Data.cpp
-    QtLib/GlobalShortcut/x11/ShortcutActivator.cpp
+    ${ROOT_DIR}/QtLib/GlobalShortcut/GlobalShortcut.cpp
+    ${ROOT_DIR}/QtLib/GlobalShortcut/x11/X11ErrorHandler.cpp
+    ${ROOT_DIR}/QtLib/GlobalShortcut/x11/X11Data.cpp
+    ${ROOT_DIR}/QtLib/GlobalShortcut/x11/ShortcutActivator.cpp
 
     ## Classes
-    Classes/CenteredCheckBox.cpp
-    Classes/ColorItemDelegate.cpp
-    Classes/CheckBoxItemDelegate.cpp
-    Classes/ComboBoxItemDelegate.cpp
-    Classes/Hint.cpp
-    Classes/SqliteDb.cpp
+    ${ROOT_DIR}/Classes/CenteredCheckBox.cpp
+    ${ROOT_DIR}/Classes/ColorItemDelegate.cpp
+    ${ROOT_DIR}/Classes/CheckBoxItemDelegate.cpp
+    ${ROOT_DIR}/Classes/ComboBoxItemDelegate.cpp
+    ${ROOT_DIR}/Classes/Hint.cpp
+    ${ROOT_DIR}/Classes/SqliteDb.cpp
 
     # Ui
     Ui/Main.cpp
@@ -178,5 +182,3 @@ install(
     DESTINATION
         ${CMAKE_INSTALL_PREFIX}/Resources)
 #--------------------------------------------------------------------------------------------------
-# Targets
-include(Trainer.cmake)

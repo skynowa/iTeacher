@@ -13,6 +13,8 @@ xLib_android_eclipse_gcc
 android-build
 QtLib.old/
 
+Projects/build-*
+
 
 ##### files #####
 todo.txt
@@ -25,4 +27,3 @@ Makefile*
 android-libiTeacher.so-deployment-settings.json
 app_process
 libc.so
-

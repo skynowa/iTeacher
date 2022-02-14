@@ -37,7 +37,8 @@ SqliteDb::SqliteDb(
     _navigator(a_parent)
 {
     qTEST_PTR(a_parent);
-    qTEST(!a_filePath.isEmpty())
+    qTEST(!a_filePath.isEmpty());
+    qTEST(QDir(a_filePath).exists());
     qTEST_PTR(a_view);
 }
 //-------------------------------------------------------------------------------------------------

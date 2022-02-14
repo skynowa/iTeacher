@@ -487,7 +487,13 @@ WordEditor::check()
     }
 
     // is term exists
-    bRv = Main::isTerminExists(*_model, ui.tedtTerm->toPlainText());
+    /// bRv = Main::isTerminExists(*_model, ui.tedtTerm->toPlainText());
+    cQString dictPath = qS2QS(xl::package::Application::dbDirPath()) + QDir::separator() +
+        "Words.db";
+
+    SqliteDb db(nullptr, dictPath);
+    bRv = db.isTerminExists(ui.tedtTerm->toPlainText());
+
     if (bRv && _insertMode) {
         // insert: term already exists (false)
         msg = QString(tr("Term '%1' already exists")).arg(termMinimized);

@@ -1,5 +1,5 @@
 /**
- * \file  iTeacher.cpp
+ * \file  Main.cpp
  * \brief iTeacher application
  */
 
@@ -8,7 +8,6 @@
 #include <xLib/Package/Application.h>
 #include <QtLib/Application.h>
 #include "Ui/Main.h"
-#include "Ui/Trainer.h"
 //-------------------------------------------------------------------------------------------------
 class UserApplication :
     public xl::package::Application

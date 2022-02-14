@@ -20,6 +20,9 @@ public:
              Trainer(QWidget *parent, Qt::WindowFlags flags = Qt::Widget);
     virtual ~Trainer();
 
+    Q_OBJECT
+    Q_DISABLE_COPY(Trainer)
+
 signals:
     void closed();
 
@@ -27,9 +30,6 @@ protected:
     bool eventFilter(QObject *object, QEvent *event) final;
 
 private:
-    Q_OBJECT
-    Q_DISABLE_COPY(Trainer)
-
     Ui::UiTrainer             _ui;
     std::unique_ptr<SqliteDb> _db;
 
