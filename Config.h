@@ -32,7 +32,7 @@
 #define APP_VENDOR_NAME          "Skynowa Studio"
 #define APP_VENDOR_DOMAIN        ""
 #define APP_VENDOR_AUTHOR        "skynowa"
-#define APP_VENDOR_URL           "http://bitbucket.org/skynowa/iteacher"
+#define APP_VENDOR_URL           "https://github.com/skynowa/iTeacher"
 #define APP_VENDOR_EMAIL         "skynowa@gmail.com"
 #define APP_VENDOR_SKYPE         "skynowa777"
 #define APP_VENDOR_JABBER        "skynowa@jabber.ru"
