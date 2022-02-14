@@ -2,28 +2,7 @@
 
 
 ##### dirs #####
-.vscode
-Bin
-Distr
-Temp
-xLib_makefile_gcc
-xLib_eclipse_gcc
-xLib_android_makefile_gcc
-xLib_android_eclipse_gcc
-android-build
-QtLib.old/
-
 Projects/build-*
 
-
 ##### files #####
-todo.txt
-*.pro.user
-*.txt.user
-*.pro.user.*
-*.autosave
-Makefile*
-*.pdb
-android-libiTeacher.so-deployment-settings.json
-app_process
-libc.so
+CMakeLists.txt.user
