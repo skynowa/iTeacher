@@ -1,6 +1,6 @@
 /**
  * \file  SqliteDb.h
- * \brief
+ * \brief SQLite database
  */
 
 
@@ -24,7 +24,7 @@ class SqliteDb :
 public:
     SqliteDb(QObject *parent, cQString &dbPath);
     SqliteDb(QObject *parent, cQString &dbPath, QTableView *view);
-   ~SqliteDb();
+   ~SqliteDb() final;
 
     QSqlDatabase                     *db();
     qtlib::SqlRelationalTableModelEx *model();
@@ -44,11 +44,11 @@ public:
 private:
     Q_OBJECT
 
-    cQString                          _dbPath;
-    std::unique_ptr<QSqlDatabase>     _db;
+    cQString                       _dbPath;
+    std::unique_ptr<QSqlDatabase>  _db;
     std::unique_ptr<qtlib::SqlRelationalTableModelEx> _model;
-    QTableView                       *_view {};
-    qtlib::SqlNavigator               _navigator;
+    QTableView                    *_view {};
+    qtlib::SqlNavigator            _navigator;
 
     void  _dbOpen();
     void  _dbClose();
