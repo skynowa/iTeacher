@@ -7,15 +7,8 @@
 #pragma once
 
 //-------------------------------------------------------------------------------------------------
-// Options
-#define OPTION_QTMULTIMEDIA 0 // TODO: QSound
-//-------------------------------------------------------------------------------------------------
 #include <Qt>
 #include <QVariant>
-
-#if OPTION_QTMULTIMEDIA
-    #include <QSound>
-#endif
 //-------------------------------------------------------------------------------------------------
 // main window
 #define APP_TRAINER_NAME         "Trainer"
@@ -56,7 +49,7 @@ const TableViewHeader tableViewHeaders[]
 #define DB_ALL_TAGS_ID           "1"
 
 // QSettings (Trainer)
-#define  CFG_TRAINER_GROUP_MAIN  "trainer"
-#define  CFG_TRAINER_SIZE        "size"
-#define  CFG_TRAINER_POSITION    "position"
+#define CFG_TRAINER_GROUP_MAIN  "trainer"
+#define CFG_TRAINER_SIZE        "size"
+#define CFG_TRAINER_POSITION    "position"
 //-------------------------------------------------------------------------------------------------
