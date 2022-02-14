@@ -14,7 +14,7 @@
 
 //-------------------------------------------------------------------------------------------------
 SqliteDb::SqliteDb(
-    QObject   *a_parent,    ///< Parent objec
+    QObject   *a_parent,    ///< Parent object
     cQString  &a_dbPath     ///< DB file path
 ) :
     QObject   (a_parent),
