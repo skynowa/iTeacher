@@ -24,7 +24,7 @@ SqliteDb::SqliteDb(
 {
     qTEST_PTR(a_parent);
     qTEST(!a_filePath.isEmpty());
-    qTEST(QDir(a_filePath).exists());
+    qTEST(QFile(a_filePath).exists());
 }
 //-------------------------------------------------------------------------------------------------
 SqliteDb::SqliteDb(
