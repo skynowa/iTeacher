@@ -36,7 +36,7 @@ int main(int argc, char *argv[])
     bool bRv {};
 
     // xl::core::UserApplication
-    UserApplication xapplication(xT(APP_GUID), xT(""));
+    UserApplication xapplication(xT(APP_TRAINER_GUID), xT(""));
     xapplication.dirsCreate();
 
     // qtlib::UserApplication
