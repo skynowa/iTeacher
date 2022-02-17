@@ -69,9 +69,6 @@ include_directories(
     ${ROOT_DIR}/Classes
     ${ROOT_DIR}/Ui)
 
-qt5_add_resources(RESOURCES
-    ${ROOT_DIR}/Resources/App.qrc)
-
 # Add -fPIE
 set(CMAKE_CXX_FLAGS "${Qt5Widgets_EXECUTABLE_COMPILE_FLAGS}")
 
@@ -100,13 +97,15 @@ add_executable(${PROJECT_NAME}
     # Ui
     Ui/Trainer.cpp
 
-    # MOCs
-    ${RESOURCES}
+    # Resources
+    ${ROOT_DIR}/Resources/App.qrc
 
     # Doc
     Readme.md
     TODO.md)
 
 # TODO: ${XLIB_LIBRARIES}
-target_link_libraries(${PROJECT_NAME} ${cmXLIB_LIBRARIES} -lX11)
+target_link_libraries(${PROJECT_NAME}
+    ${cmXLIB_LIBRARIES}
+    -lX11)
 #--------------------------------------------------------------------------------------------------
