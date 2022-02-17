@@ -49,9 +49,9 @@ set(ROOT_DIR "/home/skynowa/Projects/iTeacher")
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_ROOT}/Modules/CMakeLib")
 message("CMAKE_MODULE_PATH: ${CMAKE_MODULE_PATH}")
 
-find_package(xLib REQUIRED)
+find_package(xLib    REQUIRED)
 find_package(LibXml2 REQUIRED)
-find_package(Qt5 REQUIRED)
+find_package(Qt5     REQUIRED)
 
 # Qt
 set(CMAKE_AUTOMOC ON)
