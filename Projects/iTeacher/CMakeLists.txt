@@ -53,6 +53,8 @@ find_package(xLib REQUIRED)
 find_package(LibXml2 REQUIRED)
 find_package(Qt5 REQUIRED)
 
+set(CMAKE_AUTOMOC true)
+
 include_directories(
     ${LIBXML2_INCLUDE_DIR}
     ${XLIB_INCLUDES}

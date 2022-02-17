@@ -6,3 +6,6 @@ Projects/*_build
 
 ##### files #####
 CMakeLists.txt.user
+.cproject
+.project
+

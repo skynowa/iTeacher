@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowIcon">
-   <iconset resource="../Resources/App.qrc">
+   <iconset resource="../../../Resources/App.qrc">
     <normaloff>:/Menu/Menu/Edit.png</normaloff>:/Menu/Menu/Edit.png</iconset>
   </property>
   <property name="sizeGripEnabled">
@@ -374,7 +374,7 @@
   <tabstop>tedtValueBrief</tabstop>
  </tabstops>
  <resources>
-  <include location="../Resources/App.qrc"/>
+  <include location="../../../Resources/App.qrc"/>
  </resources>
  <connections/>
 </ui>
