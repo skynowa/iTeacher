@@ -53,6 +53,7 @@ find_package(xLib REQUIRED)
 find_package(LibXml2 REQUIRED)
 find_package(Qt5 REQUIRED)
 
+# Qt
 set(CMAKE_AUTOMOC true)
 
 include_directories(
@@ -65,16 +66,6 @@ include_directories(
     ${ROOT_DIR}/QtLib/Db
     ${ROOT_DIR}/Classes
     ${ROOT_DIR}/Ui)
-
-qt5_wrap_ui(MOC_UI
-    ${ROOT_DIR}/QtLib/Ui/About.ui
-    Ui/Main.ui
-    Ui/WordEditor.ui
-    Ui/WordFinder.ui
-    Ui/TagsEditor.ui
-    Ui/Settings.ui)
-
-qt5_wrap_cpp(MOC_CPP)
 
 qt5_add_resources(RESOURCES
     ${ROOT_DIR}/Resources/App.qrc)
@@ -118,8 +109,6 @@ add_executable(${PROJECT_NAME}
     Ui/Settings.cpp
 
     # MOCs
-    ${MOC_UI}
-    ${MOC_CPP}
     ${RESOURCES}
 
     # Doc
