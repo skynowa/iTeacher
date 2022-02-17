@@ -54,7 +54,9 @@ find_package(LibXml2 REQUIRED)
 find_package(Qt5 REQUIRED)
 
 # Qt
-set(CMAKE_AUTOMOC true)
+set(CMAKE_AUTOMOC ON)
+set(CMAKE_AUTORCC ON)
+set(CMAKE_AUTOUIC ON)
 
 include_directories(
     ${LIBXML2_INCLUDE_DIR}
