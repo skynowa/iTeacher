@@ -485,13 +485,16 @@ WordEditor::check()
         return false;
     }
 
-    // is term exists
-    /// bRv = Main::isTerminExists(*_model, ui.tedtTerm->toPlainText());
+    // TODO: is term exists
+#if 1
+    bRv = Main::isTerminExists(*_model, ui.tedtTerm->toPlainText());
+#else
     cQString dictPath = qS2QS(xl::package::Application::dbDirPath()) + QDir::separator() +
         "Words.db";
 
     SqliteDb db(nullptr, dictPath);
     bRv = db.isTerminExists(ui.tedtTerm->toPlainText());
+#endif
 
     if (bRv && _insertMode) {
         // insert: term already exists (false)
