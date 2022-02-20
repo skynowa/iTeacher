@@ -61,37 +61,37 @@ Main::trayIcon()
     return _trayIcon;
 }
 //-------------------------------------------------------------------------------------------------
-///* static */
-//bool
-//Main::isTerminExists(
-//    cQSqlTableModel &a_model,
-//    cQString        &a_term
-//)
-//{
-//    qTEST_NA(a_model);
-//    qTEST(!a_term.isEmpty())
+/* static */
+bool
+Main::isTerminExists(
+    cQSqlTableModel &a_model,
+    cQString        &a_term
+)
+{
+    qTEST_NA(a_model);
+    qTEST(!a_term.isEmpty())
 
-//    bool      bRv {};
-//    QSqlQuery qryQuery( a_model.database() );
+    bool      bRv {};
+    QSqlQuery qryQuery( a_model.database() );
 
-//    cQString sql =
-//        "SELECT count(1) "
-//        "FROM  " + a_model.tableName() + " "
-//        "WHERE " DB_F_MAIN_TERM " LIKE :term";
+    cQString sql =
+        "SELECT count(1) "
+        "FROM  " + a_model.tableName() + " "
+        "WHERE " DB_F_MAIN_TERM " LIKE :term";
 
-//    qryQuery.prepare(sql);
-//    qryQuery.bindValue(":term", a_term.trimmed());
+    qryQuery.prepare(sql);
+    qryQuery.bindValue(":term", a_term.trimmed());
 
-//    bRv = qryQuery.exec();
-//    qCHECK_REF(bRv, qryQuery);
+    bRv = qryQuery.exec();
+    qCHECK_REF(bRv, qryQuery);
 
-//    bRv = qryQuery.next();
-//    qCHECK_REF(bRv, qryQuery);
+    bRv = qryQuery.next();
+    qCHECK_REF(bRv, qryQuery);
 
-//    bRv = qryQuery.value(0).toBool();
+    bRv = qryQuery.value(0).toBool();
 
-//    return bRv;
-//}
+    return bRv;
+}
 //-------------------------------------------------------------------------------------------------
 /*virtual*/
 Main::~Main()
