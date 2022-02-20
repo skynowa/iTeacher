@@ -21,8 +21,6 @@
 
 #include "ui_Main.h"
 //-------------------------------------------------------------------------------------------------
-#define GLOBAL_SHORTCUTS_ALL 1
-//-------------------------------------------------------------------------------------------------
 class WordEditor;
 
 class Main :
@@ -43,9 +41,9 @@ public Q_SLOTS:
     void receiveFromOtherApplication(cQStringList &message);
 
 protected:
-    bool eventFilter(QObject *object, QEvent *event) override;
-    void keyPressEvent(QKeyEvent *event) override;
-    void closeEvent(QCloseEvent *event) override;
+    bool eventFilter(QObject *object, QEvent *event) final;
+    void keyPressEvent(QKeyEvent *event) final;
+    void closeEvent(QCloseEvent *event) final;
 
 private:
     enum class ImportExportOrder

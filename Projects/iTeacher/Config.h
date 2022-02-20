@@ -8,7 +8,8 @@
 
 //-------------------------------------------------------------------------------------------------
 // Options
-#define OPTION_QTMULTIMEDIA 0 // TODO: QSound
+#define OPTION_QTMULTIMEDIA  0 // TODO: QSound
+#define GLOBAL_SHORTCUTS_ALL 1
 //-------------------------------------------------------------------------------------------------
 #include <Qt>
 #include <QVariant>
