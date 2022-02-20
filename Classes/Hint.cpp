@@ -20,7 +20,7 @@
 Hint::Hint(
     QObject         *a_parent,
     const Type       a_type,
-    const qtlib::SqlRelationalTableModelEx &a_model
+    cQSqlTableModel &a_model
 ) :
     QObject{a_parent},
     _type  {a_type},
@@ -32,7 +32,7 @@ Hint::Hint(
 Hint
 Hint::trayIcon(
     QObject         *a_parent,
-    const qtlib::SqlRelationalTableModelEx &a_model
+    cQSqlTableModel &a_model
 )
 {
     return Hint(a_parent, Type::TrayIcon, a_model);
@@ -41,7 +41,7 @@ Hint::trayIcon(
 /* static */
 Hint
 Hint::messageBox(
-    const qtlib::SqlRelationalTableModelEx &a_model
+    cQSqlTableModel &a_model
 )
 {
     return Hint(nullptr, Type::MessageBox, a_model);
@@ -50,7 +50,7 @@ Hint::messageBox(
 /* static */
 Hint
 Hint::toolTip(
-    const qtlib::SqlRelationalTableModelEx &a_model
+    cQSqlTableModel &a_model
 )
 {
     return Hint(nullptr, Type::ToolTip, a_model);
