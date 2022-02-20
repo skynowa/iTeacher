@@ -15,16 +15,20 @@ class ColorItemDelegate :
     public QStyledItemDelegate
 {
 public:
+///@name ctors, dtor
+///@{
     ColorItemDelegate(QObject *parent, const Qt::GlobalColor highlightColor,
                         const Qt::GlobalColor highlightedTextColor,
                         const Qt::GlobalColor backgroundColor);
-    virtual  ~ColorItemDelegate() = default;
+    virtual ~ColorItemDelegate() = default;
+
+    Q_DISABLE_COPY(ColorItemDelegate);
+///@}
 
     void initStyleOption(QStyleOptionViewItem *option, const QModelIndex &index) const final;
 
 private:
     Q_OBJECT
-    Q_DISABLE_COPY(ColorItemDelegate)
 
     const Qt::GlobalColor _highlightColor {};
     const Qt::GlobalColor _highlightedTextColor {};
@@ -35,11 +39,13 @@ class BlackWhiteItemDelegate :
     public ColorItemDelegate
 {
 public:
+///@name ctors, dtor
+///@{
     explicit  BlackWhiteItemDelegate(QObject *parent);
     virtual  ~BlackWhiteItemDelegate() = default;
+///@}
 
 private:
     Q_OBJECT
-    Q_DISABLE_COPY(BlackWhiteItemDelegate)
 };
 //-------------------------------------------------------------------------------------------------

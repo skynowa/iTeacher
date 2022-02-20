@@ -22,9 +22,14 @@ class SqliteDb :
     public QObject
 {
 public:
+///@name ctors, dtor
+///@{
     SqliteDb(QObject *parent, cQString &dbPath);
     SqliteDb(QObject *parent, cQString &dbPath, QTableView *view);
     ~SqliteDb() final;
+
+    Q_DISABLE_COPY(SqliteDb);
+///@}
 
     QSqlDatabase                     *db();
     qtlib::SqlRelationalTableModelEx *model();

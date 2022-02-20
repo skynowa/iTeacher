@@ -14,12 +14,11 @@
 CenteredCheckBox::CenteredCheckBox(
     QWidget *a_parent
 ) :
-    QWidget{a_parent}
+    QWidget  {a_parent},
+    _checkBox{new QCheckBox()}
 {
     setContentsMargins(0, 0, 0, 0);
     setAutoFillBackground(true);
-
-    _checkBox = new QCheckBox();
 
     QHBoxLayout *layout = new QHBoxLayout();
     layout->addWidget(_checkBox);

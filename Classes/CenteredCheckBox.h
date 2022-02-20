@@ -13,15 +13,19 @@ class QCheckBox;
 class CenteredCheckBox :
     public QWidget
 {
-    Q_OBJECT
-    Q_DISABLE_COPY(CenteredCheckBox)
-
 public:
-    explicit   CenteredCheckBox(QWidget *parent);
+///@name ctors, dtor
+///@{
+    explicit CenteredCheckBox(QWidget *parent);
+
+    Q_DISABLE_COPY(CenteredCheckBox);
+///@}
 
     QCheckBox *checkBox() const;
 
 private:
+    Q_OBJECT
+
     QCheckBox *_checkBox {};
 };
 //-------------------------------------------------------------------------------------------------
