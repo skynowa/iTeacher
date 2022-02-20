@@ -121,13 +121,16 @@ Hint::show() const
     // text (is term exists) - format
     QString isTermExists;
     {
-        /// bRv = Main::isTerminExists(_model, term);
-
+        // TODO: review
+    #if 1
+        bRv = Main::isTerminExists(_model, term);
+    #else
         cQString dictPath = qS2QS(xl::package::Application::dbDirPath()) + QDir::separator() +
             "Words.db";
 
         SqliteDb db(nullptr, dictPath);
         bRv = db.isTerminExists(term);
+    #endif
 
         isTermExists = (bRv) ? QString(tr("Exists")) : QString(tr("New"));
     }
