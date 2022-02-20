@@ -14,7 +14,7 @@
    <string>Word finder</string>
   </property>
   <property name="windowIcon">
-   <iconset resource="../Resources/App.qrc">
+   <iconset resource="../../../Resources/App.qrc">
     <normaloff>:/Menu/Menu/Search.png</normaloff>:/Menu/Menu/Search.png</iconset>
   </property>
   <layout class="QGridLayout" name="gridLayout_3">
@@ -109,7 +109,7 @@
   </layout>
  </widget>
  <resources>
-  <include location="../Resources/App.qrc"/>
+  <include location="../../../Resources/App.qrc"/>
  </resources>
  <connections/>
 </ui>

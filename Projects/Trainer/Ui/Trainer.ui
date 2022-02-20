@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowIcon">
-   <iconset resource="../Resources/App.qrc">
+   <iconset resource="../../../Resources/App.qrc">
     <normaloff>:/App.png</normaloff>:/App.png</iconset>
   </property>
   <widget class="QWidget" name="centralWidget">
@@ -26,6 +26,9 @@
           <weight>75</weight>
           <bold>true</bold>
          </font>
+        </property>
+        <property name="frameShape">
+         <enum>QFrame::Box</enum>
         </property>
         <property name="text">
          <string>lblTerm</string>
@@ -46,6 +49,9 @@
         </property>
         <property name="styleSheet">
          <string notr="true">font-weight: bold;  color: red;</string>
+        </property>
+        <property name="frameShape">
+         <enum>QFrame::Box</enum>
         </property>
         <property name="text">
          <string>lblValue</string>
@@ -125,7 +131,7 @@
   </action>
   <action name="actMain_Exit">
    <property name="icon">
-    <iconset resource="../Resources/App.qrc">
+    <iconset resource="../../../Resources/App.qrc">
      <normaloff>:/Menu/Menu/Exit.png</normaloff>:/Menu/Menu/Exit.png</iconset>
    </property>
    <property name="text">
@@ -160,7 +166,7 @@
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <resources>
-  <include location="../Resources/App.qrc"/>
+  <include location="../../../Resources/App.qrc"/>
  </resources>
  <connections/>
 </ui>

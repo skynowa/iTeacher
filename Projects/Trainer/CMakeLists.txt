@@ -49,9 +49,14 @@ set(ROOT_DIR "/home/skynowa/Projects/iTeacher")
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_ROOT}/Modules/CMakeLib")
 message("CMAKE_MODULE_PATH: ${CMAKE_MODULE_PATH}")
 
-find_package(xLib REQUIRED)
+find_package(xLib    REQUIRED)
 find_package(LibXml2 REQUIRED)
-find_package(Qt5 REQUIRED)
+find_package(Qt5     REQUIRED)
+
+# Qt
+set(CMAKE_AUTOMOC ON)
+set(CMAKE_AUTORCC ON)
+set(CMAKE_AUTOUIC ON)
 
 include_directories(
     ${LIBXML2_INCLUDE_DIR}
@@ -63,14 +68,6 @@ include_directories(
     ${ROOT_DIR}/QtLib/Db
     ${ROOT_DIR}/Classes
     ${ROOT_DIR}/Ui)
-
-qt5_wrap_ui(MOC_UI
-    Ui/Trainer.ui)
-
-qt5_wrap_cpp(MOC_CPP)
-
-qt5_add_resources(RESOURCES
-    ${ROOT_DIR}/Resources/App.qrc)
 
 # Add -fPIE
 set(CMAKE_CXX_FLAGS "${Qt5Widgets_EXECUTABLE_COMPILE_FLAGS}")
@@ -100,15 +97,15 @@ add_executable(${PROJECT_NAME}
     # Ui
     Ui/Trainer.cpp
 
-    # MOCs
-    ${MOC_UI}
-    ${MOC_CPP}
-    ${RESOURCES}
+    # Resources
+    ${ROOT_DIR}/Resources/App.qrc
 
     # Doc
     Readme.md
     TODO.md)
 
 # TODO: ${XLIB_LIBRARIES}
-target_link_libraries(${PROJECT_NAME} ${cmXLIB_LIBRARIES} -lX11)
+target_link_libraries(${PROJECT_NAME}
+    ${cmXLIB_LIBRARIES}
+    -lX11)
 #--------------------------------------------------------------------------------------------------

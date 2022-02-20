@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowIcon">
-   <iconset resource="../Resources/App.qrc">
+   <iconset resource="../../../Resources/App.qrc">
     <normaloff>:/App.png</normaloff>:/App.png</iconset>
   </property>
   <widget class="QWidget" name="centralWidget">
@@ -194,7 +194,7 @@
   </widget>
   <action name="actFile_CreateDb">
    <property name="icon">
-    <iconset resource="../Resources/App.qrc">
+    <iconset resource="../../../Resources/App.qrc">
      <normaloff>:/Menu/Menu/createDb.png</normaloff>:/Menu/Menu/createDb.png</iconset>
    </property>
    <property name="text">
@@ -206,7 +206,7 @@
   </action>
   <action name="actFile_ImportCsv">
    <property name="icon">
-    <iconset resource="../Resources/App.qrc">
+    <iconset resource="../../../Resources/App.qrc">
      <normaloff>:/Menu/Menu/ImportCsv.png</normaloff>:/Menu/Menu/ImportCsv.png</iconset>
    </property>
    <property name="text">
@@ -218,7 +218,7 @@
   </action>
   <action name="actFile_ExportCsv">
    <property name="icon">
-    <iconset resource="../Resources/App.qrc">
+    <iconset resource="../../../Resources/App.qrc">
      <normaloff>:/Menu/Menu/exportCsv.png</normaloff>:/Menu/Menu/exportCsv.png</iconset>
    </property>
    <property name="text">
@@ -227,7 +227,7 @@
   </action>
   <action name="actFile_ExportPdf">
    <property name="icon">
-    <iconset resource="../Resources/App.qrc">
+    <iconset resource="../../../Resources/App.qrc">
      <normaloff>:/Menu/Menu/exportPdf.png</normaloff>:/Menu/Menu/exportPdf.png</iconset>
    </property>
    <property name="text">
@@ -236,7 +236,7 @@
   </action>
   <action name="actFile_Exit">
    <property name="icon">
-    <iconset resource="../Resources/App.qrc">
+    <iconset resource="../../../Resources/App.qrc">
      <normaloff>:/Menu/Menu/Exit.png</normaloff>:/Menu/Menu/Exit.png</iconset>
    </property>
    <property name="text">
@@ -248,7 +248,7 @@
   </action>
   <action name="actEdit_First">
    <property name="icon">
-    <iconset resource="../Resources/App.qrc">
+    <iconset resource="../../../Resources/App.qrc">
      <normaloff>:/Menu/Menu/First.png</normaloff>:/Menu/Menu/First.png</iconset>
    </property>
    <property name="text">
@@ -260,7 +260,7 @@
   </action>
   <action name="actEdit_Next">
    <property name="icon">
-    <iconset resource="../Resources/App.qrc">
+    <iconset resource="../../../Resources/App.qrc">
      <normaloff>:/Menu/Menu/Next.png</normaloff>:/Menu/Menu/Next.png</iconset>
    </property>
    <property name="text">
@@ -269,7 +269,7 @@
   </action>
   <action name="actEdit_Last">
    <property name="icon">
-    <iconset resource="../Resources/App.qrc">
+    <iconset resource="../../../Resources/App.qrc">
      <normaloff>:/Menu/Menu/Last.png</normaloff>:/Menu/Menu/Last.png</iconset>
    </property>
    <property name="text">
@@ -281,7 +281,7 @@
   </action>
   <action name="actEdit_Insert">
    <property name="icon">
-    <iconset resource="../Resources/App.qrc">
+    <iconset resource="../../../Resources/App.qrc">
      <normaloff>:/Menu/Menu/Insert.png</normaloff>:/Menu/Menu/Insert.png</iconset>
    </property>
    <property name="text">
@@ -293,7 +293,7 @@
   </action>
   <action name="actEdit_Delete">
    <property name="icon">
-    <iconset resource="../Resources/App.qrc">
+    <iconset resource="../../../Resources/App.qrc">
      <normaloff>:/Menu/Menu/Delete.png</normaloff>:/Menu/Menu/Delete.png</iconset>
    </property>
    <property name="text">
@@ -305,7 +305,7 @@
   </action>
   <action name="actEdit_Prior">
    <property name="icon">
-    <iconset resource="../Resources/App.qrc">
+    <iconset resource="../../../Resources/App.qrc">
      <normaloff>:/Menu/Menu/Prior.png</normaloff>:/Menu/Menu/Prior.png</iconset>
    </property>
    <property name="text">
@@ -314,7 +314,7 @@
   </action>
   <action name="actEdit_Edit">
    <property name="icon">
-    <iconset resource="../Resources/App.qrc">
+    <iconset resource="../../../Resources/App.qrc">
      <normaloff>:/Menu/Menu/Edit.png</normaloff>:/Menu/Menu/Edit.png</iconset>
    </property>
    <property name="text">
@@ -326,7 +326,7 @@
   </action>
   <action name="actFind_Search">
    <property name="icon">
-    <iconset resource="../Resources/App.qrc">
+    <iconset resource="../../../Resources/App.qrc">
      <normaloff>:/Menu/Menu/Search.png</normaloff>:/Menu/Menu/Search.png</iconset>
    </property>
    <property name="text">
@@ -338,7 +338,7 @@
   </action>
   <action name="actView_ZoomIn">
    <property name="icon">
-    <iconset resource="../Resources/App.qrc">
+    <iconset resource="../../../Resources/App.qrc">
      <normaloff>:/Menu/Menu/ZoomIn.png</normaloff>:/Menu/Menu/ZoomIn.png</iconset>
    </property>
    <property name="text">
@@ -350,7 +350,7 @@
   </action>
   <action name="actView_ZoomOut">
    <property name="icon">
-    <iconset resource="../Resources/App.qrc">
+    <iconset resource="../../../Resources/App.qrc">
      <normaloff>:/Menu/Menu/ZoomOut.png</normaloff>:/Menu/Menu/ZoomOut.png</iconset>
    </property>
    <property name="text">
@@ -362,7 +362,7 @@
   </action>
   <action name="actView_ZoomDefault">
    <property name="icon">
-    <iconset resource="../Resources/App.qrc">
+    <iconset resource="../../../Resources/App.qrc">
      <normaloff>:/Menu/Menu/ZoomDefault.png</normaloff>:/Menu/Menu/ZoomDefault.png</iconset>
    </property>
    <property name="text">
@@ -374,7 +374,7 @@
   </action>
   <action name="actOptions_Settings">
    <property name="icon">
-    <iconset resource="../Resources/App.qrc">
+    <iconset resource="../../../Resources/App.qrc">
      <normaloff>:/Menu/Menu/Options.png</normaloff>:/Menu/Menu/Options.png</iconset>
    </property>
    <property name="text">
@@ -386,7 +386,7 @@
   </action>
   <action name="actHelp_Faq">
    <property name="icon">
-    <iconset resource="../Resources/App.qrc">
+    <iconset resource="../../../Resources/App.qrc">
      <normaloff>:/Menu/Menu/Faq.png</normaloff>:/Menu/Menu/Faq.png</iconset>
    </property>
    <property name="text">
@@ -398,7 +398,7 @@
   </action>
   <action name="actHelp_About">
    <property name="icon">
-    <iconset resource="../Resources/App.qrc">
+    <iconset resource="../../../Resources/App.qrc">
      <normaloff>:/Menu/Menu/About.png</normaloff>:/Menu/Menu/About.png</iconset>
    </property>
    <property name="text">
@@ -407,7 +407,7 @@
   </action>
   <action name="actEdit_To">
    <property name="icon">
-    <iconset resource="../Resources/App.qrc">
+    <iconset resource="../../../Resources/App.qrc">
      <normaloff>:/Menu/Menu/GoTo.png</normaloff>:/Menu/Menu/GoTo.png</iconset>
    </property>
    <property name="text">
@@ -419,7 +419,7 @@
   </action>
   <action name="actFile_ImportClipboard">
    <property name="icon">
-    <iconset resource="../Resources/App.qrc">
+    <iconset resource="../../../Resources/App.qrc">
      <normaloff>:/Menu/Menu/ImportClipboard.png</normaloff>:/Menu/Menu/ImportClipboard.png</iconset>
    </property>
    <property name="text">
@@ -431,7 +431,7 @@
   </action>
   <action name="actEdit_PlayTerm">
    <property name="icon">
-    <iconset resource="../Resources/App.qrc">
+    <iconset resource="../../../Resources/App.qrc">
      <normaloff>:/Menu/Menu/PlaySound.png</normaloff>:/Menu/Menu/PlaySound.png</iconset>
    </property>
    <property name="text">
@@ -443,7 +443,7 @@
   </action>
   <action name="actEdit_PlayValue">
    <property name="icon">
-    <iconset resource="../Resources/App.qrc">
+    <iconset resource="../../../Resources/App.qrc">
      <normaloff>:/Menu/Menu/PlaySound.png</normaloff>:/Menu/Menu/PlaySound.png</iconset>
    </property>
    <property name="text">
@@ -455,7 +455,7 @@
   </action>
   <action name="actEdit_PlayTermValue">
    <property name="icon">
-    <iconset resource="../Resources/App.qrc">
+    <iconset resource="../../../Resources/App.qrc">
      <normaloff>:/Menu/Menu/PlaySound.png</normaloff>:/Menu/Menu/PlaySound.png</iconset>
    </property>
    <property name="text">
@@ -470,7 +470,7 @@
   </action>
   <action name="actEdit_Learned">
    <property name="icon">
-    <iconset resource="../Resources/App.qrc">
+    <iconset resource="../../../Resources/App.qrc">
      <normaloff>:/Menu/Menu/Learned.png</normaloff>:/Menu/Menu/Learned.png</iconset>
    </property>
    <property name="text">
@@ -482,7 +482,7 @@
   </action>
   <action name="actEdit_Marked">
    <property name="icon">
-    <iconset resource="../Resources/App.qrc">
+    <iconset resource="../../../Resources/App.qrc">
      <normaloff>:/Menu/Menu/Marked.png</normaloff>:/Menu/Menu/Marked.png</iconset>
    </property>
    <property name="text">
@@ -497,7 +497,7 @@
   </action>
   <action name="actView_ShowHide">
    <property name="icon">
-    <iconset resource="../Resources/App.qrc">
+    <iconset resource="../../../Resources/App.qrc">
      <normaloff>:/Menu/Menu/ShowHide.png</normaloff>:/Menu/Menu/ShowHide.png</iconset>
    </property>
    <property name="text">
@@ -512,7 +512,7 @@
   </action>
   <action name="actOptions_TagsEditor">
    <property name="icon">
-    <iconset resource="../Resources/App.qrc">
+    <iconset resource="../../../Resources/App.qrc">
      <normaloff>:/Menu/Menu/TagsEditor.png</normaloff>:/Menu/Menu/TagsEditor.png</iconset>
    </property>
    <property name="text">
@@ -527,7 +527,7 @@
   </action>
   <action name="actFile_ExportClipboard">
    <property name="icon">
-    <iconset resource="../Resources/App.qrc">
+    <iconset resource="../../../Resources/App.qrc">
      <normaloff>:/Menu/Menu/ExportClipboard.png</normaloff>:/Menu/Menu/ExportClipboard.png</iconset>
    </property>
    <property name="text">
@@ -555,7 +555,7 @@
   </action>
   <action name="actFile_ImportCsvClipboard">
    <property name="icon">
-    <iconset resource="../Resources/App.qrc">
+    <iconset resource="../../../Resources/App.qrc">
      <normaloff>:/Menu/Menu/ImportClipboard.png</normaloff>:/Menu/Menu/ImportClipboard.png</iconset>
    </property>
    <property name="text">
@@ -573,8 +573,7 @@
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <resources>
-  <include location="../Resources/App.qrc"/>
-  <include location="../Resources/App.qrc"/>
+  <include location="../../../Resources/App.qrc"/>
  </resources>
  <connections/>
 </ui>

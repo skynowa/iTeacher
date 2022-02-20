@@ -224,7 +224,7 @@ SqliteDb::_dbOpen()
     bool bRv {};
 
     cQString &tableName = QFileInfo(_dbPath).baseName();
-    qDebug() << qTRACE_VAR(tableName);
+    // qDebug() << qTRACE_VAR(tableName);
 
     // _db
     {
