@@ -1,5 +1,5 @@
 /**
- * \file  Main.cpp
+ * \file  main.cpp
  * \brief iTeacher application
  */
 
