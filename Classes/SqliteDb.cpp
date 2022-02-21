@@ -64,6 +64,7 @@ SqliteDb::SqliteDb(
 SqliteDb::~SqliteDb()
 {
     if ( _dbPath.isEmpty() ) {
+        // Don't delete DB / model
         _model.release();
         _db.release();
         return;
