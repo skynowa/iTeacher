@@ -426,7 +426,7 @@ WordEditor::translate()
     QString  textToDetail;
     QString  textToRaw;
 
-    // lowercase_model
+    // lowercase
     if (ui.chkLowerCase->isChecked()) {
         textFrom = textFrom.toLower();
     }

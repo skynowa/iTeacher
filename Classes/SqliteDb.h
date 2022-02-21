@@ -27,6 +27,8 @@ public:
     SqliteDb(QObject *parent, cQString &dbPath);
     SqliteDb(QObject *parent, cQString &dbPath, QTableView *view);
     SqliteDb(QObject *parent, const QSqlDatabase *db, const qtlib::SqlRelationalTableModelEx &model);
+        ///< Used already opened DB
+        ///< \info reopen() - no affect
     ~SqliteDb() final;
 
     Q_DISABLE_COPY(SqliteDb);
