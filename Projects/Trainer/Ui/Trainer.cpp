@@ -91,8 +91,8 @@ Trainer::_initMain()
         cQString dbName   = "Words.db";
         cQString dictPath = qS2QS(xl::package::Application::dbDirPath()) + QDir::separator() + dbName;
 
-        _db.reset(new SqliteDb(this, dictPath));
-        _db->reopen();
+        _sqliteDb.reset(new SqliteDb(this, dictPath));
+        _sqliteDb->reopen();
     }
 
     randomRow();
@@ -176,7 +176,7 @@ Trainer::_settingsSave()
 void
 Trainer::randomRow() const
 {
-    const QSqlRecord record = _db->randomRow();
+    const QSqlRecord record = _sqliteDb->randomRow();
 
     cQString term = QString("%1")
                         .arg(record.value(DB_F_MAIN_TERM).toString());
@@ -216,7 +216,7 @@ Trainer::randomRow() const
     // status
     QString status;
     {
-        const QSqlRecord statusRecord = _db->findByField("ID", tagId);
+        const QSqlRecord statusRecord = _sqliteDb->findByField("ID", tagId);
 
         QString tagName = statusRecord.value(DB_F_TAGS_NAME).toString();
         if ( tagName.isEmpty() ) {

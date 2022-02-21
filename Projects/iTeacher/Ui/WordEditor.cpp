@@ -488,10 +488,10 @@ WordEditor::check()
     {
         cQString &term = ui.tedtTerm->toPlainText();
 
-        auto db_ = _model->database();
+        QSqlDatabase db = _model->database();
 
-        SqliteDb db(nullptr, &db_, static_cast<const qtlib::SqlRelationalTableModelEx &>(*_model));
-        isTermExists = db.isTerminExists(term);
+        SqliteDb sqliteDb(nullptr, &db, static_cast<const qtlib::SqlRelationalTableModelEx &>(*_model));
+        isTermExists = sqliteDb.isTerminExists(term);
     }
 
     if (isTermExists && _insertMode) {

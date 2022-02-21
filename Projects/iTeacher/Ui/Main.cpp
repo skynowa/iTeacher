@@ -351,7 +351,7 @@ Main::_initActions()
         ui.tvInfo->setItemDelegateForColumn(2, new BlackWhiteItemDelegate(ui.tvInfo));
         ui.tvInfo->setItemDelegateForColumn(3, new CheckBoxItemDelegate(ui.tvInfo));
         ui.tvInfo->setItemDelegateForColumn(4, new CheckBoxItemDelegate(ui.tvInfo));
-        // ui.tvInfo->setItemDelegateForColumn(5, new ComboBoxItemDelegate(ui.tvInfo, _db->model()));
+        // ui.tvInfo->setItemDelegateForColumn(5, new ComboBoxItemDelegate(ui.tvInfo, _sqliteDb->model()));
 
         connect(ui.tvInfo, &QTableView::doubleClicked,
                 this,      &Main::edit);
@@ -406,8 +406,8 @@ Main::createDb()
 
     // reopen DB
     {
-        _db.reset(new SqliteDb(this, dictPath, ui.tvInfo));
-        _db->reopen();
+        _sqliteDb.reset(new SqliteDb(this, dictPath, ui.tvInfo));
+        _sqliteDb->reopen();
 
         _cboDictPath_reload();
     }
@@ -423,7 +423,7 @@ Main::createDb()
 void
 Main::quickTranslateClipboard()
 {
-    auto hint = Hint::toolTip( *_db->model() );
+    auto hint = Hint::toolTip( *_sqliteDb->model() );
     hint.show();
 }
 //-------------------------------------------------------------------------------------------------
@@ -447,7 +447,7 @@ Main::importCsv()
 
     // import
     QString infoMsg;
-    _db->model()->importCsv(filePath, fieldNames, CSV_SEPARATOR, true, &infoMsg);
+    _sqliteDb->model()->importCsv(filePath, fieldNames, CSV_SEPARATOR, true, &infoMsg);
 
     // "fire" cboDictPath
     {
@@ -480,7 +480,7 @@ Main::importCsvClipboard()
 
     // import
     QString infoMsg;
-    _db->model()->importCsvClipboard(fieldNames, CSV_SEPARATOR, true, &infoMsg);
+    _sqliteDb->model()->importCsvClipboard(fieldNames, CSV_SEPARATOR, true, &infoMsg);
 
     // "fire" cboDictPath
     {
@@ -523,14 +523,14 @@ Main::importClipboard()
 
     // insert data
     {
-        qCHECK_DO(!_db->navigator().isValid(), return);
+        qCHECK_DO(!_sqliteDb->navigator().isValid(), return);
 
-        _db->navigator().insert();
+        _sqliteDb->navigator().insert();
 
         cbool     insertMode {true};
         cQString &data       = QApplication::clipboard()->text();
 
-        WordEditor dlgWordEditor(this, _db->model(), &_db->navigator(), insertMode, data);
+        WordEditor dlgWordEditor(this, _sqliteDb->model(), &_sqliteDb->navigator(), insertMode, data);
 
         _dlgWordEditorOpened = &dlgWordEditor;
         auto cleanup = xl::core::ScopeExit(
@@ -545,7 +545,7 @@ Main::importClipboard()
         QDialog::DialogCode code = static_cast<QDialog::DialogCode>( dlgWordEditor.exec() );
         switch (code) {
         case QDialog::Rejected:
-            _db->navigator().remove();
+            _sqliteDb->navigator().remove();
             break;
         default:
             break;
@@ -613,7 +613,7 @@ Main::exportCsv()
         fieldNames.push_back(DB_F_MAIN_TAG);
 
         // import
-        _db->model()->exportCsv(filePath, fieldNames, CSV_SEPARATOR, true);
+        _sqliteDb->model()->exportCsv(filePath, fieldNames, CSV_SEPARATOR, true);
     }
 
     // report
@@ -638,20 +638,20 @@ Main::exportPdf()
 
 
     // file -> DB
-    cint realRowCount = _db->model()->realRowCount();
+    cint realRowCount = _sqliteDb->model()->realRowCount();
 
     for (int i = 0; i < realRowCount; ++ i) {
         switch (_importExportOrder) {
         case ImportExportOrder::TermValue:
-            html.push_back( _db->model()->record(i).value(DB_F_MAIN_TERM).toString() );
+            html.push_back( _sqliteDb->model()->record(i).value(DB_F_MAIN_TERM).toString() );
             html.push_back("\n - ");
-            html.push_back( _db->model()->record(i).value(DB_F_MAIN_VALUE).toString() );
+            html.push_back( _sqliteDb->model()->record(i).value(DB_F_MAIN_VALUE).toString() );
             html.push_back("<br>");
             break;
         case ImportExportOrder::ValueTerm:
-            html.push_back( _db->model()->record(i).value(DB_F_MAIN_VALUE).toString() );
+            html.push_back( _sqliteDb->model()->record(i).value(DB_F_MAIN_VALUE).toString() );
             html.push_back("\n - ");
-            html.push_back( _db->model()->record(i).value(DB_F_MAIN_TERM).toString() );
+            html.push_back( _sqliteDb->model()->record(i).value(DB_F_MAIN_TERM).toString() );
             html.push_back("<br>");
             break;
         }
@@ -681,19 +681,19 @@ void
 Main::exportClipboard()
 {
     QString         sRv;
-    QModelIndexList indexes = _db->view()->selectionModel()->selectedRows();
+    QModelIndexList indexes = _sqliteDb->view()->selectionModel()->selectedRows();
 
     for (QModelIndex &index : indexes) {
-        _db->view()->setFocus();
+        _sqliteDb->view()->setFocus();
 
         cint targetRow = index.row();
 
-        sRv += _db->model()->record(targetRow).value(DB_F_MAIN_ID).toString() + CSV_SEPARATOR;
-        sRv += _db->model()->record(targetRow).value(DB_F_MAIN_TERM).toString() + CSV_SEPARATOR;
-        sRv += _db->model()->record(targetRow).value(DB_F_MAIN_VALUE).toString() + CSV_SEPARATOR;
-        sRv += _db->model()->record(targetRow).value(DB_F_MAIN_IS_LEARNED).toString() + CSV_SEPARATOR;
-        sRv += _db->model()->record(targetRow).value(DB_F_MAIN_IS_MARKED).toString() + CSV_SEPARATOR;
-        sRv += _db->model()->record(targetRow).value(DB_F_MAIN_TAG).toString();
+        sRv += _sqliteDb->model()->record(targetRow).value(DB_F_MAIN_ID).toString() + CSV_SEPARATOR;
+        sRv += _sqliteDb->model()->record(targetRow).value(DB_F_MAIN_TERM).toString() + CSV_SEPARATOR;
+        sRv += _sqliteDb->model()->record(targetRow).value(DB_F_MAIN_VALUE).toString() + CSV_SEPARATOR;
+        sRv += _sqliteDb->model()->record(targetRow).value(DB_F_MAIN_IS_LEARNED).toString() + CSV_SEPARATOR;
+        sRv += _sqliteDb->model()->record(targetRow).value(DB_F_MAIN_IS_MARKED).toString() + CSV_SEPARATOR;
+        sRv += _sqliteDb->model()->record(targetRow).value(DB_F_MAIN_TAG).toString();
         sRv += "\n";
     }
 
@@ -765,51 +765,51 @@ Main::exit()
 void
 Main::first()
 {
-    _db->navigator().first();
+    _sqliteDb->navigator().first();
 }
 //-------------------------------------------------------------------------------------------------
 void
 Main::prior()
 {
-    _db->navigator().prior();
+    _sqliteDb->navigator().prior();
 }
 //-------------------------------------------------------------------------------------------------
 void
 Main::next()
 {
-    _db->navigator().next();
+    _sqliteDb->navigator().next();
 }
 //-------------------------------------------------------------------------------------------------
 void
 Main::last()
 {
-    _db->navigator().last();
+    _sqliteDb->navigator().last();
 }
 //-------------------------------------------------------------------------------------------------
 void
 Main::to()
 {
-    qCHECK_DO(_db->view()->currentIndex().row() < 0, return);
+    qCHECK_DO(_sqliteDb->view()->currentIndex().row() < 0, return);
 
-    cint currentRow = _db->view()->currentIndex().row() + 1;
+    cint currentRow = _sqliteDb->view()->currentIndex().row() + 1;
     cint minValue   = 1;
-    cint maxValue   = _db->model()->realRowCount();
+    cint maxValue   = _sqliteDb->model()->realRowCount();
 
     cint targetRow  = QInputDialog::getInt(this, qS2QS(xl::package::Application::info().name),
         tr("Go to row:"), currentRow, minValue, maxValue) - 1;
 
-    _db->navigator().goTo(targetRow);
+    _sqliteDb->navigator().goTo(targetRow);
 }
 //-------------------------------------------------------------------------------------------------
 void
 Main::insert()
 {
-    qCHECK_DO(_tagsIsEmpty(),              return);
-    qCHECK_DO(!_db->navigator().isValid(), return);
+    qCHECK_DO(_tagsIsEmpty(),                    return);
+    qCHECK_DO(!_sqliteDb->navigator().isValid(), return);
 
-    _db->navigator().insert();
+    _sqliteDb->navigator().insert();
 
-    WordEditor dlgWordEditor(this, _db->model(), &_db->navigator(), true);
+    WordEditor dlgWordEditor(this, _sqliteDb->model(), &_sqliteDb->navigator(), true);
 
     bool bRv = dlgWordEditor.isConstructed();
     qCHECK_DO(!bRv, return);
@@ -817,7 +817,7 @@ Main::insert()
     QDialog::DialogCode code = static_cast<QDialog::DialogCode>( dlgWordEditor.exec() );
     switch (code) {
     case QDialog::Rejected:
-        _db->navigator().remove();
+        _sqliteDb->navigator().remove();
         break;
     default:
         break;
@@ -827,13 +827,13 @@ Main::insert()
 void
 Main::remove()
 {
-    qCHECK_DO(_db->view()->currentIndex().row() < 0, return);
+    qCHECK_DO(_sqliteDb->view()->currentIndex().row() < 0, return);
 
     QString text;
     QString informativeText;
     {
-        cint       currentRow = _db->view()->currentIndex().row();
-        QSqlRecord record     = _db->model()->record(currentRow);
+        cint       currentRow = _sqliteDb->view()->currentIndex().row();
+        QSqlRecord record     = _sqliteDb->model()->record(currentRow);
 
         cQString   wordTerm   = record.value(DB_F_MAIN_TERM).toString();
         cQString   wordValue  = record.value(DB_F_MAIN_VALUE).toString();
@@ -856,7 +856,7 @@ Main::remove()
     int iRv = msgBox.exec();
     switch (iRv) {
     case QMessageBox::Yes:
-        _db->navigator().remove();
+        _sqliteDb->navigator().remove();
         break;
     case QMessageBox::Cancel:
         break;
@@ -866,10 +866,10 @@ Main::remove()
 void
 Main::edit()
 {
-    qCHECK_DO(_db->view()->currentIndex().row() < 0, return);
+    qCHECK_DO(_sqliteDb->view()->currentIndex().row() < 0, return);
 
     // show edit dialog
-    WordEditor dlgWordEditor(this, _db->model(), &_db->navigator(), false);
+    WordEditor dlgWordEditor(this, _sqliteDb->model(), &_sqliteDb->navigator(), false);
 
     bool bRv = dlgWordEditor.isConstructed();
     qCHECK_DO(!bRv, return);
@@ -880,43 +880,43 @@ Main::edit()
 void
 Main::learned()
 {
-    qCHECK_DO(_db->view()->currentIndex().row() < 0, return);
+    qCHECK_DO(_sqliteDb->view()->currentIndex().row() < 0, return);
 
     bool bRv = false;
 
-    cint currentRow = _db->view()->currentIndex().row();
+    cint currentRow = _sqliteDb->view()->currentIndex().row();
 
-    QSqlRecord record = _db->model()->record(currentRow);
+    QSqlRecord record = _sqliteDb->model()->record(currentRow);
     record.setValue(DB_F_MAIN_IS_LEARNED, !record.value(DB_F_MAIN_IS_LEARNED).toBool() );
 
-    bRv = _db->model()->setRecord(currentRow, record);
-    qCHECK_PTR(bRv, _db->model());
+    bRv = _sqliteDb->model()->setRecord(currentRow, record);
+    qCHECK_PTR(bRv, _sqliteDb->model());
 
-    bRv = _db->model()->submitAll();
+    bRv = _sqliteDb->model()->submitAll();
     qTEST(bRv);
 
-    _db->navigator().goTo(currentRow);
+    _sqliteDb->navigator().goTo(currentRow);
 }
 //-------------------------------------------------------------------------------------------------
 void
 Main::marked()
 {
-    qCHECK_DO(_db->view()->currentIndex().row() < 0, return);
+    qCHECK_DO(_sqliteDb->view()->currentIndex().row() < 0, return);
 
     bool bRv {};
 
-    cint currentRow = _db->view()->currentIndex().row();
+    cint currentRow = _sqliteDb->view()->currentIndex().row();
 
-    QSqlRecord record = _db->model()->record(currentRow);
+    QSqlRecord record = _sqliteDb->model()->record(currentRow);
     record.setValue(DB_F_MAIN_IS_MARKED,  !record.value(DB_F_MAIN_IS_MARKED).toBool() );
 
-    bRv = _db->model()->setRecord(currentRow, record);
-    qCHECK_PTR(bRv, _db->model());
+    bRv = _sqliteDb->model()->setRecord(currentRow, record);
+    qCHECK_PTR(bRv, _sqliteDb->model());
 
-    bRv = _db->model()->submitAll();
+    bRv = _sqliteDb->model()->submitAll();
     qTEST(bRv);
 
-    _db->navigator().goTo(currentRow);
+    _sqliteDb->navigator().goTo(currentRow);
 }
 //-------------------------------------------------------------------------------------------------
 
@@ -930,12 +930,12 @@ Main::marked()
 void
 Main::playTerm()
 {
-    qCHECK_DO(_db->view()->currentIndex().row() < 0, return);
+    qCHECK_DO(_sqliteDb->view()->currentIndex().row() < 0, return);
 
     QString text;
     {
         cint       currentRow = ui.tvInfo->currentIndex().row();
-        QSqlRecord record     = _db->model()->record(currentRow);
+        QSqlRecord record     = _sqliteDb->model()->record(currentRow);
 
         text = record.value(DB_F_MAIN_TERM).toString();
     }
@@ -969,12 +969,12 @@ Main::playTerm()
 void
 Main::playValue()
 {
-    qCHECK_DO(_db->view()->currentIndex().row() < 0, return);
+    qCHECK_DO(_sqliteDb->view()->currentIndex().row() < 0, return);
 
     QString text;
     {
         cint       currentRow = ui.tvInfo->currentIndex().row();
-        QSqlRecord record     = _db->model()->record(currentRow);
+        QSqlRecord record     = _sqliteDb->model()->record(currentRow);
 
         text = record.value(DB_F_MAIN_VALUE).toString();
     }
@@ -1016,9 +1016,9 @@ Main::playTermValue()
 void
 Main::search()
 {
-    qCHECK_DO(!_db->navigator().isValid(), return);
+    qCHECK_DO(!_sqliteDb->navigator().isValid(), return);
 
-    WordFinder dlgWordFinder(this, _db->model());
+    WordFinder dlgWordFinder(this, _sqliteDb->model());
     dlgWordFinder.exec();
 }
 //-------------------------------------------------------------------------------------------------
@@ -1112,14 +1112,14 @@ Main::zoomDefault()
 void
 Main::tagsEditor()
 {
-    TagsEditor dlgTagsEditor(this, *_db->db());
+    TagsEditor dlgTagsEditor(this, *_sqliteDb->db());
     (int)dlgTagsEditor.exec();
 
     // refresh table
     {
-        cint currentRow = _db->view()->currentIndex().row();
-        _db->model()->select();
-        _db->navigator().goTo(currentRow);
+        cint currentRow = _sqliteDb->view()->currentIndex().row();
+        _sqliteDb->model()->select();
+        _sqliteDb->navigator().goTo(currentRow);
     }
 }
 //-------------------------------------------------------------------------------------------------
@@ -1223,15 +1223,15 @@ Main::cboDictPath_OnCurrentIndexChanged(
     {
         cQString dictPath = qS2QS(xl::package::Application::dbDirPath()) + QDir::separator() + a_arg;
 
-        _db.reset(new SqliteDb(this, dictPath, ui.tvInfo));
-        _db->reopen();
+        _sqliteDb.reset(new SqliteDb(this, dictPath, ui.tvInfo));
+        _sqliteDb->reopen();
     }
 
     // words info
     {
-        cint wordsAll        = _db->wordsAll();
-        cint wordsLearned    = _db->wordsLearned();
-        cint wordsNotLearned = _db->wordsNotLearned();
+        cint wordsAll        = _sqliteDb->wordsAll();
+        cint wordsLearned    = _sqliteDb->wordsLearned();
+        cint wordsNotLearned = _sqliteDb->wordsNotLearned();
 
         cQString dictInfo = QString(
             tr("&nbsp;&nbsp;&nbsp;<b>All</b>: %1 (%2)"
@@ -1386,7 +1386,7 @@ Main::_settingsLoad()
 
         // navigator
         {
-            _db->navigator().goTo(tableCurrentRow);
+            _sqliteDb->navigator().goTo(tableCurrentRow);
         }
 
         // file
@@ -1453,9 +1453,9 @@ Main::_exportfileNameBuild(
     cQString &a_fileExt
 )
 {
-    qCHECK_RET(_db->model()->rowCount() <= 0, QString());
+    qCHECK_RET(_sqliteDb->model()->rowCount() <= 0, QString());
 
-    cQString tag = _db->model()->record(0).value(DB_F_MAIN_TAG).toString().trimmed();
+    cQString tag = _sqliteDb->model()->record(0).value(DB_F_MAIN_TAG).toString().trimmed();
 
     QString baseName;
     {
@@ -1473,7 +1473,7 @@ Main::_exportfileNameBuild(
 bool
 Main::_tagsIsEmpty()
 {
-    qCHECK_RET(!_db->isTagsEmpty(), false);
+    qCHECK_RET(!_sqliteDb->isTagsEmpty(), false);
 
     // report
     QMessageBox msgBox;

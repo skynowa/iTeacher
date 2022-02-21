@@ -66,7 +66,7 @@ private:
     void _cboDictPath_reload();
 
     // SQLite DB
-    std::unique_ptr<SqliteDb> _db;
+    std::unique_ptr<SqliteDb> _sqliteDb;
 
     // settings
     ImportExportOrder _importExportOrder {ImportExportOrder::TermValue};
