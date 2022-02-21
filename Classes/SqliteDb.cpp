@@ -190,23 +190,23 @@ SqliteDb::isTerminExists(
     qTEST(!a_term.isEmpty())
 
     bool      bRv {};
-    QSqlQuery qryQuery( *db() );
+    QSqlQuery query( *db() );
 
     cQString sql =
         "SELECT count(1) "
         "FROM  " + _model->tableName() + " "
         "WHERE " DB_F_MAIN_TERM " = :term";
 
-    qryQuery.prepare(sql);
-    qryQuery.bindValue(":term", a_term.trimmed());
+    query.prepare(sql);
+    query.bindValue(":term", a_term.trimmed());
 
-    bRv = qryQuery.exec();
-    qCHECK_REF(bRv, qryQuery);
+    bRv = query.exec();
+    qCHECK_REF(bRv, query);
 
-    bRv = qryQuery.next();
-    qCHECK_REF(bRv, qryQuery);
+    bRv = query.next();
+    qCHECK_REF(bRv, query);
 
-    bRv = qryQuery.value(0).toBool();
+    bRv = query.value(0).toBool();
 
     return bRv;
 #endif
