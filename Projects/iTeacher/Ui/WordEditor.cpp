@@ -23,7 +23,6 @@
 //-------------------------------------------------------------------------------------------------
 WordEditor::WordEditor(
     QWidget             *a_parent,
-    const QSqlDatabase  *a_db,
     QSqlTableModel      *a_tableModel,
     qtlib::SqlNavigator *a_sqlNavigator,
     cbool               &a_insertMode,
@@ -31,7 +30,6 @@ WordEditor::WordEditor(
 ) :
     QDialog       (a_parent),
     _isConstructed(false),
-    _db           (a_db),
     _model        (a_tableModel),
     _sqlNavigator (a_sqlNavigator),
     _currentRow   (a_sqlNavigator->view()->currentIndex().row()),
@@ -490,7 +488,9 @@ WordEditor::check()
     {
         cQString &term = ui.tedtTerm->toPlainText();
 
-        SqliteDb db(nullptr, _db, static_cast<const qtlib::SqlRelationalTableModelEx &>(*_model));
+        auto db_ = _model->database();
+
+        SqliteDb db(nullptr, &db_, static_cast<const qtlib::SqlRelationalTableModelEx &>(*_model));
         isTermExists = db.isTerminExists(term);
     }
 

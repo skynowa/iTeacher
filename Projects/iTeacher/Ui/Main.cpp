@@ -530,7 +530,7 @@ Main::importClipboard()
         cbool     insertMode {true};
         cQString &data       = QApplication::clipboard()->text();
 
-        WordEditor dlgWordEditor(this, _db->db(), _db->model(), &_db->navigator(), insertMode, data);
+        WordEditor dlgWordEditor(this, _db->model(), &_db->navigator(), insertMode, data);
 
         _dlgWordEditorOpened = &dlgWordEditor;
         auto cleanup = xl::core::ScopeExit(
@@ -804,12 +804,12 @@ Main::to()
 void
 Main::insert()
 {
-    qCHECK_DO(_tagsIsEmpty(),            return);
+    qCHECK_DO(_tagsIsEmpty(),              return);
     qCHECK_DO(!_db->navigator().isValid(), return);
 
     _db->navigator().insert();
 
-    WordEditor dlgWordEditor(this, _db->db(), _db->model(), &_db->navigator(), true);
+    WordEditor dlgWordEditor(this, _db->model(), &_db->navigator(), true);
 
     bool bRv = dlgWordEditor.isConstructed();
     qCHECK_DO(!bRv, return);
@@ -869,7 +869,7 @@ Main::edit()
     qCHECK_DO(_db->view()->currentIndex().row() < 0, return);
 
     // show edit dialog
-    WordEditor dlgWordEditor(this, _db->db(), _db->model(), &_db->navigator(), false);
+    WordEditor dlgWordEditor(this, _db->model(), &_db->navigator(), false);
 
     bool bRv = dlgWordEditor.isConstructed();
     qCHECK_DO(!bRv, return);
