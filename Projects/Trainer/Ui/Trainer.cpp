@@ -88,8 +88,8 @@ Trainer::_initMain()
 
     // DB
     {
-        cQString dbName   = "Words.db";
-        cQString dictPath = qS2QS(xl::package::Application::dbDirPath()) + QDir::separator() + dbName;
+        cQString dictPath = qS2QS(xl::package::Application::dbDirPath()) + QDir::separator() +
+            DB_WORDS;
 
         _sqliteDb.reset(new SqliteDb(this, dictPath));
         _sqliteDb->reopen();

@@ -42,6 +42,9 @@ const TableViewHeader tableViewHeaders[]
     {5, QObject::tr("Tag")}
 };
 
+// DBs
+#define DB_WORDS                 "Words.db"
+
 // DB table - Tags
 #define DB_T_TAGS                "Tags"
 #define DB_F_TAGS_ID             "ID"
