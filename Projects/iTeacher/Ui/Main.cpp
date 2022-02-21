@@ -423,7 +423,7 @@ Main::createDb()
 void
 Main::quickTranslateClipboard()
 {
-    auto hint = Hint::toolTip(_db->db(),  *_db->model() );
+    auto hint = Hint::toolTip( *_db->model() );
     hint.show();
 }
 //-------------------------------------------------------------------------------------------------

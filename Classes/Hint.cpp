@@ -20,12 +20,10 @@
 Hint::Hint(
     QObject                                *a_parent,
     const Type                              a_type,
-    const QSqlDatabase                     *a_db,
     const qtlib::SqlRelationalTableModelEx &a_model
 ) :
     QObject{a_parent},
     _type  {a_type},
-    _db    {a_db},
     _model {a_model}
 {
 }
@@ -34,31 +32,28 @@ Hint::Hint(
 Hint
 Hint::trayIcon(
     QObject                                *a_parent,
-    QSqlDatabase                           *a_db,
     const qtlib::SqlRelationalTableModelEx &a_model
 )
 {
-    return Hint(a_parent, Type::TrayIcon, a_db, a_model);
+    return Hint(a_parent, Type::TrayIcon, a_model);
 }
 //-------------------------------------------------------------------------------------------------
 /* static */
 Hint
 Hint::messageBox(
-    QSqlDatabase                           *a_db,
     const qtlib::SqlRelationalTableModelEx &a_model
 )
 {
-    return Hint(nullptr, Type::MessageBox, a_db, a_model);
+    return Hint(nullptr, Type::MessageBox, a_model);
 }
 //-------------------------------------------------------------------------------------------------
 /* static */
 Hint
 Hint::toolTip(
-    QSqlDatabase                           *a_db,
     const qtlib::SqlRelationalTableModelEx &a_model
 )
 {
-    return Hint(nullptr, Type::ToolTip, a_db, a_model);
+    return Hint(nullptr, Type::ToolTip, a_model);
 }
 //-------------------------------------------------------------------------------------------------
 void
@@ -126,7 +121,9 @@ Hint::show() const
     // text (is term exists) - format
     QString isTermExists;
     {
-        SqliteDb db(nullptr, _db, _model);
+        auto db_ = _model.database();
+
+        SqliteDb db(nullptr, &db_, _model);
         bRv = db.isTerminExists(term);
 
         isTermExists = (bRv) ? QString(tr("Exists")) : QString(tr("New"));
