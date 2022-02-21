@@ -26,14 +26,15 @@ public:
 ///@{
     SqliteDb(QObject *parent, cQString &dbPath);
     SqliteDb(QObject *parent, cQString &dbPath, QTableView *view);
+    SqliteDb(QObject *parent, const QSqlDatabase *db, const qtlib::SqlRelationalTableModelEx &model);
     ~SqliteDb() final;
 
     Q_DISABLE_COPY(SqliteDb);
 ///@}
 
-    QSqlDatabase                     *db();
-    qtlib::SqlRelationalTableModelEx *model();
-    QTableView                       *view();
+    QSqlDatabase                     *db() const;
+    qtlib::SqlRelationalTableModelEx *model() const;
+    QTableView                       *view() const;
     qtlib::SqlNavigator              &navigator();
 
     void reopen();

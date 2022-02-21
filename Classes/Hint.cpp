@@ -18,12 +18,14 @@
 
 //-------------------------------------------------------------------------------------------------
 Hint::Hint(
-    QObject         *a_parent,
-    const Type       a_type,
-    cQSqlTableModel &a_model
+    QObject                                *a_parent,
+    const Type                              a_type,
+    const QSqlDatabase                     *a_db,
+    const qtlib::SqlRelationalTableModelEx &a_model
 ) :
     QObject{a_parent},
     _type  {a_type},
+    _db    {a_db},
     _model {a_model}
 {
 }
@@ -31,29 +33,32 @@ Hint::Hint(
 /* static */
 Hint
 Hint::trayIcon(
-    QObject         *a_parent,
-    cQSqlTableModel &a_model
+    QObject                                *a_parent,
+    QSqlDatabase                           *a_db,
+    const qtlib::SqlRelationalTableModelEx &a_model
 )
 {
-    return Hint(a_parent, Type::TrayIcon, a_model);
+    return Hint(a_parent, Type::TrayIcon, a_db, a_model);
 }
 //-------------------------------------------------------------------------------------------------
 /* static */
 Hint
 Hint::messageBox(
-    cQSqlTableModel &a_model
+    QSqlDatabase                           *a_db,
+    const qtlib::SqlRelationalTableModelEx &a_model
 )
 {
-    return Hint(nullptr, Type::MessageBox, a_model);
+    return Hint(nullptr, Type::MessageBox, a_db, a_model);
 }
 //-------------------------------------------------------------------------------------------------
 /* static */
 Hint
 Hint::toolTip(
-    cQSqlTableModel &a_model
+    QSqlDatabase                           *a_db,
+    const qtlib::SqlRelationalTableModelEx &a_model
 )
 {
-    return Hint(nullptr, Type::ToolTip, a_model);
+    return Hint(nullptr, Type::ToolTip, a_db, a_model);
 }
 //-------------------------------------------------------------------------------------------------
 void
@@ -122,13 +127,11 @@ Hint::show() const
     QString isTermExists;
     {
         // TODO: review
-    #if 1
+    #if 0
         bRv = Main::isTerminExists(_model, term);
     #else
-        cQString dictPath = qS2QS(xl::package::Application::dbDirPath()) + QDir::separator() +
-            "Words.db";
-
-        SqliteDb db(nullptr, dictPath);
+        SqliteDb db(nullptr, _db, _model);
+        db.reopen();
         bRv = db.isTerminExists(term);
     #endif
 
