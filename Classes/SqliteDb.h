@@ -26,14 +26,18 @@ public:
 ///@{
     SqliteDb(QObject *parent, cQString &dbPath);
     SqliteDb(QObject *parent, cQString &dbPath, QTableView *view);
+    // TOOD: QSqlDatabase - rm
+    SqliteDb(QObject *parent, const QSqlDatabase *db, const qtlib::SqlRelationalTableModelEx &model);
+        ///< Used already opened DB
+        ///< \info reopen() - no affect
     ~SqliteDb() final;
 
     Q_DISABLE_COPY(SqliteDb);
 ///@}
 
-    QSqlDatabase                     *db();
-    qtlib::SqlRelationalTableModelEx *model();
-    QTableView                       *view();
+    QSqlDatabase                     *db() const;
+    qtlib::SqlRelationalTableModelEx *model() const;
+    QTableView                       *view() const;
     qtlib::SqlNavigator              &navigator();
 
     void reopen();

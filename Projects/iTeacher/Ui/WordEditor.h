@@ -20,7 +20,7 @@ public:
     Ui::UiWordEditor ui;
 
     WordEditor(QWidget *parent, QSqlTableModel *tableModel, qtlib::SqlNavigator *sqlNavigator,
-                cbool &inserMode, cQString &termNew = QString());
+                    cbool &inserMode, cQString &termNew = QString());
     ~WordEditor() final;
 
     Q_DISABLE_COPY(WordEditor)
@@ -35,8 +35,8 @@ private:
     Q_OBJECT
 
     bool            _isConstructed;
-    QSqlTableModel *_model;
-    qtlib::SqlNavigator *_sqlNavigator;
+    QSqlTableModel      *_model {};
+    qtlib::SqlNavigator *_sqlNavigator {};
     cint            _currentRow;
     cbool           _insertMode;
     QString         _termNew;

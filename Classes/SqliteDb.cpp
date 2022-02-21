@@ -19,6 +19,8 @@ SqliteDb::SqliteDb(
 ) :
     QObject   (a_parent),
     _dbPath   {a_dbPath},
+    _db       {nullptr},
+    _model    {nullptr},
     _view     {nullptr},
     _navigator(a_parent)
 {
@@ -34,6 +36,8 @@ SqliteDb::SqliteDb(
 ) :
     QObject   (a_parent),
     _dbPath   {a_dbPath},
+    _db       {nullptr},
+    _model    {nullptr},
     _view     {a_view},
     _navigator(a_parent)
 {
@@ -43,8 +47,29 @@ SqliteDb::SqliteDb(
     qTEST_PTR(a_view);
 }
 //-------------------------------------------------------------------------------------------------
+SqliteDb::SqliteDb(
+    QObject                                *a_parent,
+    const QSqlDatabase                     *a_db,
+    const qtlib::SqlRelationalTableModelEx &a_model
+) :
+    QObject   (a_parent),
+    _dbPath   {},
+    _db       ( const_cast<QSqlDatabase *>(a_db) ),
+    _model    ( const_cast<qtlib::SqlRelationalTableModelEx *>(&a_model) ),
+    _view     {nullptr},
+    _navigator(a_parent)
+{
+}
+//-------------------------------------------------------------------------------------------------
 SqliteDb::~SqliteDb()
 {
+    if ( _dbPath.isEmpty() ) {
+        // Don't delete DB / model
+        _model.release();
+        _db.release();
+        return;
+    }
+
     _modelClose();
     qTEST(_model == nullptr);
 
@@ -53,21 +78,21 @@ SqliteDb::~SqliteDb()
 }
 //-------------------------------------------------------------------------------------------------
 QSqlDatabase *
-SqliteDb::db()
+SqliteDb::db() const
 {
     qTEST(_db);
     return _db.get();
 }
 //-------------------------------------------------------------------------------------------------
 qtlib::SqlRelationalTableModelEx *
-SqliteDb::model()
+SqliteDb::model() const
 {
     qTEST(_model);
     return _model.get();
 }
 //-------------------------------------------------------------------------------------------------
 QTableView *
-SqliteDb::view()
+SqliteDb::view() const
 {
     qTEST_PTR(_view);
     return _view;
@@ -83,6 +108,10 @@ SqliteDb::navigator()
 void
 SqliteDb::reopen()
 {
+    if ( _dbPath.isEmpty() ) {
+        return;
+    }
+
     _modelClose();
     qTEST(_model == nullptr);
 
@@ -150,7 +179,9 @@ SqliteDb::isTerminExists(
     cQString &a_term
 ) const
 {
+#if 0
     qTEST(!a_term.isEmpty())
+    qTEST(_model);
 
     cQString sql =
         "SELECT count(*) "
@@ -158,6 +189,32 @@ SqliteDb::isTerminExists(
         "WHERE " DB_F_MAIN_TERM " = " + a_term.trimmed();
 
     return (_queryCount(sql) > 0);
+#else
+    qTEST(_db);
+    qTEST(_model);
+    qTEST(!a_term.isEmpty())
+
+    bool      bRv {};
+    QSqlQuery query( *db() );
+
+    cQString sql =
+        "SELECT count(1) "
+        "FROM  " + _model->tableName() + " "
+        "WHERE " DB_F_MAIN_TERM " = :term";
+
+    query.prepare(sql);
+    query.bindValue(":term", a_term.trimmed());
+
+    bRv = query.exec();
+    qCHECK_REF(bRv, query);
+
+    bRv = query.next();
+    qCHECK_REF(bRv, query);
+
+    bRv = query.value(0).toBool();
+
+    return bRv;
+#endif
 }
 //-------------------------------------------------------------------------------------------------
 QSqlRecord
@@ -379,9 +436,11 @@ SqliteDb::_queryCount(
     cQString &a_sql
 ) const
 {
+    qTEST_PTR(_db);
+
     bool bRv {};
 
-    QSqlQuery query(*_db);
+    QSqlQuery query( *_db.get() );
     bRv = query.exec(a_sql);
     qCHECK_REF(bRv, query);
 
