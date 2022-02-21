@@ -195,7 +195,7 @@ SqliteDb::isTerminExists(
     cQString sql =
         "SELECT count(1) "
         "FROM  " + _model->tableName() + " "
-        "WHERE " DB_F_MAIN_TERM " LIKE :term";
+        "WHERE " DB_F_MAIN_TERM " = :term";
 
     qryQuery.prepare(sql);
     qryQuery.bindValue(":term", a_term.trimmed());
