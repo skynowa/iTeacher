@@ -23,6 +23,7 @@
 //-------------------------------------------------------------------------------------------------
 WordEditor::WordEditor(
     QWidget             *a_parent,
+    const QSqlDatabase  *a_db,
     QSqlTableModel      *a_tableModel,
     qtlib::SqlNavigator *a_sqlNavigator,
     cbool               &a_insertMode,
@@ -30,6 +31,7 @@ WordEditor::WordEditor(
 ) :
     QDialog       (a_parent),
     _isConstructed(false),
+    _db           (a_db),
     _model        (a_tableModel),
     _sqlNavigator (a_sqlNavigator),
     _currentRow   (a_sqlNavigator->view()->currentIndex().row()),
@@ -424,7 +426,7 @@ WordEditor::translate()
     QString  textToDetail;
     QString  textToRaw;
 
-    // lowercase
+    // lowercase_model
     if (ui.chkLowerCase->isChecked()) {
         textFrom = textFrom.toLower();
     }
@@ -458,7 +460,6 @@ WordEditor::translate()
 bool
 WordEditor::check()
 {
-    bool     bRv = false;
     QPalette plInfo;
     QString  msg;
 
@@ -470,7 +471,7 @@ WordEditor::check()
     }
 
     // is term empty
-    bRv = ui.tedtTerm->toPlainText().trimmed().isEmpty();
+    const bool bRv = ui.tedtTerm->toPlainText().trimmed().isEmpty();
     if (bRv) {
         msg = QString(tr("Term is an empty"));
 
@@ -485,18 +486,15 @@ WordEditor::check()
         return false;
     }
 
-    // TODO: is term exists
-#if 1
-    bRv = Main::isTerminExists(*_model, ui.tedtTerm->toPlainText());
-#else
-    cQString dictPath = qS2QS(xl::package::Application::dbDirPath()) + QDir::separator() +
-        "Words.db";
+    bool isTermExists {};
+    {
+        cQString &term = ui.tedtTerm->toPlainText();
 
-    SqliteDb db(nullptr, dictPath);
-    bRv = db.isTerminExists(ui.tedtTerm->toPlainText());
-#endif
+        SqliteDb db(nullptr, _db, static_cast<const qtlib::SqlRelationalTableModelEx &>(*_model));
+        isTermExists = db.isTerminExists(term);
+    }
 
-    if (bRv && _insertMode) {
+    if (isTermExists && _insertMode) {
         // insert: term already exists (false)
         msg = QString(tr("Term '%1' already exists")).arg(termMinimized);
 
@@ -510,7 +508,7 @@ WordEditor::check()
 
         return false;
     }
-    else if (bRv && !_insertMode) {
+    else if (isTermExists && !_insertMode) {
         // edit: term already exists (true)
     #if 1
         msg = QString(tr("Term '%1' now editing")).arg(termMinimized);

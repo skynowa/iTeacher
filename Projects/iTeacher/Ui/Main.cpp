@@ -61,38 +61,6 @@ Main::trayIcon()
     return _trayIcon;
 }
 //-------------------------------------------------------------------------------------------------
-/* static */
-bool
-Main::isTerminExists(
-    cQSqlTableModel &a_model,
-    cQString        &a_term
-)
-{
-    qTEST_NA(a_model);
-    qTEST(!a_term.isEmpty())
-
-    bool      bRv {};
-    QSqlQuery qryQuery( a_model.database() );
-
-    cQString sql =
-        "SELECT count(1) "
-        "FROM  " + a_model.tableName() + " "
-        "WHERE " DB_F_MAIN_TERM " LIKE :term";
-
-    qryQuery.prepare(sql);
-    qryQuery.bindValue(":term", a_term.trimmed());
-
-    bRv = qryQuery.exec();
-    qCHECK_REF(bRv, qryQuery);
-
-    bRv = qryQuery.next();
-    qCHECK_REF(bRv, qryQuery);
-
-    bRv = qryQuery.value(0).toBool();
-
-    return bRv;
-}
-//-------------------------------------------------------------------------------------------------
 /*virtual*/
 Main::~Main()
 {
@@ -562,7 +530,7 @@ Main::importClipboard()
         cbool     insertMode {true};
         cQString &data       = QApplication::clipboard()->text();
 
-        WordEditor dlgWordEditor(this, _db->model(), &_db->navigator(), insertMode, data);
+        WordEditor dlgWordEditor(this, _db->db(), _db->model(), &_db->navigator(), insertMode, data);
 
         _dlgWordEditorOpened = &dlgWordEditor;
         auto cleanup = xl::core::ScopeExit(
@@ -841,7 +809,7 @@ Main::insert()
 
     _db->navigator().insert();
 
-    WordEditor dlgWordEditor(this, _db->model(), &_db->navigator(), true);
+    WordEditor dlgWordEditor(this, _db->db(), _db->model(), &_db->navigator(), true);
 
     bool bRv = dlgWordEditor.isConstructed();
     qCHECK_DO(!bRv, return);
@@ -901,7 +869,7 @@ Main::edit()
     qCHECK_DO(_db->view()->currentIndex().row() < 0, return);
 
     // show edit dialog
-    WordEditor dlgWordEditor(this, _db->model(), &_db->navigator(), false);
+    WordEditor dlgWordEditor(this, _db->db(), _db->model(), &_db->navigator(), false);
 
     bool bRv = dlgWordEditor.isConstructed();
     qCHECK_DO(!bRv, return);
