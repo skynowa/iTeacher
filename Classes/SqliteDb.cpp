@@ -19,6 +19,8 @@ SqliteDb::SqliteDb(
 ) :
     QObject   (a_parent),
     _dbPath   {a_dbPath},
+    _db       {nullptr},
+    _model    {nullptr},
     _view     {nullptr},
     _navigator(a_parent)
 {
@@ -34,6 +36,8 @@ SqliteDb::SqliteDb(
 ) :
     QObject   (a_parent),
     _dbPath   {a_dbPath},
+    _db       {nullptr},
+    _model    {nullptr},
     _view     {a_view},
     _navigator(a_parent)
 {
@@ -51,9 +55,9 @@ SqliteDb::SqliteDb(
     QObject   (a_parent),
     _dbPath   {},
     _db       ( const_cast<QSqlDatabase *>(a_db) ),
-    _view     {},
-    _navigator(a_parent),
-    _model    ( const_cast<qtlib::SqlRelationalTableModelEx *>(&a_model) )
+    _model    ( const_cast<qtlib::SqlRelationalTableModelEx *>(&a_model) ),
+    _view     {nullptr},
+    _navigator(a_parent)
 {
 }
 //-------------------------------------------------------------------------------------------------
