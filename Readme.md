@@ -1,4 +1,4 @@
-# iTeacher - for learning english (or other) words
+# iTeacher - Learning foreign words
 
 ![GitHub Watchers](https://img.shields.io/github/watchers/skynowa/xLib)
 
