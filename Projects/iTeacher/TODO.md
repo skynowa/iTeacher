@@ -1,21 +1,15 @@
 # TODO
 
-## Main
+## iTeacher
 
+- [ ] UI langs support - rm
 - [ ] Config: URL to My Google Docs
 - [ ] Detail (full) translation
-- [ ] Qt 5 -> 6
 - [ ] Word status - Repeat, Marked, Learned
-- [+] QLabel with Mouse actions
-- [ ] Random term on startup
-- [ ] Trainer (UI + Console) add
-- [ ] UI langs support - rm
-
 - [ ] DB: transcription - add
 - [ ] Dictionaries ComboBox -> flat RadioButton
-- [ ] Translation order: ru -> en
+- [+] Translation order: ru -> en
 - [ ] `QTableView` - Ru column at 1-st position (ru -> en)
-- [ ] Pin translator on top
 - [ ] Auto-save new words
 - [ ] Translation in place (replace text)
 - [ ] UI: Kurs NBU (Android)
@@ -36,12 +30,6 @@
 - [ ] `QSound`
 - [ ] http://www.sfml-dev.org/
 
-## Trainer
-
-- https://bitbucket.org/skynowa/teacher_vcl/src/2dfc86d6f080c17ff60b0f68fd8828c26af0ec5f/Forms/uDesk.h?at=master&fileviewer=file-view-default
-- https://bitbucket.org/skynowa/teacher_vcl/src/2dfc86d6f080c17ff60b0f68fd8828c26af0ec5f/Forms/uDesk.cpp?at=master&fileviewer=file-view-default
-- Show "Trainer" desk when termin exists
-
 ## Translation suppliers (Yandex)
 
 - [ ] http://api.yandex.com/translate/doc/dg/reference/translate.xml
@@ -50,6 +38,7 @@
 
 ## Port
 
+- [ ] Qt 5 -> 6
 - [ ] QtQuick (+ Android)
 
 ## FAQ
