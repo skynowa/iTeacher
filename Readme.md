@@ -4,14 +4,12 @@
 
 ## About
 
-    Platforms:      Windows, Linux, FreeBSD
-    Architecture:   x86, x64
+    Platforms:      Windows, Linux
 
     Authors:        skynowa
     E-mail:         skynowa@gmail.com
-    Jabber:         skynowa@jabber.ru
     Skype:          skynowa777
-    Web:            https://bitbucket.org/skynowa/iteacher
+    Web:            https://github.com/skynowa/iTeacher
 
 ## Dependencies
 
