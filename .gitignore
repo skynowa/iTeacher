@@ -2,7 +2,9 @@
 
 
 ##### dirs #####
+.vscode/
 Projects/*_build
+Projects/build-*
 
 ##### files #####
 CMakeLists.txt.user
