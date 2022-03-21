@@ -1,10 +1,10 @@
 /**
- * \file  Trainer.cpp
+ * \file  Main.cpp
  * \brief main widget
  */
 
 
-#include "Trainer.h"
+#include "Main.h"
 
 
 /**************************************************************************************************
@@ -20,7 +20,7 @@ const bool option_termValueSwap {true};
 
 }
 //-------------------------------------------------------------------------------------------------
-Trainer::Trainer(
+Main::Main(
     QWidget         *a_parent,
     Qt::WindowFlags  a_flags
 ) :
@@ -31,7 +31,7 @@ Trainer::Trainer(
     _settingsLoad();
 }
 //-------------------------------------------------------------------------------------------------
-Trainer::~Trainer()
+Main::~Main()
 {
     _settingsSave();
 }
@@ -45,7 +45,7 @@ Trainer::~Trainer()
 
 //-------------------------------------------------------------------------------------------------
 bool
-Trainer::eventFilter(
+Main::eventFilter(
     QObject *a_object,
     QEvent  *a_event
 ) /* final */
@@ -75,11 +75,11 @@ Trainer::eventFilter(
 
 //-------------------------------------------------------------------------------------------------
 void
-Trainer::_initMain()
+Main::_initMain()
 {
     _ui.setupUi(this);
 
-    // Trainer
+    // Main
     {
         setWindowTitle( qS2QS(xl::package::Application::info().name) );
         setGeometry(0, 0, APP_WIDTH, APP_HEIGHT);
@@ -99,20 +99,20 @@ Trainer::_initMain()
 }
 //-------------------------------------------------------------------------------------------------
 void
-Trainer::_initActions()
+Main::_initActions()
 {
     // group "Main"
     {
         connect(_ui.actMain_RandomRow, &QAction::triggered,
-                this,                  &Trainer::randomRow);
+                this,                  &Main::randomRow);
         connect(_ui.actMain_Learn,     &QAction::triggered,
-                this,                  &Trainer::learn);
+                this,                  &Main::learn);
         connect(_ui.actMain_Mark,      &QAction::triggered,
-                this,                  &Trainer::mark);
+                this,                  &Main::mark);
         // connect(_ui.actMain_Xxxx,      &QAction::triggered,
-        //         this,                  &Trainer::xxxxx);
+        //         this,                  &Main::xxxxx);
         connect(_ui.actMain_Exit,      &QAction::triggered,
-                this,                  &Trainer::exit);
+                this,                  &Main::exit);
     }
 
     // Event filter
@@ -130,7 +130,7 @@ Trainer::_initActions()
 
 //-------------------------------------------------------------------------------------------------
 void
-Trainer::_settingsLoad()
+Main::_settingsLoad()
 {
     // Load
     QSize  size;
@@ -154,7 +154,7 @@ Trainer::_settingsLoad()
 }
 //-------------------------------------------------------------------------------------------------
 void
-Trainer::_settingsSave()
+Main::_settingsSave()
 {
     QSettings settings(qS2QS(xl::package::Application::configPath()), QSettings::IniFormat, this);
 
@@ -174,7 +174,7 @@ Trainer::_settingsSave()
 
 //-------------------------------------------------------------------------------------------------
 void
-Trainer::randomRow() const
+Main::randomRow() const
 {
     const QSqlRecord record = _sqliteDb->randomRow();
 
@@ -241,7 +241,7 @@ Trainer::randomRow() const
 }
 //-------------------------------------------------------------------------------------------------
 void
-Trainer::learn() const
+Main::learn() const
 {
     qTRACE_SCOPE_FUNC;
 
@@ -249,7 +249,7 @@ Trainer::learn() const
 }
 //-------------------------------------------------------------------------------------------------
 void
-Trainer::mark() const
+Main::mark() const
 {
     qTRACE_SCOPE_FUNC;
 
@@ -257,7 +257,7 @@ Trainer::mark() const
 }
 //-------------------------------------------------------------------------------------------------
 //void
-//Trainer::xxxxx() const
+//Main::xxxxx() const
 //{
 //    qTRACE_SCOPE_FUNC
 //
@@ -265,7 +265,7 @@ Trainer::mark() const
 //}
 //-------------------------------------------------------------------------------------------------
 void
-Trainer::exit()
+Main::exit()
 {
     qApp->exit();
 }

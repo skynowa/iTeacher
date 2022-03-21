@@ -1,5 +1,5 @@
 /**
- * \file  Trainer.h
+ * \file  Main.h
  * \brief
  */
 
@@ -11,16 +11,16 @@
 #include "../QtLib/Common.h"
 #include <Classes/SqliteDb.h>
 
-#include "ui_Trainer.h"
+#include "ui_Main.h"
 //-------------------------------------------------------------------------------------------------
-class Trainer :
+class Main :
     public QMainWindow
 {
 public:
-    Trainer(QWidget *parent, Qt::WindowFlags flags = Qt::Widget);
-    ~Trainer() final;
+    Main(QWidget *parent, Qt::WindowFlags flags = Qt::Widget);
+    ~Main() final;
 
-    Q_DISABLE_COPY(Trainer)
+    Q_DISABLE_COPY(Main)
 
 signals:
     void closed();

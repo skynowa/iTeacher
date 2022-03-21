@@ -95,7 +95,7 @@ add_executable(${PROJECT_NAME}
     ${ROOT_DIR}/Classes/SqliteDb.cpp
 
     # Ui
-    Ui/Trainer.cpp
+    Ui/Main.cpp
 
     # Resources
     ${ROOT_DIR}/Resources/App.qrc
