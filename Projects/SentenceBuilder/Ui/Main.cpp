@@ -99,9 +99,9 @@ Main::_settingsLoad()
         QSettings settings(qS2QS(xl::package::Application::configPath()), QSettings::IniFormat, this);
 
         // main
-        settings.beginGroup(CFG_TRAINER_GROUP_MAIN);
-        size     = settings.value(CFG_TRAINER_SIZE,     QSize(APP_WIDTH, APP_HEIGHT)).toSize();
-        position = settings.value(CFG_TRAINER_POSITION, QPoint(200, 200)).toPoint();
+        settings.beginGroup(CFG_GROUP_MAIN);
+        size     = settings.value(CFG_SIZE,     QSize(APP_WIDTH, APP_HEIGHT)).toSize();
+        position = settings.value(CFG_POSITION, QPoint(200, 200)).toPoint();
         settings.endGroup();
     }
 
@@ -119,9 +119,9 @@ Main::_settingsSave()
     QSettings settings(qS2QS(xl::package::Application::configPath()), QSettings::IniFormat, this);
 
     // main
-    settings.beginGroup(CFG_TRAINER_GROUP_MAIN);
-    settings.setValue(CFG_TRAINER_SIZE,     size());
-    settings.setValue(CFG_TRAINER_POSITION, pos());
+    settings.beginGroup(CFG_GROUP_MAIN);
+    settings.setValue(CFG_SIZE,     size());
+    settings.setValue(CFG_POSITION, pos());
     settings.endGroup();
 }
 //-------------------------------------------------------------------------------------------------

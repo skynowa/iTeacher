@@ -11,8 +11,8 @@
 #include <QVariant>
 //-------------------------------------------------------------------------------------------------
 // main window
-#define APP_TRAINER_NAME         "Trainer"
-#define APP_TRAINER_GUID         APP_TRAINER_NAME"_simple_guid"
+#define APP_NAME                 "SentenceBuilder"
+#define APP_GUID                 APP_NAME"_simple_guid"
 #define APP_WIDTH                700
 #define APP_HEIGHT               600
 #define APP_FONT_SIZE_DEFAULT    9
@@ -51,8 +51,8 @@ const TableViewHeader tableViewHeaders[]
 #define DB_F_TAGS_NAME           "Name"
 #define DB_ALL_TAGS_ID           "1"
 
-// QSettings (Trainer)
-#define CFG_TRAINER_GROUP_MAIN  "trainer"
-#define CFG_TRAINER_SIZE        "size"
-#define CFG_TRAINER_POSITION    "position"
+// QSettings
+#define CFG_GROUP_MAIN           "main"
+#define CFG_SIZE                 "size"
+#define CFG_POSITION             "position"
 //-------------------------------------------------------------------------------------------------

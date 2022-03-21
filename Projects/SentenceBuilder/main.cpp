@@ -36,11 +36,11 @@ int main(int argc, char *argv[])
     bool bRv {};
 
     // xl::core::UserApplication
-    UserApplication xapplication(xT(APP_TRAINER_GUID), xT(""));
+    UserApplication xapplication(xT(APP_GUID), xT(""));
     xapplication.dirsCreate();
 
     // qtlib::UserApplication
-    qtlib::Application application(argc, argv, APP_TRAINER_GUID);
+    qtlib::Application application(argc, argv, APP_GUID);
     bRv = application.isRunnig();
     if (bRv) {
         std::wcerr << "Application is already running." << std::endl;
