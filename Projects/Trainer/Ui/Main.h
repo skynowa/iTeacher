@@ -48,5 +48,8 @@ private Q_SLOTS:
     void mark() const;
     // void xxxxx() const;
     void exit();
+
+    // group "View"
+    void onTop();
 };
 //-------------------------------------------------------------------------------------------------

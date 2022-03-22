@@ -100,10 +100,10 @@
      <x>0</x>
      <y>0</y>
      <width>760</width>
-     <height>22</height>
+     <height>20</height>
     </rect>
    </property>
-   <widget class="QMenu" name="menuFile">
+   <widget class="QMenu" name="mnuFile">
     <property name="title">
      <string>Main</string>
     </property>
@@ -116,7 +116,14 @@
     <addaction name="actMain_Mark"/>
     <addaction name="actMain_Exit"/>
    </widget>
-   <addaction name="menuFile"/>
+   <widget class="QMenu" name="mnuView">
+    <property name="title">
+     <string>View</string>
+    </property>
+    <addaction name="actView_OnTop"/>
+   </widget>
+   <addaction name="mnuFile"/>
+   <addaction name="mnuView"/>
   </widget>
   <action name="actMain_RandomRow">
    <property name="text">
@@ -161,6 +168,14 @@
    </property>
    <property name="shortcut">
     <string>M</string>
+   </property>
+  </action>
+  <action name="actView_OnTop">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>On top</string>
    </property>
   </action>
  </widget>
