@@ -168,8 +168,8 @@
     <bool>false</bool>
    </attribute>
    <addaction name="actFile_Exit"/>
-   <addaction name="actFile_ImportClipboard"/>
    <addaction name="actFile_GoogleTranslate"/>
+   <addaction name="actFile_ImportClipboard"/>
    <addaction name="separator"/>
    <addaction name="actEdit_First"/>
    <addaction name="actEdit_Prior"/>
