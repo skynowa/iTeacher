@@ -441,7 +441,7 @@ Main::googleTranslate()
     cQString   langTo     = "en";
     cQString   operation  = "translate";
 
-    cQString url = QString("https://translate.google.ru/?sl=%1&tl=%2&op=%3&text=%4")
+    cQString url = QString("https://translate.google.com/?sl=%1&tl=%2&op=%3&text=%4")
                         .arg(langFrom)
                         .arg(langTo)
                         .arg(operation)
