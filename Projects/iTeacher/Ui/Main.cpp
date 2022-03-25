@@ -210,6 +210,9 @@ Main::_initActions()
         connect(ui.actFile_QuickTranslateClipboard, &QAction::triggered,
                 this,                       &Main::quickTranslateClipboard);
 
+        connect(ui.actFile_GoogleTranslate, &QAction::triggered,
+                this,                       &Main::googleTranslate);
+
         connect(ui.actFile_ImportCsv,       &QAction::triggered,
                 this,                       &Main::importCsv);
 
@@ -425,6 +428,14 @@ Main::quickTranslateClipboard()
 {
     auto hint = Hint::toolTip( *_sqliteDb->model() );
     hint.show();
+}
+//-------------------------------------------------------------------------------------------------
+void
+Main::googleTranslate()
+{
+    const QUrl url("https://translate.google.ru/?sl=en&tl=ru&op=translate", QUrl::TolerantMode);
+
+    QDesktopServices::openUrl(url);
 }
 //-------------------------------------------------------------------------------------------------
 void

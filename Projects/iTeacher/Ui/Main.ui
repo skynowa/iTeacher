@@ -72,7 +72,7 @@
      <x>0</x>
      <y>0</y>
      <width>760</width>
-     <height>22</height>
+     <height>20</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
@@ -82,6 +82,7 @@
     <addaction name="actFile_CreateDb"/>
     <addaction name="separator"/>
     <addaction name="actFile_QuickTranslateClipboard"/>
+    <addaction name="actFile_GoogleTranslate"/>
     <addaction name="separator"/>
     <addaction name="actFile_ImportCsv"/>
     <addaction name="actFile_ImportCsvClipboard"/>
@@ -168,6 +169,7 @@
    </attribute>
    <addaction name="actFile_Exit"/>
    <addaction name="actFile_ImportClipboard"/>
+   <addaction name="actFile_GoogleTranslate"/>
    <addaction name="separator"/>
    <addaction name="actEdit_First"/>
    <addaction name="actEdit_Prior"/>
@@ -562,12 +564,13 @@
     <string>Import CSV Clipboard</string>
    </property>
   </action>
-  <action name="actOptions_Trainer">
-   <property name="text">
-    <string>Trainer</string>
+  <action name="actFile_GoogleTranslate">
+   <property name="icon">
+    <iconset resource="../../../Resources/App.qrc">
+     <normaloff>:/Menu/Menu/GoogleTranslate.png</normaloff>:/Menu/Menu/GoogleTranslate.png</iconset>
    </property>
-   <property name="shortcut">
-    <string>Ctrl+T</string>
+   <property name="text">
+    <string>Google Translate</string>
    </property>
   </action>
  </widget>
