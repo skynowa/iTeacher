@@ -433,17 +433,19 @@ Main::quickTranslateClipboard()
 void
 Main::googleTranslate()
 {
-    cint currentRow   = _sqliteDb->view()->currentIndex().row();
+    cint       currentRow = _sqliteDb->view()->currentIndex().row();
+    QSqlRecord record     = _sqliteDb->model()->record(currentRow);
 
-    QSqlRecord record = _sqliteDb->model()->record(currentRow);
-    cQString   text   = record.value(DB_F_MAIN_VALUE).toString();
+    cQString   text     = record.value(DB_F_MAIN_VALUE).toString();
+    cQString   langFrom = "ru";
+    cQString   langTo   = "en";
 
     cQString url = QString("https://translate.google.ru/?sl=%1&tl=%2&op=translate&text=%3")
-                        .arg("ru")
-                        .arg("en")
+                        .arg(langFrom)
+                        .arg(langTo)
                         .arg(text);
 
-    QDesktopServices::openUrl(url);
+    QDesktopServices::openUrl( QUrl(url, QUrl::TolerantMode) );
 }
 //-------------------------------------------------------------------------------------------------
 void
