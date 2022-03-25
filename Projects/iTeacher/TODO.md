@@ -16,6 +16,7 @@
 - [ ] Quick search
 - [ ] WordEditor - translating on edit, FIX
 - [ ] CMake: distrs (Win, Linux)
+- [+] Deploy script
 
 - [ ] [Move new words to DB](https://docs.google.com/spreadsheets/d/1m8uh17iOzbM5aj8NWxBxTZbrDobUbOsJepj_sH9Uz_A/edit)
 
