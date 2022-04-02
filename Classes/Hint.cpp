@@ -100,8 +100,7 @@ Hint::show() const
         std::tstring_t textToRaw;
         std::tstring_t langFrom;
         std::tstring_t langTo;
-        translate.execute(term.toStdString(), &textToBrief, &textToDetail,
-            &textToRaw, &langFrom, &langTo);
+        translate.run(term.toStdString(), &textToBrief, &textToDetail, &textToRaw, &langFrom, &langTo);
         qTEST(!textToBrief.empty());
         qTEST(!textToDetail.empty());
         qTEST(!textToRaw.empty());
