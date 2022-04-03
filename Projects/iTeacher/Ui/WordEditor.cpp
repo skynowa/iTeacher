@@ -437,7 +437,7 @@ WordEditor::translate()
         std::tstring_t _textToRaw;
         std::tstring_t _langFrom;
         std::tstring_t _langTo;
-        translate.execute(textFrom.toStdString(), &_textToBrief, &_textToDetail, &_textToRaw,
+        translate.run(textFrom.toStdString(), &_textToBrief, &_textToDetail, &_textToRaw,
             &_langFrom, &_langTo);
 
         // [out]
