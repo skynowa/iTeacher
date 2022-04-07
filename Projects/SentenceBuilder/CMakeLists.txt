@@ -27,6 +27,8 @@ set(CMAKE_MODULE_PATH
     "${CMAKE_ROOT}/Modules/CMakeLib;"
     "${CMAKE_ROOT}/Modules/CMakeLib/Qt;"
     "${CMAKE_SOURCE_DIR}")
+
+message("CMAKE_MODULE_PATH: ${CMAKE_MODULE_PATH}")
 #--------------------------------------------------------------------------------------------------
 # checks
 # Check if Qtversion is >=QT_OFFICIAL_VERSION.
@@ -41,9 +43,6 @@ endif()
 set(ROOT_DIR "/home/skynowa/Projects/iTeacher")
 #--------------------------------------------------------------------------------------------------
 # find packages
-list(APPEND CMAKE_MODULE_PATH "${CMAKE_ROOT}/Modules/CMakeLib")
-message("CMAKE_MODULE_PATH: ${CMAKE_MODULE_PATH}")
-
 find_package(xLib    REQUIRED)
 find_package(LibXml2 REQUIRED)
 find_package(Qt5     REQUIRED)
