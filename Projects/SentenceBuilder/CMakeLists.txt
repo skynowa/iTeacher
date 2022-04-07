@@ -23,15 +23,10 @@ set(CMAKE_BUILD_TYPE            "RelWithDebInfo")
 set(QT_QMAKE_EXECUTABLE         "") # hide warning
 #--------------------------------------------------------------------------------------------------
 # modules
-set(CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR})
-
-# CMakeLib - CMAKE_MODULE_PATH
-set(CMAKE_MAJOR_MINOR_VERSION "${CMAKE_MAJOR_VERSION}.${CMAKE_MINOR_VERSION}")
-set(CMAKE_DATA_DIR_DEFAULT    "/usr/share/cmake-${CMAKE_MAJOR_MINOR_VERSION}/Modules")
 set(CMAKE_MODULE_PATH
-    "${CMAKE_DATA_DIR_DEFAULT}/CMakeLib;"
-    "${CMAKE_DATA_DIR_DEFAULT}/CMakeLib/Qt;"
-    "${CMAKE_MODULE_PATH}")
+    "${CMAKE_ROOT}/Modules/CMakeLib;"
+    "${CMAKE_ROOT}/Modules/CMakeLib/Qt;"
+    "${CMAKE_SOURCE_DIR}")
 #--------------------------------------------------------------------------------------------------
 # checks
 # Check if Qtversion is >=QT_OFFICIAL_VERSION.
