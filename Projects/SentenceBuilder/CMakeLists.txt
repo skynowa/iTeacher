@@ -101,5 +101,7 @@ add_executable(${PROJECT_NAME}
 # TODO: ${XLIB_LIBRARIES}
 target_link_libraries(${PROJECT_NAME}
     ${cmXLIB_LIBRARIES}
+    ${cmXLIB_SYS_LIBRARIES}
+    ${cmXLIB_EXTRA_LIBRARIES}
     -lX11)
 #--------------------------------------------------------------------------------------------------
