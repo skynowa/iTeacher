@@ -113,10 +113,10 @@ WordEditor::_construct()
         connect(ui.tbtnReset,     &QPushButton::clicked,
                 this,             &WordEditor::tbtnReset_OnClicked);
 
-        connect(ui.pbtnTranslate, &QPushButton::clicked,
+        connect(ui.tbtnTranslate, &QPushButton::clicked,
                 this,             &WordEditor::translate);
 
-        connect(ui.pbtnCheck,     &QPushButton::clicked,
+        connect(ui.tbtnCheck,     &QPushButton::clicked,
                 this,             &WordEditor::check);
 
         connect(ui.pbtnTagsEdit,  &QPushButton::clicked,

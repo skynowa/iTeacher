@@ -74,27 +74,6 @@
        </property>
       </widget>
      </item>
-     <item row="7" column="4">
-      <widget class="QPushButton" name="pbtnCheck">
-       <property name="text">
-        <string>Check</string>
-       </property>
-      </widget>
-     </item>
-     <item row="7" column="3">
-      <widget class="QToolButton" name="tbtnTermCopy">
-       <property name="text">
-        <string>Copy</string>
-       </property>
-      </widget>
-     </item>
-     <item row="7" column="2">
-      <widget class="QPushButton" name="pbtnTranslate">
-       <property name="text">
-        <string>Translate</string>
-       </property>
-      </widget>
-     </item>
      <item row="1" column="2" rowspan="6" colspan="5">
       <widget class="QTextEdit" name="tedtTerm">
        <property name="sizePolicy">
@@ -135,6 +114,12 @@
      </item>
      <item row="4" column="7">
       <widget class="QToolButton" name="tbtnTermPaste">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
        <property name="text">
         <string>Paste</string>
        </property>
@@ -191,6 +176,12 @@
      </item>
      <item row="3" column="7">
       <widget class="QToolButton" name="tbtnTermValueSwap">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
        <property name="text">
         <string>Swap</string>
        </property>
@@ -325,7 +316,53 @@
        </widget>
       </widget>
      </item>
-     <item row="7" column="5" colspan="2">
+     <item row="5" column="7">
+      <widget class="QToolButton" name="tbtnReset">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="text">
+        <string>Reset</string>
+       </property>
+      </widget>
+     </item>
+     <item row="7" column="2">
+      <widget class="QToolButton" name="tbtnTermCopy">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="text">
+        <string>Copy</string>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="7">
+      <widget class="QToolButton" name="tbtnTranslate">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="text">
+        <string>Translate</string>
+       </property>
+      </widget>
+     </item>
+     <item row="7" column="3" colspan="2">
+      <widget class="QToolButton" name="tbtnCheck">
+       <property name="text">
+        <string>Check</string>
+       </property>
+      </widget>
+     </item>
+     <item row="7" column="6">
       <spacer name="horizontalSpacer">
        <property name="orientation">
         <enum>Qt::Horizontal</enum>
@@ -337,13 +374,6 @@
         </size>
        </property>
       </spacer>
-     </item>
-     <item row="5" column="7">
-      <widget class="QToolButton" name="tbtnReset">
-       <property name="text">
-        <string>Reset</string>
-       </property>
-      </widget>
      </item>
     </layout>
    </item>
