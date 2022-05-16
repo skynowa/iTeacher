@@ -3,7 +3,7 @@
 ## Trainer
 
 - [+] Link to Google Translate
-- [ ] Tag filter
+- [ ] Train by filter
 - [ ] Detail (full) translation
 - [ ] Word status - Repeat, Marked, Learned
 - [+] QLabel with Mouse actions
