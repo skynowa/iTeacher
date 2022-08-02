@@ -207,7 +207,7 @@ Hint::show() const
 
     // Speech
     {
-        cQString audioPath = "./audio.mp3";
+        cQString audioPath = QString("%1/audio.mp3").arg(Application::tempDirPath().c_str());
 
         // Download as file
         {
