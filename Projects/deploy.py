@@ -32,7 +32,7 @@ if (__name__ == "__main__"):
 
 		try:
 			shutil.copy(binSrc, destDir)
-		except IOError, e:
+		except IOError as e:
 			print("  {}. Skip.".format(e))
 			continue
 
