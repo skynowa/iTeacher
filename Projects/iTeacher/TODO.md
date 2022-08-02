@@ -25,10 +25,8 @@
 
 ## Voice
 
-- [!] `QSound`
-- [ ] FIX: voice feature
+- [!] FIX: speech
 - [ ] Voice on translate
-- [ ] `QSound`
 - [ ] http://www.sfml-dev.org/
 
 ## Translation suppliers (Yandex)
