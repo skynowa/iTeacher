@@ -43,9 +43,10 @@ endif()
 set(ROOT_DIR "/home/skynowa/Projects/iTeacher")
 #--------------------------------------------------------------------------------------------------
 # find packages
-find_package(xLib    REQUIRED)
-find_package(LibXml2 REQUIRED)
-find_package(Qt5     REQUIRED)
+find_package(xLib          REQUIRED)
+find_package(LibXml2       REQUIRED)
+find_package(Qt5           REQUIRED)
+find_package(Qt5Multimedia REQUIRED)
 
 # Qt
 set(CMAKE_AUTOMOC ON)

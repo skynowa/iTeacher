@@ -9,10 +9,15 @@
 #include <xLib/Core/Core.h>
 #include <xLib/Package/Application.h>
 #include <xLib/Package/Translate.h>
+#include <xLib/Fs/File.h>
+#include <xLib/Fs/FileIO.h>
+
 #include "../QtLib/Common.h"
 #include "../QtLib/Utils.h"
+
 #include <QtConcurrent>
 #include <QToolTip>
+#include <QMediaPlayer>
 #include "Ui/Main.h"
 #include "Utils.h"
 
@@ -197,6 +202,77 @@ Hint::show() const
                         .arg(term)
                         .arg(valueBrief);
             break;
+        }
+    }
+
+    // Speech
+    {
+        cQString audioPath = "./audio.mp3";
+
+        // Download as file
+        {
+            using namespace xl;
+            using namespace xl::package::curl;
+            using namespace xl::fs;
+
+           /**
+            https://translate.google.com.vn/translate_tts?
+            ie=UTF-8&
+            q=%D0%B1%D0%BE%D0%BB%D0%B3%D0%B0%D1%80%D0%BA%D0%B0&
+            tl=en&
+            client=tw-ob
+            */
+
+            cbool_t isDebug {false};
+
+            HttpClient http(isDebug);
+
+            DataIn dataIn;
+            dataIn.url     = xT("https://translate.google.com.vn/translate_tts");
+            dataIn.request = Format::str("ie={}&q={}&tl={}&client={}",
+                                "UTF-8",
+                                http.escape(valueBrief.toStdString()),
+                                langCodeTo.toStdString(),
+                                "tw-ob");
+
+            DataOut dataOut;
+
+            bool m_bRv = http.get(dataIn, &dataOut);
+            xTEST(m_bRv);
+            xTEST(!dataOut.headers.empty());
+            xTEST(!dataOut.body.empty());
+
+            std::custring_t body(dataOut.body.cbegin(), dataOut.body.cend());
+
+            File file( audioPath.toStdString() );
+            file.binWrite(body, xl::fs::FileIO::OpenMode::BinWrite);
+        }
+
+        // Play file
+        QMediaPlayer player;
+
+        qDebug() << qTRACE_VAR(player.isAudioAvailable());
+
+        if ( player.isAudioAvailable() ) {
+            player.setMedia(QUrl::fromLocalFile(audioPath));
+            player.setVolume(50);
+            player.play();
+
+            if (player.error() != QMediaPlayer::Error::NoError) {
+                qDebug() << qTRACE_VAR(player.error());
+                qDebug() << qTRACE_VAR(player.errorString());
+            }
+        } else {
+            cQString mplayerBin = "mplayer";
+
+            QStringList args;
+            args << audioPath;
+
+            QProcess *proc = new QProcess();
+
+            connect(proc, qOverload<int, QProcess::ExitStatus>(&QProcess::finished),
+                    proc, &QProcess::deleteLater);
+            proc->start(mplayerBin, args);
         }
     }
 
