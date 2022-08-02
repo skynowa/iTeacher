@@ -215,14 +215,6 @@ Hint::show() const
             using namespace xl::package::curl;
             using namespace xl::fs;
 
-           /**
-            https://translate.google.com.vn/translate_tts?
-            ie=UTF-8&
-            q=%D0%B1%D0%BE%D0%BB%D0%B3%D0%B0%D1%80%D0%BA%D0%B0&
-            tl=en&
-            client=tw-ob
-            */
-
             cbool_t isDebug {false};
 
             HttpClient http(isDebug);
@@ -237,15 +229,13 @@ Hint::show() const
 
             DataOut dataOut;
 
-            bool m_bRv = http.get(dataIn, &dataOut);
-            xTEST(m_bRv);
+            bool_t bRv = http.get(dataIn, &dataOut);
+            xTEST(bRv);
             xTEST(!dataOut.headers.empty());
             xTEST(!dataOut.body.empty());
 
-            std::custring_t body(dataOut.body.cbegin(), dataOut.body.cend());
-
             File file( audioPath.toStdString() );
-            file.binWrite(body, xl::fs::FileIO::OpenMode::BinWrite);
+            file.binWrite({dataOut.body.cbegin(), dataOut.body.cend()}, FileIO::OpenMode::BinWrite);
         }
 
         // Play file
