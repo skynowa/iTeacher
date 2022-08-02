@@ -8,15 +8,10 @@
 
 //-------------------------------------------------------------------------------------------------
 // Options
-#define OPTION_QTMULTIMEDIA  0 // TODO: QSound
 #define GLOBAL_SHORTCUTS_ALL 1
 //-------------------------------------------------------------------------------------------------
 #include <Qt>
 #include <QVariant>
-
-#if OPTION_QTMULTIMEDIA
-    #include <QSound>
-#endif
 //-------------------------------------------------------------------------------------------------
 // main window
 #define APP_NAME                 "iTeacher"
