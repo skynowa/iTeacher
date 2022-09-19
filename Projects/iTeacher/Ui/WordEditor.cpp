@@ -116,6 +116,9 @@ WordEditor::_construct()
         connect(ui.tbtnTranslate, &QPushButton::clicked,
                 this,             &WordEditor::translate);
 
+        connect(ui.tbtnGoogleTranslate, &QPushButton::clicked,
+                this,             &WordEditor::googleTranslate);
+
         connect(ui.tbtnCheck,     &QPushButton::clicked,
                 this,             &WordEditor::check);
 
@@ -453,6 +456,27 @@ WordEditor::translate()
     ui.tedtValueRaw->setPlainText(textToRaw);
 
     QApplication::restoreOverrideCursor();
+}
+//-------------------------------------------------------------------------------------------------
+/**
+ * TODO: Make common code
+ * \see Main::googleTranslate()
+ */
+void
+WordEditor::googleTranslate() const
+{
+    cQString   text       = ui.tedtTerm->toPlainText();
+    cQString   langFrom   = "en";
+    cQString   langTo     = "ru";
+    cQString   operation  = "translate";
+
+    cQString url = QString("https://translate.google.com/?sl=%1&tl=%2&op=%3&text=%4")
+                        .arg(langFrom)
+                        .arg(langTo)
+                        .arg(operation)
+                        .arg(text);
+
+    QDesktopServices::openUrl( QUrl(url, QUrl::TolerantMode) );
 }
 //-------------------------------------------------------------------------------------------------
 bool

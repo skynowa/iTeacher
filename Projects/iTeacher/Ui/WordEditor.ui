@@ -33,8 +33,56 @@
    </item>
    <item row="0" column="0" colspan="2">
     <layout class="QGridLayout" name="gridLayout">
-     <item row="1" column="7">
-      <spacer name="verticalSpacer_3">
+     <item row="1" column="2" rowspan="7" colspan="5">
+      <widget class="QTextEdit" name="tedtTerm">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="frameShape">
+        <enum>QFrame::Box</enum>
+       </property>
+       <property name="frameShadow">
+        <enum>QFrame::Plain</enum>
+       </property>
+       <property name="tabStopWidth">
+        <number>40</number>
+       </property>
+       <property name="acceptRichText">
+        <bool>false</bool>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="7">
+      <widget class="QToolButton" name="tbtnTranslate">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="text">
+        <string>Translate</string>
+       </property>
+      </widget>
+     </item>
+     <item row="8" column="2">
+      <widget class="QToolButton" name="tbtnTermCopy">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="text">
+        <string>Copy</string>
+       </property>
+      </widget>
+     </item>
+     <item row="7" column="7">
+      <spacer name="verticalSpacer_2">
        <property name="orientation">
         <enum>Qt::Vertical</enum>
        </property>
@@ -46,7 +94,14 @@
        </property>
       </spacer>
      </item>
-     <item row="1" column="8" rowspan="6" colspan="2">
+     <item row="8" column="8">
+      <widget class="QToolButton" name="tbtnValueCopy">
+       <property name="text">
+        <string>Copy</string>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="8" rowspan="7" colspan="2">
       <widget class="QTextEdit" name="tedtValueBrief">
        <property name="sizePolicy">
         <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
@@ -74,45 +129,7 @@
        </property>
       </widget>
      </item>
-     <item row="1" column="2" rowspan="6" colspan="5">
-      <widget class="QTextEdit" name="tedtTerm">
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
-       <property name="frameShape">
-        <enum>QFrame::Box</enum>
-       </property>
-       <property name="frameShadow">
-        <enum>QFrame::Plain</enum>
-       </property>
-       <property name="tabStopWidth">
-        <number>40</number>
-       </property>
-       <property name="acceptRichText">
-        <bool>false</bool>
-       </property>
-      </widget>
-     </item>
-     <item row="0" column="2" colspan="5">
-      <widget class="QLabel" name="label_2">
-       <property name="font">
-        <font>
-         <weight>75</weight>
-         <bold>true</bold>
-        </font>
-       </property>
-       <property name="text">
-        <string>Term</string>
-       </property>
-       <property name="alignment">
-        <set>Qt::AlignCenter</set>
-       </property>
-      </widget>
-     </item>
-     <item row="4" column="7">
+     <item row="5" column="7">
       <widget class="QToolButton" name="tbtnTermPaste">
        <property name="sizePolicy">
         <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
@@ -125,28 +142,8 @@
        </property>
       </widget>
      </item>
-     <item row="7" column="8">
-      <widget class="QToolButton" name="tbtnValueCopy">
-       <property name="text">
-        <string>Copy</string>
-       </property>
-      </widget>
-     </item>
-     <item row="6" column="7">
-      <spacer name="verticalSpacer_2">
-       <property name="orientation">
-        <enum>Qt::Vertical</enum>
-       </property>
-       <property name="sizeHint" stdset="0">
-        <size>
-         <width>20</width>
-         <height>40</height>
-        </size>
-       </property>
-      </spacer>
-     </item>
-     <item row="7" column="9">
-      <spacer name="horizontalSpacer_2">
+     <item row="8" column="6">
+      <spacer name="horizontalSpacer">
        <property name="orientation">
         <enum>Qt::Horizontal</enum>
        </property>
@@ -158,23 +155,20 @@
        </property>
       </spacer>
      </item>
-     <item row="0" column="8" colspan="2">
-      <widget class="QLabel" name="label_3">
-       <property name="font">
-        <font>
-         <weight>75</weight>
-         <bold>true</bold>
-        </font>
+     <item row="6" column="7">
+      <widget class="QToolButton" name="tbtnReset">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
        </property>
        <property name="text">
-        <string>Value</string>
-       </property>
-       <property name="alignment">
-        <set>Qt::AlignCenter</set>
+        <string>Reset</string>
        </property>
       </widget>
      </item>
-     <item row="3" column="7">
+     <item row="4" column="7">
       <widget class="QToolButton" name="tbtnTermValueSwap">
        <property name="sizePolicy">
         <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
@@ -187,7 +181,7 @@
        </property>
       </widget>
      </item>
-     <item row="10" column="2" rowspan="5" colspan="8">
+     <item row="11" column="2" rowspan="5" colspan="8">
       <widget class="QTabWidget" name="tabWidget">
        <property name="currentIndex">
         <number>0</number>
@@ -316,54 +310,60 @@
        </widget>
       </widget>
      </item>
-     <item row="5" column="7">
-      <widget class="QToolButton" name="tbtnReset">
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
+     <item row="0" column="8" colspan="2">
+      <widget class="QLabel" name="label_3">
+       <property name="font">
+        <font>
+         <weight>75</weight>
+         <bold>true</bold>
+        </font>
        </property>
        <property name="text">
-        <string>Reset</string>
+        <string>Value</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignCenter</set>
        </property>
       </widget>
      </item>
-     <item row="7" column="2">
-      <widget class="QToolButton" name="tbtnTermCopy">
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
-       <property name="text">
-        <string>Copy</string>
-       </property>
-      </widget>
-     </item>
-     <item row="2" column="7">
-      <widget class="QToolButton" name="tbtnTranslate">
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
-       <property name="text">
-        <string>Translate</string>
-       </property>
-      </widget>
-     </item>
-     <item row="7" column="3" colspan="2">
+     <item row="8" column="3" colspan="2">
       <widget class="QToolButton" name="tbtnCheck">
        <property name="text">
         <string>Check</string>
        </property>
       </widget>
      </item>
-     <item row="7" column="6">
-      <spacer name="horizontalSpacer">
+     <item row="0" column="2" colspan="5">
+      <widget class="QLabel" name="label_2">
+       <property name="font">
+        <font>
+         <weight>75</weight>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="text">
+        <string>Term</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignCenter</set>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="7">
+      <spacer name="verticalSpacer_3">
+       <property name="orientation">
+        <enum>Qt::Vertical</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>20</width>
+         <height>40</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item row="8" column="9">
+      <spacer name="horizontalSpacer_2">
        <property name="orientation">
         <enum>Qt::Horizontal</enum>
        </property>
@@ -374,6 +374,19 @@
         </size>
        </property>
       </spacer>
+     </item>
+     <item row="3" column="7">
+      <widget class="QToolButton" name="tbtnGoogleTranslate">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="text">
+        <string>Google Translate</string>
+       </property>
+      </widget>
      </item>
     </layout>
    </item>

@@ -59,6 +59,7 @@ private Q_SLOTS:
     void tbtnReset_OnClicked();
     void tbtnValueCopy_OnClicked();
     void translate();
+    void googleTranslate() const;
     bool check();
     void pbtnTagsEdit_OnClicked();
     void bbxButtons_OnClicked(QAbstractButton *button);
