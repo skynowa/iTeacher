@@ -2,7 +2,7 @@
 
 ## iTeacher
 
-- [ ] WordEditor - GT URL
+- [!] WordEditor - GT URL
 - [ ] UI langs support - rm
 - [ ] Config: URL to My Google Docs
 - [ ] Detail (full) translation

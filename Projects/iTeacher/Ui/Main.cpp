@@ -436,10 +436,10 @@ Main::googleTranslate()
     cint       currentRow = _sqliteDb->view()->currentIndex().row();
     QSqlRecord record     = _sqliteDb->model()->record(currentRow);
 
-    cQString   text       = record.value(DB_F_MAIN_VALUE).toString();
-    cQString   langFrom   = "ru";
-    cQString   langTo     = "en";
-    cQString   operation  = "translate";
+    cQString text      = record.value(DB_F_MAIN_VALUE).toString();
+    cQString langFrom  = "ru";
+    cQString langTo    = "en";
+    cQString operation = "translate";
 
     cQString url = QString("https://translate.google.com/?sl=%1&tl=%2&op=%3&text=%4")
                         .arg(langFrom)

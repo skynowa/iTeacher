@@ -433,7 +433,7 @@ WordEditor::translate()
     }
 
     {
-        xl::package:: Translate translate;
+        xl::package::Translate translate;
 
         std::tstring_t _textToBrief;
         std::tstring_t _textToDetail;
@@ -465,10 +465,10 @@ WordEditor::translate()
 void
 WordEditor::googleTranslate() const
 {
-    cQString   text       = ui.tedtTerm->toPlainText();
-    cQString   langFrom   = "en";
-    cQString   langTo     = "ru";
-    cQString   operation  = "translate";
+    cQString text      = ui.tedtTerm->toPlainText();
+    cQString langFrom  = "en";
+    cQString langTo    = "ru";
+    cQString operation = "translate";
 
     cQString url = QString("https://translate.google.com/?sl=%1&tl=%2&op=%3&text=%4")
                         .arg(langFrom)
