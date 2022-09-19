@@ -10,8 +10,7 @@
 
 #include "../Config.h"
 #include "../QtLib/Common.h"
-
-#include "Main.h"
+#include "../QtLib/Db/SqlNavigator.h"
 //-------------------------------------------------------------------------------------------------
 class WordEditor :
     public QDialog
