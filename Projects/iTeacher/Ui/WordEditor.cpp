@@ -523,7 +523,7 @@ WordEditor::check()
         msg = QString(tr("Term '%1' already exists")).arg(termMinimized);
 
         QPalette pallete = ui.lblInfo->palette();
-        pallete.setColor(QPalette::WindowText, Qt::red);
+        pallete.setColor(QPalette::WindowText, Qt::darkGreen);
 
         ::qSwap(plInfo, pallete);
 
@@ -538,7 +538,7 @@ WordEditor::check()
         msg = QString(tr("Term '%1' now editing")).arg(termMinimized);
 
         QPalette pallete = ui.lblInfo->palette();
-        pallete.setColor(QPalette::WindowText, Qt::blue);
+        pallete.setColor(QPalette::WindowText, Qt::darkBlue);
 
         ::qSwap(plInfo, pallete);
 
