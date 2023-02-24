@@ -426,7 +426,7 @@ Main::createDb()
 void
 Main::quickTranslateClipboard()
 {
-    auto hint = Hint::toolTip( *_sqliteDb->model() );
+    auto hint = Hint::messageBox( *_sqliteDb->model() );
     hint.show();
 }
 //-------------------------------------------------------------------------------------------------
@@ -550,8 +550,24 @@ Main::importClipboard()
 
         _sqliteDb->navigator().insert();
 
-        cbool     insertMode {true};
-        cQString &data       = QApplication::clipboard()->text();
+        cbool insertMode {true};
+
+        QString data;
+        {
+            QClipboard *clipboard = QApplication::clipboard();
+            if (clipboard == nullptr) {
+                qDebug() << __FUNCTION__ << "clipboard - return";
+                return;
+            }
+
+            // TODO: option or new method
+            qDebug() << qTRACE_VAR(clipboard->supportsSelection());
+
+            const auto mode = clipboard->supportsSelection() ?
+                QClipboard::Mode::Selection : QClipboard::Mode::Clipboard;
+
+            data = clipboard->text(mode).trimmed();
+        }
 
         WordEditor dlgWordEditor(this, _sqliteDb->model(), &_sqliteDb->navigator(), insertMode, data);
 
