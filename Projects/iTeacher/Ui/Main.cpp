@@ -552,22 +552,7 @@ Main::importClipboard()
 
         cbool insertMode {true};
 
-        QString data;
-        {
-            QClipboard *clipboard = QApplication::clipboard();
-            if (clipboard == nullptr) {
-                qDebug() << __FUNCTION__ << "clipboard - return";
-                return;
-            }
-
-            // TODO: option or new method
-            qDebug() << qTRACE_VAR(clipboard->supportsSelection());
-
-            const auto mode = clipboard->supportsSelection() ?
-                QClipboard::Mode::Selection : QClipboard::Mode::Clipboard;
-
-            data = clipboard->text(mode).trimmed();
-        }
+        cQString data = qtlib::Utils::clipBoardSelecrtionOrClipboard();
 
         WordEditor dlgWordEditor(this, _sqliteDb->model(), &_sqliteDb->navigator(), insertMode, data);
 

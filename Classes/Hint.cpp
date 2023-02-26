@@ -85,24 +85,7 @@ Hint::show() const
     QString langCodeFrom;
     QString langCodeTo;
     {
-        QString data;
-        {
-            QClipboard *clipboard = QApplication::clipboard();
-            if (clipboard == nullptr) {
-                qDebug() << __FUNCTION__ << "clipboard - return";
-                return;
-            }
-
-            // TODO: option or new method
-            qDebug() << qTRACE_VAR(clipboard->supportsSelection());
-
-            const auto mode = clipboard->supportsSelection() ?
-                QClipboard::Mode::Selection : QClipboard::Mode::Clipboard;
-
-            data = clipboard->text(mode).trimmed();
-        }
-
-        term = data;
+        term = qtlib::Utils::clipBoardSelecrtionOrClipboard();
 
         // auto detect languages
         xl::package::Translate translate;
