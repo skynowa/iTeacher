@@ -550,8 +550,7 @@ Main::importClipboard()
 
         _sqliteDb->navigator().insert();
 
-        cbool insertMode {true};
-
+        cbool    insertMode {true};
         cQString data = qtlib::Utils::clipBoardSelecrtionOrClipboard();
 
         WordEditor dlgWordEditor(this, _sqliteDb->model(), &_sqliteDb->navigator(), insertMode, data);
