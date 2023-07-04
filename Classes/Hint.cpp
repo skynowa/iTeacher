@@ -215,9 +215,10 @@ Hint::show() const
 
         // Play file
         QMediaPlayer player;
-        qDebug() << qTRACE_VAR(player.isAudioAvailable());
 
         if ( player.isAudioAvailable() ) {
+                qDebug() << qTRACE_VAR(player.isAudioAvailable());
+
                 QMediaPlaylist playList;
 
                 for (const auto &it_audioFile : audioFiles) {
