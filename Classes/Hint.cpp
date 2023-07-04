@@ -110,6 +110,18 @@ Hint::show() const
             Q_UNUSED(textToRaw);
             langCodeFrom = QString::fromStdString(langFrom);
             langCodeTo   = QString::fromStdString(langTo);
+
+            qDebug() << qTRACE_VAR(langCodeFrom) << " -> " << qTRACE_VAR(langCodeTo);
+
+            // TODO: xl::package::Translate::_langsDetect() - fix
+            if (langCodeFrom == "auto" &&
+                langCodeTo   == "auto")
+            {
+                langCodeFrom = "ru";
+                langCodeTo   = "en";
+
+                qDebug() << qTRACE_VAR(langCodeFrom) << " -> " << qTRACE_VAR(langCodeTo);
+            }
         }
     }
 
@@ -338,6 +350,8 @@ Hint::_audioFileDownload(
                         http.escape(a_text.toStdString()),
                         a_langCode.toStdString(),
                         "tw-ob");
+    Cout() << qTRACE_VAR(dataIn.url);
+    Cout() << qTRACE_VAR(dataIn.request);
 
     DataOut dataOut;
 
