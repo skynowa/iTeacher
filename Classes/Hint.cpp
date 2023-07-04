@@ -217,22 +217,22 @@ Hint::show() const
         QMediaPlayer player;
 
         if ( player.isAudioAvailable() ) {
-                qDebug() << qTRACE_VAR(player.isAudioAvailable());
+            qDebug() << qTRACE_VAR(player.isAudioAvailable());
 
-                QMediaPlaylist playList;
+            QMediaPlaylist playList;
 
-                for (const auto &it_audioFile : audioFiles) {
-                    playList.addMedia( QUrl::fromLocalFile(it_audioFile) );
-                }
+            for (const auto &it_audioFile : audioFiles) {
+                playList.addMedia( QUrl::fromLocalFile(it_audioFile) );
+            }
 
-                player.setPlaylist(&playList);
-                player.setVolume(50);
-                player.play();
+            player.setPlaylist(&playList);
+            player.setVolume(50);
+            player.play();
 
-                if (player.error() != QMediaPlayer::Error::NoError) {
-                    qDebug() << qTRACE_VAR(player.error());
-                    qDebug() << qTRACE_VAR(player.errorString());
-                }
+            if (player.error() != QMediaPlayer::Error::NoError) {
+                qDebug() << qTRACE_VAR(player.error());
+                qDebug() << qTRACE_VAR(player.errorString());
+            }
         } else {
             cQString mplayerBin = "mplayer";
 
