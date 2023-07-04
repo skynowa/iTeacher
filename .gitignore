@@ -8,11 +8,19 @@
 ################################################################################
 # dirs
 .vscode/
-Projects/*_build
-Projects/build-*
+# Projects/*_build
+# Projects/build-*
 
 ################################################################################
 # files
 CMakeLists.txt.user
 .cproject
 .project
+
+################################################################################
+# Projects
+Projects/iTeacher_build/*
+# Projects/iTeacher_build/!gen_makefile.sh
+
+Projects/Trainer_build/*
+Projects/SentenceBuilder_build/*
