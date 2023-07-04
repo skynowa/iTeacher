@@ -4,8 +4,9 @@
 #--------------------------------------------------------------------------------------------------
 
 
+cmake_minimum_required(VERSION 3.5.0)
+
 project(Trainer)
-cmake_minimum_required(VERSION 2.8)
 #--------------------------------------------------------------------------------------------------
 # options
 set(CMAKE_AUTOMOC               ON)
@@ -22,25 +23,39 @@ set(CMAKE_BUILD_TYPE            "RelWithDebInfo")
     # MinSizeRel (CMAKE_C_FLAGS_MINSIZEREL or CMAKE_CXX_FLAGS_MINSIZEREL)
 set(QT_QMAKE_EXECUTABLE         "") # hide warning
 #--------------------------------------------------------------------------------------------------
-# modules
-set(CMAKE_MODULE_PATH
-    "${CMAKE_ROOT}/Modules/CMakeLib;"
-    "${CMAKE_ROOT}/Modules/CMakeLib/Qt;"
-    "${CMAKE_SOURCE_DIR}")
+# Vars
+set(DIR_HOME $ENV{HOME})
+set(ROOT_DIR "${DIR_HOME}/Projects/iTeacher")
 
-message("CMAKE_MODULE_PATH: ${CMAKE_MODULE_PATH}")
+message("")
+message("********** Vars **********")
+message(STATUS "DIR_HOME: ${DIR_HOME}")
+message(STATUS "ROOT_DIR: ${ROOT_DIR}")
+#--------------------------------------------------------------------------------------------------
+# modules
+if (EXISTS "${CMAKE_ROOT}/Modules/CMakeLib")
+    set(CMAKE_MODULE_PATH
+        "${CMAKE_ROOT}/Modules/CMakeLib"
+        "${CMAKE_ROOT}/Modules/CMakeLib/Qt"
+        "${CMAKE_SOURCE_DIR}")
+else()
+    set(CMAKE_MODULE_PATH
+        "${DIR_HOME}/Projects/CMakeLib"
+        "${DIR_HOME}/Projects/CMakeLib/Qt"
+        "${CMAKE_SOURCE_DIR}")
+endif()
+
+message(STATUS "CMAKE_MODULE_PATH: ${CMAKE_MODULE_PATH}")
+message("")
 #--------------------------------------------------------------------------------------------------
 # checks
 # Check if Qtversion is >=QT_OFFICIAL_VERSION.
 # If so, we are good. Otherwise we will post a warning of versions (<QT_OFFICIAL_VERSION)
 string(REGEX MATCH "^5\\.[3]\\.[0-1]+" QT_VERSION_MATCH "${Qt5Core_VERSION_STRING}")
-    if (QT_VERSION_MATCH)
+if (QT_VERSION_MATCH)
     message(WARNING "Warning: You are using Qt ${Qt5Core_VERSION_STRING}. "
                     "Officially supported version is Qt ${QT_OFFICIAL_VERSION}")
 endif()
-#--------------------------------------------------------------------------------------------------
-# TODO: Vars
-set(ROOT_DIR "/home/skynowa/Projects/iTeacher")
 #--------------------------------------------------------------------------------------------------
 # find packages
 find_package(xLib    REQUIRED)
