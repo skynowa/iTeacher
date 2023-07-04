@@ -33,6 +33,7 @@
 
 ## Translation suppliers (Yandex)
 
+- [ ] https://www.deepl.com/translator
 - [ ] http://api.yandex.com/translate/doc/dg/reference/translate.xml
 - [ ] https://tech.yandex.ru/translate/doc/dg/reference/translate-docpage/
 - [ ] https://dictionary.cambridge.org/
