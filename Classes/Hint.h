@@ -43,5 +43,8 @@ private:
 
     const Type                              _type {};
     const qtlib::SqlRelationalTableModelEx &_model;
+
+    void _audioFileDownload(cQString &text, cQString &langCode, cQString &audioPath) const;
+            ///< Download as file
 };
 //-------------------------------------------------------------------------------------------------

@@ -18,6 +18,7 @@
 #include <QtConcurrent>
 #include <QToolTip>
 #include <QMediaPlayer>
+#include <QMediaPlaylist>
 #include "Ui/Main.h"
 #include "Utils.h"
 
@@ -197,44 +198,34 @@ Hint::show() const
 
     // Speech
     {
-        cQString audioPath = QString("%1/audio.mp3").arg(Application::tempDirPath().c_str());
-
-        // Download as file
+        QStringList audioFiles;
         {
-            using namespace xl;
-            using namespace xl::package::curl;
-            using namespace xl::fs;
+            cQString &tempDirPath = Application::tempDirPath().c_str();
 
-            cbool_t isDebug {false};
+            // Download as file (langCodeTo)
+            cQString audioPathTo = QString("%1/audio_to.mp3").arg(tempDirPath);
+            _audioFileDownload(valueBrief, langCodeTo, audioPathTo);
 
-            HttpClient http(isDebug);
+            // Download as file (langCodeFrom)
+            cQString audioPathFrom = QString("%1/audio_from.mp3").arg(tempDirPath);
+            _audioFileDownload(term, langCodeFrom, audioPathFrom);
 
-            DataIn dataIn;
-            dataIn.url     = xT("https://translate.google.com.vn/translate_tts");
-            dataIn.request = Format::str("ie={}&q={}&tl={}&client={}",
-                                "UTF-8",
-                                http.escape(valueBrief.toStdString()),
-                                langCodeTo.toStdString(),
-                                "tw-ob");
-
-            DataOut dataOut;
-
-            bool_t bRv = http.get(dataIn, &dataOut);
-            xTEST(bRv);
-            xTEST(!dataOut.headers.empty());
-            xTEST(!dataOut.body.empty());
-
-            File file( audioPath.toStdString() );
-            file.binWrite({dataOut.body.cbegin(), dataOut.body.cend()}, FileIO::OpenMode::BinWrite);
+            audioFiles << audioPathTo << audioPathFrom;
         }
 
         // Play file
         QMediaPlayer player;
 
-        qDebug() << qTRACE_VAR(player.isAudioAvailable());
-
         if ( player.isAudioAvailable() ) {
-            player.setMedia(QUrl::fromLocalFile(audioPath));
+            qDebug() << qTRACE_VAR(player.isAudioAvailable());
+
+            QMediaPlaylist playList;
+
+            for (const auto &it_audioFile : audioFiles) {
+                playList.addMedia( QUrl::fromLocalFile(it_audioFile) );
+            }
+
+            player.setPlaylist(&playList);
             player.setVolume(50);
             player.play();
 
@@ -245,14 +236,11 @@ Hint::show() const
         } else {
             cQString mplayerBin = "mplayer";
 
-            QStringList args;
-            args << audioPath;
-
             QProcess *proc = new QProcess();
 
             connect(proc, qOverload<int, QProcess::ExitStatus>(&QProcess::finished),
                     proc, &QProcess::deleteLater);
-            proc->start(mplayerBin, args);
+            proc->start(mplayerBin, audioFiles);
         }
     }
 
@@ -287,5 +275,39 @@ Hint::show() const
         QToolTip::showText(QCursor::pos(), text, nullptr, QRect(), _timeoutMs);
         break;
     }
+}
+//-------------------------------------------------------------------------------------------------
+void
+Hint::_audioFileDownload(
+    cQString &a_text,       ///< source text for audio file
+    cQString &a_langCode,   ///< language code
+    cQString &a_audioPath   ///< audio file path
+) const
+{
+    using namespace xl;
+    using namespace xl::package::curl;
+    using namespace xl::fs;
+
+    cbool_t isDebug {false};
+
+    HttpClient http(isDebug);
+
+    DataIn dataIn;
+    dataIn.url     = xT("https://translate.google.com.vn/translate_tts");
+    dataIn.request = Format::str("ie={}&q={}&tl={}&client={}",
+                        "UTF-8",
+                        http.escape(a_text.toStdString()),
+                        a_langCode.toStdString(),
+                        "tw-ob");
+
+    DataOut dataOut;
+
+    bool_t bRv = http.get(dataIn, &dataOut);
+    xTEST(bRv);
+    xTEST(!dataOut.headers.empty());
+    xTEST(!dataOut.body.empty());
+
+    File file( a_audioPath.toStdString() );
+    file.binWrite({dataOut.body.cbegin(), dataOut.body.cend()}, FileIO::OpenMode::BinWrite);
 }
 //-------------------------------------------------------------------------------------------------
