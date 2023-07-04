@@ -155,43 +155,76 @@ Hint::show() const
     {
         switch (_type) {
         case Type::TrayIcon:
-        case Type::MessageBox:
             // TODO: QSystemTrayIcon doesn't support HTML ???
             text = QString(
                         "%1\n\n"
                         "%2")
                         .arg(term, valueBrief);
+        case Type::MessageBox:
+            {
+                constexpr std::size_t termFontSize  {24};
+                constexpr std::size_t valueFontSize {termFontSize - 2};
+
+                text = QString(
+                            "<style>"
+                                "h3 {"
+                                    "color: blue;"
+                                    "text-align: center;"
+                                    "font-size: %1px;"
+                                "}"
+                                "h4 {"
+                                    "color: red;"
+                                    "text-align: center;"
+                                    "font-size: %2px;"
+                                "}"
+                                ".term_exists {"
+                                    "color: green;"
+                                "}"
+                            "</style>"
+                            "%3"
+                            "<hr/>"
+                            "<h3>%4</h3>"   // title
+                            "<h4>%5</h4>"   // msg
+                            "<h5> </h5>")   // force EOL
+                            .arg(termFontSize)
+                            .arg(valueFontSize)
+                            .arg(title)
+                            .arg(term)
+                            .arg(valueBrief);
+            }
             break;
         case Type::ToolTip:
-            constexpr std::size_t termFontSize  {24};
-            constexpr std::size_t valueFontSize {termFontSize - 2};
+            {
+                constexpr std::size_t termFontSize  {24};
+                constexpr std::size_t valueFontSize {termFontSize - 2};
 
-            text = QString(
-                        "<style>"
-                            "h3 {"
-                                "color: blue;"
-                                "text-align: center;"
-                                "font-size: %1px;"
-                            "}"
-                            "h4 {"
-                                "color: red;"
-                                "text-align: center;"
-                                "font-size: %2px;"
-                            "}"
-                            ".term_exists {"
-                                "color: green;"
-                            "}"
-                        "</style>"
-                        "%3"
-                        "<hr/>"
-                        "<h3>%4</h3>"
-                        "<h4>%5</h4>"
-                        "<h5> </h5>")   // force EOL
-                        .arg(termFontSize)
-                        .arg(valueFontSize)
-                        .arg(title)
-                        .arg(term)
-                        .arg(valueBrief);
+                text = QString(
+                            "<style>"
+                                "h3 {"
+                                    "color: blue;"
+                                    "text-align: center;"
+                                    "font-size: %1px;"
+                                "}"
+                                "h4 {"
+                                    "color: red;"
+                                    "text-align: center;"
+                                    "font-size: %2px;"
+                                "}"
+                                ".term_exists {"
+                                    "color: green;"
+                                "}"
+                            "</style>"
+                            "%3"
+                            "<hr/>"
+                            "<h3>%4</h3>"   // title
+                            "<h4>%5</h4>"   // msg
+                            "<h5> </h5>")   // force EOL
+                            .arg(termFontSize)
+                            .arg(valueFontSize)
+                            .arg(title)
+                            .arg(term)
+                            .arg(valueBrief);
+            }
             break;
         }
     }

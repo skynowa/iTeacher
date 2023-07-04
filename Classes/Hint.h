@@ -39,7 +39,7 @@ public:
 private:
     Q_OBJECT
 
-    static constexpr int _timeoutMs {3 * 1000};
+    static constexpr int _timeoutMs {30 * 1000};
 
     const Type                              _type {};
     const qtlib::SqlRelationalTableModelEx &_model;
