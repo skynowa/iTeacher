@@ -165,6 +165,9 @@ Main::_initMain()
 
     // Main
     {
+        // Minimize on start
+        setWindowState(Qt::WindowMinimized);
+
         setWindowTitle( qS2QS(xl::package::Application::info().name) );
         setGeometry(0, 0, APP_WIDTH, APP_HEIGHT);
         qtlib::Utils::widgetAlignCenter(this);
