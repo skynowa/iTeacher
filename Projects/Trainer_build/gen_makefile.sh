@@ -5,4 +5,4 @@
 #
 
 
-cmake --fresh ../iTrainer
+cmake --fresh ../Trainer
