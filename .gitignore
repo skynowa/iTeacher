@@ -20,7 +20,10 @@ CMakeLists.txt.user
 ################################################################################
 # Projects
 Projects/iTeacher_build/*
-# Projects/iTeacher_build/!gen_makefile.sh
+!Projects/iTeacher_build/*.sh
 
 Projects/Trainer_build/*
+!Projects/Trainer_build/*.sh
+
 Projects/SentenceBuilder_build/*
+!Projects/SentenceBuilder_build/*.sh
