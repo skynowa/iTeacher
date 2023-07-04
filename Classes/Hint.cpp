@@ -181,14 +181,11 @@ Hint::show() const
                                     "color: green;"
                                 "}"
                             "</style>"
-                            "%3"
-                            "<hr/>"
                             "<h3>%4</h3>"   // title
                             "<h4>%5</h4>"   // msg
                             "<h5> </h5>")   // force EOL
                             .arg(termFontSize)
                             .arg(valueFontSize)
-                            .arg(title)
                             .arg(term)
                             .arg(valueBrief);
             }
@@ -214,9 +211,9 @@ Hint::show() const
                                     "color: green;"
                                 "}"
                             "</style>"
-                            "%3"
+                            "%3"            // title
                             "<hr/>"
-                            "<h3>%4</h3>"   // title
+                            "<h3>%4</h3>"
                             "<h4>%5</h4>"   // msg
                             "<h5> </h5>")   // force EOL
                             .arg(termFontSize)
