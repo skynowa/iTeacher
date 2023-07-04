@@ -1241,7 +1241,7 @@ Main::cboDictPath_OnCurrentIndexChanged(
     const QString &a_arg
 )
 {
-    qTRACE_SCOPE_FUNC;
+    // qTRACE_SCOPE_FUNC;
 
     qCHECK_DO(a_arg.isEmpty(), return);
 
