@@ -236,11 +236,15 @@ Hint::show() const
         } else {
             cQString mplayerBin = "mplayer";
 
+            QStringList args;
+            args << "-volume" << "150";
+            args << audioFiles;
+
             QProcess *proc = new QProcess();
 
             connect(proc, qOverload<int, QProcess::ExitStatus>(&QProcess::finished),
                     proc, &QProcess::deleteLater);
-            proc->start(mplayerBin, audioFiles);
+            proc->start(mplayerBin, args);
         }
     }
 
