@@ -296,7 +296,12 @@ Hint::show() const
         {
             QMessageBox msgBox;
             msgBox.setParent( static_cast<QWidget *>(nullptr) );
+        #if 0
             msgBox.setIcon(QMessageBox::Information);
+            msgBox.setIconPixmap( QPixmap(":/App.png") );
+        #else
+            // icon - n/a
+        #endif
             msgBox.setWindowTitle(title);
             msgBox.setText(text);
             msgBox.setStandardButtons(QMessageBox::Ok);
