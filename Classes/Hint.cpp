@@ -18,6 +18,7 @@
 #include <QtConcurrent>
 #include <QToolTip>
 #include <QMediaPlayer>
+#include <QMediaPlaylist>
 #include "Ui/Main.h"
 #include "Utils.h"
 
@@ -197,9 +198,9 @@ Hint::show() const
 
     // Speech
     {
-        cQString audioPath = QString("%1/audio.mp3").arg(Application::tempDirPath().c_str());
 
-        // Download as file
+        // Download as file (langCodeTo)
+        cQString audioPathTo = QString("%1/audio_to.mp3").arg(Application::tempDirPath().c_str());
         {
             using namespace xl;
             using namespace xl::package::curl;
@@ -224,35 +225,70 @@ Hint::show() const
             xTEST(!dataOut.headers.empty());
             xTEST(!dataOut.body.empty());
 
-            File file( audioPath.toStdString() );
+            File file( audioPathTo.toStdString() );
             file.binWrite({dataOut.body.cbegin(), dataOut.body.cend()}, FileIO::OpenMode::BinWrite);
         }
 
+        // Download as file (langCodeFrom)
+        cQString audioPathFrom = QString("%1/audio_from.mp3").arg(Application::tempDirPath().c_str());
+        {
+            using namespace xl;
+            using namespace xl::package::curl;
+            using namespace xl::fs;
+
+            cbool_t isDebug {false};
+
+            HttpClient http(isDebug);
+
+            DataIn dataIn;
+            dataIn.url     = xT("https://translate.google.com.vn/translate_tts");
+            dataIn.request = Format::str("ie={}&q={}&tl={}&client={}",
+                                "UTF-8",
+                                http.escape(term.toStdString()),
+                                langCodeFrom.toStdString(),
+                                "tw-ob");
+
+            DataOut dataOut;
+
+            bool_t bRv = http.get(dataIn, &dataOut);
+            xTEST(bRv);
+            xTEST(!dataOut.headers.empty());
+            xTEST(!dataOut.body.empty());
+
+            File file( audioPathFrom.toStdString() );
+            file.binWrite({dataOut.body.cbegin(), dataOut.body.cend()}, FileIO::OpenMode::BinWrite);
+        }
+
+        const QStringList audioFiles {audioPathTo, audioPathFrom};
+
         // Play file
         QMediaPlayer player;
-
         qDebug() << qTRACE_VAR(player.isAudioAvailable());
 
         if ( player.isAudioAvailable() ) {
-            player.setMedia(QUrl::fromLocalFile(audioPath));
-            player.setVolume(50);
-            player.play();
+                QMediaPlaylist playList;
+                {
+                    for (const auto &it_audioFile : audioFiles) {
+                        playList.addMedia( QUrl::fromLocalFile(it_audioFile) );
+                    }
+                }
 
-            if (player.error() != QMediaPlayer::Error::NoError) {
-                qDebug() << qTRACE_VAR(player.error());
-                qDebug() << qTRACE_VAR(player.errorString());
-            }
+                player.setPlaylist(&playList);
+                player.setVolume(50);
+                player.play();
+
+                if (player.error() != QMediaPlayer::Error::NoError) {
+                    qDebug() << qTRACE_VAR(player.error());
+                    qDebug() << qTRACE_VAR(player.errorString());
+                }
         } else {
             cQString mplayerBin = "mplayer";
-
-            QStringList args;
-            args << audioPath;
 
             QProcess *proc = new QProcess();
 
             connect(proc, qOverload<int, QProcess::ExitStatus>(&QProcess::finished),
                     proc, &QProcess::deleteLater);
-            proc->start(mplayerBin, args);
+            proc->start(mplayerBin, audioFiles);
         }
     }
 
