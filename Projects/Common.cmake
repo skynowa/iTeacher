@@ -29,11 +29,13 @@ set(ROOT_DIR "${DIR_HOME}/Projects/iTeacher")
 # modules
 if (EXISTS "${CMAKE_ROOT}/Modules/CMakeLib")
     set(CMAKE_MODULE_PATH
+        "${CMAKE_MODULE_PATH}"
         "${CMAKE_ROOT}/Modules/CMakeLib"
         "${CMAKE_ROOT}/Modules/CMakeLib/Qt"
         "${CMAKE_SOURCE_DIR}")
 else()
     set(CMAKE_MODULE_PATH
+        "${CMAKE_MODULE_PATH}"
         "${DIR_HOME}/Projects/CMakeLib"
         "${DIR_HOME}/Projects/CMakeLib/Qt"
         "${CMAKE_SOURCE_DIR}")
