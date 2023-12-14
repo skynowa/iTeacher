@@ -3,6 +3,7 @@
 ## iTeacher
 
 - [!] WordEditor - GoogleTranslate URL
+- [ ] Add example (small sentence) with using `term`
 - [ ] Hint::_timeoutMs - by words number
 - [ ] UI langs support - rm
 - [ ] Config: URL to My Google Docs
