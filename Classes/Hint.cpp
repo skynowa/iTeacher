@@ -314,6 +314,17 @@ Hint::show() const
         #else
             // icon - n/a
         #endif
+            // [HACK] Title width - set min value
+            {
+                const int widthMin {400};
+
+                auto *horizontalSpacer = new QSpacerItem(widthMin, 0,
+                    QSizePolicy::Minimum, QSizePolicy::Expanding);
+                auto *layout           = static_cast<QGridLayout *>(msgBox.layout());
+
+                layout->addItem(horizontalSpacer, layout->rowCount(), 0, 1, layout->columnCount());
+            }
+
             msgBox.setWindowTitle(title);
             msgBox.setText(text);
             msgBox.setStandardButtons(QMessageBox::Ok);
