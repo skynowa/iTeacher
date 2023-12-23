@@ -2,6 +2,7 @@
 
 ## iTeacher
 
+- [ ] Extra `learn / marked` buttons
 - [!] WordEditor - GoogleTranslate URL
 - [ ] Add example (small sentence) with using `term`
 - [ ] Hint::_timeoutMs - by words number
