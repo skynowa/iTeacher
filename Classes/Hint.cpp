@@ -126,14 +126,15 @@ Hint::show() const
     }
 
     // text (is term exists) - format
-    QString isTermExists;
+    QString isTermExistsStr;
+    bool    isTermExists {};
     {
         QSqlDatabase db = _model.database();
 
         SqliteDb sqliteDb(nullptr, &db, _model);
-        bRv = sqliteDb.isTerminExists(term);
+        isTermExists = sqliteDb.isTerminExists(term);
 
-        isTermExists = (bRv) ? QString(tr("Exists")) : QString(tr("New"));
+        isTermExistsStr = isTermExists ? QString(tr("Exists")) : QString(tr("New"));
     }
 
     QString title;
@@ -149,7 +150,7 @@ Hint::show() const
                         .arg(dbName)
                         .arg(langCodeFrom)
                         .arg(langCodeTo)
-                        .arg(isTermExists);
+                        .arg(isTermExistsStr);
             break;
         case Type::ToolTip:
             title = QString("<b>%1 - %2</b> [<b>%3 -> %4</b>] <b class='term_exists'>%5</b>")
@@ -157,7 +158,7 @@ Hint::show() const
                         .arg(dbName)
                         .arg(langCodeFrom)
                         .arg(langCodeTo)
-                        .arg(isTermExists);
+                        .arg(isTermExistsStr);
             break;
         }
     }
@@ -308,12 +309,13 @@ Hint::show() const
         {
             QMessageBox msgBox;
             msgBox.setParent( static_cast<QWidget *>(nullptr) );
-        #if 0
-            msgBox.setIcon(QMessageBox::Information);
-            msgBox.setIconPixmap( QPixmap(":/App.png") );
-        #else
-            // icon - n/a
-        #endif
+
+            // Icon
+            {
+                const auto icon = isTermExists ? QMessageBox::Information : QMessageBox::Critical;
+                msgBox.setIcon(icon);
+            }
+
             // [HACK] Title width - set min value
             {
                 const int widthMin {400};
