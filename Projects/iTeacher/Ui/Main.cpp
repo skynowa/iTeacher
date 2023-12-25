@@ -12,6 +12,7 @@
 #include "../Classes/CheckBoxItemDelegate.h"
 #include "../Classes/ComboBoxItemDelegate.h"
 #include "../Classes/Hint.h"
+#include "../Classes/TranslateUrl.h"
 #include "../Ui/WordEditor.h"
 #include "../Ui/WordFinder.h"
 #include "../Ui/TagsEditor.h"
@@ -441,18 +442,12 @@ Main::googleTranslate()
     cint       currentRow = _sqliteDb->view()->currentIndex().row();
     QSqlRecord record     = _sqliteDb->model()->record(currentRow);
 
-    cQString text      = record.value(DB_F_MAIN_VALUE).toString();
-    cQString langFrom  = "ru";
-    cQString langTo    = "en";
-    cQString operation = "translate";
+    cQString text     = record.value(DB_F_MAIN_VALUE).toString();
+    cQString langFrom = "ru";
+    cQString langTo   = "en";
 
-    cQString url = QString("https://translate.google.com/?sl=%1&tl=%2&op=%3&text=%4")
-                        .arg(langFrom)
-                        .arg(langTo)
-                        .arg(operation)
-                        .arg(text);
-
-    QDesktopServices::openUrl( QUrl(url, QUrl::TolerantMode) );
+    TranslateUrl url(TranslateUrl::Type::Google, text, langTo, langFrom);
+    url.open();
 }
 //-------------------------------------------------------------------------------------------------
 void
@@ -465,12 +460,8 @@ Main::deeplTranslate()
     cQString langFrom = "ru";
     cQString langTo   = "en";
 
-    cQString url = QString("https://www.deepl.com/translator#%1/%2/%3")
-            .arg(langFrom)
-            .arg(langTo)
-            .arg(text);
-
-    QDesktopServices::openUrl( QUrl(url, QUrl::TolerantMode) );
+    TranslateUrl url(TranslateUrl::Type::Deepl, text, langTo, langFrom);
+    url.open();
 }
 //-------------------------------------------------------------------------------------------------
 void
