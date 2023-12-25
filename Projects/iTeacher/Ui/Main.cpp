@@ -1084,8 +1084,8 @@ Main::showHide()
     if ( isVisible() ) {
         // [HACK] Window bring to front
         setWindowState( (windowState() & ~Qt::WindowMinimized) | Qt::WindowActive);
-        raise(); // for MacOS
-        activateWindow(); // for Windows
+        /// raise(); // for MacOS
+        /// activateWindow(); // for Windows
     }
 }
 //-------------------------------------------------------------------------------------------------
