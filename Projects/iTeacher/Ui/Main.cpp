@@ -215,6 +215,8 @@ Main::_initActions()
 
         connect(ui.actFile_GoogleTranslate, &QAction::triggered,
                 this,                       &Main::googleTranslate);
+        connect(ui.actFile_DeeplTranslate,  &QAction::triggered,
+                this,                       &Main::deeplTranslate);
 
         connect(ui.actFile_ImportCsv,       &QAction::triggered,
                 this,                       &Main::importCsv);
@@ -449,6 +451,24 @@ Main::googleTranslate()
                         .arg(langTo)
                         .arg(operation)
                         .arg(text);
+
+    QDesktopServices::openUrl( QUrl(url, QUrl::TolerantMode) );
+}
+//-------------------------------------------------------------------------------------------------
+void
+Main::deeplTranslate()
+{
+    cint       currentRow = _sqliteDb->view()->currentIndex().row();
+    QSqlRecord record     = _sqliteDb->model()->record(currentRow);
+
+    cQString text     = record.value(DB_F_MAIN_VALUE).toString();
+    cQString langFrom = "ru";
+    cQString langTo   = "en";
+
+    cQString url = QString("https://www.deepl.com/translator#%1/%2/%3")
+            .arg(langFrom)
+            .arg(langTo)
+            .arg(text);
 
     QDesktopServices::openUrl( QUrl(url, QUrl::TolerantMode) );
 }
@@ -1060,6 +1080,13 @@ void
 Main::showHide()
 {
     setVisible( !isVisible() );
+
+    if ( isVisible() ) {
+        // [HACK] Window bring to front
+        setWindowState( (windowState() & ~Qt::WindowMinimized) | Qt::WindowActive);
+        raise(); // for MacOS
+        activateWindow(); // for Windows
+    }
 }
 //-------------------------------------------------------------------------------------------------
 void

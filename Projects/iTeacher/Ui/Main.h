@@ -84,6 +84,7 @@ private Q_SLOTS:
     void createDb();
     void quickTranslateClipboard();
     void googleTranslate();
+    void deeplTranslate();
     void importCsv();
     void importCsvClipboard();
     void importClipboard();
