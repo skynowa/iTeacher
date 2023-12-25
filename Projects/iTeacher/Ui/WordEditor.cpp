@@ -118,6 +118,8 @@ WordEditor::_construct()
 
         connect(ui.tbtnGoogleTranslate, &QPushButton::clicked,
                 this,             &WordEditor::googleTranslate);
+        connect(ui.tbtnDeeplTranslate, &QPushButton::clicked,
+                this,             &WordEditor::deeplTranslate);
 
         connect(ui.tbtnCheck,     &QPushButton::clicked,
                 this,             &WordEditor::check);
@@ -474,6 +476,25 @@ WordEditor::googleTranslate() const
                         .arg(langFrom)
                         .arg(langTo)
                         .arg(operation)
+                        .arg(text);
+
+    QDesktopServices::openUrl( QUrl(url, QUrl::TolerantMode) );
+}
+//-------------------------------------------------------------------------------------------------
+/**
+ * TODO: Make common code
+ * \see Main::deeplTranslate()
+ */
+void
+WordEditor::deeplTranslate() const
+{
+    cQString text      = ui.tedtTerm->toPlainText();
+    cQString langFrom  = "en";
+    cQString langTo    = "ru";
+
+    cQString url = QString("https://www.deepl.com/translator#%1/%2/%3")
+                        .arg(langFrom)
+                        .arg(langTo)
                         .arg(text);
 
     QDesktopServices::openUrl( QUrl(url, QUrl::TolerantMode) );
