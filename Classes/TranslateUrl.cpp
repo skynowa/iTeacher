@@ -33,7 +33,9 @@ TranslateUrl::get() const
 
     switch (_type) {
     case Type::Unknown:
-        url = "";
+        {
+            url = "";
+        }
         break;
     case Type::Google:
         {
