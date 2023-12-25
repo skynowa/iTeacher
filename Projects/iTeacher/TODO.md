@@ -3,11 +3,11 @@
 ## iTeacher
 
 - [ ] Extra `learn / marked` buttons
-- [!] WordEditor - GoogleTranslate URL
+- [+] WordEditor - GoogleTranslate URL
 - [ ] Add example (small sentence) with using `term`
 - [ ] Hint::_timeoutMs - by words number
-- [ ] UI langs support - rm
-- [ ] Config: URL to My Google Docs
+- [+] UI langs support - rm
+- [?] Config: URL to My Google Docs
 - [ ] Detail (full) translation
 - [ ] Word status - Repeat, Marked, Learned
 - [ ] DB: transcription - add
@@ -19,7 +19,7 @@
 - [ ] UI: Kurs NBU (Android)
 - [ ] Quick search
 - [ ] WordEditor - translating on edit, FIX
-- [ ] CMake: distrs (Win, Linux)
+- [?] CMake: distrs (Win, Linux)
 - [+] Deploy script
 
 - [ ] [Move new words to DB](https://docs.google.com/spreadsheets/d/1m8uh17iOzbM5aj8NWxBxTZbrDobUbOsJepj_sH9Uz_A/edit)
@@ -30,12 +30,12 @@
 ## Voice
 
 - [!] FIX: speech
-- [ ] Voice on translate
+- [+] Voice on translate
 - [ ] http://www.sfml-dev.org/
 
 ## Translation suppliers (Yandex)
 
-- [ ] https://www.deepl.com/translator
+- [+] https://www.deepl.com/translator
 - [ ] http://api.yandex.com/translate/doc/dg/reference/translate.xml
 - [ ] https://tech.yandex.ru/translate/doc/dg/reference/translate-docpage/
 - [ ] https://dictionary.cambridge.org/
@@ -43,7 +43,7 @@
 ## Port
 
 - [ ] Qt 5 -> 6
-- [ ] QtQuick (+ Android)
+- [n/a] QtQuick (+ Android)
 
 ## FAQ
 
@@ -62,7 +62,7 @@ QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
 QApplication::restoreOverrideCursor();
 ```
 
-- [ ] Auto submit
+- [?] Auto submit
 
 ```c++
 // _model
