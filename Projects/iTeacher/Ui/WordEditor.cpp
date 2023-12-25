@@ -474,7 +474,7 @@ WordEditor::googleTranslate() const
     cQString operation = "translate";
 
     TranslateUrl url(TranslateUrl::Type::Google, text, langTo, langFrom);
-    url.open();
+    url.desktopOpen();
 }
 //-------------------------------------------------------------------------------------------------
 /**
@@ -489,7 +489,7 @@ WordEditor::deeplTranslate() const
     cQString langTo    = "ru";
 
     TranslateUrl url(TranslateUrl::Type::Deepl, text, langTo, langFrom);
-    url.open();
+    url.desktopOpen();
 }
 //-------------------------------------------------------------------------------------------------
 bool

@@ -60,7 +60,7 @@ TranslateUrl::get() const
 }
 //-------------------------------------------------------------------------------------------------
 void
-TranslateUrl::open() const
+TranslateUrl::desktopOpen() const
 {
     QDesktopServices::openUrl( get() );
 }

@@ -447,7 +447,7 @@ Main::googleTranslate()
     cQString langTo   = "en";
 
     TranslateUrl url(TranslateUrl::Type::Google, text, langTo, langFrom);
-    url.open();
+    url.desktopOpen();
 }
 //-------------------------------------------------------------------------------------------------
 void
@@ -461,7 +461,7 @@ Main::deeplTranslate()
     cQString langTo   = "en";
 
     TranslateUrl url(TranslateUrl::Type::Deepl, text, langTo, langFrom);
-    url.open();
+    url.desktopOpen();
 }
 //-------------------------------------------------------------------------------------------------
 void

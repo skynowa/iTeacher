@@ -31,7 +31,7 @@ public:
 
     QUrl get() const;
             ///< Get URL object
-    void open() const;
+    void desktopOpen() const;
             ///< Open by QDesktopServices
 
 private:
