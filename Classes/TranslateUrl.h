@@ -8,7 +8,7 @@
 
 #include "../QtLib/Common.h"
 //-------------------------------------------------------------------------------------------------
-class TranslateUrl
+class TranslateUrl final
     /// Translate URL
 {
 public:
@@ -22,9 +22,9 @@ public:
         Deepl   = 2  // https://www.deepl.com/translator
     };
 
-             TranslateUrl() = delete;
-             TranslateUrl(const Type type, cQString &text, cQString &langFrom, cQString &langTo);
-    virtual ~TranslateUrl() = default;
+    TranslateUrl() = delete;
+    TranslateUrl(const Type type, cQString &text, cQString &langFrom, cQString &langTo);
+   ~TranslateUrl() = default;
 
     Q_DISABLE_COPY(TranslateUrl)
 ///\}
