@@ -37,6 +37,7 @@ add_executable(${PROJECT_NAME}
     ${ROOT_DIR}/Classes/ComboBoxItemDelegate.cpp
     ${ROOT_DIR}/Classes/Hint.cpp
     ${ROOT_DIR}/Classes/SqliteDb.cpp
+    ${ROOT_DIR}/Classes/TranslateUrl.cpp
 
     # Ui
     Ui/Main.cpp

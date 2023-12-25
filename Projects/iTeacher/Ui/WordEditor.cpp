@@ -9,6 +9,7 @@
 #include "../QtLib/Utils.h"
 #include "../QtLib/SignalGuard.h"
 #include "../QtLib/Application.h"
+#include "../Classes/TranslateUrl.h"
 
 #include "TagsEditor.h"
 #include <xLib/Package/Application.h>
@@ -472,13 +473,8 @@ WordEditor::googleTranslate() const
     cQString langTo    = "ru";
     cQString operation = "translate";
 
-    cQString url = QString("https://translate.google.com/?sl=%1&tl=%2&op=%3&text=%4")
-                        .arg(langFrom)
-                        .arg(langTo)
-                        .arg(operation)
-                        .arg(text);
-
-    QDesktopServices::openUrl( QUrl(url, QUrl::TolerantMode) );
+    TranslateUrl url(TranslateUrl::Type::Google, text, langTo, langFrom);
+    url.desktopOpen();
 }
 //-------------------------------------------------------------------------------------------------
 /**
@@ -492,12 +488,8 @@ WordEditor::deeplTranslate() const
     cQString langFrom  = "en";
     cQString langTo    = "ru";
 
-    cQString url = QString("https://www.deepl.com/translator#%1/%2/%3")
-                        .arg(langFrom)
-                        .arg(langTo)
-                        .arg(text);
-
-    QDesktopServices::openUrl( QUrl(url, QUrl::TolerantMode) );
+    TranslateUrl url(TranslateUrl::Type::Deepl, text, langTo, langFrom);
+    url.desktopOpen();
 }
 //-------------------------------------------------------------------------------------------------
 bool
