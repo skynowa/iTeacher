@@ -56,7 +56,7 @@ TranslateUrl::get() const
         break;
     }
 
-    return QUrl(url, QUrl::TolerantMode);
+    return QUrl(url);
 }
 //-------------------------------------------------------------------------------------------------
 void
