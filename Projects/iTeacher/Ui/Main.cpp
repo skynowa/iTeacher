@@ -443,8 +443,8 @@ Main::googleTranslate()
     QSqlRecord record     = _sqliteDb->model()->record(currentRow);
 
     cQString text     = record.value(DB_F_MAIN_VALUE).toString();
-    cQString langFrom = "ru";
-    cQString langTo   = "en";
+    cQString langFrom = "en";
+    cQString langTo   = "ru";
 
     TranslateUrl url(TranslateUrl::Type::Google, text, langTo, langFrom);
     url.desktopOpen();
@@ -457,8 +457,8 @@ Main::deeplTranslate()
     QSqlRecord record     = _sqliteDb->model()->record(currentRow);
 
     cQString text     = record.value(DB_F_MAIN_VALUE).toString();
-    cQString langFrom = "ru";
-    cQString langTo   = "en";
+    cQString langFrom = "en";
+    cQString langTo   = "ru";
 
     TranslateUrl url(TranslateUrl::Type::Deepl, text, langTo, langFrom);
     url.desktopOpen();
