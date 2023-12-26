@@ -1,13 +1,20 @@
 # TODO
 
+## \see Translators
+
+- StarDict
+- https://github.com/yasirtug/ni-translate
+- https://github.com/crow-translate/crow-translate
+- https://github.com/soimort/translate-shell
+
 ## iTeacher
 
+- [?] Config: URL to My Google Docs
 - [ ] Extra `learn / marked` buttons
 - [+] WordEditor - GoogleTranslate URL
 - [ ] Add example (small sentence) with using `term`
 - [ ] Hint::_timeoutMs - by words number
 - [+] UI langs support - rm
-- [?] Config: URL to My Google Docs
 - [ ] Detail (full) translation
 - [ ] Word status - Repeat, Marked, Learned
 - [ ] DB: transcription - add
