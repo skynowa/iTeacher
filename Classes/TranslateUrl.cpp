@@ -65,12 +65,12 @@ TranslateUrl::get() const
 void
 TranslateUrl::desktopOpen() const
 {
-#if 0
-    (bool)QDesktopServices::openUrl( get() );
-#else
+   /**
+    * \see (bool)QDesktopServices::openUrl();
+    */
+
     std::ctstring_t filePathOrURL = get().toString().toStdString();
 
     Process::shellExecute(filePathOrURL);
-#endif
 }
 //-------------------------------------------------------------------------------------------------
