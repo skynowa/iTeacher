@@ -71,6 +71,6 @@ TranslateUrl::desktopOpen() const
 
     std::ctstring_t filePathOrURL = get().toString().toStdString();
 
-    Process::shellExecute(filePathOrURL);
+    Process::shellExecute(filePathOrURL, {});
 }
 //-------------------------------------------------------------------------------------------------
