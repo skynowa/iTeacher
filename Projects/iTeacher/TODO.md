@@ -9,7 +9,9 @@
 
 ## iTeacher
 
+- [ ] WoerEditor, low case - fix
 - [?] Config: URL to My Google Docs
+- [!] MsgBox - show tag
 - [ ] Extra `learn / marked` buttons
 - [+] WordEditor - GoogleTranslate URL
 - [ ] Add example (small sentence) with using `term`
