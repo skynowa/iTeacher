@@ -382,19 +382,6 @@
      </property>
     </widget>
    </item>
-   <item row="13" column="0" colspan="3">
-    <widget class="QDialogButtonBox" name="bbxButtons">
-     <property name="sizePolicy">
-      <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
-       <horstretch>0</horstretch>
-       <verstretch>0</verstretch>
-      </sizepolicy>
-     </property>
-     <property name="standardButtons">
-      <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
-     </property>
-    </widget>
-   </item>
    <item row="4" column="3" colspan="2">
     <widget class="QToolButton" name="tbtnTermValueSwap">
      <property name="sizePolicy">
@@ -433,6 +420,32 @@
       <string>Reset</string>
      </property>
     </widget>
+   </item>
+   <item row="13" column="6">
+    <widget class="QDialogButtonBox" name="bbxButtons">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="standardButtons">
+      <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
+     </property>
+    </widget>
+   </item>
+   <item row="13" column="0" colspan="6">
+    <spacer name="horizontalSpacer_3">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>40</width>
+       <height>20</height>
+      </size>
+     </property>
+    </spacer>
    </item>
   </layout>
  </widget>
