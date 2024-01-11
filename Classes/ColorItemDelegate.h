@@ -22,7 +22,7 @@ public:
                         const Qt::GlobalColor backgroundColor);
     virtual ~ColorItemDelegate() = default;
 
-    Q_DISABLE_COPY(ColorItemDelegate);
+    Q_DISABLE_COPY(ColorItemDelegate)
 ///@}
 
     void initStyleOption(QStyleOptionViewItem *option, const QModelIndex &index) const final;

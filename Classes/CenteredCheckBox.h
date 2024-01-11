@@ -18,7 +18,7 @@ public:
 ///@{
     explicit CenteredCheckBox(QWidget *parent);
 
-    Q_DISABLE_COPY(CenteredCheckBox);
+    Q_DISABLE_COPY(CenteredCheckBox)
 ///@}
 
     QCheckBox *checkBox() const;

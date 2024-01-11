@@ -19,7 +19,7 @@ public:
     explicit  ComboBoxItemDelegate(QObject *parent, QSqlTableModel *sqlModel);
     virtual  ~ComboBoxItemDelegate() = default;
 
-    Q_DISABLE_COPY(ComboBoxItemDelegate);
+    Q_DISABLE_COPY(ComboBoxItemDelegate)
 ///@}
 
     QWidget *createEditor(QWidget *parent, const QStyleOptionViewItem &option, cQModelIndex &index)

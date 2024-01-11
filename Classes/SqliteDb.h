@@ -32,7 +32,7 @@ public:
         ///< \info reopen() - no affect
     ~SqliteDb() final;
 
-    Q_DISABLE_COPY(SqliteDb);
+    Q_DISABLE_COPY(SqliteDb)
 ///@}
 
     QSqlDatabase                     *db() const;
