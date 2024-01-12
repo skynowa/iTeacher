@@ -9,10 +9,10 @@
 
 ## iTeacher
 
-- [?] Config: URL to My Google Docs
 - [!] MsgBox - show tag
 - [ ] Extra `learn / marked` buttons
 - [+] WordEditor - GoogleTranslate URL
+- [+] Config: URL to My Google Docs [New words](https://docs.google.com/spreadsheets/d/1m8uh17iOzbM5aj8NWxBxTZbrDobUbOsJepj_sH9Uz_A/edit)
 - [ ] Add example (small sentence) with using `term`
 - [ ] Hint::_timeoutMs - by words number
 - [+] UI langs support - rm
@@ -29,8 +29,6 @@
 - [ ] WordEditor - translating on edit, FIX
 - [?] CMake: distrs (Win, Linux)
 - [+] Deploy script
-
-- [ ] [Move new words to DB](https://docs.google.com/spreadsheets/d/1m8uh17iOzbM5aj8NWxBxTZbrDobUbOsJepj_sH9Uz_A/edit)
 
 - [+] Hint classes
 - [+] Mute mode

@@ -128,4 +128,5 @@ const TableViewHeader tableViewHeaders[]
 #define TABLEVIEW_ROW_HEIGHT     20
 #define BUTTON_BOX_WIDTH         75
 #define TERM_MINIMIZED_SIZE_MAX  30
+#define GOOGLE_DOCS_URL          "https://docs.google.com/spreadsheets/d/1m8uh17iOzbM5aj8NWxBxTZbrDobUbOsJepj_sH9Uz_A/edit"
 //-------------------------------------------------------------------------------------------------

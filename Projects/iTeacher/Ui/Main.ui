@@ -84,6 +84,7 @@
     <addaction name="actFile_QuickTranslateClipboard"/>
     <addaction name="actFile_GoogleTranslate"/>
     <addaction name="actFile_DeeplTranslate"/>
+    <addaction name="actFile_GoogleDocs"/>
     <addaction name="separator"/>
     <addaction name="actFile_ImportCsv"/>
     <addaction name="actFile_ImportCsvClipboard"/>
@@ -171,6 +172,7 @@
    <addaction name="actFile_Exit"/>
    <addaction name="actFile_GoogleTranslate"/>
    <addaction name="actFile_DeeplTranslate"/>
+   <addaction name="actFile_GoogleDocs"/>
    <addaction name="actFile_ImportClipboard"/>
    <addaction name="separator"/>
    <addaction name="actEdit_First"/>
@@ -588,6 +590,21 @@
    </property>
    <property name="toolTip">
     <string>Deepl Translate</string>
+   </property>
+  </action>
+  <action name="actFile_GoogleDocs">
+   <property name="icon">
+    <iconset resource="../../../Resources/App.qrc">
+     <normaloff>:/Menu/Menu/GoogleDocs.svg</normaloff>:/Menu/Menu/GoogleDocs.svg</iconset>
+   </property>
+   <property name="text">
+    <string>Google Docs</string>
+   </property>
+   <property name="iconText">
+    <string>Deepl Translate</string>
+   </property>
+   <property name="toolTip">
+    <string>Google Docs</string>
    </property>
   </action>
  </widget>

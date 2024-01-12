@@ -85,6 +85,7 @@ private Q_SLOTS:
     void quickTranslateClipboard();
     void googleTranslate();
     void deeplTranslate();
+    void googleDocs();
     void importCsv();
     void importCsvClipboard();
     void importClipboard();

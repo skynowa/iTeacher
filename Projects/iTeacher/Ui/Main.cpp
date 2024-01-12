@@ -218,6 +218,8 @@ Main::_initActions()
                 this,                       &Main::googleTranslate);
         connect(ui.actFile_DeeplTranslate,  &QAction::triggered,
                 this,                       &Main::deeplTranslate);
+        connect(ui.actFile_GoogleDocs,      &QAction::triggered,
+                this,                       &Main::googleDocs);
 
         connect(ui.actFile_ImportCsv,       &QAction::triggered,
                 this,                       &Main::importCsv);
@@ -462,6 +464,18 @@ Main::deeplTranslate()
 
     TranslateUrl url(TranslateUrl::Type::Deepl, text, langTo, langFrom);
     url.desktopOpen();
+}
+//-------------------------------------------------------------------------------------------------
+void
+Main::googleDocs()
+{
+   /**
+    * \see (bool)QDesktopServices::openUrl();
+    */
+
+    std::ctstring_t filePathOrURL = QUrl(GOOGLE_DOCS_URL).toString().toStdString();
+
+    Process::shellExecute(filePathOrURL, {});
 }
 //-------------------------------------------------------------------------------------------------
 void
