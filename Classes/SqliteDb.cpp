@@ -234,7 +234,7 @@ SqliteDb::randomRow() const
 }
 //-------------------------------------------------------------------------------------------------
 QSqlRecord
-SqliteDb::findByField(
+SqliteDb::findTagByField(
     cQString &a_name,
     cQString &a_value
 ) const
