@@ -47,7 +47,7 @@ public:
     std::size_t wordsNotLearned() const;
     bool        isTerminExists(cQString &term) const;
     bool        isTagsEmpty() const;
-    QSqlRecord  findTagByField(cQString &name, cQString &value) const;
+    QSqlRecord  findByField(cQString &table, cQString &name, cQString &value) const;
     QSqlRecord  randomRow() const;
 
 private:

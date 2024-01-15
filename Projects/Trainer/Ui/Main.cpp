@@ -223,7 +223,7 @@ Main::randomRow() const
     // status
     QString status;
     {
-        const QSqlRecord statusRecord = _sqliteDb->findTagByField("ID", tagId);
+        const QSqlRecord statusRecord = _sqliteDb->findByField(DB_T_TAGS, "ID", tagId);
 
         QString tagName = statusRecord.value(DB_F_TAGS_NAME).toString();
         if ( tagName.isEmpty() ) {

@@ -234,7 +234,8 @@ SqliteDb::randomRow() const
 }
 //-------------------------------------------------------------------------------------------------
 QSqlRecord
-SqliteDb::findTagByField(
+SqliteDb::findByField(
+    cQString &a_table,
     cQString &a_name,
     cQString &a_value
 ) const
@@ -243,7 +244,7 @@ SqliteDb::findTagByField(
 
     cQString sql =
         "SELECT * "
-        "FROM  " DB_T_TAGS " "
+        "FROM  " + a_table + " "
         "WHERE " + a_name + "=" + a_value + " " +
         "LIMIT 1";
 
