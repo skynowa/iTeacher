@@ -180,15 +180,7 @@ SqliteDb::isTerminExists(
 ) const
 {
 #if 0
-    qTEST(!a_term.isEmpty())
-    qTEST(_model);
 
-    cQString sql =
-        "SELECT count(*) "
-        "FROM  " + _model->tableName() + " "
-        "WHERE " DB_F_MAIN_TERM " = " + a_term.trimmed();
-
-    return (_queryCount(sql) > 0);
 #else
     qTEST(_db);
     qTEST(_model);
