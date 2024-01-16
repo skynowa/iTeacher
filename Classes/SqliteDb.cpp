@@ -245,13 +245,11 @@ SqliteDb::findByField(
     cQString sql =
         "SELECT * "
         "FROM  " + a_table + " "
-        "WHERE " + a_name + " = :value1";
-    qDebug() << qTRACE_VAR(sql);
-    qDebug() << qTRACE_VAR(a_value);
+        "WHERE " + a_name + " = :value";
 
     QSqlQuery query( *db() );
     query.prepare(sql);
-    query.bindValue(":value1", a_value.trimmed());
+    query.bindValue(":value", a_value.trimmed());
 
     bRv = query.exec();
     qCHECK_REF(bRv, query);
