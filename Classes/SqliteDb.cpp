@@ -186,14 +186,14 @@ SqliteDb::isTerminExists(
     qTEST(_model);
     qTEST(!a_term.isEmpty())
 
-    bool      bRv {};
-    QSqlQuery query( *db() );
+    bool bRv {};
 
     cQString sql =
         "SELECT count(1) "
         "FROM  " + _model->tableName() + " "
         "WHERE " DB_F_MAIN_TERM " = :term";
 
+    QSqlQuery query( *db() );
     query.prepare(sql);
     query.bindValue(":term", a_term.trimmed());
 
@@ -210,6 +210,35 @@ SqliteDb::isTerminExists(
 }
 //-------------------------------------------------------------------------------------------------
 QSqlRecord
+SqliteDb::findByField(
+    cQString &a_table,
+    cQString &a_name,
+    cQString &a_value
+) const
+{
+    bool bRv {};
+
+    cQString sql =
+        "SELECT * "
+        "FROM  " + a_table + " "
+        "WHERE " + a_name + " = :value1";
+    qDebug() << qTRACE_VAR(sql);
+    qDebug() << qTRACE_VAR(a_value);
+
+    QSqlQuery query( *db() );
+    query.prepare(sql);
+    query.bindValue(":value1", a_value.trimmed());
+
+    bRv = query.exec();
+    qCHECK_REF(bRv, query);
+
+    bRv = query.next();
+    qCHECK_REF(bRv, query);
+
+    return query.record();
+}
+//-------------------------------------------------------------------------------------------------
+QSqlRecord
 SqliteDb::randomRow() const
 {
     const bool option_notLearned {true};
@@ -222,31 +251,6 @@ SqliteDb::randomRow() const
         (option_notLearned ? "WHERE " DB_F_MAIN_IS_LEARNED " = 0 " : "") +
         "ORDER BY RANDOM() "
         "LIMIT 1;";
-
-    QSqlQuery query(*_db);
-    bRv = query.exec(sql);
-    qCHECK_REF(bRv, query);
-
-    bRv = query.next();
-    qCHECK_REF(bRv, query);
-
-    return query.record();
-}
-//-------------------------------------------------------------------------------------------------
-QSqlRecord
-SqliteDb::findByField(
-    cQString &a_table,
-    cQString &a_name,
-    cQString &a_value
-) const
-{
-    bool bRv {};
-
-    cQString sql =
-        "SELECT * "
-        "FROM  " + a_table + " "
-        "WHERE " + a_name + "=" + a_value + " " +
-        "LIMIT 1";
 
     QSqlQuery query(*_db);
     bRv = query.exec(sql);

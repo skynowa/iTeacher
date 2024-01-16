@@ -135,6 +135,9 @@ Hint::show() const
         isTermExists = sqliteDb.isTerminExists(term);
 
         isTermExistsStr = isTermExists ? QString(tr("Exists")) : QString(tr("New"));
+
+        QSqlRecord record = sqliteDb.findByField(_model.tableName(), DB_F_MAIN_TERM, term);
+        qDebug() << qTRACE_VAR(record);
     }
 
     QString title;
