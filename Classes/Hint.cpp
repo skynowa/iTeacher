@@ -128,16 +128,34 @@ Hint::show() const
     // text (is term exists) - format
     QString isTermExistsStr;
     bool    isTermExists {};
+    QString tagID;
+    QString tagName;
     {
         QSqlDatabase db = _model.database();
 
+        qDebug() << "::::: " << qTRACE_VAR(term) << " :::::";
+
         SqliteDb sqliteDb(nullptr, &db, _model);
         isTermExists = sqliteDb.isTerminExists(term);
+        qDebug() << qTRACE_VAR(isTermExists);
 
         isTermExistsStr = isTermExists ? QString(tr("Exists")) : QString(tr("New"));
 
-        QSqlRecord record = sqliteDb.findByField(_model.tableName(), DB_F_MAIN_TERM, term);
-        qDebug() << qTRACE_VAR(record);
+        QSqlRecord recordTerm = sqliteDb.findByField(_model.tableName(), DB_F_MAIN_TERM, term);
+        qDebug() << qTRACE_VAR(recordTerm);
+
+        tagID = recordTerm.value(DB_F_MAIN_TAG).toString();
+        qDebug() << qTRACE_VAR(tagID);
+
+        QSqlRecord recordTag = sqliteDb.findByField(DB_T_TAGS, DB_F_TAGS_ID, tagID);
+        qDebug() << qTRACE_VAR(recordTag);
+
+        tagName = recordTag.value(DB_F_TAGS_NAME).toString();
+        if ( tagName.isEmpty() ) {
+            tagName = "-";
+        }
+
+        qDebug() << qTRACE_VAR(tagName);
     }
 
     QString title;
@@ -199,11 +217,14 @@ Hint::show() const
                             "</style>"
                             "<h3>%4</h3>"   // title
                             "<h4>%5</h4>"   // msg
+                            "<h4>%6 (%7)</h4>"   // tagName (tagID)
                             "<h5> </h5>")   // force EOL
                             .arg(termFontSize)
                             .arg(valueFontSize)
                             .arg(term)
-                            .arg(valueBrief);
+                            .arg(valueBrief)
+                            .arg(tagName)
+                            .arg(tagID);
             }
             break;
         case Type::ToolTip:
