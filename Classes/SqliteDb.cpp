@@ -186,14 +186,14 @@ SqliteDb::isTerminExists(
     qTEST(_model);
     qTEST(!a_term.isEmpty())
 
-    bool      bRv {};
-    QSqlQuery query( *db() );
+    bool bRv {};
 
     cQString sql =
         "SELECT count(1) "
         "FROM  " + _model->tableName() + " "
         "WHERE " DB_F_MAIN_TERM " = :term";
 
+    QSqlQuery query( *db() );
     query.prepare(sql);
     query.bindValue(":term", a_term.trimmed());
 
