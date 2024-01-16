@@ -211,14 +211,19 @@ Hint::show() const
                                     "text-align: center;"
                                     "font-size: %2px;"
                                 "}"
+                                "h5 {"
+                                    "color: black;"
+                                    "text-align: center;"
+                                    "font-size: %2px;"
+                                "}"
                                 ".term_exists {"
                                     "color: green;"
                                 "}"
                             "</style>"
-                            "<h3>%4</h3>"   // title
-                            "<h4>%5</h4>"   // msg
-                            "<h4>%6 (%7)</h4>"   // tagName (tagID)
-                            "<h5> </h5>")   // force EOL
+                            "<h3>%3</h3>"      // title
+                            "<h4>%4</h4>"      // msg
+                            "<h5>%5 (%6)</h5>" // tagName (tagID)
+                            "<h5> </h5>")      // force EOL
                             .arg(termFontSize)
                             .arg(valueFontSize)
                             .arg(term)
