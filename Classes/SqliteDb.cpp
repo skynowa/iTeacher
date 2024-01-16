@@ -210,6 +210,30 @@ SqliteDb::isTerminExists(
 }
 //-------------------------------------------------------------------------------------------------
 QSqlRecord
+SqliteDb::randomRow() const
+{
+    const bool option_notLearned {true};
+
+    bool bRv {};
+
+    cQString sql =
+        "SELECT * "
+        "FROM  " + _model->tableName() + " " +
+        (option_notLearned ? "WHERE " DB_F_MAIN_IS_LEARNED " = 0 " : "") +
+        "ORDER BY RANDOM() "
+        "LIMIT 1;";
+
+    QSqlQuery query(*_db);
+    bRv = query.exec(sql);
+    qCHECK_REF(bRv, query);
+
+    bRv = query.next();
+    qCHECK_REF(bRv, query);
+
+    return query.record();
+}
+//-------------------------------------------------------------------------------------------------
+QSqlRecord
 SqliteDb::findByField(
     cQString &a_table,
     cQString &a_name,
@@ -230,30 +254,6 @@ SqliteDb::findByField(
     query.bindValue(":value1", a_value.trimmed());
 
     bRv = query.exec();
-    qCHECK_REF(bRv, query);
-
-    bRv = query.next();
-    qCHECK_REF(bRv, query);
-
-    return query.record();
-}
-//-------------------------------------------------------------------------------------------------
-QSqlRecord
-SqliteDb::randomRow() const
-{
-    const bool option_notLearned {true};
-
-    bool bRv {};
-
-    cQString sql =
-        "SELECT * "
-        "FROM  " + _model->tableName() + " " +
-        (option_notLearned ? "WHERE " DB_F_MAIN_IS_LEARNED " = 0 " : "") +
-        "ORDER BY RANDOM() "
-        "LIMIT 1;";
-
-    QSqlQuery query(*_db);
-    bRv = query.exec(sql);
     qCHECK_REF(bRv, query);
 
     bRv = query.next();
