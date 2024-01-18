@@ -137,25 +137,25 @@ Hint::show() const
 
         SqliteDb sqliteDb(nullptr, &db, _model);
         isTermExists = sqliteDb.isTerminExists(term);
-        qDebug() << qTRACE_VAR(isTermExists);
+        // qDebug() << qTRACE_VAR(isTermExists);
 
         isTermExistsStr = isTermExists ? QString(tr("Exists")) : QString(tr("New"));
 
         QSqlRecord recordTerm = sqliteDb.findByField(_model.tableName(), DB_F_MAIN_TERM, term);
-        qDebug() << qTRACE_VAR(recordTerm);
+        // qDebug() << qTRACE_VAR(recordTerm);
 
         tagID = recordTerm.value(DB_F_MAIN_TAG).toString();
-        qDebug() << qTRACE_VAR(tagID);
+        // qDebug() << qTRACE_VAR(tagID);
 
         QSqlRecord recordTag = sqliteDb.findByField(DB_T_TAGS, DB_F_TAGS_ID, tagID);
-        qDebug() << qTRACE_VAR(recordTag);
+        // qDebug() << qTRACE_VAR(recordTag);
 
         tagName = recordTag.value(DB_F_TAGS_NAME).toString();
         if ( tagName.isEmpty() ) {
             tagName = "-";
         }
 
-        qDebug() << qTRACE_VAR(tagName);
+        // qDebug() << qTRACE_VAR(tagName);
     }
 
     QString title;

@@ -252,6 +252,7 @@ SqliteDb::findByField(
     query.bindValue(":value", a_value.trimmed());
 
     bRv = query.exec();
+    qCHECK_RET(query.lastError().type() == QSqlError::ErrorType::NoError, QSqlRecord());
     qCHECK_REF(bRv, query);
 
     bRv = query.next();
