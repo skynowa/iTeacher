@@ -128,7 +128,7 @@ Hint::show() const
     // text (is term exists) - format
     QString isTermExistsStr;
     bool    isTermExists {};
-    QString tagName;
+    QString tag;
     {
         QSqlDatabase db = _model.database();
         SqliteDb     sqliteDb(nullptr, &db, _model);
@@ -141,11 +141,11 @@ Hint::show() const
         const QSqlRecord recordTerm = sqliteDb.findByField(_model.tableName(), DB_F_MAIN_TERM, term);
         cQString tagID = recordTerm.value(DB_F_MAIN_TAG).toString();
 
-        // tagName
+        // tag
         const QSqlRecord recordTag = sqliteDb.findByField(DB_T_TAGS, DB_F_TAGS_ID, tagID);
-        tagName = recordTag.value(DB_F_TAGS_NAME).toString();
-        if ( tagName.isEmpty() ) {
-            tagName = "-";
+        tag = recordTag.value(DB_F_TAGS_NAME).toString();
+        if ( tag.isEmpty() ) {
+            tag = "-";
         }
     }
 
@@ -187,7 +187,7 @@ Hint::show() const
                         "%3\n")
                         .arg(term)
                         .arg(valueBrief)
-                        .arg(tagName);
+                        .arg(tag);
         case Type::MessageBox:
             {
                 constexpr std::size_t termFontSize  {24};
@@ -224,7 +224,7 @@ Hint::show() const
                             .arg(tagFontSize)
                             .arg(term)
                             .arg(valueBrief)
-                            .arg(tagName);
+                            .arg(tag);
             }
             break;
         case Type::ToolTip:
@@ -266,7 +266,7 @@ Hint::show() const
                             .arg(title)
                             .arg(term)
                             .arg(valueBrief)
-                            .arg(tagName);
+                            .arg(tag);
             }
             break;
         }
