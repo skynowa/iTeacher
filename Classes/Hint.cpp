@@ -128,13 +128,25 @@ Hint::show() const
     // text (is term exists) - format
     QString isTermExistsStr;
     bool    isTermExists {};
+    QString tag;
     {
         QSqlDatabase db = _model.database();
+        SqliteDb     sqliteDb(nullptr, &db, _model);
 
-        SqliteDb sqliteDb(nullptr, &db, _model);
-        isTermExists = sqliteDb.isTerminExists(term);
-
+        // isTermExists
+        isTermExists    = sqliteDb.isTerminExists(term);
         isTermExistsStr = isTermExists ? QString(tr("Exists")) : QString(tr("New"));
+
+        // tagID
+        const QSqlRecord recordTerm = sqliteDb.findByField(_model.tableName(), DB_F_MAIN_TERM, term);
+        cQString tagID = recordTerm.value(DB_F_MAIN_TAG).toString();
+
+        // tag
+        const QSqlRecord recordTag = sqliteDb.findByField(DB_T_TAGS, DB_F_TAGS_ID, tagID);
+        tag = recordTag.value(DB_F_TAGS_NAME).toString();
+        if ( tag.isEmpty() ) {
+            tag = "-";
+        }
     }
 
     QString title;
@@ -171,12 +183,16 @@ Hint::show() const
             // TODO: QSystemTrayIcon doesn't support HTML ???
             text = QString(
                         "%1\n\n"
-                        "%2")
-                        .arg(term, valueBrief);
+                        "%2\n\n"
+                        "%3\n")
+                        .arg(term)
+                        .arg(valueBrief)
+                        .arg(tag);
         case Type::MessageBox:
             {
                 constexpr std::size_t termFontSize  {24};
                 constexpr std::size_t valueFontSize {termFontSize - 2};
+                constexpr std::size_t tagFontSize   {termFontSize - 2};
 
                 text = QString(
                             "<style>"
@@ -189,6 +205,11 @@ Hint::show() const
                                     "color: red;"
                                     "text-align: center;"
                                     "font-size: %2px;"
+                                "}"
+                                "h5 {"
+                                    "color: black;"
+                                    "text-align: center;"
+                                    "font-size: %3px;"
                                 "}"
                                 ".term_exists {"
                                     "color: green;"
@@ -196,17 +217,21 @@ Hint::show() const
                             "</style>"
                             "<h3>%4</h3>"   // title
                             "<h4>%5</h4>"   // msg
+                            "<h5>%6</h5>"   // tagName
                             "<h5> </h5>")   // force EOL
                             .arg(termFontSize)
                             .arg(valueFontSize)
+                            .arg(tagFontSize)
                             .arg(term)
-                            .arg(valueBrief);
+                            .arg(valueBrief)
+                            .arg(tag);
             }
             break;
         case Type::ToolTip:
             {
                 constexpr std::size_t termFontSize  {24};
                 constexpr std::size_t valueFontSize {termFontSize - 2};
+                constexpr std::size_t tagFontSize   {termFontSize - 2};
 
                 text = QString(
                             "<style>"
@@ -220,20 +245,28 @@ Hint::show() const
                                     "text-align: center;"
                                     "font-size: %2px;"
                                 "}"
+                                "h5 {"
+                                "color: red;"
+                                "text-align: center;"
+                                "font-size: %3px;"
+                                "}"
                                 ".term_exists {"
                                     "color: green;"
                                 "}"
                             "</style>"
-                            "%3"            // title
+                            "%4"            // title
                             "<hr/>"
-                            "<h3>%4</h3>"
-                            "<h4>%5</h4>"   // msg
+                            "<h3>%5</h3>"
+                            "<h4>%6</h4>"   // msg
+                            "<h5>%7</h5>"   // tagName
                             "<h5> </h5>")   // force EOL
                             .arg(termFontSize)
                             .arg(valueFontSize)
+                            .arg(tagFontSize)
                             .arg(title)
                             .arg(term)
-                            .arg(valueBrief);
+                            .arg(valueBrief)
+                            .arg(tag);
             }
             break;
         }

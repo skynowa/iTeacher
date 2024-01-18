@@ -245,11 +245,14 @@ SqliteDb::findByField(
     cQString sql =
         "SELECT * "
         "FROM  " + a_table + " "
-        "WHERE " + a_name + "=" + a_value + " " +
-        "LIMIT 1";
+        "WHERE " + a_name + " = :value";
 
-    QSqlQuery query(*_db);
-    bRv = query.exec(sql);
+    QSqlQuery query( *db() );
+    query.prepare(sql);
+    query.bindValue(":value", a_value.trimmed());
+
+    bRv = query.exec();
+    qCHECK_RET(query.lastError().type() == QSqlError::ErrorType::NoError, QSqlRecord());
     qCHECK_REF(bRv, query);
 
     bRv = query.next();
