@@ -9,7 +9,7 @@
 
 ## iTeacher
 
-- [!] MsgBox - show tag
+- [+] MsgBox - show tag
 - [ ] Extra `learn / marked` buttons
 - [+] WordEditor - GoogleTranslate URL
 - [+] Config: URL to My Google Docs [New words](https://docs.google.com/spreadsheets/d/1m8uh17iOzbM5aj8NWxBxTZbrDobUbOsJepj_sH9Uz_A/edit)
