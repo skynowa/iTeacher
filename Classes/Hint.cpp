@@ -192,6 +192,7 @@ Hint::show() const
             {
                 constexpr std::size_t termFontSize  {24};
                 constexpr std::size_t valueFontSize {termFontSize - 2};
+                constexpr std::size_t tagFontSize   {termFontSize - 2};
 
                 text = QString(
                             "<style>"
@@ -208,18 +209,19 @@ Hint::show() const
                                 "h5 {"
                                     "color: black;"
                                     "text-align: center;"
-                                    "font-size: %2px;"
+                                    "font-size: %3px;"
                                 "}"
                                 ".term_exists {"
                                     "color: green;"
                                 "}"
                             "</style>"
-                            "<h3>%3</h3>"   // title
-                            "<h4>%4</h4>"   // msg
-                            "<h5>%5</h5>"   // tagName
+                            "<h3>%4</h3>"   // title
+                            "<h4>%5</h4>"   // msg
+                            "<h5>%6</h5>"   // tagName
                             "<h5> </h5>")   // force EOL
                             .arg(termFontSize)
                             .arg(valueFontSize)
+                            .arg(tagFontSize)
                             .arg(term)
                             .arg(valueBrief)
                             .arg(tagName);
