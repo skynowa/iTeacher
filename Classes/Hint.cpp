@@ -128,7 +128,6 @@ Hint::show() const
     // text (is term exists) - format
     QString isTermExistsStr;
     bool    isTermExists {};
-    QString tagID;
     QString tagName;
     {
         QSqlDatabase db = _model.database();
@@ -136,26 +135,21 @@ Hint::show() const
         qDebug() << "::::: " << qTRACE_VAR(term) << " :::::";
 
         SqliteDb sqliteDb(nullptr, &db, _model);
-        isTermExists = sqliteDb.isTerminExists(term);
-        // qDebug() << qTRACE_VAR(isTermExists);
 
+        // isTermExists
+        isTermExists    = sqliteDb.isTerminExists(term);
         isTermExistsStr = isTermExists ? QString(tr("Exists")) : QString(tr("New"));
 
-        QSqlRecord recordTerm = sqliteDb.findByField(_model.tableName(), DB_F_MAIN_TERM, term);
-        // qDebug() << qTRACE_VAR(recordTerm);
+        // tagID
+        const QSqlRecord recordTerm = sqliteDb.findByField(_model.tableName(), DB_F_MAIN_TERM, term);
+        cQString tagID = recordTerm.value(DB_F_MAIN_TAG).toString();
 
-        tagID = recordTerm.value(DB_F_MAIN_TAG).toString();
-        // qDebug() << qTRACE_VAR(tagID);
-
-        QSqlRecord recordTag = sqliteDb.findByField(DB_T_TAGS, DB_F_TAGS_ID, tagID);
-        // qDebug() << qTRACE_VAR(recordTag);
-
+        // tagName
+        const QSqlRecord recordTag = sqliteDb.findByField(DB_T_TAGS, DB_F_TAGS_ID, tagID);
         tagName = recordTag.value(DB_F_TAGS_NAME).toString();
         if ( tagName.isEmpty() ) {
             tagName = "-";
         }
-
-        // qDebug() << qTRACE_VAR(tagName);
     }
 
     QString title;
@@ -192,8 +186,11 @@ Hint::show() const
             // TODO: QSystemTrayIcon doesn't support HTML ???
             text = QString(
                         "%1\n\n"
-                        "%2")
-                        .arg(term, valueBrief);
+                        "%2\n\n"
+                        "%3\n")
+                        .arg(term)
+                        .arg(valueBrief)
+                        .arg(tagName);
         case Type::MessageBox:
             {
                 constexpr std::size_t termFontSize  {24};
@@ -220,16 +217,15 @@ Hint::show() const
                                     "color: green;"
                                 "}"
                             "</style>"
-                            "<h3>%3</h3>"      // title
-                            "<h4>%4</h4>"      // msg
-                            "<h5>%5 (%6)</h5>" // tagName (tagID)
-                            "<h5> </h5>")      // force EOL
+                            "<h3>%3</h3>"   // title
+                            "<h4>%4</h4>"   // msg
+                            "<h5>%5</h5>"   // tagName
+                            "<h5> </h5>")   // force EOL
                             .arg(termFontSize)
                             .arg(valueFontSize)
                             .arg(term)
                             .arg(valueBrief)
-                            .arg(tagName)
-                            .arg(tagID);
+                            .arg(tagName);
             }
             break;
         case Type::ToolTip:
@@ -257,12 +253,14 @@ Hint::show() const
                             "<hr/>"
                             "<h3>%4</h3>"
                             "<h4>%5</h4>"   // msg
+                            "<h5>%6</h5>"   // tagName
                             "<h5> </h5>")   // force EOL
                             .arg(termFontSize)
                             .arg(valueFontSize)
                             .arg(title)
                             .arg(term)
-                            .arg(valueBrief);
+                            .arg(valueBrief)
+                            .arg(tagName);
             }
             break;
         }
