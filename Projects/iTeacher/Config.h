@@ -56,7 +56,7 @@ struct TableViewHeader
     int            section;
     const QVariant value;
 };
-/// rack
+
 const TableViewHeader tableViewHeaders[]
 {
     {0, QObject::tr("Id")},
