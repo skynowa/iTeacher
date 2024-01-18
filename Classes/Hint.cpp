@@ -131,10 +131,7 @@ Hint::show() const
     QString tagName;
     {
         QSqlDatabase db = _model.database();
-
-        qDebug() << "::::: " << qTRACE_VAR(term) << " :::::";
-
-        SqliteDb sqliteDb(nullptr, &db, _model);
+        SqliteDb     sqliteDb(nullptr, &db, _model);
 
         // isTermExists
         isTermExists    = sqliteDb.isTerminExists(term);
