@@ -27,3 +27,6 @@ Projects/Trainer_build/*
 
 Projects/SentenceBuilder_build/*
 !Projects/SentenceBuilder_build/*.sh
+
+Projects/build-iTeacher-Desktop-*
+

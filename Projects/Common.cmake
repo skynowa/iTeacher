@@ -39,6 +39,11 @@ else()
         "${CMAKE_SOURCE_DIR}")
 endif()
 
+list(APPEND CMAKE_MODULE_PATH
+    "${DIR_HOME}/Qt/6.6.1/gcc_64/lib/cmake/Qt6"
+    "${DIR_HOME}/Qt/6.6.1/gcc_64/lib/cmake/Qt6Core"
+)
+
 message("")
 message("********** Vars **********")
 message(STATUS "PROJECT_NAME:      ${PROJECT_NAME}")
