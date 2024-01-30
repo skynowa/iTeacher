@@ -57,10 +57,9 @@ if (QT_VERSION_MATCH)
 endif()
 #--------------------------------------------------------------------------------------------------
 # find packages
-find_package(xLib          REQUIRED)
-find_package(LibXml2       REQUIRED)
-find_package(Qt6           REQUIRED)
-# find_package(Qt6Multimedia REQUIRED)
+find_package(xLib    REQUIRED)
+find_package(LibXml2 REQUIRED)
+find_package(Qt6     REQUIRED)
 
 # Qt
 set(CMAKE_AUTOMOC ON)
