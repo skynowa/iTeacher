@@ -50,17 +50,17 @@ message("")
 # checks
 # Check if Qtversion is >=QT_OFFICIAL_VERSION.
 # If so, we are good. Otherwise we will post a warning of versions (<QT_OFFICIAL_VERSION)
-string(REGEX MATCH "^5\\.[3]\\.[0-1]+" QT_VERSION_MATCH "${Qt5Core_VERSION_STRING}")
-if (QT_VERSION_MATCH)
-    message(WARNING "Warning: You are using Qt ${Qt5Core_VERSION_STRING}. "
-                    "Officially supported version is Qt ${QT_OFFICIAL_VERSION}")
-endif()
+# string(REGEX MATCH "^5\\.[3]\\.[0-1]+" QT_VERSION_MATCH "${Qt5Core_VERSION_STRING}")
+# if (QT_VERSION_MATCH)
+#     message(WARNING "Warning: You are using Qt ${Qt5Core_VERSION_STRING}. "
+#                     "Officially supported version is Qt ${QT_OFFICIAL_VERSION}")
+# endif()
 #--------------------------------------------------------------------------------------------------
 # find packages
 find_package(xLib          REQUIRED)
 find_package(LibXml2       REQUIRED)
-find_package(Qt5           REQUIRED)
-find_package(Qt5Multimedia REQUIRED)
+find_package(Qt6           REQUIRED)
+# find_package(Qt6Multimedia REQUIRED)
 
 # Qt
 set(CMAKE_AUTOMOC ON)
@@ -70,7 +70,7 @@ set(CMAKE_AUTOUIC ON)
 include_directories(
     ${LIBXML2_INCLUDE_DIR}
     ${XLIB_INCLUDES}
-    ${Qt5Gui_PRIVATE_INCLUDE_DIRS}
+    ${Qt6Gui_PRIVATE_INCLUDE_DIRS}
     ${ROOT_DIR}
     ${ROOT_DIR}/QtLib
     ${ROOT_DIR}/QtLib/Ui
@@ -79,5 +79,5 @@ include_directories(
     ${ROOT_DIR}/Ui)
 
 # Add -fPIE
-set(CMAKE_CXX_FLAGS "${Qt5Widgets_EXECUTABLE_COMPILE_FLAGS}")
+set(CMAKE_CXX_FLAGS "${Qt6Widgets_EXECUTABLE_COMPILE_FLAGS}")
 #--------------------------------------------------------------------------------------------------

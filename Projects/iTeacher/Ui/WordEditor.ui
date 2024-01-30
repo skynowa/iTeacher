@@ -64,9 +64,6 @@
      <property name="frameShadow">
       <enum>QFrame::Plain</enum>
      </property>
-     <property name="tabStopWidth">
-      <number>40</number>
-     </property>
      <property name="acceptRichText">
       <bool>false</bool>
      </property>
@@ -104,9 +101,6 @@
      </property>
      <property name="frameShadow">
       <enum>QFrame::Plain</enum>
-     </property>
-     <property name="tabStopWidth">
-      <number>40</number>
      </property>
      <property name="acceptRichText">
       <bool>false</bool>
@@ -293,9 +287,6 @@
          <property name="readOnly">
           <bool>true</bool>
          </property>
-         <property name="tabStopWidth">
-          <number>40</number>
-         </property>
          <property name="acceptRichText">
           <bool>false</bool>
          </property>
@@ -329,9 +320,6 @@
          <property name="readOnly">
           <bool>true</bool>
          </property>
-         <property name="tabStopWidth">
-          <number>40</number>
-         </property>
         </widget>
        </item>
       </layout>
@@ -351,9 +339,6 @@
          </property>
          <property name="readOnly">
           <bool>true</bool>
-         </property>
-         <property name="tabStopWidth">
-          <number>40</number>
          </property>
         </widget>
        </item>
