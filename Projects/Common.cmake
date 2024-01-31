@@ -26,6 +26,9 @@ set(QT_QMAKE_EXECUTABLE         "") # hide warning
 set(DIR_HOME $ENV{HOME})
 set(ROOT_DIR "${DIR_HOME}/Projects/iTeacher")
 
+# Qt
+set(CMAKE_PREFIX_PATH "${DIR_HOME}/Qt/6.6.1/gcc_64")
+
 # modules
 if (EXISTS "${CMAKE_ROOT}/Modules/CMakeLib")
     list(APPEND CMAKE_MODULE_PATH
@@ -39,16 +42,12 @@ else()
         "${CMAKE_SOURCE_DIR}")
 endif()
 
-list(APPEND CMAKE_MODULE_PATH
-    "${DIR_HOME}/Qt/6.6.1/gcc_64/lib/cmake/Qt6"
-    "${DIR_HOME}/Qt/6.6.1/gcc_64/lib/cmake/Qt6Core"
-)
-
 message("")
 message("********** Vars **********")
 message(STATUS "PROJECT_NAME:      ${PROJECT_NAME}")
 message(STATUS "DIR_HOME:          ${DIR_HOME}")
 message(STATUS "ROOT_DIR:          ${ROOT_DIR}")
+message(STATUS "CMAKE_PREFIX_PATH: ${CMAKE_PREFIX_PATH}")
 message(STATUS "CMAKE_MODULE_PATH: ${CMAKE_MODULE_PATH}")
 message("")
 #--------------------------------------------------------------------------------------------------
