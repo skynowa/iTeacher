@@ -25,3 +25,8 @@
     4 auto
     5 coding
     6 weather
+
+## Qt6
+
+- sudo apt-get install ffmpeg
+- sudo apt-get install libavcodec-dev

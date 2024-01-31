@@ -314,7 +314,7 @@ Hint::show() const
             }
         #else
             for (const auto &it_audioFile : audioFiles) {
-                player.setSource(QUrl::fromLocalFile(it_audioFile));
+                player.setSource( QUrl::fromLocalFile(it_audioFile) );
             }
 
             auto *audioOut = new QAudioOutput{};

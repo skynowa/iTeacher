@@ -51,6 +51,7 @@ message(STATUS "CMAKE_PREFIX_PATH: ${CMAKE_PREFIX_PATH}")
 message(STATUS "CMAKE_MODULE_PATH: ${CMAKE_MODULE_PATH}")
 message("")
 #--------------------------------------------------------------------------------------------------
+# TODO: CMakeLib/Qt/FindQt6Validate.cmake
 # checks
 # Check if Qtversion is >=QT_OFFICIAL_VERSION.
 # If so, we are good. Otherwise we will post a warning of versions (<QT_OFFICIAL_VERSION)
