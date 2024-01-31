@@ -387,8 +387,8 @@ Main::_initActions()
         //         this,           &Main::cboDictPath_OnCurrentIndexChanged,
         //         Qt::QueuedConnection);
 
-        // connect(ui.cboDictPath, SIGNAL(currentIndexChanged(int)),
-        //         this,           SLOT(Main::cboDictPath_OnCurrentIndexChanged(QString)));
+        connect(ui.cboDictPath, SIGNAL(currentIndexChanged(int)),
+                this,           SLOT(Main::cboDictPath_OnCurrentIndexChanged(QString)));
     #endif
 
        /**
@@ -1484,7 +1484,7 @@ Main::_settingsLoad()
 
         // navigator
         {
-            _sqliteDb->navigator().goTo(tableCurrentRow);
+            /// _sqliteDb->navigator().goTo(tableCurrentRow);
         }
 
         // file
