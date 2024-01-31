@@ -29,3 +29,4 @@
 ## Qt6
 
 - Audio - `sudo apt-get install ffmpeg libavcodec-dev`
+- https://embeddeduse.com/2021/01/17/migrating-a-harvester-hmi-from-qt-5-12-to-qt-6-0/
