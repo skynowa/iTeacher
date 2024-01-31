@@ -28,5 +28,4 @@
 
 ## Qt6
 
-- sudo apt-get install ffmpeg
-- sudo apt-get install libavcodec-dev
+- Audio - `sudo apt-get install ffmpeg libavcodec-dev`
