@@ -9,6 +9,7 @@
 
 ## iTeacher
 
+- [-] Plays at toolbar
 - [+] MsgBox - show tag
 - [ ] Extra `learn / marked` buttons
 - [+] WordEditor - GoogleTranslate URL
