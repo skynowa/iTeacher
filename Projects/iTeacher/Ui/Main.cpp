@@ -385,6 +385,8 @@ Main::_initActions()
 
        /**
 
+        https://doc.qt.io/qt-5/qtglobal.html#qOverload
+
         void currentIndexChanged(int index);
 
         connect(
