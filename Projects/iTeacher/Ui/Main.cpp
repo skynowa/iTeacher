@@ -380,16 +380,8 @@ Main::_initActions()
         connect(ui.cboDictPath, qOverload<const QString &>(&QComboBox::currentIndexChanged),
                 this,           &Main::cboDictPath_OnCurrentIndexChanged);
     #else
-        // connect(ui.cboDictPath, qOverload<const QString &>(&QComboBox::currentIndexChanged),
-        //        this,           &Main::cboDictPath_OnCurrentIndexChanged);
-
-        // connect(ui.cboDictPath,  QOverload<int>::of(&QComboBox::currentIndexChanged),
-        //         this,           &Main::cboDictPath_OnCurrentIndexChanged,
-        //         Qt::QueuedConnection);
-
-        connect(ui.cboDictPath, SIGNAL(currentIndexChanged(int)),
-                this,           SLOT(Main::cboDictPath_OnCurrentIndexChanged(QString)));
-    #endif
+        connect(ui.cboDictPath, &QComboBox::currentIndexChanged,
+                this,           &Main::cboDictPath_OnCurrentIndexChanged);
 
        /**
 
@@ -414,6 +406,7 @@ Main::_initActions()
         ... qOverload<int, const QString &>(&Foo::overloadedFunction)
 
         */
+    #endif
     }
 
     // tray
@@ -1310,11 +1303,12 @@ Main::trayActivated(
 //-------------------------------------------------------------------------------------------------
 void
 Main::cboDictPath_OnCurrentIndexChanged(
-    const QString &a_arg
+    const int a_arg
 )
 {
     // qTRACE_SCOPE_FUNC;
 
+#if qQT5
     qCHECK_DO(a_arg.isEmpty(), return);
 
     // reopen DB
@@ -1344,6 +1338,39 @@ Main::cboDictPath_OnCurrentIndexChanged(
 
         ui.lblDictInfo->setText(dictInfo);
     }
+#else
+    qCHECK_DO(a_arg == -1, return);
+
+    // reopen DB
+    {
+        cQString arg = ui.cboDictPath->itemText(a_arg);
+
+        cQString dictPath = qS2QS(xl::package::Application::dbDirPath()) + QDir::separator() + arg;
+
+        _sqliteDb.reset(new SqliteDb(this, dictPath, ui.tvInfo));
+        _sqliteDb->reopen();
+    }
+
+    // words info
+    {
+        cint wordsAll        = _sqliteDb->wordsAll();
+        cint wordsLearned    = _sqliteDb->wordsLearned();
+        cint wordsNotLearned = _sqliteDb->wordsNotLearned();
+
+        cQString dictInfo = QString(
+            tr("&nbsp;&nbsp;&nbsp;<b>All</b>: %1 (%2)"
+            "&nbsp;&nbsp;&nbsp;<b>Learned</b>: %3 (%4)"
+            "&nbsp;&nbsp;&nbsp;<b>Not learned:</b> %5 (%6)"))
+            .arg( wordsAll )
+            .arg( qS2QS(xl::core::String::formatPercentage(wordsAll, wordsAll)) )
+            .arg( wordsLearned )
+            .arg( qS2QS(xl::core::String::formatPercentage(wordsAll, wordsLearned)) )
+            .arg( wordsNotLearned )
+            .arg( qS2QS(xl::core::String::formatPercentage(wordsAll, wordsNotLearned)) );
+
+        ui.lblDictInfo->setText(dictInfo);
+    }
+#endif
 }
 //-------------------------------------------------------------------------------------------------
 void
@@ -1484,7 +1511,7 @@ Main::_settingsLoad()
 
         // navigator
         {
-            /// _sqliteDb->navigator().goTo(tableCurrentRow);
+            _sqliteDb->navigator().goTo(tableCurrentRow);
         }
 
         // file
