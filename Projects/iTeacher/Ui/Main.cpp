@@ -391,27 +391,29 @@ Main::_initActions()
         //         this,           SLOT(Main::cboDictPath_OnCurrentIndexChanged(QString)));
     #endif
 
-    /**
+       /**
 
-     void currentIndexChanged(int index);
+        void currentIndexChanged(int index);
 
-     connect(
-         mySpinBox,  static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged),
-         mySlider,  &QSlider::setValue);
+        connect(
+            mySpinBox,  static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged),
+            mySlider,  &QSlider::setValue);
 
-    connect(
-        mySpinBox,  qOverload<int>(&QSpinBox::valueChanged),
-        mySlider,  &QSlider::setValue);
+        connect(
+            mySpinBox,  qOverload<int>(&QSpinBox::valueChanged),
+            mySlider,  &QSlider::setValue);
 
 
-    struct Foo {
-        void overloadedFunction();
-        void overloadedFunction(int, const QString &);
-    };
-    ... qOverload<>(&Foo::overloadedFunction)
-    ... qOverload<int, const QString &>(&Foo::overloadedFunction)
+        struct Foo
+        {
+            void overloadedFunction();
+            void overloadedFunction(int, const QString &);
+        };
 
-    */
+        ... qOverload<>(&Foo::overloadedFunction)
+        ... qOverload<int, const QString &>(&Foo::overloadedFunction)
+
+        */
     }
 
     // tray
