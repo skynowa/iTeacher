@@ -18,7 +18,9 @@
 #include <QtConcurrent>
 #include <QToolTip>
 #include <QMediaPlayer>
-#include <QMediaPlaylist>
+#include <QAudioOutput>
+#include <QMediaDevices>
+#include <QAudioDevice>
 #include "Ui/Main.h"
 #include "Utils.h"
 
@@ -292,9 +294,10 @@ Hint::show() const
         // Play file
         QMediaPlayer player;
 
-        if ( player.isAudioAvailable() ) {
-            qDebug() << qTRACE_VAR(player.isAudioAvailable());
+        if ( player.isAvailable() ) {
+            qDebug() << qTRACE_VAR(player.isAvailable());
 
+        #if qQT5
             QMediaPlaylist playList;
 
             for (const auto &it_audioFile : audioFiles) {
@@ -309,6 +312,18 @@ Hint::show() const
                 qDebug() << qTRACE_VAR(player.error());
                 qDebug() << qTRACE_VAR(player.errorString());
             }
+        #else
+            for (const auto &it_audioFile : audioFiles) {
+                player.setSource(QUrl::fromLocalFile(it_audioFile));
+            }
+
+            auto *audioOut = new QAudioOutput{};
+            audioOut->setDevice( QMediaDevices::defaultAudioOutput() );
+            audioOut->setVolume(0.8f);
+
+            player.setAudioOutput(audioOut);
+            player.play();
+        #endif
         } else {
             cQString mplayerBin = "mplayer";
 

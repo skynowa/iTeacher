@@ -291,7 +291,7 @@ WordEditor::_saveAll(
             break;
         default:
             msg = QString(tr("Save fail: %1 - %2"))
-                        .arg(_model->lastError().number())
+                        .arg(_model->lastError().nativeErrorCode())
                         .arg(_model->lastError().text());
             break;
         }

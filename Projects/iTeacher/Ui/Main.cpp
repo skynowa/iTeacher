@@ -90,7 +90,11 @@ Main::eventFilter(
             {
                 QWheelEvent *inputEvent = static_cast<QWheelEvent *>( a_event );
                 if (inputEvent->modifiers() & Qt::ControlModifier) {
+                #if qQT5
                     if (inputEvent->delta() > 0) {
+                #else
+                    if (inputEvent->hasPixelDelta() > 0) {
+                #endif
                         zoomIn();
                     } else {
                         zoomOut();
@@ -372,8 +376,42 @@ Main::_initActions()
 
     // slots
     {
+    #if qQT5
         connect(ui.cboDictPath, qOverload<const QString &>(&QComboBox::currentIndexChanged),
                 this,           &Main::cboDictPath_OnCurrentIndexChanged);
+    #else
+        // connect(ui.cboDictPath, qOverload<const QString &>(&QComboBox::currentIndexChanged),
+        //        this,           &Main::cboDictPath_OnCurrentIndexChanged);
+
+        // connect(ui.cboDictPath,  QOverload<int>::of(&QComboBox::currentIndexChanged),
+        //         this,           &Main::cboDictPath_OnCurrentIndexChanged,
+        //         Qt::QueuedConnection);
+
+        // connect(ui.cboDictPath, SIGNAL(currentIndexChanged(int)),
+        //         this,           SLOT(Main::cboDictPath_OnCurrentIndexChanged(QString)));
+    #endif
+
+    /**
+
+     void currentIndexChanged(int index);
+
+     connect(
+         mySpinBox,  static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged),
+         mySlider,  &QSlider::setValue);
+
+    connect(
+        mySpinBox,  qOverload<int>(&QSpinBox::valueChanged),
+        mySlider,  &QSlider::setValue);
+
+
+    struct Foo {
+        void overloadedFunction();
+        void overloadedFunction(int, const QString &);
+    };
+    ... qOverload<>(&Foo::overloadedFunction)
+    ... qOverload<int, const QString &>(&Foo::overloadedFunction)
+
+    */
     }
 
     // tray
