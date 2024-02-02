@@ -51,16 +51,6 @@ message(STATUS "CMAKE_PREFIX_PATH: ${CMAKE_PREFIX_PATH}")
 message(STATUS "CMAKE_MODULE_PATH: ${CMAKE_MODULE_PATH}")
 message("")
 #--------------------------------------------------------------------------------------------------
-# TODO: CMakeLib/Qt/FindQt6Validate.cmake
-# checks
-# Check if Qtversion is >=QT_OFFICIAL_VERSION.
-# If so, we are good. Otherwise we will post a warning of versions (<QT_OFFICIAL_VERSION)
-string(REGEX MATCH "^6\\.[3]\\.[0-1]+" QT_VERSION_MATCH "${Qt6Core_VERSION_STRING}")
-if (QT_VERSION_MATCH)
-    message(WARNING "Warning: You are using Qt ${Qt6Core_VERSION_STRING}. "
-                    "Officially supported version is Qt ${QT_OFFICIAL_VERSION}")
-endif()
-#--------------------------------------------------------------------------------------------------
 # find packages
 find_package(xLib    REQUIRED)
 find_package(LibXml2 REQUIRED)
