@@ -291,9 +291,9 @@ Hint::show() const
             audioFiles << audioPathTo << audioPathFrom;
         }
 
-        const bool option_qtMediaPlayer {false};
+        const bool option_QMediaPlayer {false};
 
-        if (option_qtMediaPlayer) {
+        if (option_QMediaPlayer) {
             // TODO: Play file - no sound
             QMediaPlayer player;
             qDebug() << qTRACE_VAR(player.isAvailable());
