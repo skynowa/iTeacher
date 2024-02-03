@@ -291,10 +291,11 @@ Hint::show() const
             audioFiles << audioPathTo << audioPathFrom;
         }
 
-        // TODO: Play file - no sound
-        QMediaPlayer player;
+        const bool option_qtMediaPlayer {false};
 
-        if ( player.isAvailable() ) {
+        if (option_qtMediaPlayer) {
+            // TODO: Play file - no sound
+            QMediaPlayer player;
             qDebug() << qTRACE_VAR(player.isAvailable());
 
             auto *audioOut = new QAudioOutput{};
