@@ -33,12 +33,10 @@ set(CMAKE_PREFIX_PATH "${DIR_HOME}/Qt/6.6.1/gcc_64")
 if (EXISTS "${CMAKE_ROOT}/Modules/CMakeLib")
     list(APPEND CMAKE_MODULE_PATH
         "${CMAKE_ROOT}/Modules/CMakeLib"
-        "${CMAKE_ROOT}/Modules/CMakeLib/Qt"
         "${CMAKE_SOURCE_DIR}")
 else()
     list(APPEND CMAKE_MODULE_PATH
         "${DIR_HOME}/Projects/CMakeLib"
-        "${DIR_HOME}/Projects/CMakeLib/Qt"
         "${CMAKE_SOURCE_DIR}")
 endif()
 
