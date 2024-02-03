@@ -1341,8 +1341,8 @@ Main::cboDictPath_OnCurrentIndexChanged(
 
         cQString dictInfo = QString(
             tr("&nbsp;&nbsp;&nbsp;<b>All</b>: %1 (%2)"
-               "&nbsp;&nbsp;&nbsp;<b>Learned</b>: %3 (%4)"
-               "&nbsp;&nbsp;&nbsp;<b>Not learned:</b> %5 (%6)"))
+            "&nbsp;&nbsp;&nbsp;<b>Learned</b>: %3 (%4)"
+            "&nbsp;&nbsp;&nbsp;<b>Not learned:</b> %5 (%6)"))
             .arg( wordsAll )
             .arg( qS2QS(xl::core::String::formatPercentage(wordsAll, wordsAll)) )
             .arg( wordsLearned )
