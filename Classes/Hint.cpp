@@ -319,7 +319,7 @@ Hint::show() const
             cQString mplayerBin = "mplayer";
 
             QStringList args;
-            args << "-volume" << "75";
+            args << "-softvol" << "-volume" << "40";
             args << audioFiles;
 
             QProcess *proc = new QProcess();
