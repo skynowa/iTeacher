@@ -316,17 +316,23 @@ Hint::show() const
         if ( player.isAvailable() ) {
             qDebug() << qTRACE_VAR(player.isAvailable());
 
-            for (const auto &it_audioFile : audioFiles) {
-                // TODO: multiple files
-                player.setSource( QUrl::fromLocalFile(it_audioFile) );
-            }
-
             auto *audioOut = new QAudioOutput{};
             audioOut->setDevice( QMediaDevices::defaultAudioOutput() );
             audioOut->setVolume(0.8f);
 
             player.setAudioOutput(audioOut);
-            player.play();
+
+            qDebug() << qTRACE_VAR(audioFiles);
+
+            for (const auto &it_audioFile : audioFiles) {
+                player.setSource( QUrl::fromLocalFile(it_audioFile) );
+                player.play();
+
+                if (player.error() != QMediaPlayer::Error::NoError) {
+                    qDebug() << qTRACE_VAR(player.error());
+                    qDebug() << qTRACE_VAR(player.errorString());
+                }
+            }
     #endif
         } else {
             cQString mplayerBin = "mplayer";
