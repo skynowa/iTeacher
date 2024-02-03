@@ -1320,26 +1320,6 @@ Main::cboDictPath_OnCurrentIndexChanged(
         _sqliteDb.reset(new SqliteDb(this, dictPath, ui.tvInfo));
         _sqliteDb->reopen();
     }
-
-    // words info
-    {
-        cint wordsAll        = _sqliteDb->wordsAll();
-        cint wordsLearned    = _sqliteDb->wordsLearned();
-        cint wordsNotLearned = _sqliteDb->wordsNotLearned();
-
-        cQString dictInfo = QString(
-            tr("&nbsp;&nbsp;&nbsp;<b>All</b>: %1 (%2)"
-            "&nbsp;&nbsp;&nbsp;<b>Learned</b>: %3 (%4)"
-            "&nbsp;&nbsp;&nbsp;<b>Not learned:</b> %5 (%6)"))
-            .arg( wordsAll )
-            .arg( qS2QS(xl::core::String::formatPercentage(wordsAll, wordsAll)) )
-            .arg( wordsLearned )
-            .arg( qS2QS(xl::core::String::formatPercentage(wordsAll, wordsLearned)) )
-            .arg( wordsNotLearned )
-            .arg( qS2QS(xl::core::String::formatPercentage(wordsAll, wordsNotLearned)) );
-
-        ui.lblDictInfo->setText(dictInfo);
-    }
 #else
     qCHECK_DO(a_arg == -1, return);
 
@@ -1352,7 +1332,7 @@ Main::cboDictPath_OnCurrentIndexChanged(
         _sqliteDb.reset(new SqliteDb(this, dictPath, ui.tvInfo));
         _sqliteDb->reopen();
     }
-
+#endif
     // words info
     {
         cint wordsAll        = _sqliteDb->wordsAll();
@@ -1360,19 +1340,18 @@ Main::cboDictPath_OnCurrentIndexChanged(
         cint wordsNotLearned = _sqliteDb->wordsNotLearned();
 
         cQString dictInfo = QString(
-            tr("&nbsp;&nbsp;&nbsp;<b>All</b>: %1 (%2)"
-            "&nbsp;&nbsp;&nbsp;<b>Learned</b>: %3 (%4)"
-            "&nbsp;&nbsp;&nbsp;<b>Not learned:</b> %5 (%6)"))
-            .arg( wordsAll )
-            .arg( qS2QS(xl::core::String::formatPercentage(wordsAll, wordsAll)) )
-            .arg( wordsLearned )
-            .arg( qS2QS(xl::core::String::formatPercentage(wordsAll, wordsLearned)) )
-            .arg( wordsNotLearned )
-            .arg( qS2QS(xl::core::String::formatPercentage(wordsAll, wordsNotLearned)) );
+                                tr("&nbsp;&nbsp;&nbsp;<b>All</b>: %1 (%2)"
+                                   "&nbsp;&nbsp;&nbsp;<b>Learned</b>: %3 (%4)"
+                                   "&nbsp;&nbsp;&nbsp;<b>Not learned:</b> %5 (%6)"))
+                                .arg( wordsAll )
+                                .arg( qS2QS(xl::core::String::formatPercentage(wordsAll, wordsAll)) )
+                                .arg( wordsLearned )
+                                .arg( qS2QS(xl::core::String::formatPercentage(wordsAll, wordsLearned)) )
+                                .arg( wordsNotLearned )
+                                .arg( qS2QS(xl::core::String::formatPercentage(wordsAll, wordsNotLearned)) );
 
         ui.lblDictInfo->setText(dictInfo);
     }
-#endif
 }
 //-------------------------------------------------------------------------------------------------
 void
