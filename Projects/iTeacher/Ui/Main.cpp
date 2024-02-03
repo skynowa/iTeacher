@@ -376,39 +376,8 @@ Main::_initActions()
 
     // slots
     {
-    #if qQT5
-        connect(ui.cboDictPath, qOverload<const QString &>(&QComboBox::currentIndexChanged),
-                this,           &Main::cboDictPath_OnCurrentIndexChanged);
-    #else
-        connect(ui.cboDictPath, &QComboBox::currentIndexChanged,
-                this,           &Main::cboDictPath_OnCurrentIndexChanged);
-
-       /**
-
-        https://doc.qt.io/qt-5/qtglobal.html#qOverload
-
-        void currentIndexChanged(int index);
-
-        connect(
-            mySpinBox,  static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged),
-            mySlider,  &QSlider::setValue);
-
-        connect(
-            mySpinBox,  qOverload<int>(&QSpinBox::valueChanged),
-            mySlider,  &QSlider::setValue);
-
-
-        struct Foo
-        {
-            void overloadedFunction();
-            void overloadedFunction(int, const QString &);
-        };
-
-        ... qOverload<>(&Foo::overloadedFunction)
-        ... qOverload<int, const QString &>(&Foo::overloadedFunction)
-
-        */
-    #endif
+        connect(ui.cboDictPath, &QComboBox::currentTextChanged,
+                this,           &Main::cboDictPath_OnCurrentTextChanged);
     }
 
     // tray
@@ -1304,13 +1273,12 @@ Main::trayActivated(
 
 //-------------------------------------------------------------------------------------------------
 void
-Main::cboDictPath_OnCurrentIndexChanged(
-    const int a_arg
+Main::cboDictPath_OnCurrentTextChanged(
+    const QString &a_arg
 )
 {
     // qTRACE_SCOPE_FUNC;
 
-#if qQT5
     qCHECK_DO(a_arg.isEmpty(), return);
 
     // reopen DB
@@ -1320,19 +1288,7 @@ Main::cboDictPath_OnCurrentIndexChanged(
         _sqliteDb.reset(new SqliteDb(this, dictPath, ui.tvInfo));
         _sqliteDb->reopen();
     }
-#else
-    qCHECK_DO(a_arg == -1, return);
 
-    // reopen DB
-    {
-        cQString arg = ui.cboDictPath->itemText(a_arg);
-
-        cQString dictPath = qS2QS(xl::package::Application::dbDirPath()) + QDir::separator() + arg;
-
-        _sqliteDb.reset(new SqliteDb(this, dictPath, ui.tvInfo));
-        _sqliteDb->reopen();
-    }
-#endif
     // words info
     {
         cint wordsAll        = _sqliteDb->wordsAll();

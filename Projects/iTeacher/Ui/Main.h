@@ -134,6 +134,6 @@ private Q_SLOTS:
     void trayActivated(QSystemTrayIcon::ActivationReason reason);
 
     // etc
-    void cboDictPath_OnCurrentIndexChanged(const int arg);
+    void cboDictPath_OnCurrentTextChanged(const QString &arg);
 };
 //-------------------------------------------------------------------------------------------------
