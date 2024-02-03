@@ -49,7 +49,7 @@
 
 ## Port
 
-- [ ] Qt 5 -> 6
+- [+] Qt 5 -> 6
 - [n/a] QtQuick (+ Android)
 
 ## FAQ
