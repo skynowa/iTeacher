@@ -317,6 +317,7 @@ Hint::show() const
             qDebug() << qTRACE_VAR(player.isAvailable());
 
             for (const auto &it_audioFile : audioFiles) {
+                // TODO: multiple files
                 player.setSource( QUrl::fromLocalFile(it_audioFile) );
             }
 
