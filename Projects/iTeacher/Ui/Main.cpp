@@ -90,11 +90,7 @@ Main::eventFilter(
             {
                 QWheelEvent *inputEvent = static_cast<QWheelEvent *>( a_event );
                 if (inputEvent->modifiers() & Qt::ControlModifier) {
-                #if qQT5
-                    if (inputEvent->delta() > 0) {
-                #else
-                    if (inputEvent->hasPixelDelta() > 0) {
-                #endif
+                    if (inputEvent->angleDelta().y() > 0) {
                         zoomIn();
                     } else {
                         zoomOut();
