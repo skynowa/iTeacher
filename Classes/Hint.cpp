@@ -18,7 +18,9 @@
 #include <QtConcurrent>
 #include <QToolTip>
 #include <QMediaPlayer>
-#include <QMediaPlaylist>
+#include <QAudioOutput>
+#include <QMediaDevices>
+#include <QAudioDevice>
 #include "Ui/Main.h"
 #include "Utils.h"
 
@@ -289,25 +291,29 @@ Hint::show() const
             audioFiles << audioPathTo << audioPathFrom;
         }
 
-        // Play file
-        QMediaPlayer player;
+        const bool option_QMediaPlayer {false};
 
-        if ( player.isAudioAvailable() ) {
-            qDebug() << qTRACE_VAR(player.isAudioAvailable());
+        if (option_QMediaPlayer) {
+            // TODO: Play file - no sound
+            QMediaPlayer player;
+            qDebug() << qTRACE_VAR(player.isAvailable());
 
-            QMediaPlaylist playList;
+            auto *audioOut = new QAudioOutput{};
+            audioOut->setDevice( QMediaDevices::defaultAudioOutput() );
+            audioOut->setVolume(0.8f);
+
+            player.setAudioOutput(audioOut);
+
+            qDebug() << qTRACE_VAR(audioFiles);
 
             for (const auto &it_audioFile : audioFiles) {
-                playList.addMedia( QUrl::fromLocalFile(it_audioFile) );
-            }
+                player.setSource( QUrl::fromLocalFile(it_audioFile) );
+                player.play();
 
-            player.setPlaylist(&playList);
-            player.setVolume(50);
-            player.play();
-
-            if (player.error() != QMediaPlayer::Error::NoError) {
-                qDebug() << qTRACE_VAR(player.error());
-                qDebug() << qTRACE_VAR(player.errorString());
+                if (player.error() != QMediaPlayer::Error::NoError) {
+                    qDebug() << qTRACE_VAR(player.error());
+                    qDebug() << qTRACE_VAR(player.errorString());
+                }
             }
         } else {
             cQString mplayerBin = "mplayer";

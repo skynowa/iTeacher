@@ -90,7 +90,7 @@ Main::eventFilter(
             {
                 QWheelEvent *inputEvent = static_cast<QWheelEvent *>( a_event );
                 if (inputEvent->modifiers() & Qt::ControlModifier) {
-                    if (inputEvent->delta() > 0) {
+                    if (inputEvent->angleDelta().y() > 0) {
                         zoomIn();
                     } else {
                         zoomOut();
@@ -372,8 +372,8 @@ Main::_initActions()
 
     // slots
     {
-        connect(ui.cboDictPath, qOverload<const QString &>(&QComboBox::currentIndexChanged),
-                this,           &Main::cboDictPath_OnCurrentIndexChanged);
+        connect(ui.cboDictPath, &QComboBox::currentTextChanged,
+                this,           &Main::cboDictPath_OnCurrentTextChanged);
     }
 
     // tray
@@ -1269,7 +1269,7 @@ Main::trayActivated(
 
 //-------------------------------------------------------------------------------------------------
 void
-Main::cboDictPath_OnCurrentIndexChanged(
+Main::cboDictPath_OnCurrentTextChanged(
     const QString &a_arg
 )
 {

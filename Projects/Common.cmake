@@ -26,16 +26,17 @@ set(QT_QMAKE_EXECUTABLE         "") # hide warning
 set(DIR_HOME $ENV{HOME})
 set(ROOT_DIR "${DIR_HOME}/Projects/iTeacher")
 
+# Qt
+set(CMAKE_PREFIX_PATH "${DIR_HOME}/Qt/6.6.1/gcc_64")
+
 # modules
 if (EXISTS "${CMAKE_ROOT}/Modules/CMakeLib")
     list(APPEND CMAKE_MODULE_PATH
         "${CMAKE_ROOT}/Modules/CMakeLib"
-        "${CMAKE_ROOT}/Modules/CMakeLib/Qt"
         "${CMAKE_SOURCE_DIR}")
 else()
     list(APPEND CMAKE_MODULE_PATH
         "${DIR_HOME}/Projects/CMakeLib"
-        "${DIR_HOME}/Projects/CMakeLib/Qt"
         "${CMAKE_SOURCE_DIR}")
 endif()
 
@@ -44,23 +45,14 @@ message("********** Vars **********")
 message(STATUS "PROJECT_NAME:      ${PROJECT_NAME}")
 message(STATUS "DIR_HOME:          ${DIR_HOME}")
 message(STATUS "ROOT_DIR:          ${ROOT_DIR}")
+message(STATUS "CMAKE_PREFIX_PATH: ${CMAKE_PREFIX_PATH}")
 message(STATUS "CMAKE_MODULE_PATH: ${CMAKE_MODULE_PATH}")
 message("")
 #--------------------------------------------------------------------------------------------------
-# checks
-# Check if Qtversion is >=QT_OFFICIAL_VERSION.
-# If so, we are good. Otherwise we will post a warning of versions (<QT_OFFICIAL_VERSION)
-string(REGEX MATCH "^5\\.[3]\\.[0-1]+" QT_VERSION_MATCH "${Qt5Core_VERSION_STRING}")
-if (QT_VERSION_MATCH)
-    message(WARNING "Warning: You are using Qt ${Qt5Core_VERSION_STRING}. "
-                    "Officially supported version is Qt ${QT_OFFICIAL_VERSION}")
-endif()
-#--------------------------------------------------------------------------------------------------
 # find packages
-find_package(xLib          REQUIRED)
-find_package(LibXml2       REQUIRED)
-find_package(Qt5           REQUIRED)
-find_package(Qt5Multimedia REQUIRED)
+find_package(xLib    REQUIRED)
+find_package(LibXml2 REQUIRED)
+find_package(Qt6     REQUIRED)
 
 # Qt
 set(CMAKE_AUTOMOC ON)
@@ -70,7 +62,7 @@ set(CMAKE_AUTOUIC ON)
 include_directories(
     ${LIBXML2_INCLUDE_DIR}
     ${XLIB_INCLUDES}
-    ${Qt5Gui_PRIVATE_INCLUDE_DIRS}
+    ${Qt6Gui_PRIVATE_INCLUDE_DIRS}
     ${ROOT_DIR}
     ${ROOT_DIR}/QtLib
     ${ROOT_DIR}/QtLib/Ui
@@ -79,5 +71,5 @@ include_directories(
     ${ROOT_DIR}/Ui)
 
 # Add -fPIE
-set(CMAKE_CXX_FLAGS "${Qt5Widgets_EXECUTABLE_COMPILE_FLAGS}")
+set(CMAKE_CXX_FLAGS "${Qt6Widgets_EXECUTABLE_COMPILE_FLAGS}")
 #--------------------------------------------------------------------------------------------------

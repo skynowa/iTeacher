@@ -67,11 +67,11 @@ target_link_libraries(${PROJECT_NAME}
 #     set(CMAKE_INSTALL_PREFIX ${CMAKE_SOURCE_DIR}/Bin)
 # endif()
 
-foreach(QT5_MODULE ${_QT5_MODULES})
-    GET_TARGET_PROPERTY(DLL Qt5::${QT5_MODULE} LOCATION_${CMAKE_BUILD_TYPE})
+foreach(QT6_MODULE ${_QT6_MODULES})
+    GET_TARGET_PROPERTY(DLL Qt6::${QT6_MODULE} LOCATION_${CMAKE_BUILD_TYPE})
     LIST(APPEND DLLS_REQUIRED "${DLL}")
 
-    # message("Qt5::${QT5_MODULE} - ${DLL}\n")
+    # message("Qt6::${QT6_MODULE} - ${DLL}\n")
 endforeach()
 
 # target
