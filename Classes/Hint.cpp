@@ -294,10 +294,10 @@ Hint::show() const
         // Play file
         QMediaPlayer player;
 
-        if ( player.isAvailable() ) {
-            qDebug() << qTRACE_VAR(player.isAvailable());
+    #if qQT5
+        if ( player.isAudioAvailable() ) {
+            qDebug() << qTRACE_VAR(player.isAudioAvailable());
 
-        #if qQT5
             QMediaPlaylist playList;
 
             for (const auto &it_audioFile : audioFiles) {
@@ -312,7 +312,10 @@ Hint::show() const
                 qDebug() << qTRACE_VAR(player.error());
                 qDebug() << qTRACE_VAR(player.errorString());
             }
-        #else
+    #else
+        if ( player.isAvailable() ) {
+            qDebug() << qTRACE_VAR(player.isAvailable());
+
             for (const auto &it_audioFile : audioFiles) {
                 player.setSource( QUrl::fromLocalFile(it_audioFile) );
             }
@@ -323,7 +326,7 @@ Hint::show() const
 
             player.setAudioOutput(audioOut);
             player.play();
-        #endif
+    #endif
         } else {
             cQString mplayerBin = "mplayer";
 
