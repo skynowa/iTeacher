@@ -6,7 +6,6 @@
 
 #pragma once
 
-#include "Config.h"
 #include <QtLib/Application.h>
 #include <QtLib/Db/SqlRelationalTableModelEx.h>
 #include <QSize>

@@ -12,7 +12,7 @@ set(CMAKE_AUTOMOC               ON)
 set(CMAKE_INCLUDE_CURRENT_DIR   ON)
 
 set(PROJECT_TYPE                "CXX")
-set(CMAKE_CXX_STANDARD          17)
+set(CMAKE_CXX_STANDARD          20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_BUILD_TYPE            "RelWithDebInfo")
     # None (CMAKE_C_FLAGS or CMAKE_CXX_FLAGS used)
