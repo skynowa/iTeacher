@@ -7,10 +7,8 @@
 #include "Main.h"
 
 #include "../QtLib/Utils.h"
-#include "../QtLib/Application.h"
 #include "../Classes/ColorItemDelegate.h"
 #include "../Classes/CheckBoxItemDelegate.h"
-#include "../Classes/ComboBoxItemDelegate.h"
 #include "../Classes/Hint.h"
 #include "../Classes/TranslateUrl.h"
 #include "../Ui/WordEditor.h"
