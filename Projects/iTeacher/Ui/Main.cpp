@@ -1248,6 +1248,10 @@ Main::trayActivated(
 )
 {
     switch (a_reason) {
+    case QSystemTrayIcon::Unknown:
+    case QSystemTrayIcon::Context:
+        // n/a
+        break;
     case QSystemTrayIcon::DoubleClick:
         showHide();
         break;
