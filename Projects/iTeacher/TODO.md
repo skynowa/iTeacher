@@ -6,6 +6,7 @@
 - https://github.com/yasirtug/ni-translate
 - https://github.com/crow-translate/crow-translate
 - https://github.com/soimort/translate-shell
+- [ ] https://dictionary.cambridge.org/dictionary/english/wip
 
 ## iTeacher
 
