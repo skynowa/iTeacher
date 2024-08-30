@@ -2,16 +2,19 @@
 
 ## Trainer
 
-- [+] Link to Google Translate
+- [ ] hide() `value` word, onClick - show()
+- [ ] force teach first 10 word at startup
 - [ ] Train by filter
 - [ ] Detail (full) translation
 - [ ] Word status - Repeat, Marked, Learned
-- [+] QLabel with Mouse actions
-- [ ] Random term on startup
-- [ ] Trainer (UI + Console) add
+- [ ] UI + Console - add
 - [ ] Pin translator on top
 - [ ] DB: transcription - add
 - [ ] QSqlQuery - select all records (move forward/backward)
+
+- [+] Random term on startup
+- [+] QLabel with Mouse actions
+- [+] Link to Google Translate
 
 ## FAQ
 
