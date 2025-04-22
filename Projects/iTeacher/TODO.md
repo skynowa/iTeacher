@@ -35,6 +35,10 @@
 - [+] Hint classes
 - [+] Mute mode
 
+## BUGS
+
+- [ ] Translation text - "don&#39;t get distracted until you finish the sub-task"
+
 ## Voice
 
 - [!] FIX: speech
