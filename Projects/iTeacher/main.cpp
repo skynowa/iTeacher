@@ -19,16 +19,16 @@ public:
     {
     }
 
+    xNO_DEFAULT_CONSTRUCT(UserApplication);
+    xNO_COPY_ASSIGN(UserApplication);
+
     ExitCode
-    onRun() override
+    onRun() final
     {
         // Failer().bug();
 
         return ExitCode::Success;
     }
-
-private:
-    xNO_COPY_ASSIGN(UserApplication)
 };
 //-------------------------------------------------------------------------------------------------
 int main(int argc, char *argv[])
@@ -57,9 +57,6 @@ int main(int argc, char *argv[])
         appInfo.vendorAuthor    = APP_VENDOR_AUTHOR;
         appInfo.vendorUrl       = APP_VENDOR_URL;
         appInfo.vendorEmail     = APP_VENDOR_EMAIL;
-        appInfo.vendorSkype     = APP_VENDOR_SKYPE;
-        appInfo.vendorJabber    = APP_VENDOR_JABBER;
-        appInfo.vendorIcq       = APP_VENDOR_ICQ;
 
         xapplication.setInfo(appInfo);
     }

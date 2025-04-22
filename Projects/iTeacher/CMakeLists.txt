@@ -53,6 +53,9 @@ add_executable(${PROJECT_NAME}
     Readme.md
     TODO.md)
 
+target_compile_definitions(${PROJECT_NAME} PUBLIC
+    QT_NO_EMIT)
+
 # TODO: ${XLIB_LIBRARIES}
 target_link_libraries(${PROJECT_NAME}
     ${cmXLIB_LIBRARIES}

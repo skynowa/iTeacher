@@ -9,7 +9,7 @@
 #include <xLib/Core/Core.h>
 #include <xLib/Package/Application.h>
 #include <xLib/Package/Translate.h>
-#include <xLib/Fs/File.h>
+#include <xLib/Fs/FileBin.h>
 #include <xLib/Fs/FileIO.h>
 
 #include "../QtLib/Common.h"
@@ -395,24 +395,24 @@ Hint::_audioFileDownload(
 
     HttpClient http(isDebug);
 
-    DataIn dataIn;
-    dataIn.url     = xT("https://translate.google.com.vn/translate_tts");
-    dataIn.request = Format::str("ie={}&q={}&tl={}&client={}",
+    OptionIn optionIn;
+    optionIn.url     = xT("https://translate.google.com.vn/translate_tts");
+    optionIn.request = Format::str("ie={}&q={}&tl={}&client={}",
                         "UTF-8",
                         http.escape(a_text.toStdString()),
                         a_langCode.toStdString(),
                         "tw-ob");
-    Cout() << qTRACE_VAR(dataIn.url);
-    Cout() << qTRACE_VAR(dataIn.request);
+    Cout() << qTRACE_VAR(optionIn.url);
+    Cout() << qTRACE_VAR(optionIn.request);
 
-    DataOut dataOut;
+    OptionOut optionOut;
 
-    bool_t bRv = http.get(dataIn, &dataOut);
+    bool_t bRv = http.get(optionIn, &optionOut);
     xTEST(bRv);
-    xTEST(!dataOut.headers.empty());
-    xTEST(!dataOut.body.empty());
+    xTEST(!optionOut.headers.empty());
+    xTEST(!optionOut.body.empty());
 
-    File file( a_audioPath.toStdString() );
-    file.binWrite({dataOut.body.cbegin(), dataOut.body.cend()}, FileIO::OpenMode::BinWrite);
+    FileBin file( a_audioPath.toStdString() );
+    file.write({optionOut.body.cbegin(), optionOut.body.cend()}, FileIO::OpenMode::BinWrite);
 }
 //-------------------------------------------------------------------------------------------------

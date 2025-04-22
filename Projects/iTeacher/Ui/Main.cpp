@@ -1220,9 +1220,6 @@ Main::about()
     aboutData.appVendorAuthor      = qS2QS(xl::package::Application::info().vendorAuthor);
     aboutData.appVendorUrl         = qS2QS(xl::package::Application::info().vendorUrl);
     aboutData.appVendorEmail       = qS2QS(xl::package::Application::info().vendorEmail);
-    aboutData.appVendorSkype       = qS2QS(xl::package::Application::info().vendorSkype);
-    aboutData.appVendorJabber      = qS2QS(xl::package::Application::info().vendorJabber);
-    aboutData.appVendorIcq         = qS2QS(xl::package::Application::info().vendorIcq);
     aboutData.appDonatePayPal      = APP_DONATE_PAYPAL;
     aboutData.appDonateWebMoney    = APP_DONATE_WEBMONEY;
     aboutData.appDonateYandexMoney = APP_DONATE_YANDEXMONEY;
