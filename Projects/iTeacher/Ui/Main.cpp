@@ -1442,7 +1442,7 @@ Main::_settingsLoad()
         }
 
         // navigator
-        {
+        if (_sqliteDb != nullptr) {
             _sqliteDb->navigator().goTo(tableCurrentRow);
         }
 
