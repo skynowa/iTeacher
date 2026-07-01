@@ -28,7 +28,7 @@ public:
     }
 
 private:
-    xNO_COPY_ASSIGN(UserApplication)
+    xNO_COPY_ASSIGN(UserApplication);
 };
 //-------------------------------------------------------------------------------------------------
 int main(int argc, char *argv[])
