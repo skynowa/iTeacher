@@ -432,6 +432,8 @@ Main::createDb()
 void
 Main::quickTranslateClipboard()
 {
+    qCHECK_DO(_sqliteDb == nullptr, return);
+
     auto hint = Hint::messageBox( *_sqliteDb->model() );
     hint.show();
 }
@@ -1530,6 +1532,7 @@ Main::_exportfileNameBuild(
 bool
 Main::_tagsIsEmpty()
 {
+    qCHECK_RET(_sqliteDb == nullptr, true);
     qCHECK_RET(!_sqliteDb->isTagsEmpty(), false);
 
     // report
