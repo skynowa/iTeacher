@@ -402,8 +402,8 @@ Hint::_audioFileDownload(
                         http.escape(a_text.toStdString()),
                         a_langCode.toStdString(),
                         "tw-ob");
-    Cout() << qTRACE_VAR(optionIn.url);
-    Cout() << qTRACE_VAR(optionIn.request);
+    LogCout() << qTRACE_VAR(optionIn.url);
+    LogCout() << qTRACE_VAR(optionIn.request);
 
     OptionOut optionOut;
 

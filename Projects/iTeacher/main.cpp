@@ -19,7 +19,7 @@ public:
     {
     }
 
-    xNO_DEFAULT_CONSTRUCT(UserApplication);
+    xNO_DEFAULT_CTOR(UserApplication);
     xNO_COPY_ASSIGN(UserApplication);
 
     ExitCode
