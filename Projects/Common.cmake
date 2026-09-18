@@ -24,7 +24,7 @@ set(QT_QMAKE_EXECUTABLE         "") # hide warning
 #--------------------------------------------------------------------------------------------------
 # Vars
 set(DIR_HOME $ENV{HOME})
--set(ROOT_DIR "${DIR_HOME}/Projects/Qt/iTeacher")
+set(ROOT_DIR "${DIR_HOME}/Projects/Qt/iTeacher")
 
 # Qt
 set(CMAKE_PREFIX_PATH "${DIR_HOME}/Qt/6.6.1/gcc_64")
