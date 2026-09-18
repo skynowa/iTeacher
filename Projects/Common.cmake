@@ -25,6 +25,7 @@ set(QT_QMAKE_EXECUTABLE         "") # hide warning
 # Vars
 set(DIR_HOME $ENV{HOME})
 set(ROOT_DIR "${DIR_HOME}/Projects/Qt/iTeacher")
+set(QTLIB_DIR "${DIR_HOME}/Projects/Qt/QtLib" CACHE PATH "Path to QtLib sources")
 
 # Qt
 set(CMAKE_PREFIX_PATH "${DIR_HOME}/Qt/6.6.1/gcc_64")
@@ -45,6 +46,7 @@ message("********** Vars **********")
 message(STATUS "PROJECT_NAME:      ${PROJECT_NAME}")
 message(STATUS "DIR_HOME:          ${DIR_HOME}")
 message(STATUS "ROOT_DIR:          ${ROOT_DIR}")
+message(STATUS "QTLIB_DIR:         ${QTLIB_DIR}")
 message(STATUS "CMAKE_PREFIX_PATH: ${CMAKE_PREFIX_PATH}")
 message(STATUS "CMAKE_MODULE_PATH: ${CMAKE_MODULE_PATH}")
 message("")
@@ -64,9 +66,10 @@ include_directories(
     ${XLIB_INCLUDES}
     ${Qt6Gui_PRIVATE_INCLUDE_DIRS}
     ${ROOT_DIR}
-    ${ROOT_DIR}/QtLib
-    ${ROOT_DIR}/QtLib/Ui
-    ${ROOT_DIR}/QtLib/Db
+    ${QTLIB_DIR}/..
+    ${QTLIB_DIR}
+    ${QTLIB_DIR}/Ui
+    ${QTLIB_DIR}/Db
     ${ROOT_DIR}/Classes
     ${ROOT_DIR}/Ui)
 

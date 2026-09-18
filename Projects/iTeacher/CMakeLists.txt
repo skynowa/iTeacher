@@ -16,19 +16,19 @@ add_executable(${PROJECT_NAME}
     main.cpp
 
     # QtLib
-    ${ROOT_DIR}/QtLib/Ui/About.cpp
-    ${ROOT_DIR}/QtLib/Application.cpp
-    ${ROOT_DIR}/QtLib/Db/SqlTableModelEx.cpp
-    ${ROOT_DIR}/QtLib/Db/SqlRelationalTableModelEx.cpp
-    ${ROOT_DIR}/QtLib/Db/SqlNavigator.cpp
-    ${ROOT_DIR}/QtLib/SignalGuard.cpp
-    ${ROOT_DIR}/QtLib/Utils.cpp
+    ${QTLIB_DIR}/Ui/About.cpp
+    ${QTLIB_DIR}/Application.cpp
+    ${QTLIB_DIR}/Db/SqlTableModelEx.cpp
+    ${QTLIB_DIR}/Db/SqlRelationalTableModelEx.cpp
+    ${QTLIB_DIR}/Db/SqlNavigator.cpp
+    ${QTLIB_DIR}/SignalGuard.cpp
+    ${QTLIB_DIR}/Utils.cpp
 
     # QtLib - GlobalShortcut
-    ${ROOT_DIR}/QtLib/GlobalShortcut/GlobalShortcut.cpp
-    ${ROOT_DIR}/QtLib/GlobalShortcut/x11/X11ErrorHandler.cpp
-    ${ROOT_DIR}/QtLib/GlobalShortcut/x11/X11Data.cpp
-    ${ROOT_DIR}/QtLib/GlobalShortcut/x11/ShortcutActivator.cpp
+    ${QTLIB_DIR}/GlobalShortcut/GlobalShortcut.cpp
+    ${QTLIB_DIR}/GlobalShortcut/x11/X11ErrorHandler.cpp
+    ${QTLIB_DIR}/GlobalShortcut/x11/X11Data.cpp
+    ${QTLIB_DIR}/GlobalShortcut/x11/ShortcutActivator.cpp
 
     ## Classes
     ${ROOT_DIR}/Classes/CenteredCheckBox.cpp
