@@ -19,6 +19,7 @@ CMakeLists.txt.user
 
 ################################################################################
 # Projects
+Projects/*/build/
 Projects/iTeacher_build/*
 !Projects/iTeacher_build/*.sh
 

@@ -8,10 +8,11 @@
 
 import shutil
 import os
+from pathlib import Path
 #--------------------------------------------------------------------------------------------------
 if (__name__ == "__main__"):
 	projects   = ["iTeacher", "Trainer", "SentenceBuilder"]
-	projectDir = "/home/skynowa/Projects/iTeacher/Projects"
+	projectDir = Path(__file__).resolve().parent
 	destDir    = "/home/skynowa/Dropbox/Soft/iTeacher"
 
 	if (not os.path.exists(destDir)):
@@ -21,7 +22,7 @@ if (__name__ == "__main__"):
 	print("Deploy - start")
 
 	for it_project in projects:
-		binSrc  = projectDir + "/" + it_project + "_build/" + it_project
+		binSrc  = projectDir / it_project / "build" / it_project
 		if (not os.path.exists(binSrc)):
 			print("Error: binSrc not exists {}. Skip.".format(binSrc))
 			continue
