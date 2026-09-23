@@ -18,6 +18,7 @@ add_executable(${PROJECT_NAME}
     # QtLib
     ${QTLIB_DIR}/Ui/About.cpp
     ${QTLIB_DIR}/Application.cpp
+    ${QTLIB_DIR}/BuildInfo.cpp
     ${QTLIB_DIR}/Db/SqlTableModelEx.cpp
     ${QTLIB_DIR}/Db/SqlRelationalTableModelEx.cpp
     ${QTLIB_DIR}/Db/SqlNavigator.cpp
