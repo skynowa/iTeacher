@@ -1223,9 +1223,6 @@ Main::about()
     aboutData.appVendorUrl         = qS2QS(xl::package::Application::info().vendorUrl);
     aboutData.appVendorEmail       = qS2QS(xl::package::Application::info().vendorEmail);
     aboutData.appDonatePayPal      = APP_DONATE_PAYPAL;
-    aboutData.appDonateWebMoney    = APP_DONATE_WEBMONEY;
-    aboutData.appDonateYandexMoney = APP_DONATE_YANDEXMONEY;
-    aboutData.appDonatePrivate24   = APP_DONATE_PRIVATE24;
 
     About dlgAbout(this, aboutData, windowIcon());
     (int)dlgAbout.exec();

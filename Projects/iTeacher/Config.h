@@ -30,12 +30,7 @@
 #define APP_VENDOR_URL           "https://github.com/skynowa/iTeacher"
 #define APP_VENDOR_EMAIL         "skynowa@gmail.com"
 #define APP_VENDOR_SKYPE         "skynowa777"
-#define APP_VENDOR_JABBER        "skynowa@jabber.ru"
-#define APP_VENDOR_ICQ           "627713628"
 #define APP_DONATE_PAYPAL        ""
-#define APP_DONATE_WEBMONEY      ""
-#define APP_DONATE_YANDEXMONEY   ""
-#define APP_DONATE_PRIVATE24     ""
 
 #define APP_GUID                 APP_NAME"_simple_guid"
 #define APP_WIDTH                700
